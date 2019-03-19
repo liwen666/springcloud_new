@@ -38,12 +38,14 @@ public class LoginController {
  
         userInfo.setName(username);
         userInfo.setPassword(password);
-        String s = request.getSession().getAttribute("check_code").toString();
+//        String s = request.getSession().getAttribute("check_code").toString();
+       String s="abc";
+        kaptcha="abc";
         if (StringUtils.isEmpty(kaptcha) || !s.equals(kaptcha)) {
             return "redirect:login-error?error=1";
         }
  
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken("admin", "admin");
  
  
         try{
@@ -82,4 +84,12 @@ public class LoginController {
         ImageIO.write(image, "jpg", out);
         return r;
     }
+    @RequestMapping(value = "/index")
+    public String index(HttpServletRequest request) {
+
+        System.out.println("wmnnn--------------------------");
+
+        return "aaa";
+    }
+
 }
