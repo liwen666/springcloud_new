@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
  
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
  
 /**
@@ -28,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
  
         //--------------------认证账号
-        User user = userService.loadUserByUsername(s);
+        UserSecurity user = userService.loadUserByUsername(s);
         if (user == null) {
             throw new UsernameNotFoundException("账号不存在");
         }
@@ -36,14 +35,13 @@ public class CustomUserDetailsService implements UserDetailsService {
  
         //-------------------开始授权
         List<Menu> menus = menuService.getMenusByUserId(user.getId());
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
         for (Menu menu : menus) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(menu.getUrl());
             //此处将权限信息添加到 GrantedAuthority 对象中，在后面进行全权限验证时会使用GrantedAuthority 对象。
             grantedAuthorities.add(grantedAuthority);
         }
-        user.setAuthorities(grantedAuthorities);
-
+        user.getAuthorities().addAll(grantedAuthorities);
         return user;
     }
  

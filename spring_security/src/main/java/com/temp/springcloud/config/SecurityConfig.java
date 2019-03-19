@@ -1,5 +1,7 @@
 package com.temp.springcloud.config;
  
+import com.alibaba.druid.pool.DruidDataSource;
+import com.google.code.kaptcha.impl.DefaultKaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,11 +57,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * 自定义UserDetailsService，授权
      * @return
      */
-    @Bean
+//    @Bean
     public CustomUserDetailsService customUserDetailsService(){
         return new CustomUserDetailsService();
     }
  
+    @Bean
+    public DefaultKaptcha defaultKaptcha(){
+        return new DefaultKaptcha();
+    }
+    @Bean
+    public DruidDataSource defaultDataSource(){
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://192.168.42.136:3306/hqbpmn?useUnicode=true");
+        dataSource.setUsername("root");
+        dataSource.setPassword("root");
+        return dataSource;
+    }
+
+
+
     /**
      * AuthenticationManager
      * @return

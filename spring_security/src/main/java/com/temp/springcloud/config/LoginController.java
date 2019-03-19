@@ -19,8 +19,6 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import static javafx.scene.input.KeyCode.R;
-
 @Controller
 public class LoginController {
  
@@ -32,7 +30,7 @@ public class LoginController {
  
     @RequestMapping(value = "/userLogin")
     public String userLogin(HttpServletRequest request) {
- 
+
         User userInfo = new User();
         String username = request.getParameter("username");
         String password = request.getParameter("password");

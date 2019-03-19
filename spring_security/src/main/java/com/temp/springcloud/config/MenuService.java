@@ -7,7 +7,7 @@ import java.util.List;
 
 @Service
 public class MenuService {
-    public List<Menu> getMenusByUserId(int id) {
+    public List<Menu> getMenusByUserId(String id) {
         Menu m = new Menu();
         ArrayList <Menu> list = new ArrayList<Menu>(){ {add(m);}
         };
