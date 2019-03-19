@@ -39,6 +39,10 @@ public class SqlFileExecutorControllerForJar {
         new SqlFileExecutorControllerForJar().initSqlScriptSource(null, null);
     }
 
+    public void setSource(DataSource source) {
+        this.source = source;
+    }
+
     /**
      * 初始化脚本
      *

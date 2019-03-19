@@ -1,5 +1,7 @@
 package com.temp.springcloud.sqlscript;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.temp.springcloud.sqlscript.controller.SqlFileExecutorControllerForJar;
 import org.h2.tools.Server;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +29,25 @@ public class H2Service {
     public void run() {
             try {
                 System.out.println("正在启动h2...");
-//              server = Server.createTcpServer(new String[] {  "-tcpPort",
                 server = Server.createTcpServer(new String[]{"-tcpAllowOthers", "-tcpPort",
                         "8043"}).start();//其他电脑可以连接
 //            Server server = Server.createTcpServer(
 //            		new String[] { "-tcp", "-tcpAllowOthers", "-tcpPort",
 //            		"8043" }).start();
                 System.out.println("启动成功：" + server.getStatus());
+//                初始化H2
+                SqlFileExecutorControllerForJar sqlFileExecutorControllerForJar = new SqlFileExecutorControllerForJar();
+                DruidDataSource dataSource = new DruidDataSource();
+                dataSource.setDriverClassName("org.h2.Driver");
+                dataSource.setUrl("jdbc:h2:tcp://127.0.0.1:8043/mem:testbpmn");
+                dataSource.setUsername("root");
+                dataSource.setPassword("");
+                sqlFileExecutorControllerForJar.setSource(dataSource);
+                try {
+                    sqlFileExecutorControllerForJar.initSqlScriptSource(null,null);
+                } catch (Exception e) {
+                    System.out.println("初始化H2失败");
+                }
                 serverWeb = Server.createWebServer().start();
                 System.out.println(serverWeb.getStatus());
                 /**

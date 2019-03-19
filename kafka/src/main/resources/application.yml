@@ -11,12 +11,12 @@ spring:
     username: root
     password:
 ## security权限配置
-  security:
-    user:
-      name: lw
-      password: lw
-    filter:
-      dispatcher-types:
+#  security:
+#    user:
+#      name: lw
+#      password: lw
+#    filter:
+#      dispatcher-types:
       
 ##日志配置
   logging:
