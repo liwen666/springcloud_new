@@ -89,9 +89,9 @@ spring:
   redis:
     #数据库索引
     database: 0
-    host: 192.168.100.109
-    port: 6380
-    password:
+    host: 192.168.42.140
+    port: 6379
+    password: liwen
     jedis:
       pool:
         #最大连接数

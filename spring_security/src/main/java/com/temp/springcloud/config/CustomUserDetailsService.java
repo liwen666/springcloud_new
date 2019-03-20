@@ -1,20 +1,21 @@
 package com.temp.springcloud.config;
  
+import com.sun.javafx.collections.UnmodifiableListSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
- 
-import java.util.ArrayList;
-import java.util.List;
- 
+
+import java.util.*;
+
 /**
  * 认证和授权
  */
-@Service
+//@Component
 public class CustomUserDetailsService implements UserDetailsService {
  
     @Autowired
@@ -22,7 +23,12 @@ public class CustomUserDetailsService implements UserDetailsService {
  
     @Autowired
     private MenuService menuService;
- 
+
+    public CustomUserDetailsService(UserService userService, MenuService menuService) {
+        this.userService=userService;
+        this.menuService= menuService;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
  
@@ -33,17 +39,23 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
  
  
-        //-------------------开始授权
-        List<Menu> menus = menuService.getMenusByUserId(user.getId());
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-        for (Menu menu : menus) {
-            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(menu.getUrl());
-            //此处将权限信息添加到 GrantedAuthority 对象中，在后面进行全权限验证时会使用GrantedAuthority 对象。
-            grantedAuthorities.add(grantedAuthority);
-        }
-        user.getAuthorities().addAll(grantedAuthorities);
+
+//        authorities.add( grantedAuthorities.get(0));
+//        authorities.addAll(grantedAuthorities);
         return user;
     }
- 
- 
+
+    public static void main(String[] args) {
+//        Set<GrantedAuthority> collection = new Collections.Un<GrantedAuthority>(;
+//        List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
+//        collection.addAll(grantedAuthorities);
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 }

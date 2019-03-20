@@ -9,6 +9,7 @@ import java.util.List;
 public class MenuService {
     public List<Menu> getMenusByUserId(String id) {
         Menu m = new Menu();
+        m.setUrl("/test/page");
         ArrayList <Menu> list = new ArrayList<Menu>(){ {add(m);}
         };
         return list;

@@ -19,11 +19,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启方法权限控制
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
  
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder  auth) throws  Exception{
-        auth.userDetailsService(customUserDetailsService())
-                .passwordEncoder(passwordEncoder());
-    }
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder  auth) throws  Exception{
+//        auth.userDetailsService(customUserDetailsService())
+//                .passwordEncoder(passwordEncoder());
+//    }
  
  
     @Override
@@ -58,10 +58,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @return
      */
 //    @Bean
-    public CustomUserDetailsService customUserDetailsService(){
-        return new CustomUserDetailsService();
+//    public CustomUserDetailsService customUserDetailsService(){
+//        return new CustomUserDetailsService();
+//    }
+    @Bean
+    public CustomUserDetailsService customUserDetailsService(@Autowired UserService userService,@Autowired MenuService menuService){
+        return new CustomUserDetailsService(userService,menuService);
     }
- 
+
     @Bean
     public DefaultKaptcha defaultKaptcha(){
         return new DefaultKaptcha();

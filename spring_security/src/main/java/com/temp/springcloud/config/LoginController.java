@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -85,11 +86,28 @@ public class LoginController {
         return r;
     }
     @RequestMapping(value = "/index")
+    @ResponseBody
     public String index(HttpServletRequest request) {
 
         System.out.println("wmnnn--------------------------");
 
         return "aaa";
+    }
+    @RequestMapping(value = "/test")
+    @ResponseBody
+    public String test(HttpServletRequest request) {
+
+        System.out.println("wmnnn--------------------------");
+
+        return "test";
+    }
+    @RequestMapping(value = "/ffff")
+    @ResponseBody
+    public String ffff(HttpServletRequest request) {
+
+        System.out.println("wmnnn--------------------------");
+
+        return "test";
     }
 
 }
