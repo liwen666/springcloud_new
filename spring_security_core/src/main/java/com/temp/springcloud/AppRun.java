@@ -19,5 +19,7 @@ public class AppRun {
 
     public static void main(String[] args) {
         SpringApplication.run(AppRun.class, args);
+        System.out.println("service start success");
+
     }
 }
