@@ -5,6 +5,8 @@ server:
     port: 8000
   name: me
 
+
+#@ConfigurationProperties(prefix = "globle-config")
 globle-config:
   configLocation: com/architect/all/spring/security/config/mybatis/mybatis-config.xml
 
@@ -15,12 +17,21 @@ spring:
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
+##thymeleaf 页面跳转
+#  thymeleaf:
+##    enabled: false
+#    prefix: classpath:/templates/
+#    suffix: .html
 
+#@GetMapping(value = "${archetect.auth.info}")
 archetect:
   auth:
-    path: /login
+    main: /main
+    form: /login/form
     info: /info
 config.path: com/architect/all/spring/security/config/application-me.yml
+
+
 #spring:
 #  datasource:
 #    druid:

@@ -1,6 +1,7 @@
 package com.architect.all.spring.security;
 
 import com.architect.all.spring.security.config.java.ArchitectSqlSessionFactoryBean;
+import com.architect.all.spring.security.config.java.EnableArchitectSqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.SpringApplication;
@@ -10,6 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
@@ -17,6 +19,7 @@ import javax.sql.DataSource;
  * 默认用户 user
  * 密码  启动时  会有显示
  */
+@EnableArchitectSqlSessionFactoryBean
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.architect.all.spring.security.src", "com.architect.all.spring.security.config"})
 @MapperScan("com.architect.all.spring.security.src")
@@ -35,6 +38,5 @@ public class AppRunSpring {
         System.out.println("-------------");
         //读取默认配置文件启动
 
-//        SpringApplication.run(AppRunSpring.class);
     }
 }

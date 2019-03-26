@@ -1,6 +1,6 @@
 package com.architect.all.spring.security.src.dao;
 
-import com.architect.all.geneator.tx.domain.Menu;
+import com.architect.all.spring.security.src.domin.Menu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

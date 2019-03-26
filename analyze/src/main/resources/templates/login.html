@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script type="text/javascript">
+        //写cookies
+        function setCookie(c_name, value, expiredays){
+            var exdate=new Date();
+            exdate.setTime(exdate.getTime() + expiredays*24*60*60*1000);
+            document.cookie=c_name+ "=" + escape(value) + ((expiredays==null) ? "" : ";expires="+exdate.toGMTString());
+        }
+
+        //写cookies（设置作用域）
+        function setCookie(name,value,Days){
+            var exp = new Date();
+            exp.setTime(exp.getTime() + Days*24*60*60*1000);
+            let hostname = location.hostname.substring(location.hostname.indexOf(".")+1)  //设置为一级域名
+            document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString()+";domain="+hostname+";path=/";
+        }
+
+
+        //读取cookies
+        function getCookie(name)
+        {
+            var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+
+            if(arr=document.cookie.match(reg))
+
+                return (arr[2]);
+            else
+                return null;
+        }
+
+        //删除cookies
+        function delCookie(name)
+        {
+            var exp = new Date();
+            exp.setTime(exp.getTime() - 1);
+            var cval=getCookie(name);
+            if(cval!=null)
+                document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+        }
+        //删除cookies（有作用域的）
+        function delCookie(name){
+            var exp = new Date();
+            var name = "access_token";
+            exp.setTime(exp.getTime() - 1);
+            var cval=getCookie(name);
+            if(cval!=null){
+                let hostname = location.hostname.substring(location.hostname.indexOf(".")+1)
+                document.cookie= name + "='';expires="+exp.toGMTString()+";domain="+hostname+";path=/";
+            }
+
+        }
+        //使用示例
+        setCookie('username','Darren',1)
+
+
+
+        function  rememberCheck(check){
+            if(check.checked){
+                setCookie("test_cookie","fdagdn123fdaf",1)
+                alert("获取cookie的值"+ getCookie("test_cookie"));
+            }else {
+                clearCookie("test_cookie")
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+<form class="form-signin" action="/auth/login/main" method="post">
+    <h2 class="form-signin-heading">用户登录</h2>
+    <table>
+        <tr>
+            <td>用户名:</td>
+            <td><input type="text" name="username" class="form-control" placeholder="请输入用户名"/></td>
+        </tr>
+        <tr>
+            <td>密码:</td>
+            <td><input type="password" name="password" class="form-control" placeholder="请输入密码"/></td>
+        </tr>
+        <tr>
+        <tr>
+            <td>记住密码:</td>
+            <td><input onclick="rememberCheck(this)" type="checkbox" name="remember-config" class="form-control" value="yes"/></td>
+        </tr>
+        <tr>
+
+            <td colspan="1">
+                <button type="submit" class="btn btn-lg btn-primary btn-block">登录</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

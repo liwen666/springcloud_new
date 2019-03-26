@@ -1,7 +1,8 @@
 package com.architect.all.spring.security.src.dao;
 
-import com.architect.all.geneator.tx.domain.User;
+import com.architect.all.spring.security.src.domin.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author tx
  * @since 2019-03-25
  */
-public interface UserMapper extends BaseMapper<User> {
-
+//@Mapper
+public interface UserMapper {
+    User findUser(String userId);
 }

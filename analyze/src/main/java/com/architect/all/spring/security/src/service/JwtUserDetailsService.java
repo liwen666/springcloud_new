@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class JwtUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserServiceImple userServiceImple;
+    private UserServiceImpl userServiceImple;
     @Autowired
     private PermissionServcice permissionServcice;
 

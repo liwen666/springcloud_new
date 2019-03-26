@@ -8,15 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.stereotype.Component;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.sql.DataSource;
 
-@Component
 @Data
 @ConfigurationProperties(prefix = "globle-config")
 public class GlobleBeanConfig {
@@ -24,6 +22,8 @@ public class GlobleBeanConfig {
     @Qualifier("dataSource1")
     private DataSource dataSource;
     private String configLocation;
+
+
 
     @Bean(name="dataSource1")
     public DataSource getDataSource() {
@@ -87,5 +87,7 @@ public class GlobleBeanConfig {
             return null;
         }
     }
+
+
 
 }

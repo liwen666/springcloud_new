@@ -1,6 +1,6 @@
 package com.architect.all.spring.security.src.dao;
 
-import com.architect.all.geneator.tx.domain.Role;
+import com.architect.all.spring.security.src.domin.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

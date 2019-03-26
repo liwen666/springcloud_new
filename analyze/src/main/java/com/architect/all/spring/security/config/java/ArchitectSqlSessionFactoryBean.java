@@ -22,7 +22,6 @@ import java.sql.SQLException;
  */
 
 @Data
-//@Component
 public class ArchitectSqlSessionFactoryBean extends SqlSessionFactoryBean {
 
     private static final Logger logger = LoggerFactory.getLogger(ArchitectSqlSessionFactoryBean.class);

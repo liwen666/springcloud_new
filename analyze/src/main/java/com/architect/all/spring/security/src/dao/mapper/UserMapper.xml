@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.architect.all.geneator.tx.dao.UserMapper">
+<mapper namespace="com.architect.all.spring.security.src.dao.UserMapper">
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.architect.all.spring.security.src.domin.User">
@@ -18,5 +18,8 @@
     <sql id="Base_Column_List">
         id, avatar, createTime, email, enabled, password, username, lastPasswordResetTime
     </sql>
+    <select id="findUser" resultMap="BaseResultMap">
+        select * from user where id=#{userId}
+    </select>
 
 </mapper>
