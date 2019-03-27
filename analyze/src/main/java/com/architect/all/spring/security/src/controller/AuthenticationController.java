@@ -14,7 +14,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author jie
@@ -58,45 +62,64 @@ public class AuthenticationController {
 
     /**
      * 获取用户信息
+     *
      * @param request
      * @return
      */
     @GetMapping(value = "/info")
-    public ResponseEntity getUserInfo(HttpServletRequest request){
+    public ResponseEntity getUserInfo(HttpServletRequest request) {
 //        JwtUser jwtUser = (JwtUser)userDetailsService.loadUserByUsername(jwtTokenUtil.getUserName(request));
         return ResponseEntity.ok("登录成功！");
     }
+
     @GetMapping(value = "/login")
-    public String loginPage(HttpServletRequest request){
+    public String loginPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("进入登录页面");
-        System.out.println( userService.findUser("1"));
+        addCookie(request,response);
+        System.out.println(userService.findUser("1"));
         return "login";
     }
+
     @GetMapping(value = "/login-error")
-    public String errorPage(HttpServletRequest request){
+    public String errorPage(HttpServletRequest request) {
         System.out.println("登录错误");
         return "error";
     }
+
     @GetMapping(value = "/main")
-    public String main(HttpServletRequest request){
+    public String main(HttpServletRequest request) throws ServletException, IOException {
         System.out.println("成功跳转");
+
         return "main";
     }
+
     @GetMapping(value = "/index")
-    public String index(HttpServletRequest request){
+    public String index(HttpServletRequest request) {
         System.out.println("成功跳转");
         return "index";
     }
 
     /**
      * 指定个别角色可以访问的路径
+     *
      * @param request
      * @return
      */
     @GetMapping(value = "/lw")
-    public String indexLw(HttpServletRequest request){
+    public String indexLw(HttpServletRequest request) {
         System.out.println("成功跳转");
         return "lw";
+    }
+
+
+    protected void addCookie(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+ Cookie cookie=new Cookie("test-nameMMM","Tom");
+              //设置Maximum Age
+                cookie.setMaxAge(1000);
+                //设置cookie路径为当前项目路径
+               cookie.setPath(request.getContextPath());
+                //添加cookie
+                response.addCookie(cookie);
     }
 
 }

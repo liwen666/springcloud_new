@@ -48,8 +48,9 @@ public class AuthenticationController {
      * @return
      */
     @Log(description = "用户登录")
-    @PostMapping(value = "${jwt.auth.path}")
-    public ResponseEntity<?> authenticationLogin(@RequestBody AuthorizationUser authorizationUser){
+    @PostMapping(value = "/login")
+    public ResponseEntity<?> authenticationLogin(@RequestBody AuthorizationUser authorizationUser,HttpServletRequest request){
+        System.out.println(request);
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authorizationUser.getUsername());
 

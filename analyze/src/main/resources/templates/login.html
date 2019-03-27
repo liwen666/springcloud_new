@@ -67,6 +67,11 @@
                 clearCookie("test_cookie")
             }
         }
+        alert(getCookie("test-nameMMM"))
+        alert(getCookie("test_cookie"))
+//        下面两个是浏览器特有的cookie  js拿不到
+        alert( getCookie("remember-me"))
+        alert( getCookie("JSESSIONID"))
     </script>
 </head>
 
@@ -86,7 +91,7 @@
         <tr>
         <tr>
             <td>记住密码:</td>
-            <td><input onclick="rememberCheck(this)" type="checkbox" name="remember-config" class="form-control" value="yes"/></td>
+            <td><input onclick="rememberCheck(this)" type="checkbox" name="remember-me" class="form-control" value="yes"/></td>
         </tr>
         <tr>
 

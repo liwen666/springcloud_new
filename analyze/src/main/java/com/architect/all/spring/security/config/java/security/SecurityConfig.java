@@ -143,8 +143,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()  //表单登录，permitAll()表示这个不需要验证 登录页面，登录失败页面
                 .and()
                 .rememberMe()
+                .useSecureCookie(false)//此方法禁用cookie
                 //        AbstractAuthenticationProcessingFilter  控制记住权限的操作
-                .rememberMeParameter("remember-config").userDetailsService(userDetailService)
+                .rememberMeParameter("remember-me").userDetailsService(userDetailService)
                 .tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(60)
                 .and()
@@ -157,13 +158,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable();
 
-
     }
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl tokenRepository = new MyJdbcTokenRepositoryImpl();
         tokenRepository.setDataSource(dataSource);
         tokenRepository.setCreateTableOnStartup(true);//创建token表
+
         return tokenRepository;
     }
 
