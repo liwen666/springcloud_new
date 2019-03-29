@@ -1,7 +1,9 @@
 ## 进入登录页面是每次都跳转两次登录
 
    原因是没有设置静态访问路径  加载css文件和js文件时验证错误
-   
+    
+  ##访问路径 
+  http://localhost:8000/auth/login?username=admin&password=123456
    
 #用户名密码->(Authentication(未认证)  ->  AuthenticationManager ->AuthenticationProvider->UserDetailService->UserDetails->Authentication(已认证）
 
@@ -33,5 +35,10 @@
                     .tokenValiditySeconds(60)
                     
          .useSecureCookie(false)  cookie值存在http协议中，js无法获取
-         如果将  useSecureCookie  后面设置为true  前台和数据库将不会保存cookie的值          
+         如果将  useSecureCookie  后面设置为true  前台和数据库将不会保存cookie的值
+         
+         
+         
+         
+                   
          

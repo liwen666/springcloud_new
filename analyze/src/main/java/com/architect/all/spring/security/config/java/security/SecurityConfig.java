@@ -155,8 +155,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.POST,"/user/*").hasRole("ADMIN")
 //                .antMatchers(HttpMethod.GET,"/user/*").hasRole("USER")
                 .anyRequest().access("@rbacService.hasPermission(request,authentication)")    //必须经过认证以后才能访问
+//                .anyRequest().access("@rbacService.hasParcam(request,authentication)")    //只能设置一次，否则会被覆盖掉
                 .and()
                 .csrf().disable();
+//        System.out.println(this.request);
+//        System.out.println(this.authentication);
 
     }
     @Bean
