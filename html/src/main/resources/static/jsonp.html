@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ueditor demo</title>
+</head>
+
+<body>
+
+<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+<!--搜索框-->
+<input type="text" id="input">
+<!--数据请求回来后，往里面添加li-->
+<ul id="ul"></ul>
+
+<script>
+
+    //回调方法,数据返回后触发
+    function bd__editor__fbxh1h(obj) {
+        //从上面图知道关键字数组位于数据的s属性中
+        var array = obj.s;
+        //每次触发先清空以前数据,再添加
+        ul.innerHTML = "";
+        for (var i = 0; i < array.length; i++) {
+            var li = document.createElement('li');
+            li.innerText = array[i];
+            ul.appendChild(li);
+        }
+    }
+
+    //url1 和 url2 为了以后方便拼接
+    var url1 = 'localhost:8081/ueditor/controller?action=config&callback=bd__editor__fbxh1h';
+    var url2 = '&cb=';
+    var ul = document.getElementById('ul');
+    var input = document.getElementById('input');
+    //监听输出框的键盘输入
+    input.onkeyup = function () {
+        //创建script标签
+        var script = document.createElement('script');
+        //把输入框的值和方法名作为url参数
+        script.src = url1 ;
+        //把script标签添加到body,那么就会执行代码
+    };
+</script>
+<!-- 加载编辑器的容器 -->
+<script id="container" name="content" type="text/plain">
+        这里写你的初始化内容
+    </script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="http://127.0.0.1:8081/ueditor/controller?action=config&callback=bd__editor__fbxh1h"></script>
+<script type="text/javascript" src="../static/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="../static/ueditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+//    var ue = UE.getEditor('container');
+</script>
+<a id="ajax_request_from_b" href="#">dddddddddd</a>
+</body>
+
+
+</html>

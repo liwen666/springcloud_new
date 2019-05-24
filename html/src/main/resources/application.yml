@@ -1,0 +1,14 @@
+server:
+  servlet:
+#    context-path: /th-demo
+    context-path: /
+  port: 8081
+
+  ##thymeleaf 页面跳转
+spring:
+##thymeleaf 页面跳转
+  thymeleaf:
+#    enabled: false
+    prefix: classpath:/templates/
+    suffix: .html
+##配置数据源

@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+
+<body>
+
+<h1>一.原始值</h1>
+<input type="text" th:value="文字输入值"/>
+
+
+<h1>二.${...}变量表达式</h1>
+<span th:text="${username}"/>
+
+
+<h1>三.*{...}选择表达式</h1>
+<div th:object="${last}"><!--选择表达式就像变量表达式一样，它们不是整个上下文变量映射上执行，而是在先前选择的对象（html元素包含关系）-->
+    <span th:text="*{name}"></span><!--name是last变量的一个属性-->
+</div>
+
+
+<h1>四.消息(i18n)表达式</h1>
+<span th:text="#{home.welcome}"></span><br/>
+<span th:text="#{home.age}"></span><br/>
+<span th:text="#{home.age(5)}"></span><br/>
+<span th:text="#{home.age(6,1)}"></span><br/><!--多语言有参数的情况-->
+
+
+<h1>五.链接(URL)表达式</h1><!--因此，对于部署在Web服务器的/myapp上下文中的Web应用程序，可以使用以下表达式:-->
+<a th:href="@{/admin}" th:text="@{/admin}"/>
+<br/>带参数的链接@{/admin(id=3,name=xiaoming)}:<br/>
+<a th:href="@{/admin(id=3,name=xiaoming)}" th:text="@{/admin(id=3,name=xiaoming)}"/>
+
+
+<h1>六.~{...} : 片段表达式。</h1>
+<li>th:replace ：不要自己的主标签，保留th:fragment的主标签:</li>
+<div th:replace="~{b :: copy}" style="border: 5px solid blue;float:left;width:100%" />
+<li>th:insert   ：保留自己的主标签，保留th:fragment的主标签。:</li>
+<div th:insert="~{b :: copy}" style="border: 5px solid green;float:left;width:100%" />
+<li>th:include ：保留自己的主标签，不要th:fragment的主标签。（官方3.0后不推荐）</li>
+<div th:include="~{b :: copy}" style="border: 5px solid chartreuse;float:left;width:100%" />
+
+<h1>七.Thymeleaf简单格式化输出</h1>
+时间：
+<dd th:text="${#dates.format(last.createTime, 'yyyy-MM-dd')}"></dd><!--格式化时间-->
+<br/>id:
+<dd th:text="${#numbers.formatDecimal(last.id, 5, 3)}">350</dd><!--第一参数5是整数部分，如果整数部分不满五位，会用0补齐；第二个参数3是小数部分位数，小数点后面保留两位。-->
+
+</body>
+
+</html>
