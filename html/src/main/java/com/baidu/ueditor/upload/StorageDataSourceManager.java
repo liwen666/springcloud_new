@@ -21,7 +21,7 @@ public class StorageDataSourceManager {
     public StorageDataSourceManager() {
     }
 
-    public  State saveBinaryFile(byte[] data, String path) {
+    public State saveBinaryFile(byte[] data, String path) {
         File file = new File(path);
 
         State state = valid(file);
@@ -50,25 +50,24 @@ public class StorageDataSourceManager {
                                               long maxSize) {
         State state = null;
 
-    /**
-     * 设置最大上传的文件大小 10
-     */
-        byte[] dataBuf = new byte[1024 * 1024*5];
+        /**
+         * 设置最大上传的文件大小 10
+         */
+        byte[] dataBuf = new byte[1024 * 1024 * 5];
         BufferedInputStream bis = new BufferedInputStream(is);
 
         try {
             int read = bis.read(dataBuf);
-            byte[]imageByte = Arrays.copyOfRange(dataBuf,0,read);
+            byte[] imageByte = Arrays.copyOfRange(dataBuf, 0, read);
             if (read > maxSize) {
                 return new BaseState(false, AppInfo.MAX_SIZE);
             }
+
             ImageEntity imageEntity = new ImageEntity();
-            imageEntity.setId(PrimaryKeyGeneratorByUuid.getNext()+"");
             imageEntity.setName(imageName);
             imageEntity.setBytes(imageByte);
             imageEntity.setCreateTime(new Timestamp(new Date().getTime()));
             state = saveToDataSource(imageEntity);
-
             return state;
 
         } catch (IOException e) {
@@ -77,16 +76,24 @@ public class StorageDataSourceManager {
     }
 
     private static State saveToDataSource(ImageEntity imageEntity) {
-        boolean result =true ;
+        boolean result = true;
+        String imageId = PrimaryKeyGeneratorByUuid.getNext() + "";
+        State state = new BaseState(true, AppInfo.SUCCESS);
+        imageEntity.setId(imageId);
+        state.setGuid(imageId);
         try {
-            UeduitorManager.insertObj(imageEntity);
+            result=UeduitorManager.insertObj(imageEntity);
         } catch (SQLException e) {
             e.printStackTrace();
+            ((BaseState) state).setState(false);
+            ((BaseState) state).setInfo(AppInfo.IO_ERROR);
+            return state;
         }
-        if(result){
-            return new BaseState(true, AppInfo.SUCCESS);
+        if (!result) {
+            ((BaseState) state).setState(false);
+            ((BaseState) state).setInfo(AppInfo.IO_ERROR);
         }
-           return new BaseState(false, AppInfo.IO_ERROR);
+        return state;
     }
 
 

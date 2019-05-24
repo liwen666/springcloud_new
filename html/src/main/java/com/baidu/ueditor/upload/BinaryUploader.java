@@ -128,7 +128,7 @@ public class BinaryUploader {
             }
             savePath = PathFormat.parse(savePath, originFileName);
             InputStream is = multipartFile.getInputStream();
-            State storageState = StorageDataSourceManager.saveFileByInputStream(originFileName, is,
+            State storageState = StorageDataSourceManager.saveFileByInputStream(originFileName+suffix, is,
                     maxSize);
             is.close();
             if (storageState.isSuccess()) {

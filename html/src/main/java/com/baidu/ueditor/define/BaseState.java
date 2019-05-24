@@ -10,7 +10,12 @@ public class BaseState implements State {
 
 	private boolean state = false;
 	private String info = null;
-	
+	private String guid;
+
+	public void setGuid(String guid) {
+		this.guid = guid;
+	}
+
 	private Map<String, String> infoMap = new HashMap<String, String>();
 	
 	public BaseState () {
@@ -30,7 +35,12 @@ public class BaseState implements State {
 		this.setState( state );
 		this.info = AppInfo.getStateInfo( infoCode );
 	}
-	
+
+	@Override
+	public String getGuid() {
+		return guid;
+	}
+
 	public boolean isSuccess () {
 		return this.state;
 	}
@@ -70,7 +80,7 @@ public class BaseState implements State {
 			builder.append( ",\"" + key + "\": \"" + this.infoMap.get(key) + "\"" );
 			
 		}
-		
+		builder.append( ",\"guid\": \"" + guid + "\"" );
 		builder.append( "}" );
 
 		return Encoder.toUnicode( builder.toString() );

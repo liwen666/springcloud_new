@@ -15,7 +15,7 @@ import com.baidu.ueditor.Encoder;
  *
  */
 public class MultiState implements State {
-
+	private String guid;
 	private boolean state = false;
 	private String info = null;
 	private Map<String, Long> intMap = new HashMap<String, Long>();
@@ -35,7 +35,17 @@ public class MultiState implements State {
 		this.state = state;
 		this.info = AppInfo.getStateInfo( infoKey );
 	}
-	
+
+	@Override
+	public String getGuid() {
+		return guid;
+	}
+
+	@Override
+	public void setGuid(String guid) {
+
+	}
+
 	@Override
 	public boolean isSuccess() {
 		return this.state;

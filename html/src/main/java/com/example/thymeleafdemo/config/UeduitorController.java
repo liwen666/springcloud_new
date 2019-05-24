@@ -1,10 +1,13 @@
 package com.example.thymeleafdemo.config;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baidu.ueditor.ActionEnter;
+import com.baidu.ueditor.PrimaryKeyGeneratorByUuid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,18 +57,26 @@ public class UeduitorController {
     public void uEditorConfig( HttpServletResponse response, HttpServletRequest request) throws IOException {
         request.setCharacterEncoding( "utf-8" );
         response.setContentType("application/json");
-
-        String rootPath = "E:\\github_program\\demo\\springcloud_new\\html\\src\\main\\resources";
+        String rootPath = "";
         System.out.println(rootPath);
         String exec = new ActionEnter(request, rootPath).exec();
         System.out.println(exec);
+        JSONObject jsonObject = JSONObject.parseObject(exec);
+        if(!StringUtils.isEmpty(jsonObject.get("url"))){
+            String serverPath=jsonObject.get("url").toString().substring(0,jsonObject.get("url").toString().lastIndexOf("/"));
+            jsonObject.put("url",serverPath+"?imageId="+ jsonObject.get("guid"));
+        }
+
         PrintWriter writer = response.getWriter();
-        writer.write(exec);
+        System.out.println(jsonObject.toJSONString());
+        writer.write(jsonObject.toJSONString());
         writer.flush();
         writer.close();
     }
     @RequestMapping("/image")
     public void imageUpload( HttpServletResponse response, HttpServletRequest request) throws IOException {
+        String imageId = request.getParameter("imageId");
+        System.out.println("获取资源图片"+imageId);
         System.out.println("------------------------------");
     }
     private Resource findUeConfig() {

@@ -6,7 +6,8 @@ package com.baidu.ueditor.define;
  *
  */
 public interface State {
-	
+	public String getGuid();
+	public void setGuid(String guid);
 	public boolean isSuccess();
 	
 	public void putInfo(String name, String val);

@@ -94,7 +94,6 @@ public class ActionEnter {
 				break;
 				
 		}
-		
 		return state.toJSONString();
 		
 	}
