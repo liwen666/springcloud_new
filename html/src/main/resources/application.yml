@@ -4,6 +4,7 @@ server:
     context-path: /
   port: 8081
 
+h2Service:
   ##thymeleaf 页面跳转
 spring:
 ##thymeleaf 页面跳转
@@ -12,3 +13,9 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
 ##配置数据源
+
+  datasource:
+    type: org.h2.jdbcx.JdbcDataSource
+    url: jdbc:h2:tcp://127.0.0.1:8043/mem:testbpmn
+    username: root
+    password:

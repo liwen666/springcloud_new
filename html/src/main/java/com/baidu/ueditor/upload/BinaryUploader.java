@@ -1,156 +1,150 @@
 package com.baidu.ueditor.upload;
 
+import com.baidu.ueditor.Entity.ImageEntity;
 import com.baidu.ueditor.PathFormat;
 import com.baidu.ueditor.define.AppInfo;
 import com.baidu.ueditor.define.BaseState;
 import com.baidu.ueditor.define.FileType;
 import com.baidu.ueditor.define.State;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 public class BinaryUploader {
+    public static final State save(HttpServletRequest request,
+                                   Map<String, Object> conf) {
+        // FileItemStream fileStream = null;
+        // boolean isAjaxUpload = request.getHeader( "X_Requested_With" ) != null;
 
-	public static final State save(HttpServletRequest request,
-			Map<String, Object> conf) {
-		// FileItemStream fileStream = null;
-		// boolean isAjaxUpload = request.getHeader( "X_Requested_With" ) != null;
-
-		if (!ServletFileUpload.isMultipartContent(request)) {
-			return new BaseState(false, AppInfo.NOT_MULTIPART_CONTENT);
-		}
+        if (!ServletFileUpload.isMultipartContent(request)) {
+            return new BaseState(false, AppInfo.NOT_MULTIPART_CONTENT);
+        }
 
         // ServletFileUpload upload = new ServletFileUpload(
-			// 	new DiskFileItemFactory());
+        // 	new DiskFileItemFactory());
         //
         // if ( isAjaxUpload ) {
         //     upload.setHeaderEncoding( "UTF-8" );
         // }
 
-		try {
-			// FileItemIterator iterator = upload.getItemIterator(request);
+        try {
+            // FileItemIterator iterator = upload.getItemIterator(request);
             //
-			// while (iterator.hasNext()) {
-			// 	fileStream = iterator.next();
+            // while (iterator.hasNext()) {
+            // 	fileStream = iterator.next();
             //
-			// 	if (!fileStream.isFormField())
-			// 		break;
-			// 	fileStream = null;
-			// }
+            // 	if (!fileStream.isFormField())
+            // 		break;
+            // 	fileStream = null;
+            // }
             //
-			// if (fileStream == null) {
-			// 	return new BaseState(false, AppInfo.NOTFOUND_UPLOAD_DATA);
-			// }
-			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-			MultipartFile multipartFile = multipartRequest.getFile(conf.get("fieldName").toString());
-			if(multipartFile==null){
-				return new BaseState(false, AppInfo.NOTFOUND_UPLOAD_DATA);
-			}
+            // if (fileStream == null) {
+            // 	return new BaseState(false, AppInfo.NOTFOUND_UPLOAD_DATA);
+            // }
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+            MultipartFile multipartFile = multipartRequest.getFile(conf.get("fieldName").toString());
+            if (multipartFile == null) {
+                return new BaseState(false, AppInfo.NOTFOUND_UPLOAD_DATA);
+            }
 
-			String savePath = (String) conf.get("savePath");
-			//String originFileName = fileStream.getName();
-			String originFileName = multipartFile.getOriginalFilename();
-			String suffix = FileType.getSuffixByFilename(originFileName);
+            String savePath = (String) conf.get("savePath");
+            //String originFileName = fileStream.getName();
+            String originFileName = multipartFile.getOriginalFilename();
+            String suffix = FileType.getSuffixByFilename(originFileName);
 
-			originFileName = originFileName.substring(0,
-					originFileName.length() - suffix.length());
-			savePath = savePath + suffix;
+            originFileName = originFileName.substring(0,
+                    originFileName.length() - suffix.length());
+            savePath = savePath + suffix;
 
-			long maxSize = ((Long) conf.get("maxSize")).longValue();
+            long maxSize = ((Long) conf.get("maxSize")).longValue();
 
-			if (!validType(suffix, (String[]) conf.get("allowFiles"))) {
-				return new BaseState(false, AppInfo.NOT_ALLOW_FILE_TYPE);
-			}
+            if (!validType(suffix, (String[]) conf.get("allowFiles"))) {
+                return new BaseState(false, AppInfo.NOT_ALLOW_FILE_TYPE);
+            }
 
-			savePath = PathFormat.parse(savePath, originFileName);
+            savePath = PathFormat.parse(savePath, originFileName);
 
-			//String physicalPath = (String) conf.get("rootPath") + savePath;
-			String basePath=(String) conf.get("basePath");
-			String physicalPath = basePath + savePath;
+            //String physicalPath = (String) conf.get("rootPath") + savePath;
+            String basePath = (String) conf.get("basePath");
+            String physicalPath = basePath + savePath;
 
-			//InputStream is = fileStream.openStream();
-			InputStream is = multipartFile.getInputStream();
-			State storageState = StorageManager.saveFileByInputStream(is,
-					physicalPath, maxSize);
-			is.close();
+            //InputStream is = fileStream.openStream();
+            InputStream is = multipartFile.getInputStream();
+            State storageState = StorageManager.saveFileByInputStream(is,
+                    physicalPath, maxSize);
+            is.close();
 
-			if (storageState.isSuccess()) {
-				storageState.putInfo("url", PathFormat.format(savePath));
-				storageState.putInfo("type", suffix);
-				storageState.putInfo("original", originFileName + suffix);
-			}
+            if (storageState.isSuccess()) {
+                storageState.putInfo("url", PathFormat.format(savePath));
+                storageState.putInfo("type", suffix);
+                storageState.putInfo("original", originFileName + suffix);
+            }
 
-			return storageState;
-		// } catch (FileUploadException e) {
-		// 	return new BaseState(false, AppInfo.PARSE_REQUEST_ERROR);
-		} catch (IOException e) {
-		}
-		return new BaseState(false, AppInfo.IO_ERROR);
-	}
-	public static final State saveToDatabase(HttpServletRequest request,
-								   Map<String, Object> conf) {
+            return storageState;
+            // } catch (FileUploadException e) {
+            // 	return new BaseState(false, AppInfo.PARSE_REQUEST_ERROR);
+        } catch (IOException e) {
+        }
+        return new BaseState(false, AppInfo.IO_ERROR);
+    }
 
-		if (!ServletFileUpload.isMultipartContent(request)) {
-			return new BaseState(false, AppInfo.NOT_MULTIPART_CONTENT);
-		}
+    public static final State saveToDatabase(HttpServletRequest request,
+                                             Map<String, Object> conf) {
 
-		try {
-			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-			MultipartFile multipartFile = multipartRequest.getFile(conf.get("fieldName").toString());
-			if(multipartFile==null){
-				return new BaseState(false, AppInfo.NOTFOUND_UPLOAD_DATA);
-			}
+        if (!ServletFileUpload.isMultipartContent(request)) {
+            return new BaseState(false, AppInfo.NOT_MULTIPART_CONTENT);
+        }
 
-			String savePath = (String) conf.get("savePath");
-			String originFileName = multipartFile.getOriginalFilename();
-			String suffix = FileType.getSuffixByFilename(originFileName);
+        try {
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+            MultipartFile multipartFile = multipartRequest.getFile(conf.get("fieldName").toString());
+            if (multipartFile == null) {
+                return new BaseState(false, AppInfo.NOTFOUND_UPLOAD_DATA);
+            }
 
-			originFileName = originFileName.substring(0,
-					originFileName.length() - suffix.length());
-			savePath = savePath + suffix;
+            String savePath = (String) conf.get("savePath");
+            String originFileName = multipartFile.getOriginalFilename();
+            String suffix = FileType.getSuffixByFilename(originFileName);
 
-			long maxSize = ((Long) conf.get("maxSize")).longValue();
+            originFileName = originFileName.substring(0,
+                    originFileName.length() - suffix.length());
+            savePath = savePath + suffix;
 
-			if (!validType(suffix, (String[]) conf.get("allowFiles"))) {
-				return new BaseState(false, AppInfo.NOT_ALLOW_FILE_TYPE);
-			}
+            long maxSize = ((Long) conf.get("maxSize")).longValue();
 
-			savePath = PathFormat.parse(savePath, originFileName);
+            if (!validType(suffix, (String[]) conf.get("allowFiles"))) {
+                return new BaseState(false, AppInfo.NOT_ALLOW_FILE_TYPE);
+            }
+            savePath = PathFormat.parse(savePath, originFileName);
+            InputStream is = multipartFile.getInputStream();
+            State storageState = StorageDataSourceManager.saveFileByInputStream(originFileName, is,
+                    maxSize);
+            is.close();
+            if (storageState.isSuccess()) {
+                storageState.putInfo("url", PathFormat.format(savePath));
+                storageState.putInfo("type", suffix);
+                storageState.putInfo("original", originFileName + suffix);
+            }
+            return storageState;
+        } catch (IOException e) {
+        }
+        return new BaseState(false, AppInfo.IO_ERROR);
+    }
 
-			//String physicalPath = (String) conf.get("rootPath") + savePath;
-			String basePath=(String) conf.get("basePath");
-			String physicalPath = basePath + savePath;
+    private static boolean validType(String type, String[] allowTypes) {
+        List<String> list = Arrays.asList(allowTypes);
 
-			//InputStream is = fileStream.openStream();
-			InputStream is = multipartFile.getInputStream();
-			State storageState = StorageManager.saveFileByInputStream(is,
-					physicalPath, maxSize);
-			is.close();
-
-			if (storageState.isSuccess()) {
-				storageState.putInfo("url", PathFormat.format(savePath));
-				storageState.putInfo("type", suffix);
-				storageState.putInfo("original", originFileName + suffix);
-			}
-
-			return storageState;
-			// } catch (FileUploadException e) {
-			// 	return new BaseState(false, AppInfo.PARSE_REQUEST_ERROR);
-		} catch (IOException e) {
-		}
-		return new BaseState(false, AppInfo.IO_ERROR);
-	}
-
-	private static boolean validType(String type, String[] allowTypes) {
-		List<String> list = Arrays.asList(allowTypes);
-
-		return list.contains(type);
-	}
+        return list.contains(type);
+    }
 }
