@@ -2,21 +2,25 @@ package com.example.thymeleafdemo.config;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.ueditor.ActionEnter;
+import com.baidu.ueditor.Entity.ImageEntity;
 import com.baidu.ueditor.PrimaryKeyGeneratorByUuid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.sql.SQLException;
 
 import static org.apache.coyote.http11.Constants.a;
 
@@ -76,6 +80,44 @@ public class UeduitorController {
     @RequestMapping("/image")
     public void imageUpload( HttpServletResponse response, HttpServletRequest request) throws IOException {
         String imageId = request.getParameter("imageId");
+        ImageEntity imageEntity =null;
+        try {
+           imageEntity= UeduitorManager.selectObj(imageId, ImageEntity.class);
+            response.setContentType("image/png");
+            ServletOutputStream outputStream = response.getOutputStream();
+            byte[] dataBytes =imageEntity==null? new byte[0] : imageEntity.getBytes();
+            InputStream inputStreamImg = new ByteArrayInputStream(dataBytes);
+            BufferedImage read = ImageIO.read(inputStreamImg);
+            ImageIO.write(read,"png",outputStream);
+            outputStream.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(!(imageEntity.getBytes()==null)){
+            System.out.println("image 编码====================" + EncodingDetect.getJavaEncode(imageEntity.getBytes()));
+
+        }System.out.println(Base64Utils.encodeToString(imageEntity.getBytes()));
+
+        String path = System.getProperty("user.dir") + "/html/src/main/java/com/baidu/ueditor/upload/image";
+        String imageName = imageEntity.getId()+"_"+imageEntity.getName();
+        File f = new File(path+"/"+imageName);
+        if(!f.exists()){
+            System.out.println(imageName+"   图片本地地址  " +path);
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(imageEntity.getBytes());
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("获取资源图片"+imageId);
         System.out.println("------------------------------");
     }

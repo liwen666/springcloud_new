@@ -10,5 +10,5 @@ public class ImageEntity {
     private byte[]bytes;
     private String beLongId;
     private String beLongType;
-    private Timestamp createTime;
+    private Timestamp time;
 }

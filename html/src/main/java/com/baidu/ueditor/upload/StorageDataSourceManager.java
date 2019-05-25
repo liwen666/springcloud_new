@@ -66,7 +66,7 @@ public class StorageDataSourceManager {
             ImageEntity imageEntity = new ImageEntity();
             imageEntity.setName(imageName);
             imageEntity.setBytes(imageByte);
-            imageEntity.setCreateTime(new Timestamp(new Date().getTime()));
+            imageEntity.setTime(new Timestamp(new Date().getTime()));
             state = saveToDataSource(imageEntity);
             return state;
 
