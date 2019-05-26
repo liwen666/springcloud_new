@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lw.common.log.dao.LogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.lw.common.log.domain.Log">
+        <id column="id" property="id" />
+        <result column="createTime" property="createTime" />
+        <result column="description" property="description" />
+        <result column="exceptionDetail" property="exceptionDetail" />
+        <result column="logType" property="logType" />
+        <result column="method" property="method" />
+        <result column="params" property="params" />
+        <result column="requestIp" property="requestIp" />
+        <result column="time" property="time" />
+        <result column="username" property="username" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, createTime, description, exceptionDetail, logType, method, params, requestIp, time, username
+    </sql>
+    <select id="selectMy" resultMap="BaseResultMap">
+        select * from log where id='428edf4fcf0242a49198d32845b0b1ec'
+    </select>
+    <select id="selectList" resultMap="BaseResultMap">
+        select * from log where id = #{ew.paramNameValuePairs.MPGENVAL1}
+    </select>
+
+</mapper>
