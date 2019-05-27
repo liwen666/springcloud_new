@@ -86,10 +86,14 @@ public class UeduitorController {
             response.setContentType("image/png");
             ServletOutputStream outputStream = response.getOutputStream();
             byte[] dataBytes =imageEntity==null? new byte[0] : imageEntity.getBytes();
-            InputStream inputStreamImg = new ByteArrayInputStream(dataBytes);
-            BufferedImage read = ImageIO.read(inputStreamImg);
-            ImageIO.write(read,"png",outputStream);
+//            InputStream inputStreamImg = new ByteArrayInputStream(dataBytes);
+//            BufferedImage read = ImageIO.read(inputStreamImg);
+//            ImageIO.write(read,"png",outputStream);
+//            outputStream.close();
+            imageEntity= UeduitorManager.selectObj(imageId, ImageEntity.class);
+            outputStream.write(dataBytes);
             outputStream.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
