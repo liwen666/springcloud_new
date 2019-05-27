@@ -19,6 +19,8 @@ public class TestDemo {
     public void test() {
         redisTemplate.opsForValue().set("a", "b");
         System.out.println(redisTemplate.opsForValue().get("a"));
+        System.out.println(redisTemplate.opsForValue().get("a"));
+
     }
 
     ;
