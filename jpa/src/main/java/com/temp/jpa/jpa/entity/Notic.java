@@ -2,6 +2,7 @@ package com.temp.jpa.jpa.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * @author xinre
@@ -44,7 +45,19 @@ public class Notic {
     private String id;
     @Column(length = 500)
     private String title;
+    private String code;
 
+    public List<ResFile> getResFiles() {
+        return resFiles;
+    }
+
+    public void setResFiles(List<ResFile> resFiles) {
+        this.resFiles = resFiles;
+    }
+
+    @OneToMany(mappedBy = "notic", cascade = { CascadeType.ALL })
+    @OrderBy("orderNO asc")
+    private List<ResFile> resFiles;
     public String getCreateUserIdName() {
         return createUserIdName;
     }
@@ -244,5 +257,10 @@ public class Notic {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getCode() {
+        
+        return code;
     }
 }
