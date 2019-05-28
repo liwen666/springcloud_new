@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:portal="http://www.tjhq.com">
+<head>
+<script th:inline="javascript" type="text/javascript">
+	var _loginUser = [[${loginUser}]];
+	if(_loginUser==null){
+		_loginUser={};
+	}
+	var _portalUI = [[${portalUI}]];
+	if(_portalUI==null){
+		_portalUI={};
+	}
+	var authorization =_loginUser.token||'';
+	var userName =_loginUser.realname||'';
+	var loginYear =_loginUser.year||'';
+	var defaultPortal = _loginUser.defaultPortal;
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/x-icon" href="images/default/logo.png" />
+<link rel="stylesheet"
+	href=vendors/extjs/themes/theme-triton/resources/theme-triton-all.css />
+<link rel="stylesheet" href=styles/designer.css />
+<link rel="stylesheet" href=styles/home.css />
+<link rel="stylesheet" href=vendors/layui/css/layui.css />
+<portal:resfiles type="css" />
+<script type="text/javascript" src="vendors/extjs/ext-all-debug.js"></script>
+<script type="text/javascript" src="vendors/extjs/locale/locale-zh_CN.js"></script>
+<script type="text/javascript" src="vendors/base64/base64.min.js"></script>
+<script type="text/javascript" src="vendors/layui/layui.all.js"></script>
+<script type="text/javascript" src="ptl/common/Console.js"></script>
+<script type="text/javascript" src="ptl/common/Overrides.js"></script>
+<script type="text/javascript" src="ptl/Application.js"></script>
+<script type="text/javascript" src="ptl/portlet/PortletBase.js"></script>
+<script type="text/javascript" src="vendors/jquery/js/jquery-1.11.0.js"></script>
+<portal:resfiles type="js" />
+<script type="text/javascript" src="ptl/Page.js"></script>
+</head>
+<body>
+</body>
+</html>

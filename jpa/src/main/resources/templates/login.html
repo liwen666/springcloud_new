@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:portal="http://www.tjhq.com">
+<head>
+    <meta charset="UTF-8">
+    <title>门户登录</title>
+    <link rel="icon" type="image/x-icon" href="images/default/logo.png" />
+    <link rel="stylesheet" href="css/logic.css" />
+</head>
+<body>
+<div class="leftcon" style="background:url(images/default/login-left.png);background-size: 100% 100%;"></div>
+<div class="rightcon">
+    <div class="top">
+        <a href="" class="down">下载</a>
+        <a href="" class="help">帮助</a>
+    </div>
+    <div class="main">
+        <div style="margin-bottom: 40px;">
+            <img src="images/default/login-title.png"/>
+        </div>
+        <form   id="login">
+        <div class="logicbox">
+              <div class="username">
+                <input type="text" id="userName" name="userName"  placeholder="请输入您的用户名"/>
+            </div>
+            <div class="uesrpassword">
+                <input class="pass" type="password" id="password" name="password" placeholder="请输入您的密码" />
+                <i class="passyes"></i>
+            </div>
+            <div class="years" th:style="'display:' + @{(${showYears} ? 'inline-block':'none')} + ''">
+                <label class="left" style="margin-left: 38px;color: #9c99aa;float: left;font-size: 13px;">年份切换</label>
+                <select name="year" id="year">
+                </select>
+            </div>
+            <button type="button" class="upbtn">立即登录</button>
+            <span class="errorInfo" style="color:red;font-size:14px;"></span>
+        </div>
+        </form>
+        <div class="footer">
+            <p>主办：青岛市财政局      技术支持：北京市太极华青信息系统有限公司</p>
+            <p>建议使用IE8以上浏览器</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="vendors/js/jquery-1.11.0.js" ></script>
+<script>
+    $(function () {
+        getYear();
+   })
+    var v=0;
+    var loginUrl="login";
+    $('.passyes').on('click',function(){
+        if(v==0){
+            $('.pass').attr('type','text');
+            $(this).attr('class','passyes passno');
+            v=1;
+        }else if(v==1){
+            $('.pass').attr('type','password');
+            $(this).attr('class','passyes');
+            v=0;
+        }
+
+    });
+
+
+    $(document).keypress(function(e) {
+
+        if((e.keyCode || e.which)==13) {
+            $('.upbtn').click();
+        }
+
+    });
+
+
+
+    $('.upbtn').on('click',function(){
+     var userName=$("#userName").val();
+     var password=$("#password").val();
+     var year=$("#year").val()||0;
+        if (userName == "") {
+           alert("请输入用户名")
+            return;
+        }
+        if (password == "") {
+            alert("请输入密码")
+            return;
+        }
+        var url=loginUrl+"/"+userName+"/"+password+"/"+year
+        $.ajax({
+            url: url,
+            type: 'GET',
+            msg: '获取列表',
+            success: function (rs) {
+                if(rs.token==""){
+                    alert(rs.message);
+                }else{
+                    window.location.href="index?tokenid="+rs.token;
+                }
+             },
+             error:function(rs){
+            	 $('.errorInfo').html(rs.responseText);
+             }
+        });
+
+    })
+
+
+    var yearUrl="years"
+    function  getYear() {
+        $.ajax({
+            url: yearUrl,
+            type: 'GET',
+            msg: '获取列表',
+            success: function (rs) {
+               var   html="";
+               for(var i  in rs){
+                   var obj = rs[i];
+                   html+="<option value="+obj+">"+obj+"</option>";
+               }
+            $("#year").html(html);
+            }
+        });
+    }
+</script>
