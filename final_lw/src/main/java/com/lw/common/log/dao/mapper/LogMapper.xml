@@ -21,7 +21,7 @@
         id, createTime, description, exceptionDetail, logType, method, params, requestIp, time, username
     </sql>
     <select id="selectMy" resultMap="BaseResultMap">
-        select * from log where id='428edf4fcf0242a49198d32845b0b1ec'
+        select * from log where id=#{s}
     </select>
     <select id="selectList" resultMap="BaseResultMap">
         select * from log where id = #{ew.paramNameValuePairs.MPGENVAL1}
