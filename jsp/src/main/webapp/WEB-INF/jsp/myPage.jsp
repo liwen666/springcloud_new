@@ -2,7 +2,8 @@
          contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <html>
+<script type="text/javascript" src="/js/aa.js"></script>
 <body>
-AAAAAAAAAAAAAAAAAAAAAAAAAAA<%="this is a test"%>
+AAAAAAAAAAAAAAAAAAAAAAAAAAA66666<%="this is a test4"%>
 </body>
 </html>
