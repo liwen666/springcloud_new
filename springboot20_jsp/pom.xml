@@ -151,7 +151,7 @@
                     <fork>true</fork>
                     <!-- spring-boot:run 中文乱码解决 -->
                     <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
-                    <mainClass>com.logicbig.example.JarWebappExplodedExample</mainClass>
+                    <mainClass>com.jsp.JarWebappExplodedExample</mainClass>
                 </configuration>
                 <executions>
                     <execution>
