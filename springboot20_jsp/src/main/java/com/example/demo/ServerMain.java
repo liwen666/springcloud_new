@@ -23,7 +23,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
  */
 @RestController
 @EnableAutoConfiguration
-public class ServerMain {
+public class ServerMain  {
 
     private int i = 0;
     @GetMapping(value = "test/{prevonce}/all")
