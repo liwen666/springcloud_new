@@ -2,6 +2,7 @@ package com.jsp;
 
 import com.alibaba.fastjson.JSON;
 import com.jsp.config.Configuration;
+import com.jsp.util.CookieUtil;
 import org.apache.catalina.Host;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
@@ -17,7 +18,11 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 @EnableFeignClients
 @ServletComponentScan
@@ -46,11 +51,27 @@ public class JarWebappExplodedExample extends TomcatServletWebServerFactory {
         @Autowired
         private Configuration configuration;
         @RequestMapping("/")
-        public String handler (Model model) {
+        public String handler (Model model, HttpServletRequest request, HttpServletResponse response) {
+            Cookie cookie = new Cookie("tokenId","999999");
+            cookie.setMaxAge(10);
+            cookie.setHttpOnly(true);
+            response.addCookie(cookie);
+//            CookieUtil.addCookie(response,);
             model.addAttribute("date",
                     LocalDateTime.now());
             System.out.println(JSON.toJSONString(configuration));
             return "myPage";
+        }
+        @RequestMapping("/cookieTest")
+        public String cookieTest ( HttpServletRequest request, HttpServletResponse response) {
+            Cookie[] cookies = request.getCookies();
+            if (cookies!=null){
+                for(Cookie c :cookies){
+                    System.out.println(c.getName()+"-->>"  +c.getValue());
+                    System.out.println(c.isHttpOnly());
+                }
+            }
+            return "cookie";
         }
     }
 

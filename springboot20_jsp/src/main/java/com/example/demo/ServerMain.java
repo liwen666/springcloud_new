@@ -10,11 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
@@ -73,7 +76,14 @@ public class ServerMain  {
         }
         return ResponseEntity.ok(response);
     }
-
+    @RequestMapping(path = "/abc", method = GET)
+    public HttpEntity<String> abc(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        for(Cookie c :cookies){
+            System.out.println(c.getName()+"-->>"  +c.getValue());
+        }
+        return ResponseEntity.ok("跨域请求cookie");
+    }
     public static void main(String[] args) throws Exception {
         SpringApplication.run(ServerMain.class, args);
     }
