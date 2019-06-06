@@ -79,9 +79,12 @@ public class ServerMain  {
     @RequestMapping(path = "/abc", method = GET)
     public HttpEntity<String> abc(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        for(Cookie c :cookies){
-            System.out.println(c.getName()+"-->>"  +c.getValue());
+        if(cookies!=null){
+            for(Cookie c :cookies){
+                System.out.println(c.getName()+"-->>"  +c.getValue());
+            }
         }
+
         return ResponseEntity.ok("跨域请求cookie");
     }
     public static void main(String[] args) throws Exception {

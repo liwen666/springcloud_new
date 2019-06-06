@@ -2,7 +2,6 @@ package com.jsp;
 
 import com.alibaba.fastjson.JSON;
 import com.jsp.config.Configuration;
-import com.jsp.util.CookieUtil;
 import org.apache.catalina.Host;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
@@ -53,10 +52,14 @@ public class JarWebappExplodedExample extends TomcatServletWebServerFactory {
         @RequestMapping("/")
         public String handler (Model model, HttpServletRequest request, HttpServletResponse response) {
             Cookie cookie = new Cookie("tokenId","999999");
-            cookie.setMaxAge(10);
+            cookie.setMaxAge(100);
             cookie.setHttpOnly(true);
+            Cookie domainCookie = new Cookie("tokenId2","999999");
+            domainCookie.setMaxAge(100);
+            domainCookie.setHttpOnly(true);
+            domainCookie.setDomain("10.10.15.71");
             response.addCookie(cookie);
-//            CookieUtil.addCookie(response,);
+            response.addCookie(domainCookie);
             model.addAttribute("date",
                     LocalDateTime.now());
             System.out.println(JSON.toJSONString(configuration));
