@@ -57,7 +57,9 @@ public class JarWebappExplodedExample extends TomcatServletWebServerFactory {
             Cookie domainCookie = new Cookie("tokenId2","999999");
             domainCookie.setMaxAge(100);
             domainCookie.setHttpOnly(true);
-            domainCookie.setDomain("10.10.15.71");
+//            request.get
+            domainCookie.setDomain(request.getServerName());
+//            domainCookie.setDomain("10.10.15.71");
             response.addCookie(cookie);
             response.addCookie(domainCookie);
             model.addAttribute("date",
