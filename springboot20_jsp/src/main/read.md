@@ -1,6 +1,7 @@
 
 #swagger  ui
-http://localhost:10000/swagger-ui.html
+http://localhost:10000/swagger-ui.html#/
+http://localhost:10000/swagger-ui.html#/swagger-demo-controller
 **API指定的 integer  让请求无法到达 用String即可
 
 #feignclient 测试

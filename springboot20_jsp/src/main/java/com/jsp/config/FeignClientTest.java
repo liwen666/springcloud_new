@@ -18,7 +18,7 @@ import java.util.Map;
  *
  * @author Pierantonio Cangianiello
  */
-@FeignClient(value = "serverMain", url = "http://localhost:8080")
+@FeignClient(value = "feignClientTest", url = "http://localhost:8080")
 public interface FeignClientTest {
 
 

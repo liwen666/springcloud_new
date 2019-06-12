@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,7 @@ import java.time.LocalDateTime;
 @EnableFeignClients
 @ServletComponentScan
 @SpringBootApplication
+@EnableSwagger2
 public class JarWebappExplodedExample extends TomcatServletWebServerFactory {
 
     public static void main(String[] args) {
