@@ -1,5 +1,6 @@
 package com.temp.springboot;
 
+import com.temp.springboot.common.core.YamlUtil;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
 import org.mybatis.spring.annotation.MapperScan;
@@ -11,6 +12,9 @@ import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import javax.sql.DataSource;
+import java.io.FileNotFoundException;
+import java.util.Map;
+import java.util.Properties;
 
 //@EnableFeignClients
 //@ServletComponentScan
@@ -20,8 +24,15 @@ import javax.sql.DataSource;
 @MapperScan({"com.temp.springboot.**.dao"})
 public class AppServer extends TomcatServletWebServerFactory {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
 //        SpringApplication.run(AppServer.class, args);
+        Map<?, ?> map = YamlUtil.loadYaml("application.yml");
+        Map<String, String> druidMap = (Map<String, String>) map.get("druid");
+        Properties properties = System.getProperties();
+        for(Map.Entry me : druidMap.entrySet()){
+            Object o = properties.setProperty("druid."+me.getKey(),me.getValue()+"");
+
+        }
         ConfigurableApplicationContext run = SpringApplication.run(AppServer.class, args);
         ConfigurableListableBeanFactory beanFactory = run.getBeanFactory();
 //        run.close();
