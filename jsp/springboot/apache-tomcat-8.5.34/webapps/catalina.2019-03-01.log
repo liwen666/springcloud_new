@@ -1,0 +1,405 @@
+01-Mar-2019 08:33:45.648 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version:        Apache Tomcat/8.0.53
+01-Mar-2019 08:33:45.651 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Jun 29 2018 14:42:45 UTC
+01-Mar-2019 08:33:45.651 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server number:         8.0.53.0
+01-Mar-2019 08:33:45.651 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Linux
+01-Mar-2019 08:33:45.651 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            2.6.32-431.el6.x86_64
+01-Mar-2019 08:33:45.651 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+01-Mar-2019 08:33:45.651 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             /tomcat/jdkinstall/jdk1.8.0_181/jre
+01-Mar-2019 08:33:45.652 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           1.8.0_181-b13
+01-Mar-2019 08:33:45.652 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+01-Mar-2019 08:33:45.652 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         /tomcat/analysis_service/apache-tomcat-8.0.53
+01-Mar-2019 08:33:45.652 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         /tomcat/analysis_service/apache-tomcat-8.0.53
+01-Mar-2019 08:33:45.654 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=/tomcat/analysis_service/apache-tomcat-8.0.53/conf/logging.properties
+01-Mar-2019 08:33:45.654 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+01-Mar-2019 08:33:45.654 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+01-Mar-2019 08:33:45.654 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+01-Mar-2019 08:33:45.655 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+01-Mar-2019 08:33:45.655 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=/tomcat/analysis_service/apache-tomcat-8.0.53
+01-Mar-2019 08:33:45.655 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=/tomcat/analysis_service/apache-tomcat-8.0.53
+01-Mar-2019 08:33:45.656 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=/tomcat/analysis_service/apache-tomcat-8.0.53/temp
+01-Mar-2019 08:33:45.656 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: /usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+01-Mar-2019 08:33:45.928 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-9001"]
+01-Mar-2019 08:33:45.975 INFO [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+01-Mar-2019 08:33:45.979 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["ajp-nio-8010"]
+01-Mar-2019 08:33:45.982 INFO [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+01-Mar-2019 08:33:45.983 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 969 ms
+01-Mar-2019 08:33:46.024 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service Catalina
+01-Mar-2019 08:33:46.025 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet Engine: Apache Tomcat/8.0.53
+01-Mar-2019 08:33:46.041 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/ROOT
+01-Mar-2019 08:33:46.565 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/ROOT has finished in 523 ms
+01-Mar-2019 08:33:46.566 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/host-manager
+01-Mar-2019 08:33:46.604 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/host-manager has finished in 37 ms
+01-Mar-2019 08:33:46.604 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/manager
+01-Mar-2019 08:33:46.640 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/manager has finished in 36 ms
+01-Mar-2019 08:33:46.640 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/docs
+01-Mar-2019 08:33:46.662 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/docs has finished in 21 ms
+01-Mar-2019 08:33:46.662 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/examples
+01-Mar-2019 08:33:47.169 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/examples has finished in 507 ms
+01-Mar-2019 08:33:47.173 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-9001"]
+01-Mar-2019 08:33:47.184 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["ajp-nio-8010"]
+01-Mar-2019 08:33:47.189 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 1205 ms
+01-Mar-2019 09:06:17.504 INFO [localhost-startStop-2] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/hqbpmn_service.war
+01-Mar-2019 09:06:17.531 SEVERE [localhost-startStop-2] org.apache.catalina.startup.ContextConfig.beforeStart Exception fixing docBase for context [/hqbpmn_service]
+ java.util.zip.ZipException: error in opening zip file
+	at java.util.zip.ZipFile.open(Native Method)
+	at java.util.zip.ZipFile.<init>(ZipFile.java:225)
+	at java.util.zip.ZipFile.<init>(ZipFile.java:155)
+	at java.util.jar.JarFile.<init>(JarFile.java:166)
+	at java.util.jar.JarFile.<init>(JarFile.java:103)
+	at sun.net.www.protocol.jar.URLJarFile.<init>(URLJarFile.java:93)
+	at sun.net.www.protocol.jar.URLJarFile.getJarFile(URLJarFile.java:69)
+	at sun.net.www.protocol.jar.JarFileFactory.get(JarFileFactory.java:99)
+	at sun.net.www.protocol.jar.JarURLConnection.connect(JarURLConnection.java:122)
+	at sun.net.www.protocol.jar.JarURLConnection.getJarFile(JarURLConnection.java:89)
+	at org.apache.catalina.startup.ExpandWar.expand(ExpandWar.java:130)
+	at org.apache.catalina.startup.ContextConfig.fixDocBase(ContextConfig.java:610)
+	at org.apache.catalina.startup.ContextConfig.beforeStart(ContextConfig.java:746)
+	at org.apache.catalina.startup.ContextConfig.lifecycleEvent(ContextConfig.java:309)
+	at org.apache.catalina.util.LifecycleSupport.fireLifecycleEvent(LifecycleSupport.java:95)
+	at org.apache.catalina.util.LifecycleBase.fireLifecycleEvent(LifecycleBase.java:90)
+	at org.apache.catalina.util.LifecycleBase.setStateInternal(LifecycleBase.java:388)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:144)
+	at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:755)
+	at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:731)
+	at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:717)
+	at org.apache.catalina.startup.HostConfig.deployWAR(HostConfig.java:973)
+	at org.apache.catalina.startup.HostConfig$DeployWar.run(HostConfig.java:1850)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+01-Mar-2019 09:06:17.538 SEVERE [localhost-startStop-2] org.apache.catalina.core.ContainerBase.addChildInternal ContainerBase.addChild: start: 
+ org.apache.catalina.LifecycleException: Failed to start component [StandardEngine[Catalina].StandardHost[localhost].StandardContext[/hqbpmn_service]]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:162)
+	at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:755)
+	at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:731)
+	at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:717)
+	at org.apache.catalina.startup.HostConfig.deployWAR(HostConfig.java:973)
+	at org.apache.catalina.startup.HostConfig$DeployWar.run(HostConfig.java:1850)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.apache.catalina.LifecycleException: Failed to start component [org.apache.catalina.webresources.StandardRoot@79e4cdb9]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:162)
+	at org.apache.catalina.core.StandardContext.resourcesStart(StandardContext.java:5016)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5149)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:145)
+	... 10 more
+Caused by: org.apache.catalina.LifecycleException: Failed to initialize component [org.apache.catalina.webresources.WarResourceSet@289d2e8c]
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:107)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:135)
+	at org.apache.catalina.webresources.StandardRoot.startInternal(StandardRoot.java:712)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:145)
+	... 13 more
+Caused by: java.lang.IllegalArgumentException: java.util.zip.ZipException: error in opening zip file
+	at org.apache.catalina.webresources.AbstractSingleArchiveResourceSet.initInternal(AbstractSingleArchiveResourceSet.java:142)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	... 16 more
+Caused by: java.util.zip.ZipException: error in opening zip file
+	at java.util.zip.ZipFile.open(Native Method)
+	at java.util.zip.ZipFile.<init>(ZipFile.java:225)
+	at java.util.zip.ZipFile.<init>(ZipFile.java:155)
+	at java.util.jar.JarFile.<init>(JarFile.java:166)
+	at java.util.jar.JarFile.<init>(JarFile.java:130)
+	at org.apache.tomcat.util.compat.JreCompat.jarFileNewInstance(JreCompat.java:170)
+	at org.apache.tomcat.util.compat.JreCompat.jarFileNewInstance(JreCompat.java:155)
+	at org.apache.catalina.webresources.AbstractSingleArchiveResourceSet.initInternal(AbstractSingleArchiveResourceSet.java:139)
+	... 17 more
+
+01-Mar-2019 09:06:17.543 SEVERE [localhost-startStop-2] org.apache.catalina.startup.HostConfig.deployWAR Error deploying web application archive /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/hqbpmn_service.war
+ java.lang.IllegalStateException: ContainerBase.addChild: start: org.apache.catalina.LifecycleException: Failed to start component [StandardEngine[Catalina].StandardHost[localhost].StandardContext[/hqbpmn_service]]
+	at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:759)
+	at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:731)
+	at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:717)
+	at org.apache.catalina.startup.HostConfig.deployWAR(HostConfig.java:973)
+	at org.apache.catalina.startup.HostConfig$DeployWar.run(HostConfig.java:1850)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+01-Mar-2019 09:06:17.544 INFO [localhost-startStop-2] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/hqbpmn_service.war has finished in 40 ms
+01-Mar-2019 09:06:27.546 INFO [ContainerBackgroundProcessor[StandardEngine[Catalina]]] org.apache.catalina.startup.HostConfig.undeploy Undeploying context [/hqbpmn_service]
+01-Mar-2019 09:06:27.555 INFO [localhost-startStop-3] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/hqbpmn_service.war
+01-Mar-2019 09:06:39.159 INFO [localhost-startStop-3] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+01-Mar-2019 09:06:43.893 SEVERE [localhost-startStop-3] org.apache.catalina.core.StandardContext.startInternal One or more listeners failed to start. Full details will be found in the appropriate container log file
+01-Mar-2019 09:06:43.893 SEVERE [localhost-startStop-3] org.apache.catalina.core.StandardContext.startInternal Context [/hqbpmn_service] startup failed due to previous errors
+01-Mar-2019 09:06:43.914 WARNING [localhost-startStop-3] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [hqbpmn_service] registered the JDBC driver [oracle.jdbc.OracleDriver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+01-Mar-2019 09:06:43.915 WARNING [localhost-startStop-3] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f79t9hzp5a1z|44746ad6]-AdminTaskTimer] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ java.util.TimerThread.mainLoop(Timer.java:552)
+ java.util.TimerThread.run(Timer.java:505)
+01-Mar-2019 09:06:43.916 WARNING [localhost-startStop-3] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f79t9hzp5a1z|44746ad6]-HelperThread-#0] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:06:43.917 WARNING [localhost-startStop-3] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f79t9hzp5a1z|44746ad6]-HelperThread-#1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:06:43.918 WARNING [localhost-startStop-3] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f79t9hzp5a1z|44746ad6]-HelperThread-#2] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:06:43.919 WARNING [localhost-startStop-3] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [oracle.jdbc.driver.BlockSource.ThreadedCachingBlockSource.BlockReleaser] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ oracle.jdbc.driver.BlockSource$ThreadedCachingBlockSource$BlockReleaser.run(BlockSource.java:327)
+01-Mar-2019 09:06:43.933 INFO [localhost-startStop-3] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/hqbpmn_service.war has finished in 16,378 ms
+01-Mar-2019 09:13:22.887 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version:        Apache Tomcat/8.0.53
+01-Mar-2019 09:13:22.891 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Jun 29 2018 14:42:45 UTC
+01-Mar-2019 09:13:22.892 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server number:         8.0.53.0
+01-Mar-2019 09:13:22.892 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Linux
+01-Mar-2019 09:13:22.892 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            2.6.32-431.el6.x86_64
+01-Mar-2019 09:13:22.893 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+01-Mar-2019 09:13:22.893 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             /tomcat/jdkinstall/jdk1.8.0_181/jre
+01-Mar-2019 09:13:22.894 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           1.8.0_181-b13
+01-Mar-2019 09:13:22.894 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+01-Mar-2019 09:13:22.895 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         /tomcat/analysis_service/apache-tomcat-8.0.53
+01-Mar-2019 09:13:22.895 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         /tomcat/analysis_service/apache-tomcat-8.0.53
+01-Mar-2019 09:13:22.896 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=/tomcat/analysis_service/apache-tomcat-8.0.53/conf/logging.properties
+01-Mar-2019 09:13:22.896 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+01-Mar-2019 09:13:22.897 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+01-Mar-2019 09:13:22.897 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+01-Mar-2019 09:13:22.897 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+01-Mar-2019 09:13:22.898 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=/tomcat/analysis_service/apache-tomcat-8.0.53
+01-Mar-2019 09:13:22.898 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=/tomcat/analysis_service/apache-tomcat-8.0.53
+01-Mar-2019 09:13:22.899 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=/tomcat/analysis_service/apache-tomcat-8.0.53/temp
+01-Mar-2019 09:13:22.899 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: /usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+01-Mar-2019 09:13:23.144 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-9001"]
+01-Mar-2019 09:13:23.170 INFO [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+01-Mar-2019 09:13:23.174 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["ajp-nio-8010"]
+01-Mar-2019 09:13:23.176 INFO [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+01-Mar-2019 09:13:23.181 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 932 ms
+01-Mar-2019 09:13:23.226 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service Catalina
+01-Mar-2019 09:13:23.226 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet Engine: Apache Tomcat/8.0.53
+01-Mar-2019 09:13:23.273 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/hqbpmn_service.war
+01-Mar-2019 09:13:32.994 INFO [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+01-Mar-2019 09:13:38.023 SEVERE [localhost-startStop-1] org.apache.catalina.core.StandardContext.startInternal One or more listeners failed to start. Full details will be found in the appropriate container log file
+01-Mar-2019 09:13:38.024 SEVERE [localhost-startStop-1] org.apache.catalina.core.StandardContext.startInternal Context [/hqbpmn_service] startup failed due to previous errors
+01-Mar-2019 09:13:38.054 WARNING [localhost-startStop-1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [hqbpmn_service] registered the JDBC driver [oracle.jdbc.OracleDriver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+01-Mar-2019 09:13:38.055 WARNING [localhost-startStop-1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f7ior51smnysi|319d14e9]-AdminTaskTimer] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ java.util.TimerThread.mainLoop(Timer.java:552)
+ java.util.TimerThread.run(Timer.java:505)
+01-Mar-2019 09:13:38.056 WARNING [localhost-startStop-1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f7ior51smnysi|319d14e9]-HelperThread-#0] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:13:38.057 WARNING [localhost-startStop-1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f7ior51smnysi|319d14e9]-HelperThread-#1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:13:38.058 WARNING [localhost-startStop-1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f7ior51smnysi|319d14e9]-HelperThread-#2] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:13:38.058 WARNING [localhost-startStop-1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [oracle.jdbc.driver.BlockSource.ThreadedCachingBlockSource.BlockReleaser] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ oracle.jdbc.driver.BlockSource$ThreadedCachingBlockSource$BlockReleaser.run(BlockSource.java:327)
+01-Mar-2019 09:13:38.080 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/hqbpmn_service.war has finished in 14,806 ms
+01-Mar-2019 09:13:38.082 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/ROOT
+01-Mar-2019 09:13:38.147 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/ROOT has finished in 65 ms
+01-Mar-2019 09:13:38.148 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/host-manager
+01-Mar-2019 09:13:38.200 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/host-manager has finished in 52 ms
+01-Mar-2019 09:13:38.200 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/manager
+01-Mar-2019 09:13:38.225 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/manager has finished in 24 ms
+01-Mar-2019 09:13:38.225 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/docs
+01-Mar-2019 09:13:38.241 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/docs has finished in 16 ms
+01-Mar-2019 09:13:38.241 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/examples
+01-Mar-2019 09:13:38.429 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/examples has finished in 188 ms
+01-Mar-2019 09:13:38.440 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-9001"]
+01-Mar-2019 09:13:38.453 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["ajp-nio-8010"]
+01-Mar-2019 09:13:38.463 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 15281 ms
+01-Mar-2019 09:14:41.660 INFO [http-nio-9001-exec-7] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+01-Mar-2019 09:14:45.663 SEVERE [http-nio-9001-exec-7] org.apache.catalina.core.StandardContext.startInternal One or more listeners failed to start. Full details will be found in the appropriate container log file
+01-Mar-2019 09:14:45.664 SEVERE [http-nio-9001-exec-7] org.apache.catalina.core.StandardContext.startInternal Context [/hqbpmn_service] startup failed due to previous errors
+01-Mar-2019 09:14:45.685 WARNING [http-nio-9001-exec-7] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [hqbpmn_service] registered the JDBC driver [oracle.jdbc.OracleDriver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+01-Mar-2019 09:14:45.686 WARNING [http-nio-9001-exec-7] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f7k55ntdg8ht|50f94ea6]-AdminTaskTimer] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ java.util.TimerThread.mainLoop(Timer.java:552)
+ java.util.TimerThread.run(Timer.java:505)
+01-Mar-2019 09:14:45.687 WARNING [http-nio-9001-exec-7] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f7k55ntdg8ht|50f94ea6]-HelperThread-#0] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:14:45.688 WARNING [http-nio-9001-exec-7] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f7k55ntdg8ht|50f94ea6]-HelperThread-#1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:14:45.688 WARNING [http-nio-9001-exec-7] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f7k55ntdg8ht|50f94ea6]-HelperThread-#2] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:14:45.689 WARNING [http-nio-9001-exec-7] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [oracle.jdbc.driver.BlockSource.ThreadedCachingBlockSource.BlockReleaser] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ oracle.jdbc.driver.BlockSource$ThreadedCachingBlockSource$BlockReleaser.run(BlockSource.java:327)
+01-Mar-2019 09:14:55.691 INFO [http-nio-9001-exec-2] org.apache.catalina.util.LifecycleBase.stop The stop() method was called on component [StandardEngine[Catalina].StandardHost[localhost].StandardContext[/hqbpmn_service]] after stop() had already been called. The second call will be ignored.
+01-Mar-2019 09:14:56.376 INFO [http-nio-9001-exec-2] org.apache.catalina.startup.HostConfig.undeploy Undeploying context [/hqbpmn_service]
+01-Mar-2019 09:16:38.478 INFO [localhost-startStop-2] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/hqbpmn_service.war
+01-Mar-2019 09:16:38.489 SEVERE [localhost-startStop-2] org.apache.catalina.startup.ContextConfig.beforeStart Exception fixing docBase for context [/hqbpmn_service]
+ java.util.zip.ZipException: error in opening zip file
+	at java.util.zip.ZipFile.open(Native Method)
+	at java.util.zip.ZipFile.<init>(ZipFile.java:225)
+	at java.util.zip.ZipFile.<init>(ZipFile.java:155)
+	at java.util.jar.JarFile.<init>(JarFile.java:166)
+	at java.util.jar.JarFile.<init>(JarFile.java:103)
+	at sun.net.www.protocol.jar.URLJarFile.<init>(URLJarFile.java:93)
+	at sun.net.www.protocol.jar.URLJarFile.getJarFile(URLJarFile.java:69)
+	at sun.net.www.protocol.jar.JarFileFactory.get(JarFileFactory.java:99)
+	at sun.net.www.protocol.jar.JarURLConnection.connect(JarURLConnection.java:122)
+	at sun.net.www.protocol.jar.JarURLConnection.getJarFile(JarURLConnection.java:89)
+	at org.apache.catalina.startup.ExpandWar.expand(ExpandWar.java:130)
+	at org.apache.catalina.startup.ContextConfig.fixDocBase(ContextConfig.java:610)
+	at org.apache.catalina.startup.ContextConfig.beforeStart(ContextConfig.java:746)
+	at org.apache.catalina.startup.ContextConfig.lifecycleEvent(ContextConfig.java:309)
+	at org.apache.catalina.util.LifecycleSupport.fireLifecycleEvent(LifecycleSupport.java:95)
+	at org.apache.catalina.util.LifecycleBase.fireLifecycleEvent(LifecycleBase.java:90)
+	at org.apache.catalina.util.LifecycleBase.setStateInternal(LifecycleBase.java:388)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:144)
+	at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:755)
+	at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:731)
+	at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:717)
+	at org.apache.catalina.startup.HostConfig.deployWAR(HostConfig.java:973)
+	at org.apache.catalina.startup.HostConfig$DeployWar.run(HostConfig.java:1850)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+01-Mar-2019 09:16:38.504 SEVERE [localhost-startStop-2] org.apache.catalina.core.ContainerBase.addChildInternal ContainerBase.addChild: start: 
+ org.apache.catalina.LifecycleException: Failed to start component [StandardEngine[Catalina].StandardHost[localhost].StandardContext[/hqbpmn_service]]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:162)
+	at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:755)
+	at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:731)
+	at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:717)
+	at org.apache.catalina.startup.HostConfig.deployWAR(HostConfig.java:973)
+	at org.apache.catalina.startup.HostConfig$DeployWar.run(HostConfig.java:1850)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.apache.catalina.LifecycleException: Failed to start component [org.apache.catalina.webresources.StandardRoot@6fe50a68]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:162)
+	at org.apache.catalina.core.StandardContext.resourcesStart(StandardContext.java:5016)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5149)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:145)
+	... 10 more
+Caused by: org.apache.catalina.LifecycleException: Failed to initialize component [org.apache.catalina.webresources.WarResourceSet@6122f83c]
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:107)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:135)
+	at org.apache.catalina.webresources.StandardRoot.startInternal(StandardRoot.java:712)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:145)
+	... 13 more
+Caused by: java.lang.IllegalArgumentException: java.util.zip.ZipException: error in opening zip file
+	at org.apache.catalina.webresources.AbstractSingleArchiveResourceSet.initInternal(AbstractSingleArchiveResourceSet.java:142)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	... 16 more
+Caused by: java.util.zip.ZipException: error in opening zip file
+	at java.util.zip.ZipFile.open(Native Method)
+	at java.util.zip.ZipFile.<init>(ZipFile.java:225)
+	at java.util.zip.ZipFile.<init>(ZipFile.java:155)
+	at java.util.jar.JarFile.<init>(JarFile.java:166)
+	at java.util.jar.JarFile.<init>(JarFile.java:130)
+	at org.apache.tomcat.util.compat.JreCompat.jarFileNewInstance(JreCompat.java:170)
+	at org.apache.tomcat.util.compat.JreCompat.jarFileNewInstance(JreCompat.java:155)
+	at org.apache.catalina.webresources.AbstractSingleArchiveResourceSet.initInternal(AbstractSingleArchiveResourceSet.java:139)
+	... 17 more
+
+01-Mar-2019 09:16:38.508 SEVERE [localhost-startStop-2] org.apache.catalina.startup.HostConfig.deployWAR Error deploying web application archive /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/hqbpmn_service.war
+ java.lang.IllegalStateException: ContainerBase.addChild: start: org.apache.catalina.LifecycleException: Failed to start component [StandardEngine[Catalina].StandardHost[localhost].StandardContext[/hqbpmn_service]]
+	at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:759)
+	at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:731)
+	at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:717)
+	at org.apache.catalina.startup.HostConfig.deployWAR(HostConfig.java:973)
+	at org.apache.catalina.startup.HostConfig$DeployWar.run(HostConfig.java:1850)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+
+01-Mar-2019 09:16:38.510 INFO [localhost-startStop-2] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/hqbpmn_service.war has finished in 31 ms
+01-Mar-2019 09:16:48.513 INFO [ContainerBackgroundProcessor[StandardEngine[Catalina]]] org.apache.catalina.startup.HostConfig.undeploy Undeploying context [/hqbpmn_service]
+01-Mar-2019 09:16:48.527 INFO [localhost-startStop-3] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/hqbpmn_service.war
+01-Mar-2019 09:16:57.871 INFO [localhost-startStop-3] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+01-Mar-2019 09:17:01.862 SEVERE [localhost-startStop-3] org.apache.catalina.core.StandardContext.startInternal One or more listeners failed to start. Full details will be found in the appropriate container log file
+01-Mar-2019 09:17:01.863 SEVERE [localhost-startStop-3] org.apache.catalina.core.StandardContext.startInternal Context [/hqbpmn_service] startup failed due to previous errors
+01-Mar-2019 09:17:01.896 WARNING [localhost-startStop-3] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [hqbpmn_service] registered the JDBC driver [oracle.jdbc.OracleDriver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+01-Mar-2019 09:17:01.898 WARNING [localhost-startStop-3] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f7n2bu79ckac|33dff4e3]-AdminTaskTimer] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ java.util.TimerThread.mainLoop(Timer.java:552)
+ java.util.TimerThread.run(Timer.java:505)
+01-Mar-2019 09:17:01.899 WARNING [localhost-startStop-3] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f7n2bu79ckac|33dff4e3]-HelperThread-#0] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:17:01.900 WARNING [localhost-startStop-3] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f7n2bu79ckac|33dff4e3]-HelperThread-#1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:17:01.901 WARNING [localhost-startStop-3] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f7n2bu79ckac|33dff4e3]-HelperThread-#2] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:17:01.902 WARNING [localhost-startStop-3] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [oracle.jdbc.driver.BlockSource.ThreadedCachingBlockSource.BlockReleaser] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ oracle.jdbc.driver.BlockSource$ThreadedCachingBlockSource$BlockReleaser.run(BlockSource.java:327)
+01-Mar-2019 09:17:01.916 INFO [localhost-startStop-3] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/hqbpmn_service.war has finished in 13,389 ms
+01-Mar-2019 09:17:24.658 INFO [http-nio-9001-exec-6] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+01-Mar-2019 09:17:28.525 SEVERE [http-nio-9001-exec-6] org.apache.catalina.core.StandardContext.startInternal One or more listeners failed to start. Full details will be found in the appropriate container log file
+01-Mar-2019 09:17:28.526 SEVERE [http-nio-9001-exec-6] org.apache.catalina.core.StandardContext.startInternal Context [/hqbpmn_service] startup failed due to previous errors
+01-Mar-2019 09:17:28.547 WARNING [http-nio-9001-exec-6] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [hqbpmn_service] registered the JDBC driver [oracle.jdbc.OracleDriver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+01-Mar-2019 09:17:28.549 WARNING [http-nio-9001-exec-6] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f7nmxq184g6sc|409984b8]-AdminTaskTimer] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ java.util.TimerThread.mainLoop(Timer.java:552)
+ java.util.TimerThread.run(Timer.java:505)
+01-Mar-2019 09:17:28.550 WARNING [http-nio-9001-exec-6] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f7nmxq184g6sc|409984b8]-HelperThread-#0] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:17:28.552 WARNING [http-nio-9001-exec-6] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f7nmxq184g6sc|409984b8]-HelperThread-#1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:17:28.553 WARNING [http-nio-9001-exec-6] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f7nmxq184g6sc|409984b8]-HelperThread-#2] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:17:28.554 WARNING [http-nio-9001-exec-6] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn_service] appears to have started a thread named [oracle.jdbc.driver.BlockSource.ThreadedCachingBlockSource.BlockReleaser] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ oracle.jdbc.driver.BlockSource$ThreadedCachingBlockSource$BlockReleaser.run(BlockSource.java:327)
+01-Mar-2019 09:18:42.444 INFO [ContainerBackgroundProcessor[StandardEngine[Catalina]]] org.apache.catalina.startup.HostConfig.undeploy Undeploying context [/hqbpmn_service]
+01-Mar-2019 09:42:22.661 INFO [localhost-startStop-4] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/hqbpmn-server.war
+01-Mar-2019 09:42:31.769 INFO [localhost-startStop-4] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+01-Mar-2019 09:42:35.225 SEVERE [localhost-startStop-4] org.apache.catalina.core.StandardContext.startInternal One or more listeners failed to start. Full details will be found in the appropriate container log file
+01-Mar-2019 09:42:35.225 SEVERE [localhost-startStop-4] org.apache.catalina.core.StandardContext.startInternal Context [/hqbpmn-server] startup failed due to previous errors
+01-Mar-2019 09:42:35.244 WARNING [localhost-startStop-4] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [hqbpmn-server] registered the JDBC driver [oracle.jdbc.OracleDriver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+01-Mar-2019 09:42:35.245 WARNING [localhost-startStop-4] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn-server] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f8jxqq1y0rux9|1214a3dd]-AdminTaskTimer] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ java.util.TimerThread.mainLoop(Timer.java:552)
+ java.util.TimerThread.run(Timer.java:505)
+01-Mar-2019 09:42:35.245 WARNING [localhost-startStop-4] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn-server] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f8jxqq1y0rux9|1214a3dd]-HelperThread-#0] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:42:35.246 WARNING [localhost-startStop-4] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn-server] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f8jxqq1y0rux9|1214a3dd]-HelperThread-#1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:42:35.247 WARNING [localhost-startStop-4] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn-server] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f8jxqq1y0rux9|1214a3dd]-HelperThread-#2] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:42:35.247 WARNING [localhost-startStop-4] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn-server] appears to have started a thread named [oracle.jdbc.driver.BlockSource.ThreadedCachingBlockSource.BlockReleaser] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ oracle.jdbc.driver.BlockSource$ThreadedCachingBlockSource$BlockReleaser.run(BlockSource.java:327)
+01-Mar-2019 09:42:35.254 INFO [localhost-startStop-4] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive /tomcat/analysis_service/apache-tomcat-8.0.53/webapps/hqbpmn-server.war has finished in 12,592 ms
+01-Mar-2019 09:43:38.368 INFO [http-nio-9001-exec-26] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+01-Mar-2019 09:43:42.018 SEVERE [http-nio-9001-exec-26] org.apache.catalina.core.StandardContext.startInternal One or more listeners failed to start. Full details will be found in the appropriate container log file
+01-Mar-2019 09:43:42.020 SEVERE [http-nio-9001-exec-26] org.apache.catalina.core.StandardContext.startInternal Context [/hqbpmn-server] startup failed due to previous errors
+01-Mar-2019 09:43:42.045 WARNING [http-nio-9001-exec-26] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [hqbpmn-server] registered the JDBC driver [oracle.jdbc.OracleDriver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+01-Mar-2019 09:43:42.046 WARNING [http-nio-9001-exec-26] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn-server] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f8ld7ffqfsvn|5ba68294]-AdminTaskTimer] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ java.util.TimerThread.mainLoop(Timer.java:552)
+ java.util.TimerThread.run(Timer.java:505)
+01-Mar-2019 09:43:42.047 WARNING [http-nio-9001-exec-26] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn-server] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f8ld7ffqfsvn|5ba68294]-HelperThread-#0] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:43:42.048 WARNING [http-nio-9001-exec-26] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn-server] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f8ld7ffqfsvn|5ba68294]-HelperThread-#1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:43:42.049 WARNING [http-nio-9001-exec-26] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn-server] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->z8kflta1f8ld7ffqfsvn|5ba68294]-HelperThread-#2] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+01-Mar-2019 09:43:42.050 WARNING [http-nio-9001-exec-26] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [hqbpmn-server] appears to have started a thread named [oracle.jdbc.driver.BlockSource.ThreadedCachingBlockSource.BlockReleaser] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ oracle.jdbc.driver.BlockSource$ThreadedCachingBlockSource$BlockReleaser.run(BlockSource.java:327)
