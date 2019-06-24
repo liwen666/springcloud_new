@@ -13,9 +13,11 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
 ##配置数据源
-
-  datasource:
-    type: org.h2.jdbcx.JdbcDataSource
-    url: jdbc:h2:tcp://127.0.0.1:8043/mem:testbpmn
-    username: root
-    password:
+#  datasource:
+#      druid:
+#        type: com.alibaba.druid.pool.DruidDataSource
+#        driverClassName: org.h2.Driver
+#        url: jdbc:h2:tcp://127.0.0.1:8043/mem:testbpmn
+##        url: jdbc:log4jdbc:mysql://192.168.42.136:3306/eladmin?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
+#        username: root
+#        password:
