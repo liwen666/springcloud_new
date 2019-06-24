@@ -9,6 +9,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import javax.sql.DataSource;
 
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+//@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 public class ThymeleafDemoApplication {
 
     public static void main(String[] args) {
@@ -20,6 +21,7 @@ public class ThymeleafDemoApplication {
 //        run.close();
         DataSource bean = beanFactory.getBean(DataSource.class);
         System.out.println(bean);
+
 
 
     }

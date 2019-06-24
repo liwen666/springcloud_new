@@ -65,7 +65,7 @@ public class MybatisMain  {
         druidDataSource.setDriverClassName("org.h2.Driver");
         druidDataSource.setUrl("jdbc:h2:tcp://127.0.0.1:8043/mem:testbpmn");
         druidDataSource.setUsername("root");
-        druidDataSource.setPassword("");
+        druidDataSource.setPassword("root");
 //        基本属性 url、user、password
 //                <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 //        <property name="url" value="jdbc:mysql://192.168.9.180:3306/hqbpmn?useUnicode=true"/>
