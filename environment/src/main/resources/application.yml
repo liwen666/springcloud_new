@@ -1,0 +1,57 @@
+server:
+  servlet:
+#    context-path: /th-demo
+    context-path: /
+  port: 8081
+#h2cfg:
+
+  ##thymeleaf 页面跳转
+spring:
+#  h2cfg:
+#    server: h2
+##thymeleaf 页面跳转
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@192.168.100.120:1521/orcl
+    username: parent_service
+    password: 1
+    type: com.alibaba.druid.pool.DruidDataSource
+  jpa:
+    database: oracle
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle10gDialect
+
+
+
+  #JPA
+#  spring.jpa.datasource=ORACLE
+#  spring.jpa.show-sql = true
+#  spring.jpa.hibernate.ddl-auto = update
+#  spring.jpa.hibernate.naming-strategy = org.hibernate.cfg.ImprovedNamingStrategy
+#  spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.Oracle10gDialect
+  thymeleaf:
+#    enabled: false
+    prefix: classpath:/templates/
+    suffix: .html
+    #spring session配置hazelcast,none
+    #缓存配置,该缓存用于spring session和spring cache
+  hazelcast:
+    config: classpath:configs/hazelcast.xml
+  session:
+    store-type: hazelcast
+    timeout: 3600
+##配置数据源
+#  datasource:
+#      druid:
+#        type: com.alibaba.druid.pool.DruidDataSource
+#        driverClassName: org.h2.Driver
+#        url: jdbc:h2:tcp://127.0.0.1:8043/mem:testbpmn
+##        url: jdbc:log4jdbc:mysql://192.168.42.136:3306/eladmin?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
+#        username: root
+#        password:
