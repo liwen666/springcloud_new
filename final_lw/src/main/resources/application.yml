@@ -21,9 +21,10 @@ spring:
 
 
   redis:
-    host: localhost
+    host: 192.168.42.140
     port: 6379
-    password:
+    password: liwen
+
     # 连接超时时间（毫秒）
     timeout: 10000
     jedis:

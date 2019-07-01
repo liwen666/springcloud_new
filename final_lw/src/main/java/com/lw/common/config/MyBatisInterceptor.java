@@ -1,7 +1,10 @@
 package com.lw.common.config;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.parser.SqlParserHelper;
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
+import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -11,7 +14,10 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 
 import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 @Intercepts({@Signature(
         type = StatementHandler.class,
@@ -28,6 +34,12 @@ public class MyBatisInterceptor implements Interceptor {
             BoundSql boundSql = (BoundSql) metaObject.getValue("delegate.boundSql");
             String originalSql = boundSql.getSql();
             System.out.println("--------------me---------"+originalSql);
+            Object parameterObject = boundSql.getParameterObject();
+            String s = JSONObject.toJSONString(parameterObject);
+            System.out.println("参数值  " +s);
+            System.out.println("******************************************************");
+
+
         }
 
             return invocation.proceed();

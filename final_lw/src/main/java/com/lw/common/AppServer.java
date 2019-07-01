@@ -34,6 +34,7 @@ public class AppServer {
         queryWrapper.getParamNameValuePairs().forEach((k,v)-> System.out.println("key = " + k + " ; value = " + v));
         List<Log> messageList = baseMapper.selectList(queryWrapper);
         System.out.println(messageList);
+        baseMapper.selectMy("3085");
         run.close();
 
     }
