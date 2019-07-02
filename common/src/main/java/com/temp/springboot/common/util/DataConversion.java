@@ -1,5 +1,7 @@
 package com.temp.springboot.common.util;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.util.Base64Utils;
 
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -83,7 +85,9 @@ public class DataConversion {
                         continue;
                     }
 					if(field.getType().getName().equalsIgnoreCase("java.util.Date")){
-						field.set(t, DateUtil.getDate((String)map.get(field.getName())));
+//						@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+//						private Date startTime;  实体类上面加上这个注解，rest传输过程中解析才不会出错
+						field.set(t, DateUtils.parseDate((String)map.get(field.getName()),"yyyy-MM-dd HH:mm:ss"));
 						continue;
 					}
                     field.set(t,map.get(field.getName()));
