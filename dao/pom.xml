@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>vip.dcpay</groupId>
+        <artifactId>dcpay_base</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../dcpay_base/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>dcpay_dao</artifactId>
+
+    <name>钻石支付.DAO</name>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>vip.dcpay</groupId>
+            <artifactId>dcpay_util</artifactId>
+            <version>${dcpay.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>vip.dcpay</groupId>
+            <artifactId>dcpay_dto</artifactId>
+            <version>${dcpay.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>vip.dcpay</groupId>
+            <artifactId>dcpay_model</artifactId>
+            <version>${dcpay.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+    </dependencies>
+</project>
