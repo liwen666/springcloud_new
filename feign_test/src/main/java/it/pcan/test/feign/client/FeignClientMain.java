@@ -20,7 +20,7 @@ public class FeignClientMain {
                 .decoder(new JacksonDecoder())
                 .encoder(new FeignSpringFormEncoder());
 
-        UploadServiceClient service = encoder.target(UploadServiceClient.class, "http://localhost:8080");
+        UploadServiceClient service = encoder.target(UploadServiceClient.class, "http://localhost:9000");
 
         MultipartFile file = new InMemoryMultipartFile("filename.tmp", new byte[]{65, 66, 67, 68});
         MultipartFile file2 = new InMemoryMultipartFile("filename2.tmp", new byte[]{69, 70, 71, 72, 73, 68});
