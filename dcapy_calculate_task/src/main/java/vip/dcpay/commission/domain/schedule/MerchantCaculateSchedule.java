@@ -25,6 +25,9 @@ public class MerchantCaculateSchedule {
     @Scheduled(cron = "0/3 * * * * ?") // 每3秒执行一次
     public void calculateDayAmount() {
         List<OrderFinishRecord> orderFinishRecords = agentRepository.selectOrderFinishList();
+        if(orderFinishRecords.size()==0){
+            return;
+        }
         List<MerchantDayAmount> merchantDayAmounts = caclcuteAmount(orderFinishRecords);
         MyLogManager.develop("==========累计商家流水数据： "+ JSON.toJSONString(merchantDayAmounts));
         //更新数据库数据  删除增量表数据
