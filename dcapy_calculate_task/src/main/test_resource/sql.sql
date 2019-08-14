@@ -25,11 +25,12 @@ CREATE TABLE `merchant_day_amount` (
   `merchant_id` bigint(32) NOT NULL COMMENT '商户id',
   `order_num` bigint(32) DEFAULT NULL COMMENT '每日成交订单数量',
   `create_time` date DEFAULT NULL COMMENT '创建时间',
-  `modify_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `remark` bigint(32) DEFAULT '1' COMMENT '标记位',
   `day_amount_sum` decimal(20,10) NOT NULL DEFAULT '0.0000000000' COMMENT '商家每日订单实时金额',
   PRIMARY KEY (`id`),
   KEY `index_create_time` (`create_time`),
   KEY `index_merchant_id` (`merchant_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8
+
 
