@@ -17,6 +17,13 @@ public class RabbitMQConfig {
     public final static String ROUTING_KEY = "route-key";
     public final static String EXCHANGES_NAME = "demo-exchanges";
 
+
+//    //完成订单队列
+//    public static final String COMMISSION_QUEUE = NamesConstant.toOrderFinish_QUEUE;
+//    //完成订单通知交换机
+//    public static final String COMMISSION_EXCHANGE = NamesConstant.toOrderFinish;
+//    //完成订单routing_key
+//    public static final String COMMISSION_ROUTING_KEY = NamesConstant.toOrderFinish_KEY;
     @Bean
     public Queue queue() {
         //是否持久化

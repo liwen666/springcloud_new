@@ -15,7 +15,7 @@ public class SpringbootrabbitmqApplicationTests {
 	private MessageSender sender;
 
 	@Test
-	public void testReceiver(){
+	public void testReceiver() throws InterruptedException {
 		sender.send();
 	}
 
