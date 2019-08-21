@@ -322,7 +322,6 @@ public class MessageSender {
         rabbitTemplate.setReturnCallback(((message, replyCode, replyText, exchange, routingKey) -> {
             log.info("消息id:{} 发送失败",message.getMessageProperties().getCorrelationId());
         }));
-
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGES_NAME,RabbitMQConfig.ROUTING_KEY,">>>>> Hello World test", correlationId);
         log.info("Already sent message");
     }

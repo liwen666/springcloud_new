@@ -15,11 +15,11 @@ import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
 public class MessageReceiver implements ChannelAwareMessageListener {
 
     public void onMessage(Message message, Channel channel) throws Exception {
-        try {
-            byte[] body = message.getBody();
-            System.out.println(">>> receive: {}" + new String(body));
-        } finally {
-            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-        }
+//        try {
+//            byte[] body = message.getBody();
+//            System.out.println(">>> receive: {}" + new String(body));
+//        } finally {
+//            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+//        }
     }
 }
