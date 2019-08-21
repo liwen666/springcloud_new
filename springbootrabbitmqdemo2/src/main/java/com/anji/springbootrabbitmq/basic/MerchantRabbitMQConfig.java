@@ -59,7 +59,8 @@ public class MerchantRabbitMQConfig {
     public SimpleMessageListenerContainer container(ConnectionFactory connectionFactory) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(QUEUE_NAME,"springboot.demo.test1");
+//        container.setQueueNames(QUEUE_NAME,"springboot.demo.test1");
+        container.setQueueNames("springboot.demo.test1");
         container.setMessageListener(receiver());
         container.setAcknowledgeMode(AcknowledgeMode.MANUAL);       //设置手动，默认为Auto
 
