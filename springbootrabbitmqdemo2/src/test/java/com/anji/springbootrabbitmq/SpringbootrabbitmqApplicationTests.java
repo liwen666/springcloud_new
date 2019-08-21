@@ -16,10 +16,7 @@ public class SpringbootrabbitmqApplicationTests {
 
 
 
-	@Test
-	public void testReceivertest() throws InterruptedException {
-		sender.test();
-	}
+
 	@Test
 	public void testReceiver() throws InterruptedException {
 		sender.send();
@@ -48,6 +45,17 @@ public class SpringbootrabbitmqApplicationTests {
 //		}
 
 //		推送这个商户可以完成推送  111111
+	}
+
+	@Test
+	public void testReceivertest() throws InterruptedException {
+		sender.test();
+	}
+
+
+	@Test
+	public void testMerchant() throws InterruptedException {
+		sender.testMerchant();
 	}
 
 

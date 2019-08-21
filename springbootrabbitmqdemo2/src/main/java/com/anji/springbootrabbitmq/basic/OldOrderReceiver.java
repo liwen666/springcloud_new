@@ -15,13 +15,15 @@ public class OldOrderReceiver {
      */
     @RabbitListener(queues = RabbitConfig.SCHEDULE_QUEUE)
     public void receiveMsg(String msg) {
-
-
+        try {
             MessageBasic messageBasic = JSON.parseObject(msg, MessageBasic.class);
 
             ScheduleMsgDto scheduleMsgDto = JSON.parseObject(messageBasic.getBody(), ScheduleMsgDto.class);
 
-        System.out.println(JSON.toJSONString(scheduleMsgDto));
-        System.out.println("=========================================================================================");
+            System.out.println(JSON.toJSONString(scheduleMsgDto));
+            System.out.println("=========================================================================================");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
