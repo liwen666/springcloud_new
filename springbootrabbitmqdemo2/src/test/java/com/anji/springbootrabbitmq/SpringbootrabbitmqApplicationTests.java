@@ -58,5 +58,9 @@ public class SpringbootrabbitmqApplicationTests {
 		sender.testMerchant();
 	}
 
+	@Test
+	public void testMerchantPro() throws InterruptedException {
+		sender.testMerchantPro();
+	}
 
 }

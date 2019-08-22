@@ -79,23 +79,29 @@ public class NamesConstant {
 	 * 订单最终记录队列路由键
 	 */
 	public static final String toOrderFinish_KEY = "toOrderFinishKey";
+
+
+	/**
+	 * 订单最终记录队列
+	 */
+	public static final String toOrderFinishCalculate_QUEUE= "toOrderFinishCalculate";
 	
 	
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
-	 * 订单创建后通知订单管理中心交换机
+	 * 订单就绪后通知订单管理中心交换机
 	 */
-	public static final String toOrderCreatedExchange = "orderExchange";
+	public static final String toOrderReadyExchange = "orderExchange";
 	/**
-	 * 订单创建后通知订单管理中心队列
+	 * 订单就绪后通知订单管理中心队列
 	 */
-	public static final String oOrderCreated_QUEUE = "toOrderCreated";
+	public static final String toOrderReady_QUEUE = "toOrderReady";
 	/**
-	 * 订单创建后通知订单管理路由键
+	 * 订单就绪后通知订单管理路由键
 	 */
-	public static final String oOrderCreated_KEY = "toOrderCreatedKey";
+	public static final String toOrderReady_KEY = "toOrderReadyKey";
 	
 	
 	

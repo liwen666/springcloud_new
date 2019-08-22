@@ -1,6 +1,8 @@
 package com.anji.springbootrabbitmq.basic;
 
 import com.alibaba.fastjson.JSON;
+import com.anji.springbootrabbitmq.basic.msg.MerchantAlterItemEnum;
+import com.anji.springbootrabbitmq.basic.msg.MerchantAlterMsgDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -350,5 +352,34 @@ public class MessageSender {
 
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGES_NAME+"1",RabbitMQConfig.ROUTING_KEY+"1",">>>>> Hello World merchant", correlationId);
         log.info("Already sent message");
+    }
+
+    public void testMerchantPro() {
+
+        //correlationData:消息ID
+        CorrelationData correlationId=new CorrelationData(UUID.randomUUID().toString());
+
+        // ConfirmListener是当消息无法发送到Exchange被触发，此时Ack为False，这时cause包含发送失败的原因，例如exchange不存在时
+        // 需要在系统配置文件中设置 publisher-confirms: true
+        if(!rabbitTemplate.isConfirmListener()){
+            rabbitTemplate.setConfirmCallback(((correlationData, ack, cause) -> {
+                if(ack){
+                    log.info(">>>>>>> 消息id:{} 发送成功", correlationData.getId());
+                }else {
+                    log.info(">>>>>>> 消息id:{} 发送失败", correlationData.getId());
+                }
+            }));
+        }
+
+        // ReturnCallback 是在交换器无法将路由键路由到任何一个队列中，会触发这个方法。
+        // 需要在系统配置文件中设置 publisher-returns: true
+        rabbitTemplate.setReturnCallback(((message, replyCode, replyText, exchange, routingKey) -> {
+            log.info("消息id:{} 发送失败",message.getMessageProperties().getCorrelationId());
+        }));
+        MessageBasic messageBasic = new MessageBasic();
+        messageBasic.setBody(JSON.toJSONString(MerchantAlterMsgDto.builder().merchantId(100000L).alterItem(MerchantAlterItemEnum.GRAB_SWITCH).build()));
+        rabbitTemplate.convertAndSend(NamesConstant.toBusinessMerchantExchange,NamesConstant.toNotifyBusinessMerchantChangeKey_KEY,JSON.toJSONString(messageBasic), correlationId);
+        log.info("Already sent message");
+
     }
 }
