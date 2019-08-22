@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class MerchantRabbitMQConfig {
-    public final static String QUEUE_NAME = "springboot.demo.test11";
+    public final static String QUEUE_NAME = "merchant";
     public final static String ROUTING_KEY = "route-key1";
     public final static String EXCHANGES_NAME = "demo-exchanges1";
 
@@ -34,7 +34,6 @@ public class MerchantRabbitMQConfig {
         boolean autoDelete = false;
         return new Queue(QUEUE_NAME, durable, exclusive, autoDelete);
     }
-
 
     /**
      * 设置交换器，这里使用的是topic exchange

@@ -12,7 +12,7 @@ public class MerchantReceiver {
      * 自动确认
      * @param msg
      */
-    @RabbitListener(queues = "springboot.demo.test11")
+    @RabbitListener(queues = "merchant")
     public void receiveMsg(String msg) {
         System.out.println("=========================================================================================");
         System.out.println(msg);
