@@ -1,4 +1,9 @@
 
+连接内存模式的数据库
+jdbc:h2:mem:test
+
+
+
         List<Object> bpmn = fiscalIntegrationService.listBean("1500", "2017", "pay");
         System.out.println(JSON.toJSONString(bpmn));
         System.out.println("=====================节点描述=================================");
