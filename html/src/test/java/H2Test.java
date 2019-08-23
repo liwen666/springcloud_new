@@ -177,14 +177,15 @@ public class H2Test {
             stmt.executeUpdate(sql);
 
         }
-        System.out.println("插入数据 "+count+"  条 耗时"+(System.currentTimeMillis()-startTime));
+//        System.out.println("插入数据 "+count+"  条 耗时"+(System.currentTimeMillis()-startTime));
         //删除
 //            stmt.executeUpdate("DELETE FROM USER_INFO WHERE name='大日如来'");
         //修改
 //            stmt.executeUpdate("UPDATE USER_INFO SET name='孤傲苍狼' WHERE name='苍狼'");
         //查询
         long queryStart = System.currentTimeMillis();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM MERCHANT_INFO where uid=11");
+//        ResultSet rs = stmt.executeQuery("SELECT * FROM MERCHANT_INFO ");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM MERCHANT_INFO limit 100 ");
         //遍历结果集
             while (rs.next()) {
                 Field[] declaredFields = MerchantInfo.class.getDeclaredFields();
