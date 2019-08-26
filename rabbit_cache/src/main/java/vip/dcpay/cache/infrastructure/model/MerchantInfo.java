@@ -23,7 +23,6 @@ public class MerchantInfo {
   /**
    * 主键ID
    */
-//  @TableId(value = "id", type = IdType.UUID)
   private Long uid;
   //普通，批发商
   private Integer type;

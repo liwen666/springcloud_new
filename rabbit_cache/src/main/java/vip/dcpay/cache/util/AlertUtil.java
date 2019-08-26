@@ -12,8 +12,8 @@ public class AlertUtil {
         try {
 
             AlertParam alertParam = AlertParam.builder()
-                    .appName("调度中心")
-                    .moduleName("调度中心")
+                    .appName("调度缓存控制")
+                    .moduleName("调度缓存控制")
                     .eventName(eventName)
                     .content(content)
                     .alertLevel(level)

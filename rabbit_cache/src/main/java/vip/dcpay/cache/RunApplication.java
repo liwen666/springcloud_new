@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import vip.dcpay.alert.sdk.MyAlertManager;
-import vip.dcpay.dao.DaoConfig;
 import vip.dcpay.log.sdk.MyLogManager;
 import vip.dcpay.redis.RedisSentinelConfig;
 import vip.dcpay.util.frame.spring.AnnotationBeanNameGeneratorRewrite;
@@ -21,7 +20,6 @@ import vip.dcpay.util.frame.spring.FrameUtilConfig;
 @ComponentScan(nameGenerator = AnnotationBeanNameGeneratorRewrite.class)
 @Import({
         FrameUtilConfig.class,
-        DaoConfig.class,
         RedisSentinelConfig.class,
         MyLogManager.class,
         MyAlertManager.class

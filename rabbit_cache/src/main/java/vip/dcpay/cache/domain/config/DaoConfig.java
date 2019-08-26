@@ -32,7 +32,7 @@ import java.util.Properties;
 
 @Slf4j
 @Configuration
-@MapperScan(basePackages="vip.dcpay.h2",markerInterface=BaseMapper.class)
+@MapperScan(basePackages="vip.dcpay.cache",markerInterface=BaseMapper.class)
 public class DaoConfig {
 
 	@Bean
