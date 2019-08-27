@@ -19,6 +19,7 @@ import vip.dcpay.h2.infrastructure.dao.MerchantInfoCacheDao;
 import vip.dcpay.h2.infrastructure.dao.MerchantInfoDao;
 import vip.dcpay.h2.infrastructure.model.MerchantInfo;
 import vip.dcpay.h2.infrastructure.model.MerchantInfoCache;
+import vip.dcpay.h2.util.MySubTUtil;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * author lw
@@ -248,7 +250,7 @@ public class H2Test {
     public void insertObjectBatch() throws IllegalAccessException, InterruptedException {
         long startTime = System.currentTimeMillis();
         List<MerchantInfo> merchantInfos = new ArrayList<>();
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 100001; i++) {
             merchantInfos.add(MerchantInfo.builder().id(1l + i).uid(100l + i)
                     .recv_pay_ways(JSON.toJSONString(new ArrayList<String>() {{
                         add("weixin");
@@ -264,42 +266,42 @@ public class H2Test {
                     .day_order_count(10l + i)
                     .type(1).build());
         }
-        Mytask task = new Mytask(merchantInfos);
-        ExecutorService es = Executors.newFixedThreadPool(5);//创建固定大小的线程
-        for(int i=0;i<5;i++){
+        List<List<MerchantInfo>> lists = MySubTUtil.subList(merchantInfos, 100);
+        Mytask task = new Mytask(lists);
+        ExecutorService es = Executors.newFixedThreadPool(100);//创建固定大小的线程
+        for(int i=0;i<100;i++){
             //线程池可以 处理Callablel类型的任务  获取返回值
             /**
              * 线程是5个5个的执行任务
              * 这里下面两个处理任务的效果是一样的
              */
-            es.submit(task);//这个会返回一个future对象
+//            es.submit(task);//这个会返回一个future对象
             es.execute(task);
 
         }
-
-
+        Thread.sleep(20000);
         System.out.println("======添加数据耗时  " + (System.currentTimeMillis() - startTime) + "ms");
         List<MerchantInfo> query = jdbcTemplate.query("select * from merchant_info", new BeanPropertyRowMapper(MerchantInfo.class));
-        Thread.sleep(1000);
         System.out.println(JSON.toJSONString(query.size()));
 
 
     }
     class Mytask implements Runnable{
 
-        private final List<MerchantInfo> merchantInfos;
+        private final List<List<MerchantInfo>> merchantInfos;
+        public  AtomicInteger i = new AtomicInteger(0);
 
-        public Mytask(List<MerchantInfo> merchantInfos) {
+        public Mytask(List<List<MerchantInfo>> merchantInfos) {
             this.merchantInfos = merchantInfos;
         }
 
         @Override
         public void run() {
+            int i = this.i.incrementAndGet();
+            System.out.println(i);
             System.out.println(System.currentTimeMillis()+":thread ID:"+Thread.currentThread().getId());
-                addByBatch(merchantInfos);
+                addByBatch(merchantInfos.get(i-1));
         }
-
-
     }
 
     private void addByBatch(List<MerchantInfo> merchantInfos) {
