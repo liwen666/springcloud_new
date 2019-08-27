@@ -26,6 +26,8 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * author lw
@@ -262,11 +264,40 @@ public class H2Test {
                     .day_order_count(10l + i)
                     .type(1).build());
         }
-        addByBatch(merchantInfos);
+        Mytask task = new Mytask(merchantInfos);
+        ExecutorService es = Executors.newFixedThreadPool(5);//创建固定大小的线程
+        for(int i=0;i<5;i++){
+            //线程池可以 处理Callablel类型的任务  获取返回值
+            /**
+             * 线程是5个5个的执行任务
+             * 这里下面两个处理任务的效果是一样的
+             */
+            es.submit(task);//这个会返回一个future对象
+            es.execute(task);
+
+        }
+
+
         System.out.println("======添加数据耗时  " + (System.currentTimeMillis() - startTime) + "ms");
         List<MerchantInfo> query = jdbcTemplate.query("select * from merchant_info", new BeanPropertyRowMapper(MerchantInfo.class));
         Thread.sleep(1000);
         System.out.println(JSON.toJSONString(query.size()));
+
+
+    }
+    class Mytask implements Runnable{
+
+        private final List<MerchantInfo> merchantInfos;
+
+        public Mytask(List<MerchantInfo> merchantInfos) {
+            this.merchantInfos = merchantInfos;
+        }
+
+        @Override
+        public void run() {
+            System.out.println(System.currentTimeMillis()+":thread ID:"+Thread.currentThread().getId());
+                addByBatch(merchantInfos);
+        }
 
 
     }
