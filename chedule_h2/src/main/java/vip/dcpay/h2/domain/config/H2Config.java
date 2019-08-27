@@ -14,7 +14,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-//@Component
+@Component
 public class H2Config implements ApplicationRunner ,ApplicationListener<ContextClosedEvent> {
 	Server server;
 	Server serverWeb;
@@ -56,6 +56,7 @@ public class H2Config implements ApplicationRunner ,ApplicationListener<ContextC
                 "        `assets` varchar(2000) DEFAULT NULL,\n" +
                 "        `day_mount_sum` decimal(20,10) DEFAULT NULL\n" +
                 ")");
+
         stmt.close();
         conn.close();
 	}

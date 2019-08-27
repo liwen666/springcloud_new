@@ -8,8 +8,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import vip.dcpay.h2.RunApplication;
+import vip.dcpay.h2.application.User;
 import vip.dcpay.h2.domain.config.H2Config;
 import vip.dcpay.h2.infrastructure.dao.MerchantInfoDao;
 import vip.dcpay.h2.infrastructure.model.MerchantInfo;
@@ -21,6 +25,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 /**
  * author lw
@@ -34,6 +39,8 @@ public class H2Test {
     @Autowired(required = false)
     private MerchantInfoDao merchantInfoDao;
 
+    @Autowired(required = false)
+    private JdbcTemplate jdbcTemplate;
     public DataSource getDataSource() {
         DruidDataSource druidDataSource = new DruidDataSource();
         druidDataSource.setDriverClassName("org.h2.Driver");
@@ -154,5 +161,14 @@ public class H2Test {
     public void insert() {
         int insert = merchantInfoDao.insert(MerchantInfo.builder().uid(10000l).realname("rest").activate_status(1).recv_pay_ways("FSAFDS").build());
         System.out.println(JSON.toJSONString(insert));
+    }
+
+    @Test
+    public void temp() throws IllegalAccessException, InterruptedException {
+        int weixin = jdbcTemplate.update(getInsertSql(MerchantInfo.builder().recv_pay_ways("weixin").uid(123l).build()));
+        List<MerchantInfo> query = jdbcTemplate.query("select * from merchant_info", new BeanPropertyRowMapper(MerchantInfo.class));
+        Thread.sleep(1000);
+        System.out.println(JSON.toJSONString(query.get(0)));
+
     }
 }

@@ -6,7 +6,7 @@
 		<groupId>vip.dcpay</groupId>
 		<artifactId>dcpay_base</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../dcpay_base/pom.xml</relativePath>
+		<!--<relativePath>../dcpay_base/pom.xml</relativePath>-->
 	</parent>
 
 	<artifactId>dcpay_schedule_center1</artifactId>
@@ -48,6 +48,7 @@
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-boot-starter</artifactId>
 		</dependency>
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -58,7 +59,11 @@
 			<artifactId>druid</artifactId>
 			<version>1.1.14</version>
 		</dependency>
-
+		<!-- jdbcTemplate -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
 	</dependencies>
 
 
