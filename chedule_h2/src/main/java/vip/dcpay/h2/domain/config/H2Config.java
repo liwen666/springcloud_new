@@ -58,6 +58,18 @@ public class H2Config implements ApplicationRunner ,ApplicationListener<ContextC
                 "        `day_mount_sum` decimal(20,10) DEFAULT NULL,\n" +
                 "        `day_order_count` bigint(32)  DEFAULT NULL\n" +
                 ")");
+        stmt.execute("DROP TABLE IF EXISTS merchant_info_cache");
+        stmt.execute("  CREATE TABLE `merchant_info_cache` (\n" +
+                "        `id` bigint(32) DEFAULT NULL,\n" +
+                "        `uid` bigint(32) DEFAULT NULL,\n" +
+                "        `type` int(10) DEFAULT NULL,\n" +
+                "        `realname` varchar(255) DEFAULT NULL,\n" +
+                "        `activate_status` int(10) DEFAULT NULL,\n" +
+                "        `recv_pay_ways` varchar(2000) DEFAULT NULL,\n" +
+                "        `assets` varchar(2000) DEFAULT NULL,\n" +
+                "        `day_order_count` bigint(32) DEFAULT NULL,\n" +
+                "        `day_mount_sum` decimal(20,10) DEFAULT NULL\n" +
+                ")");
 
         stmt.close();
         conn.close();

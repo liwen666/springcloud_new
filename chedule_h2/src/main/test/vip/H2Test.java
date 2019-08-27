@@ -6,15 +6,12 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import vip.dcpay.h2.RunApplication;
-import vip.dcpay.h2.application.User;
-import vip.dcpay.h2.domain.config.H2Config;
 import vip.dcpay.h2.domain.dto.AssetInfo;
 import vip.dcpay.h2.domain.dto.DimensionDto;
 import vip.dcpay.h2.domain.pojo.MerchantInfoPojo;
@@ -22,15 +19,11 @@ import vip.dcpay.h2.infrastructure.dao.MerchantInfoCacheDao;
 import vip.dcpay.h2.infrastructure.dao.MerchantInfoDao;
 import vip.dcpay.h2.infrastructure.model.MerchantInfo;
 import vip.dcpay.h2.infrastructure.model.MerchantInfoCache;
-import vip.dcpay.h2.util.StringUtils;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +43,7 @@ public class H2Test {
 
     @Autowired(required = false)
     private JdbcTemplate jdbcTemplate;
+
     public DataSource getDataSource() {
         DruidDataSource druidDataSource = new DruidDataSource();
         druidDataSource.setDriverClassName("org.h2.Driver");
@@ -125,6 +119,7 @@ public class H2Test {
 //                <property name="filters" value="wall,stat"/>
         return druidDataSource;
     }
+
     @Test
     public void testefficient() throws SQLException, IllegalAccessException {
         System.out.println("=========================================================================================");
@@ -165,14 +160,14 @@ public class H2Test {
 //        ResultSet rs = stmt.executeQuery("SELECT * FROM MERCHANT_INFO ");
         ResultSet rs = stmt.executeQuery("SELECT * FROM MERCHANT_INFO limit 100 ");
         //遍历结果集
-            while (rs.next()) {
-                Field[] declaredFields = MerchantInfo.class.getDeclaredFields();
-                for(Field f:declaredFields){
-                    System.out.print(rs.getString(f.getName()));
-                }
+        while (rs.next()) {
+            Field[] declaredFields = MerchantInfo.class.getDeclaredFields();
+            for (Field f : declaredFields) {
+                System.out.print(rs.getString(f.getName()));
             }
-        System.out.println("查询耗时 ：" +(System.currentTimeMillis()-queryStart));
-            System.out.println("=========================================================================================");
+        }
+        System.out.println("查询耗时 ：" + (System.currentTimeMillis() - queryStart));
+        System.out.println("=========================================================================================");
         //释放资源
         stmt.close();
         conn.close();
@@ -180,29 +175,30 @@ public class H2Test {
 
     private String getInsertSql(MerchantInfo build) throws IllegalAccessException {
 //        insert into MERCHANT_INFO (id,uid,type,realname) values (1,11,1,'我')
-            String sql = "insert into MERCHANT_INFO (";
+        String sql = "insert into MERCHANT_INFO (";
         Field[] declaredFields = build.getClass().getDeclaredFields();
-        for(Field f:declaredFields){
-            sql+=f.getName()+",";
+        for (Field f : declaredFields) {
+            sql += f.getName() + ",";
         }
-        sql =sql.substring(0,sql.length()-1)+") values( ";
-        for(Field f:declaredFields){
+        sql = sql.substring(0, sql.length() - 1) + ") values( ";
+        for (Field f : declaredFields) {
             f.setAccessible(true);
-            if(f.getType().getName().equals("java.lang.String")){
-                sql+= "'"+f.get(build)+"',";
+            if (f.getType().getName().equals("java.lang.String")) {
+                sql += "'" + f.get(build) + "',";
                 continue;
             }
-            sql+=f.get(build)+",";
+            sql += f.get(build) + ",";
         }
-        sql =sql.substring(0,sql.length()-1)+")";
+        sql = sql.substring(0, sql.length() - 1) + ")";
         return sql;
     }
 
     @Test
     public void select() {
-        MerchantInfo merchantInfo = merchantInfoDao.selectOne(Wrappers.<MerchantInfo>lambdaQuery().eq(MerchantInfo::getUid,10000).apply( " 1=1 limit 1"));
+        MerchantInfo merchantInfo = merchantInfoDao.selectOne(Wrappers.<MerchantInfo>lambdaQuery().eq(MerchantInfo::getUid, 10000).apply(" 1=1 limit 1"));
         System.out.println(JSON.toJSONString(merchantInfo));
     }
+
     @Test
     public void insert() {
         int insert = merchantInfoDao.insert(MerchantInfo.builder().uid(10000l).realname("rest").activate_status(1).recv_pay_ways("FSAFDS").build());
@@ -222,20 +218,23 @@ public class H2Test {
     @Test
     public void insertObject() throws IllegalAccessException, InterruptedException {
         long startTime = System.currentTimeMillis();
-        for(int i=0;i<100;i++){
-
-
-        jdbcTemplate.update(getInsertSql(MerchantInfo.builder().id(1l+i).uid(100l+i)
-                .recv_pay_ways(JSON.toJSONString(new ArrayList<String>(){{add("weixin");add("zhifubao");}}))
-                .activate_status(1)
-                .realname("test")
-                .assets(JSON.toJSONString(new ArrayList<AssetInfo>(){{add(AssetInfo.builder().accuracy(10).currency("CNY")
-                        .amount(new BigDecimal(10000)).build());}}))
-                .day_mount_sum(new BigDecimal(1000))
-                .day_order_count(10l+i)
-                .type(1).build()));
+        for (int i = 0; i < 100000; i++) {
+            jdbcTemplate.update(getInsertSql(MerchantInfo.builder().id(1l + i).uid(100l + i)
+                    .recv_pay_ways(JSON.toJSONString(new ArrayList<String>() {{
+                        add("weixin");
+                        add("zhifubao");
+                    }}))
+                    .activate_status(1)
+                    .realname("test")
+                    .assets(JSON.toJSONString(new ArrayList<AssetInfo>() {{
+                        add(AssetInfo.builder().accuracy(10).currency("CNY")
+                                .amount(new BigDecimal(10000)).build());
+                    }}))
+                    .day_mount_sum(new BigDecimal(1000))
+                    .day_order_count(10l + i)
+                    .type(1).build()));
         }
-        System.out.println("======添加数据耗时  "+(System.currentTimeMillis()-startTime)+"ms");
+        System.out.println("======添加数据耗时  " + (System.currentTimeMillis() - startTime) + "ms");
         List<MerchantInfo> query = jdbcTemplate.query("select * from merchant_info", new BeanPropertyRowMapper(MerchantInfo.class));
         Thread.sleep(1000);
         System.out.println(JSON.toJSONString(query.get(0)));
@@ -243,10 +242,67 @@ public class H2Test {
 
     }
 
+    @Test
+    public void insertObjectBatch() throws IllegalAccessException, InterruptedException {
+        long startTime = System.currentTimeMillis();
+        List<MerchantInfo> merchantInfos = new ArrayList<>();
+        for (int i = 0; i < 100000; i++) {
+            merchantInfos.add(MerchantInfo.builder().id(1l + i).uid(100l + i)
+                    .recv_pay_ways(JSON.toJSONString(new ArrayList<String>() {{
+                        add("weixin");
+                        add("zhifubao");
+                    }}))
+                    .activate_status(1)
+                    .realname("test")
+                    .assets(JSON.toJSONString(new ArrayList<AssetInfo>() {{
+                        add(AssetInfo.builder().accuracy(10).currency("CNY")
+                                .amount(new BigDecimal(10000)).build());
+                    }}))
+                    .day_mount_sum(new BigDecimal(1000))
+                    .day_order_count(10l + i)
+                    .type(1).build());
+        }
+        addByBatch(merchantInfos);
+        System.out.println("======添加数据耗时  " + (System.currentTimeMillis() - startTime) + "ms");
+        List<MerchantInfo> query = jdbcTemplate.query("select * from merchant_info", new BeanPropertyRowMapper(MerchantInfo.class));
+        Thread.sleep(1000);
+        System.out.println(JSON.toJSONString(query.size()));
+
+
+    }
+
+    private void addByBatch(List<MerchantInfo> merchantInfos) {
+        {
+            final List<MerchantInfo> tempBpplist = merchantInfos;
+            String sql = "insert into MERCHANT_INFO (id,uid,type,realname,activate_status,recv_pay_ways,assets,day_mount_sum,day_order_count)" +
+                    " values( ?,?,?,?,?,?,?,?,?)";
+            jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+
+                @Override
+                public int getBatchSize() {
+                    return tempBpplist.size();
+                }
+
+                @Override
+                public void setValues(PreparedStatement ps, int i)
+                        throws SQLException {
+                    ps.setLong(1, tempBpplist.get(i).getId());
+                    ps.setLong(2, tempBpplist.get(i).getUid());
+                    ps.setInt(3, tempBpplist.get(i).getType());
+                    ps.setString(4, tempBpplist.get(i).getRealname());
+                    ps.setInt(5, tempBpplist.get(i).getActivate_status());
+                    ps.setString(6, tempBpplist.get(i).getRecv_pay_ways());
+                    ps.setString(7,tempBpplist.get(i).getAssets());
+                    ps.setBigDecimal(8,tempBpplist.get(i).getDay_mount_sum());
+                    ps.setLong(9,tempBpplist.get(i).getDay_order_count());
+                }
+            });
+        }
+    }
 
     @Test
     public void conversion() {
-        MerchantInfo build = MerchantInfo.builder().id(100000l).uid(100l )
+        MerchantInfo build = MerchantInfo.builder().id(100000l).uid(100l)
                 .recv_pay_ways(JSON.toJSONString(new ArrayList<String>() {{
                     add("weixin");
                     add("zhifubao");
@@ -262,52 +318,115 @@ public class H2Test {
                 .type(1).build();
         merchantInfoDao.insert(build);
     }
+
     @Test
     public void merchantInfoCache() {
-        for(int i=0;i<10000;i++){
-            MerchantInfoCache build = MerchantInfoCache.builder().id(100000l+i).uid(100l +i)
+        long startTime = System.currentTimeMillis();
+        for (int i = 0; i < 100000; i++) {
+            MerchantInfoCache build = MerchantInfoCache.builder().id(100000l + i).uid(100l + i)
                     .recvPayWays(JSON.toJSONString(new ArrayList<String>() {{
                         add("weixin");
                         add("zhifubao");
                     }}))
                     .activateStatus(1)
-                    .realname("test"+i)
+                    .realname("test" + i)
                     .assets(JSON.toJSONString(new ArrayList<AssetInfo>() {{
                         add(AssetInfo.builder().accuracy(10).currency("CNY")
                                 .amount(new BigDecimal(10000)).build());
                     }}))
                     .dayMountSum(new BigDecimal(1000))
-                    .dayOrderCount(10l+i)
+                    .dayOrderCount(10l + i)
                     .type(1).build();
             merchantInfoCacheDao.insert(build);
         }
-
+        System.out.println("===耗时" + (System.currentTimeMillis() - startTime) + "ms");
         List<MerchantInfoCache> merchantInfoCaches = merchantInfoCacheDao.selectList(Wrappers.<MerchantInfoCache>lambdaQuery().eq(MerchantInfoCache::getType, 1));
     }
+
     @Test
     public void queryMerchantInfo() {
         long startTime = System.currentTimeMillis();
         List<MerchantInfoCache> merchantInfoCaches = merchantInfoCacheDao.selectList(Wrappers.<MerchantInfoCache>lambdaQuery().eq(MerchantInfoCache::getType, 1));
         System.out.println(JSON.toJSONString(merchantInfoCaches));
         List<MerchantInfoPojo> merchantInfoPojos = conversionToPojo(merchantInfoCaches);
-        System.out.println("=====查询商户信息耗时"+(System.currentTimeMillis()-startTime)+"ms");
+        System.out.println("=====查询商户信息耗时" + (System.currentTimeMillis() - startTime) + "ms");
         System.out.println(merchantInfoPojos.size());
 
 
     }
 
-    public List<MerchantInfoPojo> conversionToPojo( List<MerchantInfoCache> merchantInfoCaches){
-            List<MerchantInfoPojo> merchantInfoPojos = new ArrayList<>();
-            for(MerchantInfoCache merchant:merchantInfoCaches){
+    public List<MerchantInfoPojo> conversionToPojo(List<MerchantInfoCache> merchantInfoCaches) {
+        List<MerchantInfoPojo> merchantInfoPojos = new ArrayList<>();
+        for (MerchantInfoCache merchant : merchantInfoCaches) {
             merchantInfoPojos.add(MerchantInfoPojo.builder().activateStatus(merchant.getActivateStatus())
-                    .assets(JSON.parseArray(merchant.getAssets(),AssetInfo.class))
+                    .assets(JSON.parseArray(merchant.getAssets(), AssetInfo.class))
                     .dimension(DimensionDto.builder().dayAmountSum(merchant.getDayMountSum()).dayOrderCount(merchant.getDayOrderCount()).merchantId(merchant.getUid()).build())
                     .id(merchant.getId())
                     .realname(merchant.getRealname())
-                    .recvPayways(JSON.parseArray(merchant.getRecvPayWays(),String.class))
+                    .recvPayways(JSON.parseArray(merchant.getRecvPayWays(), String.class))
                     .type(merchant.getType())
-                    .uid(merchant.getUid()+"").build());
-            }
+                    .uid(merchant.getUid() + "").build());
+        }
         return merchantInfoPojos;
+    }
+
+
+    @Test
+    public void batchInsert() throws SQLException {
+        long startTime = System.currentTimeMillis();
+        List<MerchantInfo> merchantInfos = new ArrayList<>();
+        for (int i = 0; i < 100000; i++) {
+            merchantInfos.add(MerchantInfo.builder().id(1l + i).uid(100l + i)
+                    .recv_pay_ways(JSON.toJSONString(new ArrayList<String>() {{
+                        add("weixin");
+                        add("zhifubao");
+                    }}))
+                    .activate_status(1)
+                    .realname("test")
+                    .assets(JSON.toJSONString(new ArrayList<AssetInfo>() {{
+                        add(AssetInfo.builder().accuracy(10).currency("CNY")
+                                .amount(new BigDecimal(10000)).build());
+                    }}))
+                    .day_mount_sum(new BigDecimal(1000))
+                    .day_order_count(10l + i)
+                    .type(1).build());
+        }
+        List<Integer> integers = addProduct(merchantInfos);
+        System.out.println("===耗时" + (System.currentTimeMillis() - startTime) + "ms");
+    }
+
+    public List<Integer> addProduct(List<MerchantInfo> expList) throws SQLException {
+
+        final List<MerchantInfo> tempBpplist = expList;
+
+        String sql = "insert into MERCHANT_INFO (id,uid,type,realname,activate_status,recv_pay_ways,assets,day_mount_sum,day_order_count)" +
+                " values( ?,?,?,?,?,?,?,?,?)";
+        Connection con = jdbcTemplate.getDataSource().getConnection();
+        con.setAutoCommit(false);
+        PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        for (MerchantInfo n : tempBpplist) {
+            ps.setLong(1, n.getId());
+            ps.setLong(2, n.getUid());
+            ps.setInt(3, n.getType());
+            ps.setString(4, n.getRealname());
+            ps.setInt(5, n.getActivate_status());
+            ps.setString(6, n.getRecv_pay_ways());
+            ps.setString(7,n.getAssets());
+            ps.setBigDecimal(8,n.getDay_mount_sum());
+            ps.setLong(9,n.getDay_order_count());
+            ps.addBatch();
+        }
+        ps.executeBatch();
+        con.commit();
+//        ResultSet rs = ps.getGeneratedKeys(); //获取结果
+        List<Integer> list = new ArrayList<Integer>();
+//        while(rs.next()) {
+//            list.add(rs.getInt(1));//取得ID
+//        }
+        con.close();
+        ps.close();
+//        rs.close();
+        return list;
+
     }
 }
