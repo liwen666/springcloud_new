@@ -16,8 +16,12 @@ import vip.dcpay.h2.RunApplication;
 import vip.dcpay.h2.application.User;
 import vip.dcpay.h2.domain.config.H2Config;
 import vip.dcpay.h2.domain.dto.AssetInfo;
+import vip.dcpay.h2.domain.dto.DimensionDto;
+import vip.dcpay.h2.domain.pojo.MerchantInfoPojo;
+import vip.dcpay.h2.infrastructure.dao.MerchantInfoCacheDao;
 import vip.dcpay.h2.infrastructure.dao.MerchantInfoDao;
 import vip.dcpay.h2.infrastructure.model.MerchantInfo;
+import vip.dcpay.h2.infrastructure.model.MerchantInfoCache;
 import vip.dcpay.h2.util.StringUtils;
 
 import javax.sql.DataSource;
@@ -41,6 +45,8 @@ import java.util.List;
 public class H2Test {
     @Autowired(required = false)
     private MerchantInfoDao merchantInfoDao;
+    @Autowired(required = false)
+    private MerchantInfoCacheDao merchantInfoCacheDao;
 
     @Autowired(required = false)
     private JdbcTemplate jdbcTemplate;
@@ -237,6 +243,7 @@ public class H2Test {
 
     }
 
+
     @Test
     public void conversion() {
         MerchantInfo build = MerchantInfo.builder().id(100000l).uid(100l )
@@ -254,5 +261,53 @@ public class H2Test {
                 .day_order_count(10l)
                 .type(1).build();
         merchantInfoDao.insert(build);
+    }
+    @Test
+    public void merchantInfoCache() {
+        for(int i=0;i<10000;i++){
+            MerchantInfoCache build = MerchantInfoCache.builder().id(100000l+i).uid(100l +i)
+                    .recvPayWays(JSON.toJSONString(new ArrayList<String>() {{
+                        add("weixin");
+                        add("zhifubao");
+                    }}))
+                    .activateStatus(1)
+                    .realname("test"+i)
+                    .assets(JSON.toJSONString(new ArrayList<AssetInfo>() {{
+                        add(AssetInfo.builder().accuracy(10).currency("CNY")
+                                .amount(new BigDecimal(10000)).build());
+                    }}))
+                    .dayMountSum(new BigDecimal(1000))
+                    .dayOrderCount(10l+i)
+                    .type(1).build();
+            merchantInfoCacheDao.insert(build);
+        }
+
+        List<MerchantInfoCache> merchantInfoCaches = merchantInfoCacheDao.selectList(Wrappers.<MerchantInfoCache>lambdaQuery().eq(MerchantInfoCache::getType, 1));
+    }
+    @Test
+    public void queryMerchantInfo() {
+        long startTime = System.currentTimeMillis();
+        List<MerchantInfoCache> merchantInfoCaches = merchantInfoCacheDao.selectList(Wrappers.<MerchantInfoCache>lambdaQuery().eq(MerchantInfoCache::getType, 1));
+        System.out.println(JSON.toJSONString(merchantInfoCaches));
+        List<MerchantInfoPojo> merchantInfoPojos = conversionToPojo(merchantInfoCaches);
+        System.out.println("=====查询商户信息耗时"+(System.currentTimeMillis()-startTime)+"ms");
+        System.out.println(merchantInfoPojos.size());
+
+
+    }
+
+    public List<MerchantInfoPojo> conversionToPojo( List<MerchantInfoCache> merchantInfoCaches){
+            List<MerchantInfoPojo> merchantInfoPojos = new ArrayList<>();
+            for(MerchantInfoCache merchant:merchantInfoCaches){
+            merchantInfoPojos.add(MerchantInfoPojo.builder().activateStatus(merchant.getActivateStatus())
+                    .assets(JSON.parseArray(merchant.getAssets(),AssetInfo.class))
+                    .dimension(DimensionDto.builder().dayAmountSum(merchant.getDayMountSum()).dayOrderCount(merchant.getDayOrderCount()).merchantId(merchant.getUid()).build())
+                    .id(merchant.getId())
+                    .realname(merchant.getRealname())
+                    .recvPayways(JSON.parseArray(merchant.getRecvPayWays(),String.class))
+                    .type(merchant.getType())
+                    .uid(merchant.getUid()+"").build());
+            }
+        return merchantInfoPojos;
     }
 }
