@@ -1,7 +1,5 @@
 package vip.dcpay.h2.infrastructure.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,13 +16,13 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MerchantInfo {
+public class MerchantCacheInfo {
 
     /**
      * 主键ID
      */
-    @TableId(value = "id", type = IdType.INPUT)
-    private Long id;
+//  @TableId(value = "id", type = IdType.UUID
+    private long id;
     private Long uid;
     //普通，批发商
     private Integer type;
@@ -33,6 +31,6 @@ public class MerchantInfo {
     private String recv_pay_ways;
     private String assets;
     private BigDecimal day_mount_sum;
-    private Long day_order_count;
+    private long day_order_count;
 
 }

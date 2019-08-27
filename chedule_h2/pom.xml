@@ -9,9 +9,9 @@
 		<!--<relativePath>../dcpay_base/pom.xml</relativePath>-->
 	</parent>
 
-	<artifactId>dcpay_schedule_center1</artifactId>
+	<artifactId>h2_service</artifactId>
 	<packaging>war</packaging>
-	<name>钻石支付.缓存数据库</name>
+	<name>h2服务</name>
 
 	<properties>
 		<failOnMissingWebXml>false</failOnMissingWebXml>

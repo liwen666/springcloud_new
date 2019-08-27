@@ -15,8 +15,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import vip.dcpay.h2.RunApplication;
 import vip.dcpay.h2.application.User;
 import vip.dcpay.h2.domain.config.H2Config;
+import vip.dcpay.h2.domain.dto.AssetInfo;
 import vip.dcpay.h2.infrastructure.dao.MerchantInfoDao;
 import vip.dcpay.h2.infrastructure.model.MerchantInfo;
+import vip.dcpay.h2.util.StringUtils;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Field;
@@ -25,6 +27,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -202,10 +205,54 @@ public class H2Test {
 
     @Test
     public void temp() throws IllegalAccessException, InterruptedException {
-        int weixin = jdbcTemplate.update(getInsertSql(MerchantInfo.builder().recv_pay_ways("weixin").uid(123l).build()));
+        int weixin = jdbcTemplate.update(getInsertSql(MerchantInfo.builder().id(100l).recv_pay_ways("weixin").uid(123l).build()));
         List<MerchantInfo> query = jdbcTemplate.query("select * from merchant_info", new BeanPropertyRowMapper(MerchantInfo.class));
         Thread.sleep(1000);
         System.out.println(JSON.toJSONString(query.get(0)));
 
+    }
+
+
+    @Test
+    public void insertObject() throws IllegalAccessException, InterruptedException {
+        long startTime = System.currentTimeMillis();
+        for(int i=0;i<100;i++){
+
+
+        jdbcTemplate.update(getInsertSql(MerchantInfo.builder().id(1l+i).uid(100l+i)
+                .recv_pay_ways(JSON.toJSONString(new ArrayList<String>(){{add("weixin");add("zhifubao");}}))
+                .activate_status(1)
+                .realname("test")
+                .assets(JSON.toJSONString(new ArrayList<AssetInfo>(){{add(AssetInfo.builder().accuracy(10).currency("CNY")
+                        .amount(new BigDecimal(10000)).build());}}))
+                .day_mount_sum(new BigDecimal(1000))
+                .day_order_count(10l+i)
+                .type(1).build()));
+        }
+        System.out.println("======添加数据耗时  "+(System.currentTimeMillis()-startTime)+"ms");
+        List<MerchantInfo> query = jdbcTemplate.query("select * from merchant_info", new BeanPropertyRowMapper(MerchantInfo.class));
+        Thread.sleep(1000);
+        System.out.println(JSON.toJSONString(query.get(0)));
+
+
+    }
+
+    @Test
+    public void conversion() {
+        MerchantInfo build = MerchantInfo.builder().id(100000l).uid(100l )
+                .recv_pay_ways(JSON.toJSONString(new ArrayList<String>() {{
+                    add("weixin");
+                    add("zhifubao");
+                }}))
+                .activate_status(1)
+                .realname("test")
+                .assets(JSON.toJSONString(new ArrayList<AssetInfo>() {{
+                    add(AssetInfo.builder().accuracy(10).currency("CNY")
+                            .amount(new BigDecimal(10000)).build());
+                }}))
+                .day_mount_sum(new BigDecimal(1000))
+                .day_order_count(10l)
+                .type(1).build();
+        merchantInfoDao.insert(build);
     }
 }

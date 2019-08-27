@@ -48,13 +48,15 @@ public class H2Config implements ApplicationRunner ,ApplicationListener<ContextC
         stmt.execute("DROP TABLE IF EXISTS merchant_info");
         //创建USER_INFO表
         stmt.execute("  CREATE TABLE `merchant_info` (\n" +
+                "        `id` bigint(32) DEFAULT NULL,\n" +
                 "        `uid` bigint(32) DEFAULT NULL,\n" +
                 "        `type` int(10) DEFAULT NULL,\n" +
                 "        `realname` varchar(255) DEFAULT NULL,\n" +
                 "        `activate_status` int(10) DEFAULT NULL,\n" +
                 "        `recv_pay_ways` varchar(2000) DEFAULT NULL,\n" +
                 "        `assets` varchar(2000) DEFAULT NULL,\n" +
-                "        `day_mount_sum` decimal(20,10) DEFAULT NULL\n" +
+                "        `day_mount_sum` decimal(20,10) DEFAULT NULL,\n" +
+                "        `day_order_count` bigint(32)  DEFAULT NULL\n" +
                 ")");
 
         stmt.close();
