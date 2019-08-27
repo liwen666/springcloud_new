@@ -39,7 +39,7 @@ public class H2Config implements ApplicationRunner ,ApplicationListener<ContextC
     @Override
 	public void run(ApplicationArguments args) throws Exception {
         System.out.println("=======================================初始化表结构==================================================");
-        DataSource dataSource = SpringContextUtil.getBean(DataSource.class);
+        DataSource dataSource = SpringContextUtil.getBean("dataSource",DataSource.class);
         Connection conn = dataSource.getConnection();
         Statement stmt = conn.createStatement();
         long startTime = System.currentTimeMillis();

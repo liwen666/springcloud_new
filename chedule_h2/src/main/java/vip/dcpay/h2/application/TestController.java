@@ -2,6 +2,7 @@ package vip.dcpay.h2.application;
 
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +25,11 @@ import java.util.Map;
 public class TestController {
 
     @Autowired
+    @Qualifier("jdbcTemplate")
     private JdbcTemplate jdbcTemplate;
-
+    @Autowired
+    @Qualifier("mysqlJdbcTemplate")
+    private JdbcTemplate mysqlTemplate;
     //http://localhost:8888/createTable
     @GetMapping("test/test")
     public String createTable() throws IllegalAccessException {
@@ -34,6 +38,13 @@ public class TestController {
             System.out.println(JSON.toJSONString(query.get(0)));
             return JSON.toJSONString(query);
     }
+    @GetMapping("test/mysql")
+    public String mysql() throws IllegalAccessException {
+        List<Map<String, Object>> maps = mysqlTemplate.queryForList("select * from merchant_group");
+        System.out.println(JSON.toJSONString(maps.get(0)));
+        return JSON.toJSONString(maps);
+    }
+
 
     private String getInsertSql(MerchantInfo build) throws IllegalAccessException {
 //        insert into MERCHANT_INFO (id,uid,type,realname) values (1,11,1,'我')
