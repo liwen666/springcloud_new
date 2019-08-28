@@ -10,7 +10,6 @@ import org.springframework.amqp.rabbit.support.CorrelationData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
@@ -382,4 +381,57 @@ public class MessageSender {
         log.info("Already sent message");
 
     }
+
+    public void aletrMerchant(MessageBasic messageBasic) {
+
+
+            CorrelationData correlationId=new CorrelationData(UUID.randomUUID().toString());
+            // ConfirmListener是当消息无法发送到Exchange被触发，此时Ack为False，这时cause包含发送失败的原因，例如exchange不存在时
+            // 需要在系统配置文件中设置 publisher-confirms: true
+            if(!rabbitTemplate.isConfirmListener()){
+                rabbitTemplate.setConfirmCallback(((correlationData, ack, cause) -> {
+                    if(ack){
+                        log.info(">>>>>>> 消息id:{} 发送成功", correlationData.getId());
+                    }else {
+                        log.info(">>>>>>> 消息id:{} 发送失败", correlationData.getId());
+                    }
+                }));
+            }
+
+            // ReturnCallback 是在交换器无法将路由键路由到任何一个队列中，会触发这个方法。
+            // 需要在系统配置文件中设置 publisher-returns: true
+            rabbitTemplate.setReturnCallback(((message, replyCode, replyText, exchange, routingKey) -> {
+                log.info("消息id:{} 发送失败",message.getMessageProperties().getCorrelationId());
+            }));
+            rabbitTemplate.convertAndSend(NamesConstant.toBusinessMerchantExchange,NamesConstant.toNotifyBusinessMerchantChangeKey_KEY,JSON.toJSONString(messageBasic), correlationId);
+            log.info("Already sent message");
+
+
+    }
+
+    public void aletrMerchantAsset(MessageBasic messageBasic) {
+        CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
+        // ConfirmListener是当消息无法发送到Exchange被触发，此时Ack为False，这时cause包含发送失败的原因，例如exchange不存在时
+        // 需要在系统配置文件中设置 publisher-confirms: true
+        if (!rabbitTemplate.isConfirmListener()) {
+            rabbitTemplate.setConfirmCallback(((correlationData, ack, cause) -> {
+                if (ack) {
+                    log.info(">>>>>>> 消息id:{} 发送成功", correlationData.getId());
+                } else {
+                    log.info(">>>>>>> 消息id:{} 发送失败", correlationData.getId());
+                }
+            }));
+        }
+
+        // ReturnCallback 是在交换器无法将路由键路由到任何一个队列中，会触发这个方法。
+        // 需要在系统配置文件中设置 publisher-returns: true
+        rabbitTemplate.setReturnCallback(((message, replyCode, replyText, exchange, routingKey) -> {
+            log.info("消息id:{} 发送失败", message.getMessageProperties().getCorrelationId());
+        }));
+        rabbitTemplate.convertAndSend("alterAssetExchange", "toAlterAssetNotifyKey", JSON.toJSONString(messageBasic), correlationId);
+        log.info("Already sent message");
+
+    }
+
+
 }
