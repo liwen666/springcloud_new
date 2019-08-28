@@ -266,10 +266,10 @@ public class H2Test {
                     .day_order_count(10l + i)
                     .type(1).build());
         }
-        List<List<MerchantInfo>> lists = MySubTUtil.subList(merchantInfos, 100);
+        List<List<MerchantInfo>> lists = MySubTUtil.subList(merchantInfos, 10);
         Mytask task = new Mytask(lists);
-        ExecutorService es = Executors.newFixedThreadPool(100);//创建固定大小的线程
-        for(int i=0;i<100;i++){
+        ExecutorService es = Executors.newFixedThreadPool(10);//创建固定大小的线程
+        for(int i=0;i<10;i++){
             //线程池可以 处理Callablel类型的任务  获取返回值
             /**
              * 线程是5个5个的执行任务
@@ -279,7 +279,9 @@ public class H2Test {
             es.execute(task);
 
         }
-        Thread.sleep(20000);
+        while(task.getDown().get()!=10){
+        }
+        es.shutdown();
         System.out.println("======添加数据耗时  " + (System.currentTimeMillis() - startTime) + "ms");
         List<MerchantInfo> query = jdbcTemplate.query("select * from merchant_info", new BeanPropertyRowMapper(MerchantInfo.class));
         System.out.println(JSON.toJSONString(query.size()));
@@ -289,7 +291,8 @@ public class H2Test {
     class Mytask implements Runnable{
 
         private final List<List<MerchantInfo>> merchantInfos;
-        public  AtomicInteger i = new AtomicInteger(0);
+        private  AtomicInteger i = new AtomicInteger(0);
+        private AtomicInteger down = new AtomicInteger(0);
 
         public Mytask(List<List<MerchantInfo>> merchantInfos) {
             this.merchantInfos = merchantInfos;
@@ -297,10 +300,14 @@ public class H2Test {
 
         @Override
         public void run() {
-            int i = this.i.incrementAndGet();
-            System.out.println(i);
+            System.out.println(this.i);
             System.out.println(System.currentTimeMillis()+":thread ID:"+Thread.currentThread().getId());
-                addByBatch(merchantInfos.get(i-1));
+                addByBatch(merchantInfos.get(this.i.getAndIncrement()));
+            down.incrementAndGet();
+        }
+
+        public AtomicInteger getDown() {
+            return down;
         }
     }
 
