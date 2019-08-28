@@ -26,7 +26,7 @@ public class MerchantRabbitMQConfig {
 //    public static final String COMMISSION_ROUTING_KEY = NamesConstant.toOrderFinish_KEY;
     @Bean
     public Queue queue1() {
-        //是否持久化
+        //是否持久化  程序停止是否销毁队列
         boolean durable = true;
         //仅创建者可以使用的私有队列，断开后自动删除
         boolean exclusive = false;
