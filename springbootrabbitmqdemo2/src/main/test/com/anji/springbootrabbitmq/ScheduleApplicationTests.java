@@ -47,7 +47,7 @@ public class ScheduleApplicationTests {
     public void sendScheduleAuto() throws InterruptedException {
 //		sender.sendScheduleAuto(10,true);
 //		for(int i=0;i<10;i++){
-			sender.sendScheduleAuto("605706285423968256",10,true);
+			sender.sendScheduleAuto("P616757008978853888",10,true);
 //        sender.sendScheduleAuto("605706285423968256", 10, false);
         Thread.sleep(3000);
 //		}

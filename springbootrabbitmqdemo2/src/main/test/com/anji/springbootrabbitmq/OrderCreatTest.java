@@ -32,4 +32,9 @@ public class OrderCreatTest {
         Response response = client.newCall(request).execute();
         System.out.println(JSON.toJSONString(response.body().string()));
     }
+
+    @Test
+    public void businessChangeOrder() {
+
+    }
 }
