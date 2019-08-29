@@ -18,65 +18,17 @@ import java.util.ArrayList;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SpringbootrabbitmqApplicationTests {
+public class MerchantApplicationTests {
 
     @Autowired
     private MessageSender sender;
-
-
-    @Test
-    public void testReceiver() throws InterruptedException {
-        sender.send();
-    }
-
-    @Test
-    public void testReceiver2() throws InterruptedException {
-        sender.send2();
-    }
-
-    @Test
-    public void contextLoads() {
-    }
-
-    @Test
-    public void sendSchedule() throws InterruptedException {
-        sender.sendSchedule();
-    }
-
-    @Test
-    public void sendScheduleAuto() throws InterruptedException {
-//		sender.sendScheduleAuto(10,true);
-//		for(int i=0;i<10;i++){
-//			sender.sendScheduleAuto("605706285423968256",10,true);
-        sender.sendScheduleAuto("605706285423968256", 10, false);
-        Thread.sleep(3000);
-//		}
-
-//		推送这个商户可以完成推送  111111
-    }
-
-    @Test
-    public void testReceivertest() throws InterruptedException {
-        sender.test();
-    }
-
-
-    @Test
-    public void testMerchant() throws InterruptedException {
-        sender.testMerchant();
-    }
-
-    @Test
-    public void testMerchantPro() throws InterruptedException {
-        sender.testMerchantPro();
-    }
 
     @Test
     public void aletrMerchant() throws InterruptedException {
         MerchantAlterItemEnum[] values = MerchantAlterItemEnum.values();
         for (MerchantAlterItemEnum merchantAlterItemEnum : values) {
             MessageBasic messageBasic = new MessageBasic();
-            messageBasic.setBody(JSON.toJSONString(MerchantAlterMsgDto.builder().merchantId(5l).alterItem(merchantAlterItemEnum).build()));
+            messageBasic.setBody(JSON.toJSONString(MerchantAlterMsgDto.builder().merchantId(1l).alterItem(merchantAlterItemEnum).build()));
             sender.aletrMerchant(messageBasic);
         }
 
@@ -99,10 +51,10 @@ public class SpringbootrabbitmqApplicationTests {
     @Test
     public void aletrMerchantOne() throws InterruptedException {
         MessageBasic messageBasic = new MessageBasic();
-//        messageBasic.setBody(JSON.toJSONString(MerchantAlterMsgDto.builder().merchantId(1l).alterItem(MerchantAlterItemEnum.REALNAME).build()));
-        messageBasic.setBody(JSON.toJSONString(MerchantAlterMsgDto.builder().merchantId(1l).alterItem(MerchantAlterItemEnum.DIMENSION_DATA).build()));
+        messageBasic.setBody(JSON.toJSONString(MerchantAlterMsgDto.builder().merchantId(1l).alterItem(MerchantAlterItemEnum.REALNAME).build()));
         sender.aletrMerchant(messageBasic);
     }
+
 
 
 }
