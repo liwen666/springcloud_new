@@ -177,7 +177,7 @@ public class H2Test {
         conn.close();
     }
 
-    private String getInsertSql(MerchantInfo build) throws IllegalAccessException {
+    public static  String getInsertSql(MerchantInfo build) throws IllegalAccessException {
 //        insert into MERCHANT_INFO (id,uid,type,realname) values (1,11,1,'我')
         String sql = "insert into MERCHANT_INFO (";
         Field[] declaredFields = build.getClass().getDeclaredFields();
