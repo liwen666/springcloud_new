@@ -63,10 +63,19 @@ public class H2Config implements ApplicationRunner ,ApplicationListener<ContextC
                 "        `id` bigint(32) DEFAULT NULL,\n" +
                 "        `uid` bigint(32) DEFAULT NULL,\n" +
                 "        `type` int(10) DEFAULT NULL,\n" +
+                "        `grab` int(1) DEFAULT NULL,\n" +
+                "        `player_deposit` int(1) DEFAULT NULL,\n" +
+                "        `platform_withdraw` int(1) DEFAULT NULL,\n" +
+                "        `merchant_deposit` int(1) DEFAULT NULL,\n" +
+                "        `merchant_withdraw` int(1) DEFAULT NULL,\n" +
                 "        `realname` varchar(255) DEFAULT NULL,\n" +
                 "        `activate_status` int(10) DEFAULT NULL,\n" +
-                "        `recv_pay_ways` varchar(2000) DEFAULT NULL,\n" +
-                "        `assets` varchar(2000) DEFAULT NULL,\n" +
+//                    "        `payments` CLOB (6000) DEFAULT NULL,\n" +
+//                    "        `payment_choices` CLOB (6000) DEFAULT NULL,\n" +
+//                    "        `assets` CLOB(6000) DEFAULT NULL,\n" +
+                "        `payments` varchar (255) DEFAULT NULL,\n" +
+                "        `payment_choices` varchar (255) DEFAULT NULL,\n" +
+                "        `assets` varchar(1000) DEFAULT NULL,\n" +
                 "        `day_order_count` bigint(32) DEFAULT NULL,\n" +
                 "        `day_mount_sum` decimal(20,10) DEFAULT NULL\n" +
                 ")");
