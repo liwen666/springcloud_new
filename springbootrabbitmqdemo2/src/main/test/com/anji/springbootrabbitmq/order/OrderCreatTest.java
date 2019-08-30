@@ -18,15 +18,21 @@ public class OrderCreatTest {
         int model = 4;
         int pay = 3;
         for (int i = 0; i < 2000; i++) {
-            Thread.sleep(10000);
-            orderCreatTest.createOrder(OrderInfo.builder().amount(new BigDecimal(i))
+            Thread.sleep(20000);
+            OrderInfo cny = OrderInfo.builder().amount(new BigDecimal(i+1))
                     .currency("CNY")
-                    .jUserId(1)
+                    .jUserId(i)
                     .jUserIp("192.168.1.11")
-                    .orderType(i % model + 1)
+//                    .orderType(i % model + 1)
+                    .orderType(i%2==0?1:3)
                     .payWay(getPay(i % pay))
                     .platformId(2)
-                    .build());
+                    .build();
+            System.out.println("==============================================订单类型===========================================");
+            System.out.println(JSON.toJSONString(cny));
+            System.out.println("==============================================订单类型===========================================");
+
+            orderCreatTest.createOrder(cny);
         }
     }
 
@@ -53,8 +59,9 @@ public class OrderCreatTest {
         OkHttpClient client = new OkHttpClient();
 
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-//        RequestBody body = RequestBody.create(mediaType, "platformId=2&jUserId=1&jUserIp=192.168.1.11&jOrderId=500000006&orderType=1&amount=2220&currency=CNY&notifyUrl=http%3A%2F%2FnotifyUrl%2F&jExtra=%E6%B5%8B%E8%AF%95&payWay=AliPay");
-        RequestBody body = RequestBody.create(mediaType, "platformId="+orderInfo.getPlatformId()+"&jUserId="+orderInfo.getJUserId()+"&jUserIp=192.168.1.11&jOrderId=" + FileIdGenerator.getNext() + "&orderType="+orderInfo.getOrderType()+"&amount="+orderInfo.getAmount()+"&currency=CNY&notifyUrl=http://notifyUrl/&jExtra=测试&payWay="+orderInfo.getPayWay()+"");
+        RequestBody body = RequestBody.create(mediaType, "platformId=2&jUserId=1&jUserIp=192.168.1.11&jOrderId="+FileIdGenerator.getNext()+"&orderType=1&amount=2220&currency=CNY&notifyUrl=http%3A%2F%2FnotifyUrl%2F&jExtra=%E6%B5%8B%E8%AF%95&payWay=AliPay");
+        //WechatPay
+//        RequestBody body = RequestBody.create(mediaType, "platformId="+orderInfo.getPlatformId()+"&jUserId="+orderInfo.getJUserId()+"&jUserIp=192.168.1.11&jOrderId=" + FileIdGenerator.getNext() + "&orderType="+orderInfo.getOrderType()+"&amount="+orderInfo.getAmount()+"&currency=CNY&notifyUrl=http://notifyUrl/&jExtra=测试&payWay="+orderInfo.getPayWay());
         Request request = new Request.Builder()
                 .url("http://tcapi.dcpay.com:81/dcpay_exapi/v1/test/createOrder")
                 .post(body)
