@@ -5,6 +5,7 @@ import okhttp3.*;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 /**
  * author lw
@@ -14,22 +15,46 @@ import java.io.IOException;
 public class OrderCreatTest {
     public static void main(String[] args) throws InterruptedException, IOException, IllegalAccessException, InstantiationException {
         OrderCreatTest orderCreatTest = OrderCreatTest.class.newInstance();
-        for(int i=0;i<2000;i++){
-            Thread.sleep(20000);
-            orderCreatTest.createOrder();
+        int model = 4;
+        int pay = 3;
+        for (int i = 0; i < 2000; i++) {
+            Thread.sleep(10000);
+            orderCreatTest.createOrder(OrderInfo.builder().amount(new BigDecimal(i))
+                    .currency("CNY")
+                    .jUserId(1)
+                    .jUserIp("192.168.1.11")
+                    .orderType(i % model + 1)
+                    .payWay(getPay(i % pay))
+                    .platformId(2)
+                    .build());
         }
     }
 
-    @Test
+    private static String getPay(int i) {
+        switch (i) {
+            case 0:
+                return "AliPay";
+            case 1:
+                return "WechatPay";
+            case 2:
+                return "Bankcard";
+            default:
+                return "WechatPay";
+        }
+
+    }
+
+//    @Test
+
     /**
      * 创建订单
      */
-    public void createOrder() throws IOException {
+    public void createOrder(OrderInfo orderInfo) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
 //        RequestBody body = RequestBody.create(mediaType, "platformId=2&jUserId=1&jUserIp=192.168.1.11&jOrderId=500000006&orderType=1&amount=2220&currency=CNY&notifyUrl=http%3A%2F%2FnotifyUrl%2F&jExtra=%E6%B5%8B%E8%AF%95&payWay=AliPay");
-        RequestBody body = RequestBody.create(mediaType, "platformId=2&jUserId=1&jUserIp=192.168.1.11&jOrderId=" + FileIdGenerator.getNext() + "&orderType=1&amount=2220&currency=CNY&notifyUrl=http://notifyUrl/&jExtra=测试&payWay=AliPay");
+        RequestBody body = RequestBody.create(mediaType, "platformId="+orderInfo.getPlatformId()+"&jUserId="+orderInfo.getJUserId()+"&jUserIp=192.168.1.11&jOrderId=" + FileIdGenerator.getNext() + "&orderType="+orderInfo.getOrderType()+"&amount="+orderInfo.getAmount()+"&currency=CNY&notifyUrl=http://notifyUrl/&jExtra=测试&payWay="+orderInfo.getPayWay()+"");
         Request request = new Request.Builder()
                 .url("http://tcapi.dcpay.com:81/dcpay_exapi/v1/test/createOrder")
                 .post(body)
@@ -154,7 +179,7 @@ public class OrderCreatTest {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url("http://192.168.1.124:58081/dcpay_platform_biz_h5/order/page/pay/"+id+"/"+tokenId+"")
+                .url("http://192.168.1.124:58081/dcpay_platform_biz_h5/order/page/pay/" + id + "/" + tokenId + "")
                 .get()
                 .addHeader("Cache-Control", "no-cache")
                 .addHeader("Postman-Token", "52e995ad-4f09-475d-a624-29c9a1ea94bc")
@@ -168,5 +193,32 @@ public class OrderCreatTest {
             System.out.println("*********************************准备推送******************************************");
         }
 
+    }
+
+    @Test
+    public void moder() {
+        int model = 4;
+        for (int i = 0; i < 100; i++) {
+            System.out.println(i % model + 1);
+        }
+
+    }
+
+    @Test
+    public void switchtest() {
+        String res = getSwitch(0);
+        System.out.println(res);
+
+    }
+
+    private String getSwitch(int i) {
+        switch (i) {
+            case 0:
+                return "0";
+            case 1:
+                return "1";
+            default:
+                return "default";
+        }
     }
 }
