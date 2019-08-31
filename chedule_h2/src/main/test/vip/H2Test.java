@@ -132,7 +132,7 @@ public class H2Test {
         Connection conn = dataSource.getConnection();
         Statement stmt = conn.createStatement();
         long startTime = System.currentTimeMillis();
-        long count = 10;
+        long count = 1000000;
         //如果存在USER_INFO表就先删除USER_INFO表
         stmt.execute("DROP TABLE IF EXISTS merchant_info");
         //创建USER_INFO表
@@ -250,7 +250,7 @@ public class H2Test {
     public void insertObjectBatch() throws IllegalAccessException, InterruptedException {
         long startTime = System.currentTimeMillis();
         List<MerchantInfo> merchantInfos = new ArrayList<>();
-        for (int i = 0; i < 100001; i++) {
+        for (int i = 0; i < 100000; i++) {
             merchantInfos.add(MerchantInfo.builder().id(1l + i).uid(100l + i)
                     .recv_pay_ways(JSON.toJSONString(new ArrayList<String>() {{
                         add("weixin");

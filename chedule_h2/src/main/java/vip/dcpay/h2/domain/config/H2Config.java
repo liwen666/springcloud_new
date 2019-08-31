@@ -91,14 +91,14 @@ public class H2Config implements ApplicationRunner ,ApplicationListener<ContextC
 
     private void initdata(Statement stmt) throws IllegalAccessException, SQLException {
 
-
-        for (int i = 0; i < 10000; i++) {
-            String sql = getInsertSql(MerchantInfo.builder().activate_status(1).assets("{}").day_mount_sum(new BigDecimal(1000))
-                    .uid((long) i)
-                    .realname("test").recv_pay_ways("weixin").type(1).build());
-            stmt.executeUpdate(sql);
-
-        }
+//
+//        for (int i = 0; i < 10000; i++) {
+//            String sql = getInsertSql(MerchantInfo.builder().activate_status(1).assets("{}").day_mount_sum(new BigDecimal(1000))
+//                    .uid((long) i)
+//                    .realname("test").recv_pay_ways("weixin").type(1).build());
+//            stmt.executeUpdate(sql);
+//
+//        }
     }
     public   String getInsertSql(MerchantInfo build) throws IllegalAccessException {
 //        insert into MERCHANT_INFO (id,uid,type,realname) values (1,11,1,'我')
