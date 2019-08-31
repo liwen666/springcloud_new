@@ -28,7 +28,7 @@ public class MerchantApplicationTests {
         MerchantAlterItemEnum[] values = MerchantAlterItemEnum.values();
         for (MerchantAlterItemEnum merchantAlterItemEnum : values) {
             MessageBasic messageBasic = new MessageBasic();
-            messageBasic.setBody(JSON.toJSONString(MerchantAlterMsgDto.builder().merchantId(1l).alterItem(merchantAlterItemEnum).build()));
+            messageBasic.setBody(JSON.toJSONString(MerchantAlterMsgDto.builder().merchantId(10l).alterItem(merchantAlterItemEnum).build()));
             sender.aletrMerchant(messageBasic);
         }
 

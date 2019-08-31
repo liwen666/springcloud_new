@@ -21,7 +21,9 @@ public enum MerchantAlterItemEnum {
 	// 更新buyOrderLimit
 	BUY_ORDER_LIMIT("buyOrderLimit", "买单限制"),
 	// 更新dimension
-	DIMENSION_DATA("dimension", "商家订单实时金额");
+	DIMENSION_DATA("dimension", "商家订单实时金额"),
+	// 更新登录信息
+	LOGIN("login","商家登录信息");
 
 	private MerchantAlterItemEnum(String code, String desc) {
 		this.code = code;

@@ -18,7 +18,7 @@ public class OrderCreatTest {
         int model = 4;
         int pay = 3;
         for (int i = 0; i < 2000; i++) {
-            Thread.sleep(20000);
+            Thread.sleep(8000);
             OrderInfo cny = OrderInfo.builder().amount(new BigDecimal(i+1))
                     .currency("CNY")
                     .jUserId(i)
