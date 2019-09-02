@@ -28,4 +28,6 @@ public class OrderInfo {
     private BigDecimal amount;
     private String currency;
     private String payWay;
+    private String ipCity;//地区名称
+    private String ipCode;//地区编号
 }

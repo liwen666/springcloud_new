@@ -44,14 +44,15 @@ public class HttpClientTest {
     }
     @Test
     public void updateMerchantByid() throws IOException {
-        String merchantId= "1";
+        String merchantId= "6";
         OkHttpClient client = new OkHttpClient();
 
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         RequestBody body = RequestBody.create(mediaType, "");
         Request request = new Request.Builder()
                 .url("http://192.168.1.124:20110/dcpay_schedule_cache/merchant/cache/updateById/"+merchantId)
-                .post(body)
+//                .post(body)
+                .get()
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .addHeader("Cache-Control", "no-cache")
                 .addHeader("Postman-Token", "7304663d-7d8a-4f4e-a194-d606004d0260")

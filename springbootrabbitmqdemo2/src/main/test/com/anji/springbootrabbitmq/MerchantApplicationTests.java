@@ -25,14 +25,33 @@ public class MerchantApplicationTests {
 
     @Test
     public void aletrMerchant() throws InterruptedException {
-        MerchantAlterItemEnum[] values = MerchantAlterItemEnum.values();
-        for (MerchantAlterItemEnum merchantAlterItemEnum : values) {
-            MessageBasic messageBasic = new MessageBasic();
-            messageBasic.setBody(JSON.toJSONString(MerchantAlterMsgDto.builder().merchantId(10l).alterItem(merchantAlterItemEnum).build()));
-            sender.aletrMerchant(messageBasic);
+        for(int i=0;i<11;i++){
+            MerchantAlterItemEnum[] values = MerchantAlterItemEnum.values();
+            for (MerchantAlterItemEnum merchantAlterItemEnum : values) {
+                MessageBasic messageBasic = new MessageBasic();
+                messageBasic.setBody(JSON.toJSONString(MerchantAlterMsgDto.builder().merchantId((long) i).alterItem(merchantAlterItemEnum).build()));
+                sender.aletrMerchant(messageBasic);
+            }
         }
 
+
     }
+    @Test
+    public void aletrMerchantOne1()  {
+            MerchantAlterItemEnum[] values = MerchantAlterItemEnum.values();
+            for (MerchantAlterItemEnum merchantAlterItemEnum : values) {
+                MessageBasic messageBasic = new MessageBasic();
+                messageBasic.setBody(JSON.toJSONString(MerchantAlterMsgDto.builder().merchantId(10l).alterItem(merchantAlterItemEnum).build()));
+                sender.aletrMerchant(messageBasic);
+            }
+    }
+    @Test
+    public void aletrMerchantError()  {
+            MessageBasic messageBasic = new MessageBasic();
+            messageBasic.setBody(JSON.toJSONString(MerchantAlterMsgDto.builder().merchantId(7l).alterItem(MerchantAlterItemEnum.LOGIN).build()));
+            sender.aletrMerchant(messageBasic);
+    }
+
     @Test
     public void aletrMerchantAsset() throws InterruptedException {
         MessageBasic messageBasic = new MessageBasic();
