@@ -6,6 +6,9 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * author lw
@@ -13,35 +16,58 @@ import java.math.BigDecimal;
  * discribe
  */
 public class OrderCreatTest {
-    public static void main(String[] args) throws InterruptedException, IOException, IllegalAccessException, InstantiationException {
+    public static void main(String[] args) throws  IllegalAccessException, InstantiationException {
         OrderCreatTest orderCreatTest = OrderCreatTest.class.newInstance();
         int model = 4;
-        int pay = 3;
-        for (int i = 0; i < 500; i++) {
-            Thread.sleep(5000);
-            OrderInfo cny = OrderInfo.builder()
+        int pay = 2;
+//        int pay = 3;
+//        ExecutorService executorService = Executors.newCachedThreadPool();
+        ExecutorService executorService = Executors.newFixedThreadPool(20);
+        for(int x=0;x<1;x++){
+            executorService.execute(new Runnable() {
+                AtomicInteger id  = new AtomicInteger();
+                @Override
+                public void run() {
+                    for (int i = 1000; i < 1100; i++) {
+//                    for (int i = 1; i < 3; i++) {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        OrderInfo cny = OrderInfo.builder()
 //                    .amount(new BigDecimal(i+1))
-                    .currency("CNY")
-                    .jUserId(i)
-                    .jUserIp("192.168.1.11")
+                                .currency("CNY")
+                                .jUserId(i+id.incrementAndGet())
+                                .jUserIp("192.168.1.11")
 //                    .orderType(i % model + 1)
 //                    .orderType(i%2==0?1:3)
-                    .orderType(1)
+                                .orderType(1)
 //                    .orderType(3)
-                    .payWay(getPay(i % pay))
+                                .payWay(getPay(i % pay))
 //                    .payWay("WechatPay")
-                    .platformId(2)
-                    .amount(new BigDecimal(10))
-                    //添加同城功能
-                    .ipCity("北京")
-                    .ipCode("00000")
-                    .build();
-            System.out.println("==============================================订单类型===========================================");
-            System.out.println(JSON.toJSONString(cny));
-            System.out.println("=========================================================================================");
+                                .platformId(2)
+                                .amount(new BigDecimal(10))
+                                //添加同城功能
+                                .ipCity("北京")
+                                .ipCode("00000")
+                                .build();
+                        System.out.println("==============================================订单类型===========================================");
+                        System.out.println(JSON.toJSONString(cny));
+                        System.out.println("=========================================================================================");
 
-            orderCreatTest.createOrder(cny);
+                        try {
+                            orderCreatTest.createOrder(cny);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+
         }
+        executorService.shutdown();
+
     }
 
     private static String getPay(int i) {
@@ -194,7 +220,9 @@ public class OrderCreatTest {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url("http://192.168.1.124:58081/dcpay_platform_biz_h5/order/page/pay/" + id + "/" + tokenId + "")
+//                .url("http://192.168.1.124:58081/dcpay_platform_biz_h5/order/page/pay/" + id + "/" + tokenId + "?ipAddress=27.219.186.0&ipCity=北京&ipCode=110000")
+                .url("http://192.168.1.124:58081/dcpay_platform_biz_h5/order/page/pay/" + id + "/" + tokenId + "?ipAddress=27.219.186.0&ipCity=北京&ipCode=1101101")
+//        http://192.168.1.124:58081/dcpay_platform_biz_h5/order/page/pay/P618100008413741056/cef76a62fa8e2be873dfd536b8d21274?ipAddress=27.219.186.0&ipCity=山东,济南&ipCode=011000
                 .get()
                 .addHeader("Cache-Control", "no-cache")
                 .addHeader("Postman-Token", "52e995ad-4f09-475d-a624-29c9a1ea94bc")

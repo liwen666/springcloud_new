@@ -25,7 +25,7 @@ public class MerchantApplicationTests {
 
     @Test
     public void aletrMerchant() throws InterruptedException {
-        for(int i=0;i<11;i++){
+        for(int i=0;i<10;i++){
             MerchantAlterItemEnum[] values = MerchantAlterItemEnum.values();
             for (MerchantAlterItemEnum merchantAlterItemEnum : values) {
                 MessageBasic messageBasic = new MessageBasic();
