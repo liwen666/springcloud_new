@@ -31,6 +31,8 @@ public class H2Config implements ApplicationRunner ,ApplicationListener<ContextC
             System.out.println("启动成功：" + server.getStatus());
 //            serverWeb = Server.createWebServer().start();
             serverWeb = Server.createWebServer("-webAllowOthers").start();
+            //修改h2端口
+//            serverWeb = Server.createWebServer("-webAllowOthers","-webPort",webPort).start();
             System.out.println(serverWeb.getStatus());
         } catch (SQLException e) {
             System.out.println("启动h2出错：" + e.toString());
