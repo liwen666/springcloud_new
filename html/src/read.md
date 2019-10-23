@@ -8,6 +8,11 @@ UE的8297行如何获取到 jsonp
 localhost:8081/ueditor/controller?action=config&callback=bd__editor__fbxh1h
 
 
+http://localhost:8081/newpay/test/callback
+
+2477v852j2.zicp.vip:27765
+
+
 
 
 H2

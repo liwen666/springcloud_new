@@ -2,7 +2,7 @@ server:
   servlet:
 #    context-path: /th-demo
     context-path: /
-  port: 8888
+  port: 8081
 
 
 spring:

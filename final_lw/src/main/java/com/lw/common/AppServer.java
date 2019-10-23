@@ -35,7 +35,7 @@ public class AppServer {
         List<Log> messageList = baseMapper.selectList(queryWrapper);
         System.out.println(messageList);
         baseMapper.selectMy("3085");
-        run.close();
+//        run.close();
 
     }
 }
