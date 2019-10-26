@@ -34,18 +34,30 @@ public class JrxSqlFileExecutorControllerForJar {
     private static final Logger LOGGER = LoggerFactory.getLogger(JrxSqlFileExecutorControllerForJar.class);
 
     public static void main(String[] args) throws Exception {
-        DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://192.168.42.136:3306/batch_demo_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
-        new JrxSqlFileExecutorControllerForJar().initSqlScriptSource(null, null,dataSource,"schedule");
-        DruidDataSource dataSource1 = new DruidDataSource();
-        dataSource1.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource1.setUrl("jdbc:mysql://192.168.42.136:3306/data_flow?useSSL=false&useUnicode=true&characterEncoding=UTF-8");
-        dataSource1.setUsername("root");
-        dataSource1.setPassword("root");
-        new JrxSqlFileExecutorControllerForJar().initSqlScriptSource(null, null,dataSource1,"partition");
+        boolean local = true;
+        boolean jrx = true;
+        if(local){
+            DruidDataSource dataSource = new DruidDataSource();
+            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+            dataSource.setUrl("jdbc:mysql://192.168.42.136:3306?useSSL=false&useUnicode=true&characterEncoding=UTF-8");
+            dataSource.setUsername("root");
+            dataSource.setPassword("root");
+            new JrxSqlFileExecutorControllerForJar().initSqlScriptSource(null, null,dataSource,"schedule");
+            new JrxSqlFileExecutorControllerForJar().initSqlScriptSource(null, null,dataSource,"partition");
+
+        }
+        if(jrx){
+            DruidDataSource dataSource2 = new DruidDataSource();
+            dataSource2.setDriverClassName("com.mysql.jdbc.Driver");
+            dataSource2.setUrl("jdbc:mysql://172.16.101.19:3306?useSSL=false&useUnicode=true&characterEncoding=UTF-8");
+            dataSource2.setUsername("root");
+            dataSource2.setPassword("123.com");
+            new JrxSqlFileExecutorControllerForJar().initSqlScriptSource(null, null,dataSource2,"schedule");
+            new JrxSqlFileExecutorControllerForJar().initSqlScriptSource(null, null,dataSource2,"partition");
+
+        }
+
+
     }
 
     /**
@@ -132,7 +144,6 @@ public class JrxSqlFileExecutorControllerForJar {
             sqlSource.set(index, sqlSource.get(j));
             setValueCount++;
         }
-//        System.out.println("\n 设值次数(setValueCount)=====> " + setValueCount);
     }
 
     /**
@@ -195,7 +206,6 @@ public class JrxSqlFileExecutorControllerForJar {
                     if(StringUtils.isEmpty(sql)||"\r\n".equals(sql)){
                         continue;
                     }
-                    System.out.println("===================="+sql);
                     stmt.execute(sql);
                 } catch (SQLException e) {
                     e.printStackTrace();
