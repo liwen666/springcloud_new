@@ -35,7 +35,7 @@ public class JrxSqlFileExecutorControllerForJar {
 
     public static void main(String[] args) throws Exception {
         boolean local = true;
-        boolean jrx = true;
+        boolean jrx = false;
         if(local){
             DruidDataSource dataSource = new DruidDataSource();
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
