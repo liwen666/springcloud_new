@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 //@NacosPropertySource(dataId = "springboot2-nacos-config", autoRefreshed = true)
 @RestController
 @EnableConfigurationProperties(value = DemoConfig.class)
+@RefreshScope
 public class Springboot2NacosConfigApplication {
 
     public static void main(String[] args) {
@@ -21,7 +23,7 @@ public class Springboot2NacosConfigApplication {
     }
     @Autowired
     private DemoConfig demoConfig;
-//    @NacosValue(value = "${test.demo.value:123}", autoRefreshed = true)
+
     @Value("${test.demo.value:123}")
     private String testProperties;
 

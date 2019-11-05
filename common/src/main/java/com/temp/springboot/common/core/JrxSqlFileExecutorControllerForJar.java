@@ -34,12 +34,12 @@ public class JrxSqlFileExecutorControllerForJar {
     private static final Logger LOGGER = LoggerFactory.getLogger(JrxSqlFileExecutorControllerForJar.class);
 
     public static void main(String[] args) throws Exception {
-        boolean local = true;
-        boolean jrx = false;
+        boolean local = false;
+        boolean jrx = true;
         if(local){
             DruidDataSource dataSource = new DruidDataSource();
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-            dataSource.setUrl("jdbc:mysql://192.168.42.136:3306?useSSL=false&useUnicode=true&characterEncoding=UTF-8");
+            dataSource.setUrl("jdbc:mysql://192.168.42.136:3306?useSSL=false&useUnicode=true&characterEncoding=UTF-8`");
             dataSource.setUsername("root");
             dataSource.setPassword("root");
             new JrxSqlFileExecutorControllerForJar().initSqlScriptSource(null, null,dataSource,"schedule");
@@ -202,8 +202,9 @@ public class JrxSqlFileExecutorControllerForJar {
             String[] split = sqlSource.split(";");
 //            String[] split = sqlSource.split("/\\|/");oracle
             for (String sql : split) {
+                String replace = sql.replace("\r\n", "").replace("\r","").replace("\n","");
                 try {
-                    if(StringUtils.isEmpty(sql)||"\r\n".equals(sql)){
+                    if(StringUtils.isEmpty(replace)){
                         continue;
                     }
                     stmt.execute(sql);

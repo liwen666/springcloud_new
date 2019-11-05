@@ -1,6 +1,6 @@
 import com.alibaba.fastjson.JSON;
 import com.temp.springboot.common.ThymeleafDemoApplication;
-import com.temp.springboot.common.core.YamlUtil;
+import com.temp.springboot.common.util.YamlUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

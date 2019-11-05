@@ -312,8 +312,6 @@ CREATE TABLE `schedule_config_info` (
 
 /*Data for the table `schedule_config_info` */
 
-insert  into `schedule_config_info`(`config_id`,`config_name`,`config_code`,`param_infos`,`belong_uid`,`belong_group`,`create_time`,`update_time`,`up_person`) values
-(13,'文件路径','file_path','{\"txt\":\"/home/txt\"}',1,1,'2019-10-24 15:58:49','2019-10-24 15:58:49','UP_SYSTEM');
 
 /*Table structure for table `schedule_db_info` */
 
@@ -337,9 +335,6 @@ CREATE TABLE `schedule_db_info` (
 
 /*Data for the table `schedule_db_info` */
 
-insert  into `schedule_db_info`(`db_id`,`db_name`,`db_type`,`address`,`auth_user`,`auth_pwd`,`params`,`belong_uid`,`belong_group`,`create_time`,`update_time`,`up_person`) values
-(22,'batch_demo_test','mysql','192.168.42.136:3306','root','MYvtB8kUkew=','encoding=utf-8&ssL=false',1,1,'2019-10-24 15:46:07','2019-10-24 15:47:34','UP_SYSTEM');
-
 /*Table structure for table `schedule_db_partition` */
 
 DROP TABLE IF EXISTS `schedule_db_partition`;
@@ -355,11 +350,6 @@ CREATE TABLE `schedule_db_partition` (
   `up_person` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`db_partition_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='数据库分库分区信息';
-
-/*Data for the table `schedule_db_partition` */
-
-insert  into `schedule_db_partition`(`db_partition_id`,`db_id`,`pname`,`db_name`,`params`,`create_time`,`update_time`,`up_person`) values
-(13,22,'分库1','batch_demo_test','useSSL=false&useUnicode=true&characterEncoding=UTF-8','2019-10-24 15:52:20','2019-10-24 15:52:20','UP_SYSTEM');
 
 /*Table structure for table `schedule_master_server` */
 
@@ -393,11 +383,6 @@ CREATE TABLE `schedule_node` (
   PRIMARY KEY (`node_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COMMENT='执行节点';
 
-/*Data for the table `schedule_node` */
-
-insert  into `schedule_node`(`node_id`,`node_name`,`domainIp`,`node_state`,`create_time`,`update_time`,`auth_user`,`auth_pwd`,`belong_uid`,`belong_group`,`up_person`) values
-(27,'localtest','localhost:8080','ONLINE','2019-10-24 15:53:58','2019-10-24 15:53:58','','',1,1,'UP_SYSTEM');
-
 /*Table structure for table `schedule_partition_execution` */
 
 DROP TABLE IF EXISTS `schedule_partition_execution`;
@@ -422,11 +407,6 @@ CREATE TABLE `schedule_partition_execution` (
   PRIMARY KEY (`partition_execution_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8 COMMENT='任务分区执行记录';
 
-/*Data for the table `schedule_partition_execution` */
-
-insert  into `schedule_partition_execution`(`partition_execution_id`,`schedule_execution_id`,`run_state`,`task_key`,`partition_id`,`task_execution_id`,`history_tasks`,`terminal_time`,`create_time`,`update_time`,`up_person`,`belong_group`,`belong_uid`,`execution_msg`,`partition_execution_params`,`external_execution_id`) values
-(112,100,'FAIL','157190002286523651',64,NULL,NULL,NULL,'2019-10-24 16:15:33','2019-10-24 16:15:33','UP_SYSTEM',1,1,'Could not find task definition named local_task','--task.partitionExecutionId=112,--task.taskKid=157190002286523651,--name=test,--task.partitionId=64,--task.db.address=192.168.42.136:3306?encoding=utf-8&ssL=false,--task.db.username=root,--task.db.pwd=******,--task.db.name=batch_demo_test,--task.db.parameters=useSSL=false&useUnicode=true&characterEncoding=UTF-8,--txt=/home/txt',NULL);
-
 /*Table structure for table `schedule_plan` */
 
 DROP TABLE IF EXISTS `schedule_plan`;
@@ -448,12 +428,6 @@ CREATE TABLE `schedule_plan` (
   `run_type` varchar(20) DEFAULT NULL COMMENT '运行方式',
   PRIMARY KEY (`plan_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COMMENT='调度计划';
-
-/*Data for the table `schedule_plan` */
-
-insert  into `schedule_plan`(`plan_id`,`plan_name`,`task_chain`,`run_time`,`period`,`state`,`scopes`,`belong_group`,`belong_uid`,`create_time`,`update_time`,`up_person`,`strict_error`,`run_type`) values
-(51,'执行本地jar','{\"nodeDatas\":[{\"key\":\"1\",\"type\":\"start\",\"text\":\"任务开始\"},{\"key\":\"157190002286523651\",\"type\":\"node\",\"text\":\"执行本地jar\"},{\"key\":\"-1\",\"type\":\"end\",\"text\":\"任务结束\"}],\"linkDatas\":[{\"from\":\"1\",\"to\":\"157190002286523651\"},{\"from\":\"157190002286523651\",\"to\":\"-1\"}]}',NULL,NULL,'ONLINE',NULL,1,1,'2019-10-24 16:07:06','2019-10-24 16:10:39','UP_SYSTEM',1,'MANUAL');
-
 /*Table structure for table `schedule_plan_execution` */
 
 DROP TABLE IF EXISTS `schedule_plan_execution`;
@@ -479,11 +453,6 @@ CREATE TABLE `schedule_plan_execution` (
   PRIMARY KEY (`schedule_execution_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8 COMMENT='调度计划执行记录';
 
-/*Data for the table `schedule_plan_execution` */
-
-insert  into `schedule_plan_execution`(`schedule_execution_id`,`start_time`,`end_time`,`terminal_time`,`create_time`,`plan_id`,`run_state`,`update_time`,`up_person`,`belong_group`,`belong_uid`,`completed_task_keys`,`running_task_key`,`fail_task_keys`,`execution_msg`,`out_params`,`task_chain`) values
-(100,'2019-10-24 16:15:33',NULL,NULL,'2019-10-24 16:15:33',51,'COMPLETE','2019-10-24 16:15:33','UP_SYSTEM',1,1,NULL,'157190002286523651',NULL,'调度任务分区有异常：planExecutionId: 100 , err: ',NULL,'{\"nodeDatas\":[{\"key\":\"1\",\"type\":\"start\",\"text\":\"任务开始\"},{\"key\":\"157190002286523651\",\"type\":\"node\",\"text\":\"执行本地jar\"},{\"key\":\"-1\",\"type\":\"end\",\"text\":\"任务结束\"}],\"linkDatas\":[{\"from\":\"1\",\"to\":\"157190002286523651\"},{\"from\":\"157190002286523651\",\"to\":\"-1\"}]}');
-
 /*Table structure for table `schedule_record` */
 
 DROP TABLE IF EXISTS `schedule_record`;
@@ -498,22 +467,6 @@ CREATE TABLE `schedule_record` (
   `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '执行时间',
   PRIMARY KEY (`record_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8 COMMENT='操作记录';
-
-/*Data for the table `schedule_record` */
-
-insert  into `schedule_record`(`record_id`,`record_title`,`record_content`,`record_params`,`record_user_id`,`record_user_name`,`create_time`) values
-(74,'任务管理','创建任务','{\"taskKey\":\"157190002286523651\",\"taskName\":\"执行本地jar\",\"olbTaskName\":null,\"jobName\":\"\",\"taskDefinition\":\"local_task\",\"taskState\":null,\"taskPartitionSize\":null,\"paramsMap\":{},\"entriesParamsMap\":[]}',NULL,'system_user','2019-10-24 14:53:43'),
-(75,'资源配置','创建数据库','{\"dbId\":22,\"dbName\":\"batch_demo_test\",\"dbType\":\"mysql\",\"address\":\"jdbc:mysql://192.168.42.136:3306\",\"authUser\":\"root\",\"authPwd\":\"sauitFCYcPc=\",\"params\":\"encoding=utf-8&ssL=false\",\"dbSize\":0}',NULL,'system_user','2019-10-24 15:46:07'),
-(76,'资源配置','修改数据库','{\"dbId\":22,\"dbName\":\"batch_demo_test\",\"dbType\":\"mysql\",\"address\":\"192.168.42.136:3306\",\"authUser\":\"root\",\"authPwd\":\"******\",\"params\":\"encoding=utf-8&ssL=false\",\"dbSize\":null}',NULL,'system_user','2019-10-24 15:47:34'),
-(77,'资源配置','创建数据库分区','{\"dbPartitionId\":13,\"dbId\":22,\"pname\":\"分库1\",\"dbName\":\"batch_demo_test\",\"params\":\"useSSL=false&useUnicode=true&characterEncoding=UTF-8\"}',NULL,'system_user','2019-10-24 15:52:20'),
-(78,'资源配置','创建执行节点','{\"nodeId\":27,\"nodeName\":\"localtest\",\"domainip\":\"localhost:8080\",\"nodeState\":\"ONLINE\",\"authUser\":\"\",\"authPwd\":\"*****\"}',NULL,'system_user','2019-10-24 15:53:58'),
-(79,'资源配置','创建数据库配置信息','{\"configId\":13,\"configName\":\"文件路径\",\"configCode\":\"file_path\",\"paramsMap\":{\"txt\":\"/home/txt\"},\"entriesParamsMap\":[[\"txt\",\"/home/txt\"]]}',NULL,'system_user','2019-10-24 15:58:49'),
-(80,'任务管理','任务：创建分区','{\"partitionId\":64,\"taskKey\":\"157190002286523651\",\"nodeId\":27,\"dbPartitionId\":13,\"configIds\":[13],\"configIdName\":null,\"paramsMap\":{\"name\":\"test\"},\"nodeName\":null,\"dbPartitionName\":null,\"dbName\":null,\"entriesParamsMap\":[[\"name\",\"test\"]],\"dbId\":\"22\"}',NULL,'system_user','2019-10-24 16:02:35'),
-(81,'调度计划','创建计划','{\"planId\":51,\"planName\":\"执行本地jar\",\"taskChain\":\"\",\"runTime\":null,\"nextStartTime\":null,\"totalJobNumber\":null,\"planPeriod\":null,\"planState\":\"OFFLINE\",\"state\":\"\",\"runType\":\"MANUAL\",\"planScopes\":null,\"strictError\":true,\"planKey\":null,\"totalTaskNumber\":null,\"taskChainNode\":null}',NULL,'system_user','2019-10-24 16:07:06'),
-(82,'调度计划','手动执行计划：执行调度计划','{\"planId\":51}',NULL,'system_user','2019-10-24 16:15:33'),
-(83,'强制修改状态','调度计划执行任务：状态CLOSING修改为COMPLETE','{\"scheduleExecutionId\":100,\"state\":\"COMPLETE\"}',NULL,'system_user','2019-10-24 16:39:50');
-
-/*Table structure for table `schedule_task` */
 
 DROP TABLE IF EXISTS `schedule_task`;
 
@@ -531,12 +484,6 @@ CREATE TABLE `schedule_task` (
   `status` char(1) DEFAULT NULL COMMENT '任务状态（1：有效， d：删除）',
   PRIMARY KEY (`task_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务调度编排';
-
-/*Data for the table `schedule_task` */
-
-insert  into `schedule_task`(`task_name`,`task_key`,`job_name`,`task_definition`,`task_params`,`create_time`,`update_time`,`up_person`,`belong_uid`,`belong_group`,`status`) values
-('执行本地jar','157190002286523651','','local_task',NULL,'2019-10-24 14:53:43','2019-10-24 14:53:43','UP_SYSTEM',1,1,'1');
-
 /*Table structure for table `schedule_task_partition` */
 
 DROP TABLE IF EXISTS `schedule_task_partition`;
@@ -554,11 +501,6 @@ CREATE TABLE `schedule_task_partition` (
   PRIMARY KEY (`partition_id`),
   KEY `key_idx` (`task_key`)
 ) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8 COMMENT='任务分区';
-
-/*Data for the table `schedule_task_partition` */
-
-insert  into `schedule_task_partition`(`partition_id`,`task_key`,`node_id`,`db_partition_id`,`config_id`,`parameters`,`create_time`,`update_time`,`up_person`) values
-(64,'157190002286523651',27,13,'[13]','{\"name\":\"test\"}','2019-10-24 16:02:35','2019-10-24 16:02:35','UP_SYSTEM');
 
 /*Table structure for table `stream_definitions` */
 
@@ -593,11 +535,6 @@ CREATE TABLE `task_definitions` (
   `DEFINITION` text,
   PRIMARY KEY (`DEFINITION_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `task_definitions` */
-
-insert  into `task_definitions`(`DEFINITION_NAME`,`DEFINITION`) values
-('local_task','customerSimpleJob');
 
 /*Table structure for table `task_execution` */
 
@@ -703,12 +640,6 @@ CREATE TABLE `uri_registry` (
   `NAME` varchar(255) NOT NULL,
   `URI` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-/*Data for the table `uri_registry` */
-
-insert  into `uri_registry`(`NAME`,`URI`) values
-('task.simpleJob','maven://jrx.tutorial:b01-simple-job:jar:1.0.0'),
-('task.customerSimpleJob','file:///C:/Users/liwen/Desktop/jrx/worktask/b02-custom-tasklet-1.0.0.jar');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

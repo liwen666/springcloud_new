@@ -1,4 +1,4 @@
-package com.temp.springboot.common.core;
+package com.temp.springboot.common.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.yaml.snakeyaml.DumperOptions;
