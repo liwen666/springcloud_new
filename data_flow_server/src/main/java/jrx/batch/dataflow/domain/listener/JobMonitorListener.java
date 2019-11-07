@@ -17,7 +17,7 @@ public class JobMonitorListener implements JobExecutionListener {
 
     @Override
     public void beforeJob(JobExecution jobExecution) {
-        logger.info("before job 开始执行：executionId: {}, jobInstanceId: {}, 开始时间：{} ",
+        logger.info("=====before job 开始执行：executionId: {}, jobInstanceId: {}, 开始时间：{} ",
                 jobExecution.getId(),
                 jobExecution.getJobId(),
                 jobExecution.getStartTime()
@@ -26,7 +26,7 @@ public class JobMonitorListener implements JobExecutionListener {
 
     @Override
     public void afterJob(JobExecution jobExecution) {
-        logger.info("after job 执行完成：executionId: {}, jobInstanceId: {}, 结束时间：{} ",
+        logger.info("=====after job 执行完成：executionId: {}, jobInstanceId: {}, 结束时间：{} ",
                 jobExecution.getId(),
                 jobExecution.getJobId(),
                 jobExecution.getEndTime()

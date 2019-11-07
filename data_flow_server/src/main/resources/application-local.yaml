@@ -6,13 +6,30 @@ spring:
   datasource:
     username: root
     password: root
-    url: jdbc:mysql://192.168.42.136:3306/data_flow?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    url: jdbc:mysql://192.168.42.136:3306/data_flow_test?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
+#    url: jdbc:mysql://192.168.42.136:3306/data_flow?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
 #    driver-class-name: com.mysql.jdbc.Driver
     driver-class-name: com.mysql.cj.jdbc.Driver
+#使用下面的配置LocalDeployerProperties可以省略 见  LocalPlatformProperties
+#默认"workingDirectoriesRoot":"C:\\Users\\liwen\\AppData\\Local\\Temp
   cloud:
     deployer:
       local:
         workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
+        java-opts: -Xms128M -Xmx128M
+
+#平台配置
+    dataflow:
+      task:
+        platform:
+          local:
+            accounts:
+              local:
+                workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
+                java-opts: -Xms128M -Xmx128M
+              test:
+                workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
+                java-opts: -Xms128M -Xmx128M
   jpa:
     database: Mysql
     show-sql: true

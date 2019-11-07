@@ -1,19 +1,31 @@
 package jrx.batch.dataflow.batch;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jrx.batch.dataflow.SpringbootDataflowServerApplication;
+import jrx.batch.dataflow.infrastructure.dao.TaskExecutionMapper;
+import jrx.batch.dataflow.infrastructure.model.TaskExecution;
 import lombok.extern.java.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.dataflow.core.AppRegistration;
+import org.springframework.cloud.dataflow.core.ApplicationType;
+import org.springframework.cloud.dataflow.core.TaskDefinition;
 import org.springframework.cloud.dataflow.core.TaskDeployment;
+import org.springframework.cloud.dataflow.registry.repository.AppRegistrationRepository;
+import org.springframework.cloud.dataflow.server.config.features.LocalPlatformProperties;
+import org.springframework.cloud.dataflow.server.repository.TaskDefinitionRepository;
 import org.springframework.cloud.dataflow.server.repository.TaskDeploymentRepository;
 import org.springframework.cloud.dataflow.server.service.TaskExecutionService;
 import org.springframework.cloud.dataflow.server.service.impl.DefaultTaskExecutionService;
 import org.springframework.cloud.deployer.spi.core.AppDeploymentRequest;
 import org.springframework.cloud.deployer.spi.local.LocalDeployerProperties;
 import org.springframework.cloud.deployer.spi.local.LocalTaskLauncher;
+import org.springframework.cloud.task.repository.TaskRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -22,34 +34,111 @@ import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 @Log
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = SpringbootDataflowServerApplication.class)
+//@EnableConfigurationProperties(LocalDeployerProperties.class)
 public class TaskServiceTest {
     @Autowired
     private TaskExecutionService taskService;
 
     @Autowired
     TaskDeploymentRepository taskDeploymentRepository;
+    @Autowired
+    AppRegistrationRepository appRegistrationRepository;
+
+    @Autowired
+    LocalDeployerProperties localDeployerProperties;
+    @Autowired
+    LocalPlatformProperties localPlatformProperties;
+
+    @Autowired
+    TaskDefinitionRepository taskDefinitionRepository;
+
+    @Autowired
+    TaskExecutionMapper taskExecutionMapper;
+
+
+    /***************************************/
+    @Test
+    public void localDeployerProperties() {
+        System.out.println(JSON.toJSONString(localDeployerProperties));
+    }
+
+    @Test
+    public void localPlatformProperties() {
+        System.out.println(JSON.toJSONString(localPlatformProperties));
+    }
+
+    @Test
+    public void taskDefinitionRepository() {
+//        TaskDefinition(String registeredAppName, String label, Map<String, String> properties)
+//        TaskDefinition taskDefinition = new TaskDefinition("test_task","lable");
+        TaskDefinition taskDefinition = new TaskDefinition("simple_job","simplejob");
+        TaskDefinition save = taskDefinitionRepository.save(taskDefinition);
+        System.out.println(JSON.toJSONString(save));
+    }
+
+    /**
+     * 注册应用
+     *
+     * @throws URISyntaxException
+     */
+    @Test
+    public void appRegistrationRepository() throws URISyntaxException {
+
+        AppRegistration appRegistration = new AppRegistration();
+        appRegistration.setDefaultVersion(true);
+        appRegistration.setType(ApplicationType.task);
+        appRegistration.setUri(new URI("file:///C:/Users/liwen/Desktop/jrx/taskjar/b01-simple-job-1.0.0.jar"));
+        appRegistration.setName("simplejob");
+        AppRegistration save = appRegistrationRepository.save(appRegistration);
+        System.out.println(JSON.toJSONString(save));
+        AppRegistration simplejob = appRegistrationRepository.findAppRegistrationByNameAndTypeAndDefaultVersionIsTrue("simplejob", ApplicationType.task);
+
+        System.out.println(JSON.toJSONString(simplejob));
+    }
+
+    /*********************************************/
+
 
     @Test
     public void execBatchTask() {
-        long demo1 = taskService.executeTask("simple_job", new HashMap<String, String>() {{
+        long parentId = 1000;
+        long executeTask = taskService.executeTask("simple_job", new HashMap<String, String>() {{
 //            put("app.test", "1");//deployment property keys starting with 'app.', 'deployer.' or, 'scheduler.' allowed, got 'param.test'
-//            put("param.test", "1");
+            /**
+             * 测参数可以选择执行任务的launcher
+             * 见配置项中的平台配置，配置项没有则为default
+             */
+//            put("spring.cloud.dataflow.task.platformName", "default");
+            put("spring.cloud.dataflow.task.platformName", "local");
         }}, new ArrayList<String>() {{
-            add("1234");///执行任务传入的参数
+            ///执行任务传入的参数
+            add("param = test");//此参数表示执行这个任务时指定平台是什么，如果和task_deployment中的不一致任务无法执行
         }});
-        System.out.println(demo1);
+        int i = taskExecutionMapper.updateById(TaskExecution.builder().parentExecutionId(parentId).taskExecutionId(executeTask).build());
+        System.out.println("******************************************************");
+
+        System.out.println(executeTask);
+        System.out.println(i);
     }
 
 
     @Test
     public void taskDeploymentRepository() {
+        TaskDeployment taskDeployment = new TaskDeployment();
+        taskDeployment.setPlatformName("local");
+        taskDeployment.setTaskDefinitionName("simple_job");
+        taskDeployment.setTaskDeploymentId("32193298948291");
+        taskDeploymentRepository.save(taskDeployment);
         TaskDeployment byTaskDeploymentId = taskDeploymentRepository.findByTaskDeploymentId("00000092299");
+
         System.out.println(JSON.toJSONString(byTaskDeploymentId));
     }
 
