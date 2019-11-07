@@ -1,0 +1,36 @@
+
+server:
+  port: 8080
+
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://192.168.42.136:3306/data_flow?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+#    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: jrx.batch.dataflow
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+  type-aliases-package: jrx.batch.dataflow.infrastructure.model
+  type-aliases-super-type: java.lang.Object
+#  type-handlers-package: com.example.springbootdemo.typeHandler
+#  type-enums-package: com.example.springbootdemo.enums
+
+#showSql
+#logging:
+#  level:
+#    com:
+#      example:
+#        mapper : debug
+
+#logging:
+#  level:
+#    jrx:
+#      batch:
+#        dataflow:
+#          domain:
+#            dao: debug
