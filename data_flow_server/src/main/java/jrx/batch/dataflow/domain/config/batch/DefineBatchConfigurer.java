@@ -3,7 +3,11 @@ package jrx.batch.dataflow.domain.config.batch;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.batch.core.configuration.BatchConfigurationException;
+import org.springframework.batch.core.configuration.ListableJobLocator;
 import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
+import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.support.MapJobRegistry;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.explore.support.JobExplorerFactoryBean;
 import org.springframework.batch.core.explore.support.MapJobExplorerFactoryBean;
@@ -13,6 +17,10 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
 import org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean;
 import org.springframework.batch.support.transaction.ResourcelessTransactionManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -23,14 +31,19 @@ import javax.sql.DataSource;
  * @author yxy
  * @date 2018/10/23
  */
+@Configuration
 public class DefineBatchConfigurer implements BatchConfigurer {
 
     private static final Log logger = LogFactory.getLog(DefineBatchConfigurer.class);
-
+    @Autowired
     private DataSource dataSource;
+    @Autowired
     private PlatformTransactionManager transactionManager;
+    @Autowired
     private JobRepository jobRepository;
+    @Autowired
     private JobLauncher jobLauncher;
+    @Autowired
     private JobExplorer jobExplorer;
 
     public void setDataSource(DataSource dataSource) {
@@ -38,7 +51,8 @@ public class DefineBatchConfigurer implements BatchConfigurer {
         this.transactionManager = new DataSourceTransactionManager(dataSource);
     }
 
-    protected DefineBatchConfigurer() {}
+    protected DefineBatchConfigurer() {
+    }
 
     public DefineBatchConfigurer(DataSource dataSource) {
         setDataSource(dataSource);
@@ -66,36 +80,9 @@ public class DefineBatchConfigurer implements BatchConfigurer {
 
     @PostConstruct
     public void initialize() {
-        try {
-            if(dataSource == null) {
-                logger.warn("No datasource was provided...using a Map based JobRepository");
-
-                if(this.transactionManager == null) {
-                    this.transactionManager = new ResourcelessTransactionManager();
-                }
-
-                MapJobRepositoryFactoryBean jobRepositoryFactory = new MapJobRepositoryFactoryBean(this.transactionManager);
-                jobRepositoryFactory.afterPropertiesSet();
-                this.jobRepository = jobRepositoryFactory.getObject();
-
-                MapJobExplorerFactoryBean jobExplorerFactory = new MapJobExplorerFactoryBean(jobRepositoryFactory);
-                jobExplorerFactory.afterPropertiesSet();
-                this.jobExplorer = jobExplorerFactory.getObject();
-            } else {
-                this.jobRepository = createJobRepository();
-
-                JobExplorerFactoryBean jobExplorerFactoryBean = new JobExplorerFactoryBean();
-                jobExplorerFactoryBean.setDataSource(this.dataSource);
-                jobExplorerFactoryBean.afterPropertiesSet();
-                this.jobExplorer = jobExplorerFactoryBean.getObject();
-            }
-
-            this.jobLauncher = createJobLauncher();
-        } catch (Exception e) {
-            throw new BatchConfigurationException(e);
-        }
     }
 
+    @Bean
     protected JobLauncher createJobLauncher() throws Exception {
         SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
         jobLauncher.setJobRepository(jobRepository);
@@ -103,14 +90,29 @@ public class DefineBatchConfigurer implements BatchConfigurer {
         return jobLauncher;
     }
 
-    protected JobRepository createJobRepository() throws Exception {
-        JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
-        //修改事务隔离级别
-//        factory.setIsolationLevelForCreate("ISOLATION_REPEATABLE_READ");
-        factory.setIsolationLevelForCreate("ISOLATION_READ_COMMITTED");
-        factory.setDataSource(dataSource);
-        factory.setTransactionManager(transactionManager);
-        factory.afterPropertiesSet();
-        return  factory.getObject();
+
+    @Bean
+    protected JobExplorer jobExplorer() throws Exception {
+        JobExplorerFactoryBean jobExplorerFactoryBean = new JobExplorerFactoryBean();
+        jobExplorerFactoryBean.setDataSource(this.dataSource);
+        jobExplorerFactoryBean.afterPropertiesSet();
+        return jobExplorerFactoryBean.getObject();
+
+    }
+    @Bean
+    protected ListableJobLocator listableJobLocator() throws Exception {
+        ListableJobLocator listableJobLocator = new MapJobRegistry();
+        return listableJobLocator;
+
+    }
+    @Bean
+    protected JobBuilderFactory jobBuilderFactory() throws Exception {
+        return new JobBuilderFactory(jobRepository);
+
+    }
+    @Bean
+    protected StepBuilderFactory stepBuilderFactory() throws Exception {
+        return new StepBuilderFactory(jobRepository,transactionManager);
+
     }
 }

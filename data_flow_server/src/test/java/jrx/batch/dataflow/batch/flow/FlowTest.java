@@ -1,0 +1,74 @@
+package jrx.batch.dataflow.batch.flow;
+
+import com.alibaba.fastjson.JSON;
+import jrx.batch.dataflow.SpringbootDataflowServerApplication;
+import jrx.batch.dataflow.infrastructure.dao.TaskExecutionMapper;
+import jrx.batch.dataflow.infrastructure.model.TaskExecution;
+import lombok.extern.java.Log;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.dataflow.core.AppRegistration;
+import org.springframework.cloud.dataflow.core.ApplicationType;
+import org.springframework.cloud.dataflow.core.TaskDefinition;
+import org.springframework.cloud.dataflow.core.TaskDeployment;
+import org.springframework.cloud.dataflow.registry.repository.AppRegistrationRepository;
+import org.springframework.cloud.dataflow.server.config.features.LocalPlatformProperties;
+import org.springframework.cloud.dataflow.server.repository.TaskDefinitionRepository;
+import org.springframework.cloud.dataflow.server.repository.TaskDeploymentRepository;
+import org.springframework.cloud.dataflow.server.service.TaskExecutionService;
+import org.springframework.cloud.deployer.spi.core.AppDeploymentRequest;
+import org.springframework.cloud.deployer.spi.local.LocalDeployerProperties;
+import org.springframework.cloud.deployer.spi.local.LocalTaskLauncher;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.sql.DataSource;
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+@Log
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = SpringbootDataflowServerApplication.class)
+//@EnableConfigurationProperties(LocalDeployerProperties.class)
+public class FlowTest {
+    @Autowired
+    private TaskExecutionService taskService;
+    @Autowired
+    private DataSource dataSource;
+
+    @Autowired
+    TaskDeploymentRepository taskDeploymentRepository;
+    @Autowired
+    AppRegistrationRepository appRegistrationRepository;
+
+    @Autowired
+    LocalDeployerProperties localDeployerProperties;
+    @Autowired
+    LocalPlatformProperties localPlatformProperties;
+
+    @Autowired
+    TaskDefinitionRepository taskDefinitionRepository;
+
+    @Autowired
+    TaskExecutionMapper taskExecutionMapper;
+
+    @Test
+    public void name() {
+        taskExecutionMapper.insert(TaskExecution.builder().taskExecutionId(1l).parentExecutionId(1l).taskName("22").build());
+    }
+
+    @Test
+    public void taskDefinitionRepository() {
+        //任务定义
+        TaskDefinition taskDefinition = new TaskDefinition("simple_job","simplejob");
+        TaskDefinition save = taskDefinitionRepository.save(taskDefinition);
+        System.out.println(save.getTaskName());
+    }
+}

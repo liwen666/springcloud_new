@@ -30,6 +30,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.sql.DataSource;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -46,6 +47,8 @@ import java.util.HashMap;
 public class TaskServiceTest {
     @Autowired
     private TaskExecutionService taskService;
+    @Autowired
+    private DataSource dataSource;
 
     @Autowired
     TaskDeploymentRepository taskDeploymentRepository;
@@ -77,11 +80,9 @@ public class TaskServiceTest {
 
     @Test
     public void taskDefinitionRepository() {
-//        TaskDefinition(String registeredAppName, String label, Map<String, String> properties)
-//        TaskDefinition taskDefinition = new TaskDefinition("test_task","lable");
         TaskDefinition taskDefinition = new TaskDefinition("simple_job","simplejob");
         TaskDefinition save = taskDefinitionRepository.save(taskDefinition);
-        System.out.println(JSON.toJSONString(save));
+        System.out.println(save.getTaskName());
     }
 
     /**
@@ -109,7 +110,6 @@ public class TaskServiceTest {
 
     @Test
     public void execBatchTask() {
-        long parentId = 1000;
         long executeTask = taskService.executeTask("simple_job", new HashMap<String, String>() {{
 //            put("app.test", "1");//deployment property keys starting with 'app.', 'deployer.' or, 'scheduler.' allowed, got 'param.test'
             /**
@@ -122,11 +122,9 @@ public class TaskServiceTest {
             ///执行任务传入的参数
             add("param = test");//此参数表示执行这个任务时指定平台是什么，如果和task_deployment中的不一致任务无法执行
         }});
-        int i = taskExecutionMapper.updateById(TaskExecution.builder().parentExecutionId(parentId).taskExecutionId(executeTask).build());
         System.out.println("******************************************************");
 
         System.out.println(executeTask);
-        System.out.println(i);
     }
 
 
@@ -135,9 +133,9 @@ public class TaskServiceTest {
         TaskDeployment taskDeployment = new TaskDeployment();
         taskDeployment.setPlatformName("local");
         taskDeployment.setTaskDefinitionName("simple_job");
-        taskDeployment.setTaskDeploymentId("32193298948291");
+        taskDeployment.setTaskDeploymentId("32193298948291sss");
         taskDeploymentRepository.save(taskDeployment);
-        TaskDeployment byTaskDeploymentId = taskDeploymentRepository.findByTaskDeploymentId("00000092299");
+        TaskDeployment byTaskDeploymentId = taskDeploymentRepository.findByTaskDeploymentId("32193298948291");
 
         System.out.println(JSON.toJSONString(byTaskDeploymentId));
     }
@@ -163,6 +161,8 @@ public class TaskServiceTest {
 
         log.info("打印infor日志");
     }
+
+
 
     @Test
     public void getResource() throws MalformedURLException, FileNotFoundException {

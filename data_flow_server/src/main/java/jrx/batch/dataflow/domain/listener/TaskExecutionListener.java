@@ -23,14 +23,14 @@ public class TaskExecutionListener {
 
     private static final Logger logger = LoggerFactory.getLogger(TaskExecutionListener.class);
 
-    @Autowired
-    private JobOperator jobOperator;
-
-    @Autowired
-    private JobExplorer jobExplorer;
-
-    @Autowired
-    private SimpleTaskExplorer simpleTaskExplorer;
+//    @Autowired
+//    private JobOperator jobOperator;
+//
+//    @Autowired
+//    private JobExplorer jobExplorer;
+//
+//    @Autowired
+//    private SimpleTaskExplorer simpleTaskExplorer;
 
     @Autowired
     private DefaultApplicationArguments applicationArguments;

@@ -50,7 +50,7 @@ public class SimpleJobTest {
 
     @Autowired
     private StepBuilderFactory stepBuilderFactory;
- @Autowired
+     @Autowired
     private SimpleStepExecutionListener stepMonitorListener;
 
 
@@ -66,8 +66,10 @@ public class SimpleJobTest {
     public void runJobByParamExternal() throws Exception {
         Job job = simpleJob();
         JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
+//        "param = test","--spring.cloud.data.flow.platformname=local","--spring.cloud.task.executionid=40","--job.runDate=1573133299335","--job.ptime=200"
         jobParametersBuilder.addDate("start",new Date());
         jobParametersBuilder.addString("dir","/home/jrx");
+        jobParametersBuilder.addString("--spring.cloud.task.executionid","40");
         JobParameters jobParameters = jobParametersBuilder.toJobParameters();
         taskCommandRunner.runJobByParamExternal(job,jobParameters);
     }

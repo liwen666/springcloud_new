@@ -27,24 +27,24 @@ public class ConfigLoadCommandLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        Assert.notNull(applicationContext,"上下文内容不为空");
+        Assert.notNull(applicationContext, "上下文内容不为空");
         logger.info("加载监听器");
         AppDeployer appDeployer = applicationContext.getBean(AppDeployer.class);
-        Map<String,Object> env = new HashMap<>();
+        Map<String, Object> env = new HashMap<>();
         RuntimeEnvironmentInfo info = appDeployer.environmentInfo();
-        env.put("ImplementationName",info.getImplementationName());
-        env.put("ImplementationVersion",info.getImplementationVersion());
-        env.put("JavaVersion",info.getJavaVersion());
-        env.put("PlatformApiVersion",info.getPlatformApiVersion());
-        env.put("PlatformClientVersion",info.getPlatformClientVersion());
-        env.put("PlatformHostVersion",info.getPlatformHostVersion());
-        env.put("PlatformType",info.getPlatformType());
-        env.put("SpiVersion",info.getSpiVersion());
-        env.put("SpringBootVersion",info.getSpringBootVersion());
-        env.put("PlatformSpecificInfo",info.getPlatformSpecificInfo());
-        logger.info("使用AppDeployer环境：\n{}",env);
+        env.put("ImplementationName", info.getImplementationName());
+        env.put("ImplementationVersion", info.getImplementationVersion());
+        env.put("JavaVersion", info.getJavaVersion());
+        env.put("PlatformApiVersion", info.getPlatformApiVersion());
+        env.put("PlatformClientVersion", info.getPlatformClientVersion());
+        env.put("PlatformHostVersion", info.getPlatformHostVersion());
+        env.put("PlatformType", info.getPlatformType());
+        env.put("SpiVersion", info.getSpiVersion());
+        env.put("SpringBootVersion", info.getSpringBootVersion());
+        env.put("PlatformSpecificInfo", info.getPlatformSpecificInfo());
+        logger.info("使用AppDeployer环境：\n{}", env);
         TaskLauncher taskLauncher = applicationContext.getBean(TaskLauncher.class);
-        logger.info("使用taskLauncher，{}",taskLauncher);
+        logger.info("使用taskLauncher，{}", taskLauncher);
 
     }
 }
