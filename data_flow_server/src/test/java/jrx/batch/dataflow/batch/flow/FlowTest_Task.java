@@ -12,22 +12,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.dataflow.core.AppRegistration;
 import org.springframework.cloud.dataflow.core.ApplicationType;
 import org.springframework.cloud.dataflow.core.TaskDefinition;
-import org.springframework.cloud.dataflow.core.TaskDeployment;
 import org.springframework.cloud.dataflow.registry.repository.AppRegistrationRepository;
 import org.springframework.cloud.dataflow.server.config.features.LocalPlatformProperties;
 import org.springframework.cloud.dataflow.server.repository.TaskDefinitionRepository;
 import org.springframework.cloud.dataflow.server.repository.TaskDeploymentRepository;
 import org.springframework.cloud.dataflow.server.service.TaskExecutionService;
-import org.springframework.cloud.deployer.spi.core.AppDeploymentRequest;
 import org.springframework.cloud.deployer.spi.local.LocalDeployerProperties;
-import org.springframework.cloud.deployer.spi.local.LocalTaskLauncher;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.sql.DataSource;
-import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -37,7 +30,7 @@ import java.util.HashMap;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = SpringbootDataflowServerApplication.class)
 //@EnableConfigurationProperties(LocalDeployerProperties.class)
-public class FlowTest {
+public class FlowTest_Task {
     @Autowired
     private TaskExecutionService taskService;
     @Autowired
@@ -64,11 +57,56 @@ public class FlowTest {
         taskExecutionMapper.insert(TaskExecution.builder().taskExecutionId(1l).parentExecutionId(1l).taskName("22").build());
     }
 
+    /**
+     * 1 上传App 并注册
+     *   附上版本号
+     */
+    @Test
+    public void appRegistration() throws URISyntaxException {
+        AppRegistration appRegistration = new AppRegistration();
+        appRegistration.setVersion("1");
+        appRegistration.setType(ApplicationType.task);
+        appRegistration.setUri(new URI("file://D:/idea2018workspace/springcloud_new/data_flow_server/src/test/java/jrx/batch/dataflow/batch/flow/task.jar"));
+        appRegistration.setName("test_task_only");
+        AppRegistration save = appRegistrationRepository.save(appRegistration);
+        System.out.println(JSON.toJSONString(save));
+        AppRegistration simplejob = appRegistrationRepository.findAppRegistrationByNameAndTypeAndVersion("test_task_only", ApplicationType.task  ,"1");
+
+        System.out.println(JSON.toJSONString(simplejob));
+    }
+
+
+    /**
+     * 2 任务关联APP
+     */
     @Test
     public void taskDefinitionRepository() {
-        //任务定义
-        TaskDefinition taskDefinition = new TaskDefinition("simple_job","simplejob");
+        //任务定义 此处如果任务名称重复会更新任务  对应的app名称
+        TaskDefinition taskDefinition = new TaskDefinition("taskTestOnly","test_task_only");
         TaskDefinition save = taskDefinitionRepository.save(taskDefinition);
         System.out.println(save.getTaskName());
+    }
+
+    /**
+     * 3 执行任务
+     */
+    @Test
+    public void execBatchTask() {
+        long executeTask = taskService.executeTask("taskTestOnly", new HashMap<String, String>() {{
+//            put("app.test", "1");//deployment property keys starting with 'app.', 'deployer.' or, 'scheduler.' allowed, got 'param.test'
+            /**
+             * 此参数可以选择执行任务的launcher
+             * 见配置项中的平台配置，配置项没有则为default
+             * 本系统配置了test 和local 两个平台
+             */
+//            put("spring.cloud.dataflow.task.platformName", "default");
+            put("spring.cloud.dataflow.task.platformName", "local");
+        }}, new ArrayList<String>() {{
+            ///执行任务传入的参数
+            add("param = test");//此参数表示执行这个任务时指定平台是什么，如果和task_deployment中的不一致任务无法执行
+        }});
+        System.out.println("******************************************************");
+
+        System.out.println(executeTask);
     }
 }

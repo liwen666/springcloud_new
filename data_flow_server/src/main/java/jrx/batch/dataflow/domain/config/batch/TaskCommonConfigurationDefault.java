@@ -18,8 +18,6 @@ import javax.sql.DataSource;
  * @date 2018/3/28
  */
 @Configuration
-//@EnableTask
-//@EnableBatchProcessing
 public class TaskCommonConfigurationDefault {
 
     private static final Logger logger = LoggerFactory.getLogger(TaskCommonConfigurationDefault.class);

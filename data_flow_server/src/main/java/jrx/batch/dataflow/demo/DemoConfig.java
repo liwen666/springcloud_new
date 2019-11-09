@@ -4,6 +4,7 @@ package jrx.batch.dataflow.demo;
 
 //import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import jrx.batch.dataflow.domain.config.annotation.BeanOveride;
 import jrx.batch.dataflow.infrastructure.model.TaskTaskBatch;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -30,35 +31,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @author tx
  * @since 2019/5/26 23:40
  */
-//@Configuration
+@BeanOveride(tableName="newName")
+@Configuration
 //@Service
 //@Component
 //    @RestController
 //@EnableConfigurationProperties(LocalPlatformProperties.class)
 //@EnableConfigurationProperties({TaskConfigurationProperties.class, CommonApplicationProperties.class, DockerValidatorProperties.class, LocalPlatformProperties.class})
 public class DemoConfig {
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    String value;
-    //此处表示在什么情况下会加载bean
-    @Profile({"local", "default"})
-    @Bean
-    public TaskPlatform localTaskPlatform(LocalPlatformProperties localPlatformProperties, @Nullable Scheduler localScheduler) {
-        TaskPlatform taskPlatform = (new LocalTaskPlatformFactory(localPlatformProperties, localScheduler)).createTaskPlatform();
-        taskPlatform.setPrimary(true);
-        return taskPlatform;
-    }
-
-    @Bean
-    public TaskTaskBatch localTaskPlatform() {
-        System.out.println("******************************************************");
-
-        return new TaskTaskBatch();
-    }
+    private String name ="spring";
 }
