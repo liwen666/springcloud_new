@@ -12,6 +12,7 @@ public enum CodeEnums {
      *  3001-5000
      */
     SUCCESS (1,"success","成功"),
+    EROOR (0,"error","错误"),
     EXCEPTION(999, "exception", "异常"),
     PAGE_NOT_FOUND(404, "page_not_found", "页面不存在"),
     ILLEGALARGUMENT(400, "illegalargument", "参数校验异常"),

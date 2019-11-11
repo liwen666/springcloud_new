@@ -3,8 +3,10 @@ package jrx.batch.dataflow;
 //import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource
 
 import jrx.batch.dataflow.domain.config.batch.EnableJrxProperties;
+import jrx.batch.dataflow.domain.config.batch.JrxBatchProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.dataflow.server.EnableDataFlowServer;

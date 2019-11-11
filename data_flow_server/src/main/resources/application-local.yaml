@@ -46,7 +46,11 @@ spring:
 #spring.jpa.hibernate.ddl-auto = update
 #spring.jpa.hibernate.naming-strategy = org.hibernate.cfg.ImprovedNamingStrategy
 #spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.MySQL55Dialect
-
+#文件上传的配置
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 35MB
 ---
 spring:
   ##thymeleaf 页面跳转
@@ -69,7 +73,7 @@ jrx:
   batch:
     properties:
       jarhome: C:/Users/liwen/Desktop/jrx/taskjar/
-
+      nodeName: mast_node
 
 #showSql
 #logging:

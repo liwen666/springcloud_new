@@ -18,7 +18,6 @@ public class UrlFilter implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         String requestURI = req.getRequestURI();
-        System.out.println(requestURI);
         if(requestURI.equals("/dashboard/index.html")){
             servletRequest.getRequestDispatcher("/public"+requestURI).forward(servletRequest, servletResponse);
         }else if(requestURI.equals("/apps")){

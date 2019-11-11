@@ -23,6 +23,10 @@ public class JsonResult<T> implements Serializable {
     public static <T> JsonResult<T> error(int code, String message) {
         return new JsonResult(code, message,null,null);
     }
+    public static <T> JsonResult<T> error( String message) {
+        return new JsonResult(CodeEnums.EROOR.getCode(), message,null,null);
+    }
+
 
     public static <T> JsonResult<T> success( ) { return new JsonResult(CodeEnums.SUCCESS.getCode(),CodeEnums.SUCCESS.getDesc(), null,null);
     }
