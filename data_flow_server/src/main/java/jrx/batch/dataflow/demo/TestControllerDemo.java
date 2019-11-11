@@ -3,13 +3,11 @@ package jrx.batch.dataflow.demo;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jrx.batch.dataflow.infrastructure.dao.TaskTaskBatchMapper;
 import jrx.batch.dataflow.infrastructure.model.TaskTaskBatch;
+import jrx.batch.dataflow.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -41,6 +39,21 @@ public class TestControllerDemo {
 
     @GetMapping("/test")
     public String test(){
+
+
         return testProperties;
+    }
+    @GetMapping("/test1")
+    public User testq(){
+
+        User user=new User("小明fdajjjj解决","xxx");
+
+        return user;
+    }
+    @ResponseBody
+    @GetMapping("/base")
+    public JsonResult test2(){
+        String a = "启动";
+        return  JsonResult.success(a);
     }
 }
