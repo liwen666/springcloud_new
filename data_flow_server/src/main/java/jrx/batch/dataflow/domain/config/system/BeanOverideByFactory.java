@@ -35,7 +35,6 @@ public class BeanOverideByFactory {
     private ConfigurableApplicationContext context;
     @PostConstruct
     public void init() {
-        System.out.println("自定义PostConstruct");
         // 使用自定义扫描类，针对@Model进行扫描
         ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
         String[] beanNamesForType1 = beanFactory.getBeanNamesForType(TaskExecutionService.class);
@@ -44,12 +43,5 @@ public class BeanOverideByFactory {
         beanFactory1.removeBeanDefinition(beanNamesForType1[0]);
         beanFactory1.removeBeanDefinition(beanNamesForType1[1]);
         beanFactory1.registerBeanDefinition("taskService",beanDefinition1);
-        try {
-            BeanDefinition beanDefinition2 = beanFactory1.getBeanDefinition(beanNamesForType1[0]);
-        } catch (NoSuchBeanDefinitionException e) {
-            System.out.println("bean已删除");
-            e.printStackTrace();
-        }
-
     }
 }

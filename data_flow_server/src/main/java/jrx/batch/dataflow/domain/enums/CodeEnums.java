@@ -1,13 +1,25 @@
 package jrx.batch.dataflow.domain.enums;
 
 public enum CodeEnums {
+    /**
+     * 1-1000
+     * 通用
+     * 页面相关
+     * 1001-2000
+     * 文件相关
+     * 2001-3000
+     *  用户权限相关
+     *  3001-5000
+     */
+    SUCCESS (1,"success","成功"),
     EXCEPTION(999, "exception", "异常"),
     PAGE_NOT_FOUND(404, "page_not_found", "页面不存在"),
     ILLEGALARGUMENT(400, "illegalargument", "参数校验异常"),
     PARAM_EMPTY(1001, "param_empty", "参数为空"),
     PARAM_VALUE_ERROR(1016, "param_value_error", "参数设置错误"),
-    USER_NOT_EXIST(1018, "USER_NOT_EXIST", "用户不存在"),
-    SUCCESS(1000, "SUCCESS", "成功");
+    FILE_NULL(2001, "file_null", "文件为空"),
+    FILE_NOT_ACCEPT(2001, "file_not_accept", "文件不合法");
+
 
     private int code;
     private String desc;

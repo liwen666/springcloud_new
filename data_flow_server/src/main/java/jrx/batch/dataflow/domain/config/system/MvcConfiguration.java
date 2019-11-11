@@ -40,6 +40,7 @@ public class MvcConfiguration extends WebMvcConfigurationSupport {
         registry.addRedirectViewController("/dashboard/styles.1f73bce9a5c274f63362.css", "/public/dashboard/styles.1f73bce9a5c274f63362.css");
         registry.addRedirectViewController("/dashboard/polyfills.a41f31ce6428ed14368b.js", "/public/dashboard/polyfills.a41f31ce6428ed14368b.js");
         registry.addRedirectViewController("/dashboard/index.html", "/public/dashboard/index.html");
+        registry.addRedirectViewController("/dashboard/index.html", "/public/dashboard/index.html");
 
         /**
          * 将路径映射到某个名称为指定值的视图上

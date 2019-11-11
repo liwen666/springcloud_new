@@ -36,23 +36,22 @@ public class JRXApplicationRunListener implements SpringApplicationRunListener {
 
     @Override
     public void starting() {
-        System.out.println("自定义starting");
+//        System.out.println("自定义starting");
     }
 
     @Override
     public void environmentPrepared(ConfigurableEnvironment environment) {
-        System.out.println("自定义environmentPrepared");
+//        System.out.println("自定义environmentPrepared");
     }
 
     @Override
     public void contextPrepared(ConfigurableApplicationContext context) {
-        System.out.println("自定义contextPrepared");
+//        System.out.println("自定义contextPrepared");
     }
 
     @Override
     public void contextLoaded(ConfigurableApplicationContext context) {
-
-        System.out.println("自定义contextLoaded");
+//        System.out.println("自定义contextLoaded");
     }
 
     @Override
@@ -60,45 +59,20 @@ public class JRXApplicationRunListener implements SpringApplicationRunListener {
         DemoConfig bean = null;
         try {
             ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-//            String[] beanNamesForAnnotation = beanFactory.getBeanNamesForAnnotation(Configuration.class);
-//            System.out.println(JSON.toJSONString(beanNamesForAnnotation));
-//            String[] beanNamesForType = beanFactory.getBeanNamesForType(DemoConfig.class);
-//            System.out.println("******************************************************");
-//            System.out.println(JSON.toJSONString(beanNamesForType));
             String[] beanNamesForType1 = beanFactory.getBeanNamesForType(DemoConfig.class);
             System.out.println(JSON.toJSONString(beanNamesForType1));
-//            if (beanNamesForType1.length!=0) {
-//                ((BeanDefinitionRegistry) beanFactory).removeBeanDefinition(beanNamesForType1[0]);
-//            }
-//            GenericBeanDefinition beanDef = new GenericBeanDefinition();
-//            beanDef.setBeanClass(Map.class);
-//            beanDef.setPropertyValues(new MutablePropertyValues(new HashMap<String, String>() {
-//                {
-//                    put("name", "my");
-//                }
-//            }));
-//            ((BeanDefinitionRegistry) beanFactory).registerBeanDefinition("new ", beanDef);
-//            Object aNew = beanFactory.getBean("new");
-
         } catch (BeansException e) {
 
         }
-
-//        ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-//        DemoConfig bean = beanFactory.getBean(DemoConfig.class);
-//        System.out.println(JSON.toJSONString(bean));
-        System.out.println("自定义started");
     }
 
     @Override
     public void running(ConfigurableApplicationContext context) {
-        System.out.println("自定义srunning");
+//        System.out.println("自定义srunning");
     }
 
     @Override
     public void failed(ConfigurableApplicationContext context, Throwable exception) {
-        System.out.println("自定义failed");
+//        System.out.println("自定义failed");
     }
-
-
 }
