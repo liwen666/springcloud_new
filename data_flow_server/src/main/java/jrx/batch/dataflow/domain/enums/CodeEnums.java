@@ -1,6 +1,6 @@
 package jrx.batch.dataflow.domain.enums;
 
-public enum CodeEnums {
+public enum CodeEnums implements IBaseEnum{
     /**
      * 1-1000
      * 通用
@@ -31,28 +31,52 @@ public enum CodeEnums {
         this.desc = desc;
         this.cnDesc = cnDesc;
     }
-
-    public int getCode() {
+    @Override
+    public int code() {
         return this.code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
+    @Override
     public String getDesc() {
         return this.desc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+
+    @Override
+    public String getDesc(Integer code) {
+        if (null == code) {
+            return null;
+        }
+
+        CodeEnums c = getEnum(code);
+        if (null == c) {
+            return code + "";
+        } else {
+            return c.desc;
+        }
     }
 
     public String getCnDesc() {
         return this.cnDesc;
     }
 
-    public void setCnDesc(String cnDesc) {
-        this.cnDesc = cnDesc;
+
+    public static CodeEnums getEnum(Integer code) {
+        if (null == code) {
+            return null;
+        }
+
+        for (CodeEnums c : CodeEnums.values()) {
+            if (c.code() == code.intValue()) {
+                return c;
+            }
+        }
+        return null;
     }
+
+    public static void main(String[] args) {
+        int code = CodeEnums.FILE_NOT_ACCEPT.code();
+        System.out.println(code);
+    }
+
 }

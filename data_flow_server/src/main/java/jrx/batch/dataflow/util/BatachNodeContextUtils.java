@@ -1,6 +1,7 @@
 package jrx.batch.dataflow.util;
 
 import jrx.batch.dataflow.domain.config.batch.JrxBatchProperties;
+import jrx.batch.dataflow.domain.enums.JrxBatchEnums;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -50,7 +51,7 @@ public class BatachNodeContextUtils implements ApplicationContextAware {
     }
 
     public static String getNodeName() {
-        String nodeName = JrxBatchProperties.properties.get("nodeName");
+        String nodeName = JrxBatchProperties.properties.get(JrxBatchEnums.NODE_NAME.name());
         return nodeName;
     }
 

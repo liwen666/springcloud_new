@@ -72,8 +72,10 @@ mybatis-plus:
 jrx:
   batch:
     properties:
-      jarhome: C:/Users/liwen/Desktop/jrx/taskjar/
-      nodeName: master_node
+      JAR_HOME_DEFAULT: C:/Users/liwen/Desktop/jrx/taskjar/
+      WIN_JAR_HOME: C:/Users/liwen/Desktop/jrx/taskjar/
+      LINUX_JAR_HOME: /home/jrxany/batch_schedule/jarhome
+      NODE_NAME: master_node
 
 #showSql
 #logging:

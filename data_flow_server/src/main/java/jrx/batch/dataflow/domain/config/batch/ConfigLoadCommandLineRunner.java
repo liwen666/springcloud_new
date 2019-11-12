@@ -1,5 +1,7 @@
 package jrx.batch.dataflow.domain.config.batch;
 
+import jrx.batch.dataflow.domain.enums.JrxBatchEnums;
+import jrx.batch.dataflow.util.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.cloud.deployer.spi.task.TaskLauncher;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +48,18 @@ public class ConfigLoadCommandLineRunner implements CommandLineRunner {
         logger.info("使用AppDeployer环境：\n{}", env);
         TaskLauncher taskLauncher = applicationContext.getBean(TaskLauncher.class);
         logger.info("使用taskLauncher，{}", taskLauncher);
+        boolean win = SystemUtils.isWin();
+        String filePath = "";
+        if (win) {
+            filePath = JrxBatchProperties.properties.get(JrxBatchEnums.WIN_JAR_HOME.name()); // 上传后的路径
+        } else{
+            filePath = JrxBatchProperties.properties.get(JrxBatchEnums.LINUX_JAR_HOME.name()); // 上传后的路径
+
+        }
+        if(StringUtils.isEmpty(filePath)){
+            filePath = JrxBatchProperties.properties.get(JrxBatchEnums.JAR_HOME_DEFAULT.name()); // 上传后的路径
+        }
+        logger.info("===APP 上传到节点的路径是：{}",filePath);
 
     }
 }

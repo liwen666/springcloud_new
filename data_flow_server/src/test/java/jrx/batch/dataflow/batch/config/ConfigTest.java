@@ -3,6 +3,7 @@ package jrx.batch.dataflow.batch.config;
 import com.alibaba.fastjson.JSON;
 import jrx.batch.dataflow.SpringbootDataflowServerApplication;
 import jrx.batch.dataflow.domain.config.batch.JrxBatchProperties;
+import jrx.batch.dataflow.domain.enums.JrxBatchEnums;
 import jrx.batch.dataflow.infrastructure.dao.TaskExecutionMapper;
 import lombok.extern.java.Log;
 import org.junit.Test;
@@ -41,7 +42,9 @@ public class ConfigTest {
 
     @Test
     public void jrxbat() {
-        String jarhome = JrxBatchProperties.properties.get("jarhome");
+        String jarhome = JrxBatchProperties.properties.get(JrxBatchEnums.JAR_HOME_DEFAULT.name());
+        String nodename = JrxBatchProperties.properties.get(JrxBatchEnums.NODE_NAME.name());
         System.out.println(jarhome);
+        System.out.println(nodename);
     }
 }

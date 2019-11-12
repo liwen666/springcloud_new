@@ -21,9 +21,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author hafiz.zhang
- * @description:
- * @date Created in 2018/6/7 20:07.
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ *
+ * @since  2019/11/12 16:12
  */
 public class JRXApplicationRunListener implements SpringApplicationRunListener {
     private final SpringApplication application;

@@ -9,7 +9,14 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import java.util.List;
-
+/**
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2019/11/12 16:16
+ */
 @Configuration
 public class MvcConfiguration extends WebMvcConfigurationSupport {
 

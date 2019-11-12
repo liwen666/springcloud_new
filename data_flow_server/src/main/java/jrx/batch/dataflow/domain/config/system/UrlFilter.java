@@ -5,6 +5,15 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/**
+ * <p>
+ *  描述
+ *
+ * </p>
+ *
+ * @author lw
+ * @since  2019/11/12 16:12
+ */
 @WebFilter(filterName = "dataflow_filter", urlPatterns = "/*")
 public class UrlFilter implements Filter {
  

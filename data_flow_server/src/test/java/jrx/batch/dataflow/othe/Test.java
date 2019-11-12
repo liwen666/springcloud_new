@@ -24,5 +24,12 @@ public class Test {
         Matcher matcher = pattern.matcher("app.1.jar");
         System.out.println(matcher.matches());
 
+    }  @org.junit.Test
+    public void os() {
+        String os = System.getProperty("os.name");
+        if(os.toLowerCase().startsWith("win")){
+            System.out.println(os + " can't gunzip");
+        }
+
     }
 }
