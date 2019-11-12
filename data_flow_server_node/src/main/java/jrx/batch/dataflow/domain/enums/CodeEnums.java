@@ -13,6 +13,7 @@ public enum CodeEnums implements IBaseEnum{
      */
     SUCCESS (1,"success","成功"),
     EROOR (0,"error","错误"),
+    EXIST_DATA (2,"exist_data","数据不能重复"),
     EXCEPTION(999, "exception", "异常"),
     PAGE_NOT_FOUND(404, "page_not_found", "页面不存在"),
     ILLEGALARGUMENT(400, "illegalargument", "参数校验异常"),

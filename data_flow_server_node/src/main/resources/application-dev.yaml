@@ -1,15 +1,55 @@
-
 server:
-  port: 8080
+  port: 9001
 
 spring:
   datasource:
     username: root
-    password: root
-    url: jdbc:mysql://192.168.42.136:3306/data_flow?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
-#    driver-class-name: com.mysql.jdbc.Driver
+    password: 123.com
+    url: jdbc:mysql://172.16.101.19:3306/data_flow_node?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
+  #使用下面的配置LocalDeployerProperties可以省略 见  LocalPlatformProperties
+  cloud:
+    deployer:
+      local:
+        workingDirectoriesRoot: /home/jrxany/batch_schedule/workspace
+        java-opts: -Xms128M -Xmx128M
 
+    #平台配置
+    dataflow:
+      task:
+        platform:
+          local:
+            accounts:
+              local:
+                workingDirectoriesRoot: /home/jrxany/batch_schedule/workspace
+                java-opts: -Xms128M -Xmx128M
+              test:
+                workingDirectoriesRoot: /home/jrxany/batch_schedule/workspace
+                java-opts: -Xms128M -Xmx128M
+
+  jpa:
+    database: Mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    properties:
+      spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL55Dialect
+  #  LocalDeployerProperties本地执行jar的配置项
+
+  #文件上传的配置
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 35MB
+---
+spring:
+  ##thymeleaf 页面跳转
+  thymeleaf:
+    #    enabled: false
+    prefix: classpath:/templates/
+    suffix: .html
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: jrx.batch.dataflow
@@ -17,8 +57,13 @@ mybatis-plus:
   mapper-locations: classpath*:/mapper/*.xml
   type-aliases-package: jrx.batch.dataflow.infrastructure.model
   type-aliases-super-type: java.lang.Object
-#  type-handlers-package: com.example.springbootdemo.typeHandler
-#  type-enums-package: com.example.springbootdemo.enums
+
+
+jrx:
+  batch:
+    properties:
+      JAR_HOME_DEFAULT: /home/jrxany/batch_schedule/jarhome
+      NODE_NAME: master_node
 
 #showSql
 #logging:

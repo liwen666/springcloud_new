@@ -64,7 +64,7 @@ public class FlowTest_Task {
     @Test
     public void appRegistration() throws URISyntaxException {
         AppRegistration appRegistration = new AppRegistration();
-//        appRegistration.setVersion("1");
+        appRegistration.setVersion("1");
         appRegistration.setDefaultVersion(true);
         appRegistration.setType(ApplicationType.task);
         appRegistration.setUri(new URI("file://D:/idea2018workspace/springcloud_new/data_flow_server/src/test/java/jrx/batch/dataflow/batch/flow/task.jar"));

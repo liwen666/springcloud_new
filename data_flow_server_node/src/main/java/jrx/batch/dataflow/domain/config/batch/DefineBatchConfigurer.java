@@ -19,9 +19,15 @@ import org.springframework.batch.core.repository.support.MapJobRepositoryFactory
 import org.springframework.batch.support.transaction.ResourcelessTransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cloud.dataflow.core.TaskPlatform;
+import org.springframework.cloud.dataflow.server.config.features.LocalPlatformProperties;
+import org.springframework.cloud.dataflow.server.config.features.LocalTaskPlatformFactory;
+import org.springframework.cloud.scheduler.spi.core.Scheduler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.lang.Nullable;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.annotation.PostConstruct;
@@ -114,5 +120,13 @@ public class DefineBatchConfigurer implements BatchConfigurer {
     protected StepBuilderFactory stepBuilderFactory() throws Exception {
         return new StepBuilderFactory(jobRepository,transactionManager);
 
+    }
+
+    @Profile({"dev"})
+    @Bean
+    public TaskPlatform localTaskPlatform(LocalPlatformProperties localPlatformProperties, @Nullable Scheduler localScheduler) {
+        TaskPlatform taskPlatform = (new LocalTaskPlatformFactory(localPlatformProperties, localScheduler)).createTaskPlatform();
+        taskPlatform.setPrimary(true);
+        return taskPlatform;
     }
 }

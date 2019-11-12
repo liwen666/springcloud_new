@@ -39,7 +39,7 @@ public class BeanOverideByFactory {
         ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
         String[] beanNamesForType1 = beanFactory.getBeanNamesForType(TaskExecutionService.class);
         BeanDefinitionRegistry beanFactory1 = (BeanDefinitionRegistry) beanFactory;
-        BeanDefinition beanDefinition1 =beanFactory1.getBeanDefinition("JRXTaskExecutionService");
+        BeanDefinition beanDefinition1 =beanFactory1.getBeanDefinition("jRXTaskExecutionService");
         beanFactory1.removeBeanDefinition(beanNamesForType1[0]);
         beanFactory1.removeBeanDefinition(beanNamesForType1[1]);
         beanFactory1.registerBeanDefinition("taskService",beanDefinition1);

@@ -1,5 +1,6 @@
 package jrx.batch.dataflow.application;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jrx.batch.dataflow.domain.config.batch.JrxBatchProperties;
 import jrx.batch.dataflow.domain.enums.CodeEnums;
 import jrx.batch.dataflow.domain.enums.JrxBatchEnums;
@@ -63,44 +64,34 @@ public class AppRegisterController {
             log.error("====文件名不合法 filename: {}", fileName);
             return JsonResult.error(CodeEnums.FILE_NOT_ACCEPT.code(), CodeEnums.FILE_NOT_ACCEPT.getCnDesc());
         }
-        boolean win = SystemUtils.isWin();
-        String filePath = "";
-        if (win) {
-            filePath = JrxBatchProperties.properties.get(JrxBatchEnums.WIN_JAR_HOME.name()); // 上传后的路径
-        } else{
-            filePath = JrxBatchProperties.properties.get(JrxBatchEnums.LINUX_JAR_HOME.name()); // 上传后的路径
-
+        String appName = fileName.substring(0, fileName.lastIndexOf("."));
+        /**
+         * TODO 目前没有app版本控制，么个appName只能有一个
+         */
+        AppRegistration app = appRegistrationService.getOne(Wrappers.<AppRegistration>lambdaQuery().eq(AppRegistration::getName, appName));
+        if(null!=app){
+            return JsonResult.error(CodeEnums.EXIST_DATA.code(), CodeEnums.EXIST_DATA.getCnDesc());
         }
-        if(StringUtils.isEmpty(filePath)){
-            filePath = JrxBatchProperties.properties.get(JrxBatchEnums.JAR_HOME_DEFAULT.name()); // 上传后的路径
+        String filePath = JrxBatchProperties.properties.get(JrxBatchEnums.JAR_HOME_DEFAULT.name()); // 上传后的路径
+        if (!filePath.endsWith("/")) {
+            filePath = filePath + "/";
         }
-        if(!filePath.endsWith("/")){
-        filePath = filePath + "/";
+
+        File dest = new File(filePath + fileName);
+        if (!dest.getParentFile().exists()) {
+            dest.getParentFile().mkdirs();
+        }
+        try {
+            file.transferTo(dest);
+        } catch (
+                IOException e) {
+            e.printStackTrace();
+        }
+        /**
+         * 注册app
+         */
+        return appRegisterService.registerApplication(fileName, filePath);
     }
-
-    File dest = new File(filePath + fileName);
-        if(!dest.getParentFile().
-
-    exists())
-
-    {
-        dest.getParentFile().mkdirs();
-    }
-        try
-
-    {
-        file.transferTo(dest);
-    } catch(
-    IOException e)
-
-    {
-        e.printStackTrace();
-    }
-    /**
-     * 注册app
-     */
-        return appRegisterService.registerApplication(fileName,filePath);
-}
 
 
 }

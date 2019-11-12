@@ -14,7 +14,6 @@ spring:
     deployer:
       local:
         workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
-#        workingDirectoriesRoot: /home/jrxany/batch_schedule/workspace
         java-opts: -Xms128M -Xmx128M
 
     #平台配置
@@ -23,12 +22,6 @@ spring:
         platform:
           local:
             accounts:
-#              local:
-#                workingDirectoriesRoot: /home/jrxany/batch_schedule/workspace
-#                java-opts: -Xms128M -Xmx128M
-#              test:
-#                workingDirectoriesRoot: /home/jrxany/batch_schedule/workspace
-#                java-opts: -Xms128M -Xmx128M
               local:
                 workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
                 java-opts: -Xms128M -Xmx128M
@@ -45,14 +38,9 @@ spring:
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
     properties:
       spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL55Dialect
-#  LocalDeployerProperties本地执行jar的配置项
+  #  LocalDeployerProperties本地执行jar的配置项
 
-#spring.jpa.datasource=Mysql
-#spring.jpa.show-sql = true
-#spring.jpa.hibernate.ddl-auto = update
-#spring.jpa.hibernate.naming-strategy = org.hibernate.cfg.ImprovedNamingStrategy
-#spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.MySQL55Dialect
-#文件上传的配置
+  #文件上传的配置
   servlet:
     multipart:
       max-file-size: 30MB
@@ -79,10 +67,7 @@ jrx:
   batch:
     properties:
       JAR_HOME_DEFAULT: C:/Users/liwen/Desktop/jrx/taskjar/
-      WIN_JAR_HOME: C:/Users/liwen/Desktop/jrx/taskjar/
-      LINUX_JAR_HOME: /home/jrxany/batch_schedule/jarhome
       NODE_NAME: master_node
-
 #showSql
 #logging:
 #  level:

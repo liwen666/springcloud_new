@@ -48,17 +48,7 @@ public class ConfigLoadCommandLineRunner implements CommandLineRunner {
         logger.info("使用AppDeployer环境：\n{}", env);
         TaskLauncher taskLauncher = applicationContext.getBean(TaskLauncher.class);
         logger.info("使用taskLauncher，{}", taskLauncher);
-        boolean win = SystemUtils.isWin();
-        String filePath = "";
-        if (win) {
-            filePath = JrxBatchProperties.properties.get(JrxBatchEnums.WIN_JAR_HOME.name()); // 上传后的路径
-        } else{
-            filePath = JrxBatchProperties.properties.get(JrxBatchEnums.LINUX_JAR_HOME.name()); // 上传后的路径
-
-        }
-        if(StringUtils.isEmpty(filePath)){
-            filePath = JrxBatchProperties.properties.get(JrxBatchEnums.JAR_HOME_DEFAULT.name()); // 上传后的路径
-        }
+          String  filePath = JrxBatchProperties.properties.get(JrxBatchEnums.JAR_HOME_DEFAULT.name()); // 上传后的路径
         logger.info("===APP 上传到节点的路径是：{}",filePath);
 
     }
