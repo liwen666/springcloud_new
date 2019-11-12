@@ -15,6 +15,7 @@ spring:
     deployer:
       local:
         workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
+#        workingDirectoriesRoot: /home/jrxany/batch_schedule/workspace
         java-opts: -Xms128M -Xmx128M
 
     #平台配置
@@ -23,6 +24,12 @@ spring:
         platform:
           local:
             accounts:
+#              local:
+#                workingDirectoriesRoot: /home/jrxany/batch_schedule/workspace
+#                java-opts: -Xms128M -Xmx128M
+#              test:
+#                workingDirectoriesRoot: /home/jrxany/batch_schedule/workspace
+#                java-opts: -Xms128M -Xmx128M
               local:
                 workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
                 java-opts: -Xms128M -Xmx128M

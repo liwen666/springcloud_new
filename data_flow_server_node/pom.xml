@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.temp.springboot</groupId>
-    <artifactId>data_flow_server</artifactId>
+    <artifactId>data_flow_server_node</artifactId>
     <version>2.1.4</version>
     <name>spring_batch批次执行节点</name>
 
