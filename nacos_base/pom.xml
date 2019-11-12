@@ -11,7 +11,7 @@
     <groupId>com.temp.springboot</groupId>
     <artifactId>springboot2_nacos_config</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>springboot2_nacos_config</name>
+    <name>测试nacos</name>
     <description>springboot2_nacos_config</description>
 
     <properties>
@@ -40,6 +40,14 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
             <version>0.2.2.RELEASE</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-alibaba-nacos-discovery -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>0.2.2.RELEASE</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

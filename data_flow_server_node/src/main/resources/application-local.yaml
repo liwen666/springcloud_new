@@ -10,7 +10,6 @@ spring:
     #    driver-class-name: com.mysql.jdbc.Driver
     driver-class-name: com.mysql.cj.jdbc.Driver
   #使用下面的配置LocalDeployerProperties可以省略 见  LocalPlatformProperties
-  #默认"workingDirectoriesRoot":"C:\\Users\\liwen\\AppData\\Local\\Temp
   cloud:
     deployer:
       local:

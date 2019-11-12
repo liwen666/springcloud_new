@@ -43,7 +43,7 @@ public class JarWebappExplodedExample extends TomcatServletWebServerFactory {
 
         for(int var5 = 0; var5 < var4; ++var5) {
             Connector connector = var3[var5];
-            connector.setPort(10000);
+            connector.setPort(10010);
         }
         return super.getTomcatWebServer(tomcat);
     }

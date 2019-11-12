@@ -1,5 +1,11 @@
 package com.temp.jpa.jpa.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
@@ -8,8 +14,13 @@ import java.util.List;
  * @author xinre
  * @date 2019/5/25 13:59
  */
+@Accessors(chain = true)
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "hq_portal_notic")
+//@Table(name = "hq_portal_notic")
 public class Notic {
 
     /*

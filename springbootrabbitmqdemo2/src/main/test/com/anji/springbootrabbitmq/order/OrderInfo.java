@@ -14,8 +14,8 @@ import java.math.BigDecimal;
  * discribe
  */
 @Accessors(chain = true)
-@Builder
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderInfo {
