@@ -17,7 +17,7 @@ public class JrxRegxUtil {
      *
      */
     public static  boolean isAccept(String data){
-        String regx ="[a-z]+.jar";
+        String regx ="[A-Za-z0-9]+.jar";
         Pattern pattern = Pattern.compile(regx);
         Matcher matcher = pattern.matcher(data);
         return matcher.matches();

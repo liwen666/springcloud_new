@@ -73,7 +73,7 @@ jrx:
   batch:
     properties:
       jarhome: C:/Users/liwen/Desktop/jrx/taskjar/
-      nodeName: mast_node
+      nodeName: master_node
 
 #showSql
 #logging:

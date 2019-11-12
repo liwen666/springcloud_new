@@ -5,12 +5,11 @@ import jrx.batch.dataflow.domain.enums.CodeEnums;
 import jrx.batch.dataflow.domain.service.AppRegisterService;
 import jrx.batch.dataflow.domain.service.IAppRegistrationService;
 import jrx.batch.dataflow.infrastructure.model.AppRegistration;
+import jrx.batch.dataflow.util.BatachNodeContextUtils;
 import jrx.batch.dataflow.util.JrxRegxUtil;
 import jrx.batch.dataflow.util.JsonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.dataflow.core.ApplicationType;
-import org.springframework.cloud.dataflow.server.controller.AppRegistryController;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -39,7 +37,7 @@ public class AppRegisterController {
     @GetMapping(value = "/apps/list")
     public JsonResult appListAll()  {
         List<AppRegistration> list = appRegistrationService.list();
-        String nodeName = JrxBatchProperties.properties.get("nodeName");
+        String nodeName = BatachNodeContextUtils.getNodeName();
         if (null==nodeName){
             return JsonResult.error("节点配置节点名称为空，请检查配置");
         }

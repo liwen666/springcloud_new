@@ -32,6 +32,8 @@ public class AppRegisterService {
         AppRegistration appRegistration = new AppRegistration();
         appRegistration.setDefaultVersion(true);
         appRegistration.setType(ApplicationType.task);
+//        查询版本 // TODO 对APP添加版本控制
+        appRegistration.setVersion("1");
         appRegistration.setUri(new URI("file://"+filePath+fileName));
         String appName = fileName.substring(0, fileName.lastIndexOf("."));
         appRegistration.setName(appName);
