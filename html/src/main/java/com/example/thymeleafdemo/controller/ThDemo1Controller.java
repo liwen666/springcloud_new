@@ -80,7 +80,7 @@ public class ThDemo1Controller {
     public Object temp(){
         User user = new User();
         user.setId(111);
-        user.setName("temp");
+        user.setName("奥");
         return user;
     }
 
