@@ -32,4 +32,25 @@ public class Test {
         }
 
     }
+
+
+    @org.junit.Test
+    public void testException() {
+
+        try {
+            exec();
+        } catch (Exception e) {
+            System.out.println("捕获到运行时异常！"+e.getMessage());
+        }
+    }
+
+    public void exec(){
+        /**
+         * 运行时异常可以被全局拦截不用捕获
+         */
+        if(1==1){
+            throw new PlanExecutionException("jkjkjdka");
+        }
+
+    }
 }
