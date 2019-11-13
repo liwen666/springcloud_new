@@ -3,6 +3,7 @@ package jrx.batch.dataflow.domain.config.system;
 import com.alibaba.fastjson.JSON;
 import jrx.batch.dataflow.demo.DemoConfig;
 import jrx.batch.dataflow.domain.config.annotation.BeanOveride;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.MutablePropertyValues;
@@ -14,6 +15,10 @@ import org.springframework.boot.SpringApplicationRunListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import java.lang.reflect.Field;
@@ -29,6 +34,7 @@ import java.util.Map;
  *
  * @since  2019/11/12 16:12
  */
+@Slf4j
 public class JRXApplicationRunListener implements SpringApplicationRunListener {
     private final SpringApplication application;
     private final String[] args;
@@ -60,14 +66,12 @@ public class JRXApplicationRunListener implements SpringApplicationRunListener {
 
     @Override
     public void started(ConfigurableApplicationContext context) {
-        DemoConfig bean = null;
-        try {
             ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-            String[] beanNamesForType1 = beanFactory.getBeanNamesForType(DemoConfig.class);
-            System.out.println(JSON.toJSONString(beanNamesForType1));
-        } catch (BeansException e) {
-
-        }
+        String[] service = beanFactory.getBeanNamesForAnnotation(Service.class);
+        String[] restController = beanFactory.getBeanNamesForAnnotation(RestController.class);
+        String[] controller = beanFactory.getBeanNamesForAnnotation(Controller.class);
+        log.info("====初始化组件 \n ====service:{},\n ====restController:{} ,\n ====controller:{}  ",
+                service,restController,controller);
     }
 
     @Override

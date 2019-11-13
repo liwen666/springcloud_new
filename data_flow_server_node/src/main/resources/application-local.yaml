@@ -52,6 +52,9 @@ spring:
     #    enabled: false
     prefix: classpath:/templates/
     suffix: .html
+
+
+
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: jrx.batch.dataflow
@@ -67,7 +70,10 @@ jrx:
   batch:
     properties:
       JAR_HOME_DEFAULT: C:/Users/liwen/Desktop/jrx/taskjar/
-      NODE_NAME: master_node
+      NODE_NAME: node_local_test
+
+---
+
 #showSql
 #logging:
 #  level:

@@ -107,6 +107,12 @@
             <artifactId>xstream</artifactId>
             <version>1.4.11.1</version>
         </dependency>
+  <!--spring manager-->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>2.1.4</version>
+        </dependency>
     </dependencies>
 
     <build>
