@@ -1,8 +1,10 @@
 package jrx.batch.dataflow.domain.config.batch;
 
-import com.alibaba.fastjson.JSON;
-import lombok.extern.java.Log;
+import jrx.batch.dataflow.domain.config.system.PropertiesThreadLocalHolder;
+import jrx.batch.dataflow.domain.enums.BatchNodePropertiesKey;
+import jrx.batch.dataflow.domain.service.ITaskExecutionService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.dataflow.audit.service.AuditRecordService;
 import org.springframework.cloud.dataflow.core.*;
 import org.springframework.cloud.dataflow.rest.util.ArgumentSanitizer;
@@ -18,12 +20,11 @@ import org.springframework.cloud.deployer.spi.core.AppDeploymentRequest;
 import org.springframework.cloud.deployer.spi.task.TaskLauncher;
 import org.springframework.cloud.task.repository.TaskExecution;
 import org.springframework.cloud.task.repository.TaskRepository;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,16 +52,16 @@ public class JRXTaskExecutionService extends DefaultTaskExecutionService {
     private final ArgumentSanitizer argumentSanitizer = new ArgumentSanitizer();
     private final TaskAppDeploymentRequestCreator taskAppDeploymentRequestCreator;
 
-    public JRXTaskExecutionService(LauncherRepository launcherRepository, AuditRecordService auditRecordService, TaskRepository taskRepository, TaskExecutionInfoService taskExecutionInfoService, TaskDeploymentRepository taskDeploymentRepository, TaskExecutionCreationService taskExecutionRepositoryService, TaskAppDeploymentRequestCreator taskAppDeploymentRequestCreator, LauncherRepository launcherRepository1, TaskExecutionCreationService taskExecutionRepositoryService1, AuditRecordService auditRecordService1, TaskRepository taskRepository1, TaskExecutionInfoService taskExecutionInfoService1, TaskDeploymentRepository taskDeploymentRepository1, TaskAppDeploymentRequestCreator taskAppDeploymentRequestCreator1) {
+    public JRXTaskExecutionService(LauncherRepository launcherRepository, AuditRecordService auditRecordService, TaskRepository taskRepository, TaskExecutionInfoService taskExecutionInfoService, TaskDeploymentRepository taskDeploymentRepository, TaskExecutionCreationService taskExecutionRepositoryService, TaskAppDeploymentRequestCreator taskAppDeploymentRequestCreator) {
 
         super(launcherRepository, auditRecordService, taskRepository, taskExecutionInfoService, taskDeploymentRepository, taskExecutionRepositoryService, taskAppDeploymentRequestCreator);
-        this.launcherRepository = launcherRepository1;
-        this.taskExecutionRepositoryService = taskExecutionRepositoryService1;
-        this.auditRecordService = auditRecordService1;
-        this.taskRepository = taskRepository1;
-        this.taskExecutionInfoService = taskExecutionInfoService1;
-        this.taskDeploymentRepository = taskDeploymentRepository1;
-        this.taskAppDeploymentRequestCreator = taskAppDeploymentRequestCreator1;
+        this.launcherRepository = launcherRepository;
+        this.taskExecutionRepositoryService = taskExecutionRepositoryService;
+        this.auditRecordService = auditRecordService;
+        this.taskRepository = taskRepository;
+        this.taskExecutionInfoService = taskExecutionInfoService;
+        this.taskDeploymentRepository = taskDeploymentRepository;
+        this.taskAppDeploymentRequestCreator = taskAppDeploymentRequestCreator;
     }
 
 

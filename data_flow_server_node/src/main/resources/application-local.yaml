@@ -28,6 +28,9 @@ spring:
               test:
                 workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
                 java-opts: -Xms128M -Xmx128M
+              default:
+                workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
+                java-opts: -Xms128M -Xmx128M
 
   jpa:
     database: Mysql

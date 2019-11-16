@@ -93,15 +93,38 @@ public class FlowTest_Task {
      */
     @Test
     public void execBatchTask() {
-        long executeTask = taskService.executeTask("taskTestOnly", new HashMap<String, String>() {{
+        long executeTask = taskService.executeTask("test_node", new HashMap<String, String>() {{
 //            put("app.test", "1");//deployment property keys starting with 'app.', 'deployer.' or, 'scheduler.' allowed, got 'param.test'
             /**
              * 此参数可以选择执行任务的launcher
              * 见配置项中的平台配置，配置项没有则为default
              * 本系统配置了test 和local 两个平台
              */
-//            put("spring.cloud.dataflow.task.platformName", "default");
-            put("spring.cloud.dataflow.task.platformName", "local");
+            put("spring.cloud.dataflow.task.platformName", "default");
+//            put("spring.cloud.dataflow.task.platformName", "local");
+        }}, new ArrayList<String>() {{
+            ///执行任务传入的参数
+            add("param = test");//此参数表示执行这个任务时指定平台是什么，如果和task_deployment中的不一致任务无法执行
+        }});
+        System.out.println("******************************************************");
+
+        System.out.println(executeTask);
+    }
+
+    /**
+     * 3 执行任务
+     */
+    @Test
+    public void execBatchTaskByController() {
+        long executeTask = taskService.executeTask("test_node", new HashMap<String, String>() {{
+//            put("app.test", "1");//deployment property keys starting with 'app.', 'deployer.' or, 'scheduler.' allowed, got 'param.test'
+            /**
+             * 此参数可以选择执行任务的launcher
+             * 见配置项中的平台配置，配置项没有则为default
+             * 本系统配置了test 和local 两个平台
+             */
+            put("spring.cloud.dataflow.task.platformName", "default");
+//            put("spring.cloud.dataflow.task.platformName", "local");
         }}, new ArrayList<String>() {{
             ///执行任务传入的参数
             add("param = test");//此参数表示执行这个任务时指定平台是什么，如果和task_deployment中的不一致任务无法执行
