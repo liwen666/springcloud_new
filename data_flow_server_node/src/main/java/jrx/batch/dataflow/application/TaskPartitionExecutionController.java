@@ -52,6 +52,7 @@ public class TaskPartitionExecutionController {
         long executeTask;
         try {
             log.info("====开始执行任务： parentId:{},taskDefine:{},properties:{},argumes:{}",parentId,taskDefine,properties,arguments);
+            arguments.add("--spring.cloud.task.parentExecutionId="+parentId);
              executeTask = taskExecutionService.executeTask(taskDefine, properties, arguments);
             taskExecutionServiceImpl.update(TaskExecution.builder().parentExecutionId(Long.parseLong(parentId)).build(), Wrappers.<TaskExecution>lambdaUpdate().eq(TaskExecution::getTaskExecutionId,executeTask));
         } catch (Exception e) {
@@ -62,6 +63,8 @@ public class TaskPartitionExecutionController {
         }
         return JsonResult.success(executeTask);
     }
+
+
 
 
     public void test() {

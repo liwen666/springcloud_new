@@ -123,11 +123,13 @@ public class FlowTest_Task {
              * 见配置项中的平台配置，配置项没有则为default
              * 本系统配置了test 和local 两个平台
              */
-            put("spring.cloud.dataflow.task.platformName", "default");
+            put("spring.cloud.dataflow.task.platformName", "default");//此参数表示执行这个任务时指定平台是什么，如果和task_deployment中的不一致任务无法执行
 //            put("spring.cloud.dataflow.task.platformName", "local");
         }}, new ArrayList<String>() {{
-            ///执行任务传入的参数
-            add("param = test");//此参数表示执行这个任务时指定平台是什么，如果和task_deployment中的不一致任务无法执行
+            ///执行任务传入的参数   @see TaskProperties
+            add("--spring.cloud.task.executionid=30");
+            add("--spring.cloud.task.parentExecutionId=666666666666666");
+            add("param = test");
         }});
         System.out.println("******************************************************");
 

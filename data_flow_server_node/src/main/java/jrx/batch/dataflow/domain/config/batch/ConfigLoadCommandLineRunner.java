@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.cloud.deployer.spi.app.AppDeployer;
 import org.springframework.cloud.deployer.spi.core.RuntimeEnvironmentInfo;
+import org.springframework.cloud.deployer.spi.local.LocalTaskLauncher;
 import org.springframework.cloud.deployer.spi.task.TaskLauncher;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;

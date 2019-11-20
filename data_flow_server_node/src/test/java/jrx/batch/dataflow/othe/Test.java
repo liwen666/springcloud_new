@@ -1,5 +1,15 @@
 package jrx.batch.dataflow.othe;
 
+import com.alibaba.fastjson.JSON;
+import org.apache.http.client.utils.DateUtils;
+import org.springframework.cloud.dataflow.rest.job.support.TimeUtils;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,4 +63,15 @@ public class Test {
         }
 
     }
+
+    @org.junit.Test
+    public void casetest() {
+        Integer a =10;
+        Long b = a.longValue();
+        System.out.println(b);
+
+
+    }
+
+
 }

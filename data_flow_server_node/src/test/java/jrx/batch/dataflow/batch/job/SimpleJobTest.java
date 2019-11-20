@@ -69,7 +69,7 @@ public class SimpleJobTest {
 //        "param = test","--spring.cloud.data.flow.platformname=local","--spring.cloud.task.executionid=40","--job.runDate=1573133299335","--job.ptime=200"
         jobParametersBuilder.addDate("start",new Date());
         jobParametersBuilder.addString("dir","/home/jrx");
-        jobParametersBuilder.addString("--spring.cloud.task.executionid","40");
+        jobParametersBuilder.addString("--spring.cloud.task.executionid","1000");
         JobParameters jobParameters = jobParametersBuilder.toJobParameters();
         taskCommandRunner.runJobByParamExternal(job,jobParameters);
     }
@@ -112,6 +112,7 @@ public class SimpleJobTest {
 
 
         return stepBuilderFactory.get("secondStep")
+                .listener(stepMonitorListener)
                 .<String,String>chunk(5)
                 .reader(itemReader)
                 .processor(itemProcessor)

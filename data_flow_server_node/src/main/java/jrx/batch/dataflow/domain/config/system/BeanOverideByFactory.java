@@ -14,7 +14,9 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.cloud.dataflow.core.TaskDeployment;
 import org.springframework.cloud.dataflow.server.config.features.TaskConfiguration;
+import org.springframework.cloud.dataflow.server.repository.TaskDeploymentRepository;
 import org.springframework.cloud.dataflow.server.service.TaskExecutionInfoService;
 import org.springframework.cloud.dataflow.server.service.TaskExecutionService;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -41,6 +43,9 @@ import java.util.Map;
 public class BeanOverideByFactory implements ApplicationRunner {
     @Autowired
     private ConfigurableApplicationContext context;
+
+    @Autowired
+    TaskDeploymentRepository taskDeploymentRepository;
     @PostConstruct
     public void init() {
         // 使用自定义扫描类，针对@Model进行扫描
@@ -56,6 +61,7 @@ public class BeanOverideByFactory implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+            TaskDeployment simple_job = taskDeploymentRepository.findTopByTaskDefinitionNameOrderByCreatedOnAsc("sys");
 
     }
 }

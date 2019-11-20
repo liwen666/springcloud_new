@@ -22,7 +22,6 @@ import java.util.Arrays;
 //import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 //import org.springframework.cloud.context.config.annotation.RefreshScope;
 @SpringBootApplication
-@RestController
 @ServletComponentScan
 //@RefreshScope//自动刷新配置文件数据
 @EnableDiscoveryClient

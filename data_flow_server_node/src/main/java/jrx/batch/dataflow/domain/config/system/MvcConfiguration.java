@@ -7,6 +7,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.List;
 /**
@@ -18,7 +19,7 @@ import java.util.List;
  * @since  2019/11/12 16:16
  */
 @Configuration
-public class MvcConfiguration extends WebMvcConfigurationSupport {
+public class MvcConfiguration extends WebMvcConfigurerAdapter {
 
 
     @Override

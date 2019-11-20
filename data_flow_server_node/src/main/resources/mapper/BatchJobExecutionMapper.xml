@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jrx.batch.dataflow.infrastructure.dao.BatchJobExecutionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="jrx.batch.dataflow.infrastructure.model.BatchJobExecution">
+        <id column="JOB_EXECUTION_ID" property="jobExecutionId" />
+        <result column="VERSION" property="version" />
+        <result column="JOB_INSTANCE_ID" property="jobInstanceId" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="START_TIME" property="startTime" />
+        <result column="END_TIME" property="endTime" />
+        <result column="STATUS" property="status" />
+        <result column="EXIT_CODE" property="exitCode" />
+        <result column="EXIT_MESSAGE" property="exitMessage" />
+        <result column="LAST_UPDATED" property="lastUpdated" />
+        <result column="JOB_CONFIGURATION_LOCATION" property="jobConfigurationLocation" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        JOB_EXECUTION_ID, VERSION, JOB_INSTANCE_ID, CREATE_TIME, START_TIME, END_TIME, STATUS, EXIT_CODE, EXIT_MESSAGE, LAST_UPDATED, JOB_CONFIGURATION_LOCATION
+    </sql>
+
+</mapper>

@@ -4,13 +4,53 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="jrx.batch.dataflow.infrastructure.model.TaskTaskBatch">
-        <result column="TASK_EXECUTION_ID" property="taskExecutionId" />
-        <result column="JOB_EXECUTION_ID" property="jobExecutionId" />
+        <result column="TASK_EXECUTION_ID" property="taskExecutionId"/>
+        <result column="JOB_EXECUTION_ID" property="jobExecutionId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         TASK_EXECUTION_ID, JOB_EXECUTION_ID
     </sql>
+
+    <select id="listJobById" resultType="java.util.Map">
+
+        SELECT
+          *
+        FROM
+          `batch_job_execution` bje
+        WHERE bje.`JOB_EXECUTION_ID` IN (SELECT job_execution_id
+        FROM
+          task_task_batch
+        WHERE task_execution_id =
+          (SELECT
+            te.`TASK_EXECUTION_ID`
+          FROM
+            `task_execution` te
+          WHERE te.`PARENT_EXECUTION_ID` =#{parentId}))
+
+    </select>
+
+    <select id="listJobByIds" resultType="java.util.Map">
+        SELECT
+        *
+        FROM
+        `batch_job_execution` bje
+        WHERE bje.`JOB_EXECUTION_ID` IN (SELECT job_execution_id
+        FROM
+        task_task_batch
+        WHERE task_execution_id IN
+        (SELECT
+        te.`TASK_EXECUTION_ID`
+        FROM
+        `task_execution` te
+        WHERE te.`PARENT_EXECUTION_ID` in (
+        <!--<foreach item="item"  collection="list"  open="'" separator="','" close="'">-->
+        <foreach item="item" collection="list" separator=",">
+            #{item}
+        </foreach>
+        )))
+
+    </select>
 
 </mapper>
