@@ -66,7 +66,7 @@ public class AppRegisterController {
         }
         String appName = fileName.substring(0, fileName.lastIndexOf("."));
         /**
-         * TODO 目前没有app版本控制，么个appName只能有一个
+         * TODO 目前没有app版本控制，目前appName只能有一个
          */
         AppRegistration app = appRegistrationService.getOne(Wrappers.<AppRegistration>lambdaQuery().eq(AppRegistration::getName, appName));
         if(null!=app){

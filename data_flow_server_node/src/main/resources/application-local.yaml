@@ -46,8 +46,8 @@ spring:
   #文件上传的配置
   servlet:
     multipart:
-      max-file-size: 30MB
-      max-request-size: 35MB
+      max-file-size: 100MB
+      max-request-size: 110MB
 ---
 spring:
   ##thymeleaf 页面跳转
@@ -73,7 +73,8 @@ jrx:
   batch:
     properties:
       JAR_HOME_DEFAULT: C:/Users/liwen/Desktop/jrx/taskjar/
-      NODE_NAME: node_local_test
+#      NODE_NAME: master_node
+      NODE_NAME: master_node
 
 ---
 

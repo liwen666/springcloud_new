@@ -22,4 +22,5 @@ public class JrxRegxUtil {
         Matcher matcher = pattern.matcher(data);
         return matcher.matches();
     }
+
 }
