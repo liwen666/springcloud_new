@@ -81,8 +81,12 @@ public class TestControllerDemo {
         File file = FileRecursionScan.getFileByName(f, uuid, "stdout.log");
         if (null != file) {
             @Cleanup FileInputStream fileInputStream = new FileInputStream(file);
-            byte[] cache = new byte[fileInputStream.available()];
-            fileInputStream.read(cache);
+            byte [] cache = new byte[1024*1024];
+//            byte[] cache = new byte[fileInputStream.available()];
+//            fileInputStream.read(cache);
+            while(fileInputStream.read(cache)!=-1){
+
+            }
              return JsonResult.success(new String (cache,"UTF-8"));
         }
         return JsonResult.success("查询成功，无数据！");

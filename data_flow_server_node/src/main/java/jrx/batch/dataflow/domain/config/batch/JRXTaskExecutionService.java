@@ -39,7 +39,7 @@ import java.util.stream.StreamSupport;
  * @author tx
  * @since 2019/5/26 23:40
  */
-@Service
+@Service("taskExecutionService")
 @Transactional
 @Slf4j
 public class JRXTaskExecutionService extends DefaultTaskExecutionService {

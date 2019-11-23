@@ -5,7 +5,7 @@ spring:
   datasource:
     username: root
     password: 123.com
-    url: jdbc:mysql://172.16.101.19:3306/data_flow_node1?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
+    url: jdbc:mysql://172.16.101.19:3306/data_flow_node?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
   #使用下面的配置LocalDeployerProperties可以省略 见  LocalPlatformProperties
   cloud:

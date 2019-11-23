@@ -1,6 +1,7 @@
 package jrx.batch.dataflow.domain.config.system;
 
 import com.alibaba.fastjson.JSON;
+import jrx.batch.dataflow.application.TaskPartitionExecutionController;
 import jrx.batch.dataflow.demo.DemoConfig;
 import jrx.batch.dataflow.domain.config.annotation.BeanOveride;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,8 @@ import java.util.Map;
 /**
  * <p>
  * 描述
+ * 方法1.通过修改beandefinition 来覆盖框架加载的bean
+ * 方法2.定义bean名字在bean注入的时候会根据方法参数名字自动匹配方法名相同的bean,如果没有就就自动注入type相同的类
  * </p>
  *
  * @author tx
@@ -48,20 +51,24 @@ public class BeanOverideByFactory implements ApplicationRunner {
     TaskDeploymentRepository taskDeploymentRepository;
     @PostConstruct
     public void init() {
-        // 使用自定义扫描类，针对@Model进行扫描
+        /**
+         *
+         */
         ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
         String[] beanNamesForType1 = beanFactory.getBeanNamesForType(TaskExecutionService.class);
         log.info("taskExecutionService-->"+JSON.toJSONString(beanNamesForType1));
-        BeanDefinitionRegistry beanFactory1 = (BeanDefinitionRegistry) beanFactory;
-        BeanDefinition beanDefinition1 =beanFactory1.getBeanDefinition("JRXTaskExecutionService");
-        beanFactory1.removeBeanDefinition(beanNamesForType1[0]);
-        beanFactory1.removeBeanDefinition(beanNamesForType1[1]);
-        beanFactory1.registerBeanDefinition("taskService",beanDefinition1);
+//        BeanDefinitionRegistry beanFactory1 = (BeanDefinitionRegistry) beanFactory;
+//        BeanDefinition beanDefinition1 =beanFactory1.getBeanDefinition("JRXTaskExecutionService");
+//        beanFactory1.removeBeanDefinition(beanNamesForType1[0]);
+//        beanFactory1.removeBeanDefinition(beanNamesForType1[1]);
+//        beanFactory1.registerBeanDefinition("taskService",beanDefinition1);
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-            TaskDeployment simple_job = taskDeploymentRepository.findTopByTaskDefinitionNameOrderByCreatedOnAsc("sys");
+        TaskPartitionExecutionController bean = context.getBean(TaskPartitionExecutionController.class);
+
+//            TaskDeployment simple_job = taskDeploymentRepository.findTopByTaskDefinitionNameOrderByCreatedOnAsc("sys");
 
     }
 }

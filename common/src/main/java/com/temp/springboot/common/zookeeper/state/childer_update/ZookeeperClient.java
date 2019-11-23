@@ -12,7 +12,7 @@ import org.apache.zookeeper.ZooKeeper;
 
 class ZookeeperClient implements Watcher {
 
-    private static final String host = "127.0.0.1:2181";
+    private static final String host = "172.16.102.23:2181";
 
     private static CountDownLatch countDownLatch = new CountDownLatch(1);
 
