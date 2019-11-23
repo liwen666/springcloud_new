@@ -157,7 +157,10 @@ public class BatchNodeUtils implements ApplicationContextAware {
     }
 
     public static void main(String[] args) {
-        System.out.println(getServerUUID());
+//        System.out.println(getServerUUID());
+
+        boolean reachable = BatchNodeUtils.isReachable("172.16.102.23", "2181",2000);
+        System.out.println(reachable);
     }
 
 }

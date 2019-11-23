@@ -1,5 +1,6 @@
 package com.temp.springboot.common.util;
 
+import org.apache.catalina.User;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
@@ -30,6 +31,10 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
             }
         }
         return new HashSet<String>().toArray(new String[emptyNames.size()]);
+    }
+
+
+    public static void main(String[] args) {
     }
 
 }
