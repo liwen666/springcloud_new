@@ -67,9 +67,9 @@ public class SimpleJobTest {
         Job job = simpleJob();
         JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
 //        "param = test","--spring.cloud.data.flow.platformname=local","--spring.cloud.task.executionid=40","--job.runDate=1573133299335","--job.ptime=200"
-        jobParametersBuilder.addDate("start",new Date());
+//        jobParametersBuilder.addDate("start",new Date());
         jobParametersBuilder.addString("dir","/home/jrx");
-        jobParametersBuilder.addString("--spring.cloud.task.executionid","1000");
+        jobParametersBuilder.addString("--spring.cloud.task.executionid","10008");
         JobParameters jobParameters = jobParametersBuilder.toJobParameters();
         taskCommandRunner.runJobByParamExternal(job,jobParameters);
     }
@@ -81,6 +81,7 @@ public class SimpleJobTest {
 
         Job job = jobBuilderFactory.get("testJob")
                 .start(firstStep)
+                .next(firstStep)
                 .next(secondStep)
                 .build();
         return job;
@@ -99,7 +100,7 @@ public class SimpleJobTest {
                 .reader(itemReader)
                 .processor(itemProcessor)
                 .writer(itemWriter)
-                .allowStartIfComplete(true)
+//                .allowStartIfComplete(true)///可以处理失败重跑
                 .build();
     }
 
@@ -107,7 +108,7 @@ public class SimpleJobTest {
     public Step secondStep(
     ){
         ItemReader<String> itemReader = itemReader();
-        ItemProcessor<String, String> itemProcessor = itemProcessor(1);
+        ItemProcessor<String, String> itemProcessor = itemProcessorSecound(1);
         ItemWriter<String> itemWriter = itemWriter();
 
 
@@ -117,7 +118,7 @@ public class SimpleJobTest {
                 .reader(itemReader)
                 .processor(itemProcessor)
                 .writer(itemWriter)
-                .allowStartIfComplete(true)
+//                .allowStartIfComplete(true)
                 .build();
     }
 
@@ -128,6 +129,17 @@ public class SimpleJobTest {
     public ItemProcessor<String,String> itemProcessor(
             @Value("#{jobParameters['job.ptime']}") Integer ptime){
         return (String item) -> {
+            Thread.sleep(ptime);
+            return item;
+        };
+    }
+
+
+
+    public ItemProcessor<String,String> itemProcessorSecound(
+            @Value("#{jobParameters['job.ptime']}") Integer ptime){
+        return (String item) -> {
+//            int i=1/0;
             Thread.sleep(ptime);
             return item;
         };

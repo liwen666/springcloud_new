@@ -27,7 +27,7 @@ public class ITaskTaskBatchServiceTest {
 
     @Test
     public void listJobById() {
-        List<Map> list = taskTaskBatchService.listJobById("4118405925211795456");
+        List<Map> list = taskTaskBatchService.listJobById("4121695775069679616");
         System.out.println(list.size());
     }
 
@@ -35,7 +35,7 @@ public class ITaskTaskBatchServiceTest {
     public void listJobByIds() {
         List<String> parentIds = new ArrayList<>();
         parentIds.add("4118405925211795456");
-        List<Map> list = taskTaskBatchService.listJobByIds(parentIds);
+        List<Map> list = taskTaskBatchService.listJobByIds(null);
         System.out.println(list.size());
     }
 }

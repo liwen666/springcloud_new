@@ -48,6 +48,10 @@ public class TaskJobStatusCheckController {
      */
     @GetMapping(value = "/status/task/{parentId}")
     public JsonResult taskExecuteId(@PathVariable("parentId") String taskExecuteId) {
+
+        if(null ==taskExecuteId){
+            return JsonResult.error("任务parentId不能为空");
+        }
         List<Map> maps = taskTaskBatchService.listJobById(taskExecuteId);
         return JsonResult.success(maps);
     }

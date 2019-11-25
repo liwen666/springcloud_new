@@ -18,6 +18,7 @@ public class SimpleStepExecutionListener implements StepExecutionListener {
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
+
         logger.info("=====接口step监听器，在开始step之前,{}",stepExecution);
     }
 

@@ -21,16 +21,16 @@ import java.util.Map;
 public class TaskTaskBatchServiceImpl extends ServiceImpl<TaskTaskBatchMapper, TaskTaskBatch> implements ITaskTaskBatchService {
 
     @Override
-    public List<Map> listJobById(String parentId) {
-        return baseMapper.listJobById(parentId);
-
-    }
-
-    @Override
     public List<Map> listJobByIds(List<String> parentIds) {
 
 
         return  baseMapper.listJobByIds(parentIds);
+
+    }
+
+    @Override
+    public List<Map> listJobById(String parentId) {
+        return baseMapper.listJobById(parentId);
 
     }
 
