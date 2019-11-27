@@ -122,7 +122,7 @@ public class DefineBatchConfigurer implements BatchConfigurer {
 
     }
 
-    @Profile({"dev"})
+    @Profile({"dev","local_test","dev_test"})
     @Bean
     public TaskPlatform localTaskPlatform(LocalPlatformProperties localPlatformProperties, @Nullable Scheduler localScheduler) {
         TaskPlatform taskPlatform = (new LocalTaskPlatformFactory(localPlatformProperties, localScheduler)).createTaskPlatform();

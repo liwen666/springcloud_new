@@ -1,48 +1,48 @@
-#spring:
-#  cloud:
-#    config:
-#      enabled: false
 
 
 spring:
   application:
     name: data_flow_server_node
   profiles:
-    active: local
+    active: dev
+  cloud:
+    config:
+      enabled: false
 
-  boot:
-    admin:
-      client:
-        url: http://172.16.102.24:8889    #server端地址
-        #url: http://127.0.0.1:8889    #server端地址
-        username: SBA_admin    #对应server端的账号密码，不配置就监控不到这个client。
-        password: SBA_password
-        instance:
-          service-base-url: http://172.16.102.23:9001   #client地址，
-          #不配置的情况下，在打包的时候会有提示。不影响运行。
 
-management:
-  server:
-    port: 8099
-  endpoint:
-    health:
-      show-details: always
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  metrics:
-    tags:
-      application: ${spring.application.name}
-      region: test_boot_admin
 
+
+#  boot:
+#    admin:
+#      client:
+#        url: http://172.16.102.24:8889    #server端地址
+#        #url: http://127.0.0.1:8889    #server端地址
+#        username: SBA_admin    #对应server端的账号密码，不配置就监控不到这个client。
+#        password: SBA_password
+#        instance:
+#          service-base-url: http://172.16.102.23:9002   #client地址，
+#          #不配置的情况下，在打包的时候会有提示。不影响运行。
+#
+#management:
+#  server:
+#    port: 9099
+#  endpoint:
+#    health:
+#      show-details: always
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
+#  metrics:
+#    tags:
+#      application: ${spring.application.name}
+#      region: test_boot_admin
 #server:
 #  port: 9999
 
 ---
 
 spring:
-  profiles: local
   cloud:
     nacos:
       config:
@@ -57,7 +57,7 @@ spring:
       #      #配置可以刷新文件,需要配合@RefreshScope使用见上文.
       #      refreshable-dataids: application_dev
       #服务的发现
-      discovery:
-        server-addr: 172.16.101.29:8848,172.16.101.30:8848,172.16.101.31:8848
-        # 命名空间ID
-        namespace: 09ef3f23-52e0-4d51-b9aa-3364a47619f1
+#      discovery:
+#        server-addr: 172.16.101.29:8848,172.16.101.30:8848,172.16.101.31:8848
+#        # 命名空间ID
+#        namespace: 09ef3f23-52e0-4d51-b9aa-3364a47619f1

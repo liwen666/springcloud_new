@@ -48,11 +48,11 @@
             <version>0.9.0.RELEASE</version>
         </dependency>
         <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-alibaba-nacos-discovery &ndash;&gt;-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-            <version>0.9.0.RELEASE</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
+            <!--<version>0.9.0.RELEASE</version>-->
+        <!--</dependency>-->
         <!--nacos***********************************结束*************************-->
         <!--数据库操作***********************************开始*************************-->
         <dependency>

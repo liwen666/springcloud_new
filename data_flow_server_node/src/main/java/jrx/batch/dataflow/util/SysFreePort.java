@@ -32,8 +32,8 @@ public class SysFreePort {
      * <pre>
      * 获取系统空闲端口，并占用该端口资源
      * </pre>
-     *  
-     * @throws    IOException
+     *
+     * @throws IOException
      */
     public static SysFreePort custom() throws IOException {
         return new SysFreePort();
@@ -53,7 +53,7 @@ public class SysFreePort {
      * 释放该端口资源
      * </pre>
      *
-     * @throws    IOException
+     * @throws IOException
      */
     public void freePort() throws IOException {
         if (null == socket || socket.isClosed()) {
@@ -87,7 +87,7 @@ public class SysFreePort {
      * 返回端口并释放该端口资源
      * </pre>
      *
-     * @throws    IOException
+     * @throws IOException
      */
     public int getPortAndFree() throws IOException {
         if (null == socket || socket.isClosed()) {
@@ -107,18 +107,25 @@ public class SysFreePort {
      * 在[start, end)间随机生成一个数字作为port
      * </pre>
      *
-     * @param   start
-     * @param   end
-     * @return  int
+     * @param start
+     * @param end
+     * @return int
      */
     public static int random(int start, int end) {
         return random.nextInt(Math.abs(end - start)) + start;
     }
 
+    public static int getAndFreePort() throws IOException {
+        return new SysFreePort().getPortAndFree();
+    }
+
+
     public static void main(String[] args) throws IOException {
-        SysFreePort freePort = new SysFreePort();
-        int portAndFree = freePort.getPortAndFree();
-        System.out.println(portAndFree);
+        for(int i=0;i<100000;i++){
+            int andFreePort = SysFreePort.getAndFreePort();
+            System.out.println(andFreePort);
+        }
+
 
     }
 }

@@ -66,12 +66,12 @@ public class JRXApplicationRunListener implements SpringApplicationRunListener {
 
     @Override
     public void started(ConfigurableApplicationContext context) {
-            ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-        String[] service = beanFactory.getBeanNamesForAnnotation(Service.class);
-        String[] restController = beanFactory.getBeanNamesForAnnotation(RestController.class);
-        String[] controller = beanFactory.getBeanNamesForAnnotation(Controller.class);
-        log.info("====初始化组件 \n ====service:{},\n ====restController:{} ,\n ====controller:{}  ",
-                service,restController,controller);
+//            ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
+//        String[] service = beanFactory.getBeanNamesForAnnotation(Service.class);
+//        String[] restController = beanFactory.getBeanNamesForAnnotation(RestController.class);
+//        String[] controller = beanFactory.getBeanNamesForAnnotation(Controller.class);
+//        log.info("====初始化组件 \n ====service:{},\n ====restController:{} ,\n ====controller:{}  ",
+//                service,restController,controller);
     }
 
     @Override
