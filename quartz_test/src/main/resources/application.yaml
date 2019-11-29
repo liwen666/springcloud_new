@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    active: local
+  application:
+    name: quartz_test
+#  boot:
+#    admin:
+#      client:
+#        url: http://172.16.102.24:8889
+
+
+batch:
+  scheduling:
+    partition-timeout-seconds: 200
+    monitorPlan: false
+
+
+
+
