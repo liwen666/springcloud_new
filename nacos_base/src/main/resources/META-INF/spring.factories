@@ -1,0 +1,14 @@
+org.springframework.context.ApplicationContextInitializer=\
+   com.nacos.config.CloudConfigSupportConfiguration,\
+   com.nacos.config.CloudConfigSupportConfiguration2
+#org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+#com.nacos.config.TestConfigBootstrapConfiguration
+
+#
+#org.springframework.boot.env.EnvironmentPostProcessor=\
+#  jrx.batch.dataflow.domain.config.system.DefaultEnvironmentPostProcessor
+#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+#  org.springframework.cloud.dataflow.server.config.features.TaskConfiguration,\
+#  org.springframework.cloud.dataflow.server.config.DataFlowServerAutoConfiguration,\
+#  org.springframework.cloud.dataflow.server.config.DataFlowControllerAutoConfiguration
+

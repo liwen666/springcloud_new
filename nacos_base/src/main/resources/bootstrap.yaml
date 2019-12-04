@@ -30,3 +30,30 @@ spring:
         server-addr: 172.16.101.29:8848,172.16.101.30:8848,172.16.101.31:8848
         # 命名空间ID
         namespace: 78ed2bf8-ebda-410a-856d-48c14f81f1dd
+
+  datasource:
+    username: root
+    password: 123.com
+    url: jdbc:mysql://172.16.101.19:3306/nacos?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #文件上传的配置
+    servlet:
+      multipart:
+        max-file-size: 100MB
+        max-request-size: 110MB
+---
+spring:
+  ##thymeleaf 页面跳转
+  thymeleaf:
+    #    enabled: false
+    prefix: classpath:/templates/
+    suffix: .html
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.nacos
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+  type-aliases-package: com.nacos.dao
+  type-aliases-super-type: java.lang.Object
+
+

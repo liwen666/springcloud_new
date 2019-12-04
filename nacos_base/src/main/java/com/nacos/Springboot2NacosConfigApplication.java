@@ -12,6 +12,9 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 @SpringBootApplication
 //@NacosPropertySource(dataId = "springboot2-nacos-config", autoRefreshed = true)
 @RestController
@@ -21,6 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class Springboot2NacosConfigApplication {
 
     public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.addAll(Arrays.asList(args));
+
+        list.add("--server.port=10020");
+        args = list.toArray(new String[]{});
         SpringApplication.run(Springboot2NacosConfigApplication.class, args);
     }
     @Autowired
