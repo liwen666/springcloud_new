@@ -4,11 +4,12 @@ spring:
   profiles:
     active: dev
 
-#server:
-#  port: 9999
+server:
+  port: 9999
+  var: true
 
 ---
-
+#
 spring:
   profiles: dev
   cloud:
@@ -24,8 +25,8 @@ spring:
   #      shared-dataids: application_dev
   #      #配置可以刷新文件,需要配合@RefreshScope使用见上文.
   #      refreshable-dataids: application_dev
-#服务的发现
+##服务的发现
       discovery:
-        server-addr: 172.16.101.29:8848, 172.16.101.30:8848, 172.16.101.31:8848
+        server-addr: 172.16.101.29:8848,172.16.101.30:8848,172.16.101.31:8848
         # 命名空间ID
         namespace: 78ed2bf8-ebda-410a-856d-48c14f81f1dd
