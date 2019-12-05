@@ -47,18 +47,17 @@ public class TaskPartitionExecutionController {
     private ITaskExecutionService taskExecutionServiceImpl;
 
 
-    @RequestMapping(value = "/execute", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/execute", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public JsonResult executeTaskPartition(@RequestParam("parentId") String parentId, @RequestParam("taskDefine") String taskDefine, @RequestPart("properties") Map<String, String> properties, @RequestPart("arguments") List<String> arguments) {
         long executeTask;
         try {
             log.info("====开始执行任务： parentId:{},taskDefine:{},properties:{},argumes:{}",parentId,taskDefine,properties,arguments);
             arguments.add("--spring.cloud.task.parentExecutionId="+parentId);
-//            String port =
-//            arguments.add("--server.port="+port);
              executeTask = taskExecutionService.executeTask(taskDefine, properties, arguments);
             taskExecutionServiceImpl.update(TaskExecution.builder().parentExecutionId(Long.parseLong(parentId)).build(), Wrappers.<TaskExecution>lambdaUpdate().eq(TaskExecution::getTaskExecutionId,executeTask));
         } catch (Exception e) {
             e.printStackTrace();
+            log.error("==============="+e.getMessage());
            return JsonResult.error(e.getMessage());
         } finally {
 

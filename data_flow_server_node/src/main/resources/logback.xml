@@ -105,8 +105,10 @@
         <!--<appender-ref ref="sys-user"/>-->
     <!--</logger>-->
     <!--打印日志结果-->
+
      <logger name="jrx.batch.dataflow.infrastructure.dao" level="debug">
         <appender-ref ref="schedule-center"/>
+         <appender-ref ref="console" />
     </logger>
     <logger name="org.springframework.batch.core" level="debug"/>
     <logger name="com.alibaba.nacos" level="error"/>

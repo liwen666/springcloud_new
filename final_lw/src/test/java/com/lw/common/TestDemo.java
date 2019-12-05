@@ -1,5 +1,7 @@
 package com.lw.common;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,10 +14,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 //@RestController()
@@ -91,5 +90,41 @@ public class TestDemo {
 
     }
 
-    ;
+    @Test
+    public void name() {
+        String data = "{" +
+                "   \"success \": true," +
+                "   \"id\": \"WF2019112821044823809634 \"}";
+//                "   \"result_desc \": {\n" +
+//                "    \"ANTIFRAUD \": {\n" +
+//                "     \"final_score \": 80,\n" +
+//                "     \"risk_items \": [{\n" +
+//                "      \"rule_id \": 3131059,\n" +
+//                "      \"score \": 80,\n" +
+//                "      \"decision \": \"Accept \",\n" +
+//                "      \"risk_name \": \"身份证格式校验错误 \"\n" +
+//                "     }],\n" +
+//                "     \"final_decision \": \"REJECT \"" +
+//                "    }\n" +
+//                "   }\n" +
+//                "  }";
+        Map map = JSON.parseObject(data, Map.class);
+        Object result_desc = map.get("id");
+
+        for(Object key:map.keySet()){
+            Object o = map.get(key);
+            System.out.println(o.getClass().getName());
+            System.out.println(JSON.toJSONString(o));
+            System.out.println(JSON.toJSONString(key));
+        }
+        Collection values = map.values();
+        Object[] objects = values.toArray();
+        Object o = objects[0];
+//
+        String abc = "{\"aaa\":1233, \"success \": true, \"id \": \"WF2019112821044823809634 \" }";
+        JSONObject jsonObject = JSON.parseObject(abc);
+        Object aaa = jsonObject.get("aaa");
+        System.out.println(aaa);
+    }
+
 }

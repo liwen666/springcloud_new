@@ -6,6 +6,7 @@ import org.springframework.cloud.dataflow.core.ApplicationType;
 import org.springframework.cloud.dataflow.registry.service.AppRegistryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,7 @@ public class SpringBatchController {
     @Autowired
     private AppRegistryService appRegistryService;
 
-    @RequestMapping("/apps")
+    @GetMapping("/apps")
     public Page<? extends AppRegistration> list(Pageable pageable, @RequestParam(value = "type",required = false) ApplicationType type, @RequestParam(required = false) String search) {
         Page<AppRegistration> pagedRegistrations = appRegistryService.findAllByTypeAndNameIsLike(type, search, pageable);
         return pagedRegistrations;

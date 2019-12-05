@@ -1,6 +1,7 @@
 package jrx.batch.dataflow.othe;
 
 import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.utils.DateUtils;
 import org.springframework.cloud.dataflow.rest.job.support.TimeUtils;
 
@@ -21,6 +22,7 @@ import java.util.regex.Pattern;
  * @author tx
  * @since 2019/5/26 23:40
  */
+@Slf4j
 public class Test {
     @org.junit.Test
     public void name() {
@@ -74,4 +76,11 @@ public class Test {
     }
 
 
+    @org.junit.Test
+    public void logtest() {
+        log.info("00000");
+        log.debug("111111");
+        log.error("9999999999");
+
+    }
 }

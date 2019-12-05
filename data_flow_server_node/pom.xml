@@ -14,15 +14,15 @@
     <name>spring_batch批次执行节点</name>
 
     <properties>
-        <java.version>1.8</java.version>
-        <mybatis-generator.version>1.3.2</mybatis-generator.version>
-        <mybatis-plus-boot-starter>3.2.0</mybatis-plus-boot-starter>
-        <mybatis-spring-boot-starter>2.0.1</mybatis-spring-boot-starter>
-        <mysql-connector-java>8.0.15</mysql-connector-java>
-        <druid>1.1.14</druid>
-        <lombok>1.18.8</lombok>
-        <fastjson>1.2.58</fastjson>
-    </properties>
+    <java.version>1.8</java.version>
+    <mybatis-generator.version>1.3.2</mybatis-generator.version>
+    <mybatis-plus-boot-starter>3.2.0</mybatis-plus-boot-starter>
+    <mybatis-spring-boot-starter>2.0.1</mybatis-spring-boot-starter>
+    <mysql-connector-java>8.0.15</mysql-connector-java>
+    <druid>1.1.14</druid>
+    <lombok>1.18.8</lombok>
+    <fastjson>1.2.58</fastjson>
+</properties>
 
     <dependencies>
         <dependency>
@@ -48,11 +48,11 @@
             <version>0.9.0.RELEASE</version>
         </dependency>
         <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-alibaba-nacos-discovery &ndash;&gt;-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
-            <!--<version>0.9.0.RELEASE</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>0.9.0.RELEASE</version>
+        </dependency>
         <!--nacos***********************************结束*************************-->
         <!--数据库操作***********************************开始*************************-->
         <dependency>
@@ -117,6 +117,18 @@
             <artifactId>spring-boot-admin-starter-client</artifactId>
             <version>2.1.4</version>
         </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -5,10 +5,7 @@ import com.alibaba.fastjson.JSON;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * <p>
@@ -66,5 +63,12 @@ public class Test {
             System.out.println("--------");
         }
 
+    }
+
+    @org.junit.Test
+    public void set() {
+        Set s = new HashSet<>();
+        s.add("11");
+        System.out.println(s);
     }
 }

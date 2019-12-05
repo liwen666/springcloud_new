@@ -44,7 +44,6 @@ public class PrintListener implements Listener {
 		Properties properties = JSON.parseObject(pro, Properties.class);
 		ConfigService configService = NacosFactory.createConfigService(properties);
 		PrintListener printLogger = new PrintListener();;
-		configService.addListener("testnacos-test.yaml","DEFAULT_GROUP",printLogger);
 		configService.addListener("testnacos-dev.yaml","DEFAULT_GROUP",printLogger);
 	}
 

@@ -1,12 +1,14 @@
 package jrx.batch.dataflow.domain.config.system;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import jrx.batch.dataflow.application.TaskPartitionExecutionController;
 import jrx.batch.dataflow.demo.DemoConfig;
 import jrx.batch.dataflow.domain.config.annotation.BeanOveride;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.core.ApplicationContext;
 import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -25,9 +27,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
+import org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondition;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -66,9 +76,33 @@ public class BeanOverideByFactory implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        TaskPartitionExecutionController bean = context.getBean(TaskPartitionExecutionController.class);
-
-//            TaskDeployment simple_job = taskDeploymentRepository.findTopByTaskDefinitionNameOrderByCreatedOnAsc("sys");
-
+//        //获取所有的RequestMapping
+//        Map<String, HandlerMapping> allRequestMappings = BeanFactoryUtils.beansOfTypeIncludingAncestors(context,
+//                HandlerMapping.class, true, false);
+//        for (HandlerMapping handlerMapping : allRequestMappings.values())
+//        {
+//            //本项目只需要RequestMappingHandlerMapping中的URL映射
+//            if (handlerMapping instanceof RequestMappingHandlerMapping)
+//            {
+//                RequestMappingHandlerMapping requestMappingHandlerMapping = (RequestMappingHandlerMapping) handlerMapping;
+//                Map<RequestMappingInfo, HandlerMethod> handlerMethods = requestMappingHandlerMapping.getHandlerMethods();
+//                for (Map.Entry<RequestMappingInfo, HandlerMethod> requestMappingInfoHandlerMethodEntry : handlerMethods.entrySet())
+//                {
+//                    RequestMappingInfo requestMappingInfo = requestMappingInfoHandlerMethodEntry.getKey();
+//                    HandlerMethod mappingInfoValue = requestMappingInfoHandlerMethodEntry.getValue();
+//
+//                    RequestMethodsRequestCondition methodCondition = requestMappingInfo.getMethodsCondition();
+//
+//                    PatternsRequestCondition patternsCondition = requestMappingInfo.getPatternsCondition();
+//                    String requestUrl = patternsCondition.getPatterns().toString();
+//
+//                    String controllerName = mappingInfoValue.getBeanType().toString();
+//                    String requestMethodName = mappingInfoValue.getMethod().getName();
+//                    Class<?>[] methodParamTypes = mappingInfoValue.getMethod().getParameterTypes();
+//
+//                    log.info("====请求路径requestMethodName:{},requestUrl:{}",requestMethodName,requestUrl);
+//                }
+//            }
+//        }
     }
 }

@@ -2,6 +2,7 @@ package com.nacos;
 
 import com.alibaba.nacos.api.config.annotation.NacosValue;
 //import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource
+import com.nacos.config.JrxBatchProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +19,7 @@ import java.util.Arrays;
 @SpringBootApplication
 //@NacosPropertySource(dataId = "springboot2-nacos-config", autoRefreshed = true)
 @RestController
-@EnableConfigurationProperties(value = DemoConfig.class)
+@EnableConfigurationProperties(value = {DemoConfig.class,JrxBatchProperties.class})
 @RefreshScope//自动刷新配置文件数据
 @EnableDiscoveryClient
 public class Springboot2NacosConfigApplication {

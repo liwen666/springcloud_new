@@ -170,8 +170,10 @@ public class QuartzManager implements IQuartzManager {
         scheduler.unscheduleJob(triggerKey);
         JobKey jobKey = JobKey.jobKey(jobName);
         // 删除 quartz
-        scheduler.deleteJob(jobKey);
-        log.info("删除 quartz 作业成功 jobname : {}", jobName);
+        boolean b = scheduler.deleteJob(jobKey);
+            log.info("删除 quartz 作业成功 jobname : {}", jobName);
+
+
     }
 
     /**
@@ -213,7 +215,10 @@ public class QuartzManager implements IQuartzManager {
     private void initOrRefreshJob(Scheduler scheduler) throws Exception {
         List<SchedulePlan> planList = new ArrayList<SchedulePlan>() {{
             add(SchedulePlan.builder()
-                    .planId(231232143).planName("testquartz").runTime("0 */1 * * * ?").runType("SCHEDULE").build());
+                    .planId(231232143).planName("testquartz").runTime("*/5 * * * * ?").runType("SCHEDULE").build());
+
+            add(SchedulePlan.builder()
+                    .planId(1000).planName("stop").runTime("*/5 * * * * ?").runType("SCHEDULE").build());
         }};
         if (CollectionUtils.isEmpty(planList)) {
             log.info("没有定时计划");
@@ -234,21 +239,23 @@ public class QuartzManager implements IQuartzManager {
                  * a、停止触发器
                  * b、移除触发器
                  * c、删除任务
-                 */
+                        */
                 scheduler.pauseTrigger(triggerKey);
                 scheduler.unscheduleJob(triggerKey);
                 JobKey jobKey = JobKey.jobKey(jobName);
                 scheduler.deleteJob(jobKey);
             }
 
-            JobDetail jobDetail = JobBuilder.newJob(jobFactoryName).withIdentity(jobName) .build();
+            int i=0;
+            JobDetail jobDetail = JobBuilder.newJob(jobFactoryName).withIdentity(jobName,i+"") .build();
             jobDetail.getJobDataMap().put("planId", schedulePlan.getPlanId());
             jobDetail.getJobDataMap().put("planName", schedulePlan.getPlanName());
             // 表达式调度构建器
             CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(schedulePlan.getRunTime());
             // 按新的 cron 表达式构建一个新的 trigger
-            trigger = TriggerBuilder.newTrigger().withIdentity(jobName).withSchedule(scheduleBuilder).build();
+            trigger = TriggerBuilder.newTrigger().withIdentity(jobName,i+"").withSchedule(scheduleBuilder).build();
             scheduler.scheduleJob(jobDetail, trigger);
+            i++;
             log.info(" 刷新 quartz 成功， name : {}, planName : {}, cronExpression : {}", jobName, schedulePlan.getPlanName(), schedulePlan.getRunTime());
         }
     }
