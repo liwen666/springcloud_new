@@ -55,5 +55,11 @@ mybatis-plus:
   mapper-locations: classpath*:/mapper/*.xml
   type-aliases-package: com.nacos.dao
   type-aliases-super-type: java.lang.Object
+com:
+  alibaba:
+    nacos:
+      naming:
+        cache:
+          dir: C:\Users\liwen\Desktop\jrx\nacoscache
 
 
