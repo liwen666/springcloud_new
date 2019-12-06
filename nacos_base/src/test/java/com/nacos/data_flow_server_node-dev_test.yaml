@@ -1,0 +1,59 @@
+spring:
+  cloud:
+    dataflow:
+      task:
+        platform:
+          local:
+            accounts:
+              default:
+                java-opts: -Xms128M -Xmx128M
+                workingDirectoriesRoot: /home/jrxany/batch_schedule/workspace
+              test:
+                java-opts: -Xms128M -Xmx128M
+                workingDirectoriesRoot: /home/jrxany/batch_schedule/workspace
+              local:
+                java-opts: -Xms128M -Xmx128M
+                workingDirectoriesRoot: /home/jrxany/batch_schedule/workspace
+    deployer:
+      local:
+        java-opts: -Xms128M -Xmx128M
+        workingDirectoriesRoot: /home/jrxany/batch_schedule/workspace
+  datasource:
+    password: 123.com
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.16.101.19:3306/data_flow_node_20?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
+    username: root
+  servlet:
+    multipart:
+      max-request-size: 110MB
+      max-file-size: 100MB
+  jpa:
+    database: Mysql
+    show-sql: true
+    hibernate:
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+      ddl-auto: update
+    properties:
+      spring:
+        jpa:
+          properties:
+            hibernate:
+              dialect: org.hibernate.dialect.MySQL55Dialect
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+server:
+  port: 9002
+jrx:
+  batch:
+    properties:
+      NODE_NAME: master_node
+      JAR_HOME_DEFAULT: /home/jrxany/batch_schedule/jarhome
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: jrx.batch.dataflow
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+  type-aliases-super-type: java.lang.Object
+  type-aliases-package: jrx.batch.dataflow.infrastructure.model

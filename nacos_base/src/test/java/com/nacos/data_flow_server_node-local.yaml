@@ -1,0 +1,81 @@
+spring:
+  cloud:
+    dataflow:
+      task:
+        platform:
+          local:
+            accounts:
+              default:
+                java-opts: -Xms128M -Xmx128M
+                workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
+              test:
+                java-opts: -Xms128M -Xmx128M
+                workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
+              local:
+                java-opts: -Xms128M -Xmx128M
+                workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
+    deployer:
+      local:
+        java-opts: -Xms128M -Xmx128M
+        workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
+  datasource:
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.42.136:3306/data_flow_test?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
+    username: root
+  servlet:
+    multipart:
+      max-request-size: 110MB
+      max-file-size: 100MB
+  jpa:
+    database: Mysql
+    show-sql: true
+    hibernate:
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+      ddl-auto: update
+    properties:
+      spring:
+        jpa:
+          properties:
+            hibernate:
+              dialect: org.hibernate.dialect.MySQL55Dialect
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+  boot:
+    admin:
+      client:
+        password: SBA_password
+        instance:
+          service-base-url: http://localhost:9001
+        url: http://172.16.102.24:8889
+        username: SBA_admin
+server:
+  port: 9001
+jrx:
+  batch:
+    properties:
+      NODE_NAME: local_test
+      JAR_HOME_DEFAULT: C:/Users/liwen/Desktop/jrx/taskjar/
+management:
+  server:
+    port: 8099
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      region: test_boot_admin
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: jrx.batch.dataflow
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+  type-aliases-super-type: java.lang.Object
+  type-aliases-package: jrx.batch.dataflow.infrastructure.model

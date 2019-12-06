@@ -1,0 +1,132 @@
+filter:
+  context-path: /
+  setting:
+    allows:
+    - /login
+    - /logout
+    - /change/project
+    - /auth/model
+    - /navbar
+    - /userInfo
+    - /project/all
+    - /change/project
+    - /auth/model
+    - /**/favicon.ico
+    - /assets/**
+    - /css/**
+    - /js/**
+    - /swagger-ui.html/**
+    - /webjars/**
+    - /swagger-resources/**
+    - /v2/api-docs/**
+    - /api/**
+    - /actuator/**
+    - /p/assets/**
+    - /p/js/**
+    - /p/css/**
+    - /link/menu
+    - /account/detail
+    - /dashboard/**
+    authAddress: http://172.16.102.24:9600
+    indexUrl: http://localhost:9090
+    localUrl: http://localhost:9090
+    authViewScopeUrl: ${filter.setting.authAddress}/api/user/viewScope
+    authResourceUrl: ${filter.setting.authAddress}/api/user/resource
+    authUrl: ${filter.setting.authAddress}/api/auth/valid
+    authUserUrl: ${filter.setting.authAddress}/api/user/info
+    authErrorUrl: ${filter.setting.indexUrl}
+    authContentUrl: ${filter.setting.authAddress}/api/user/content2
+    authAble: true
+    loginErrorUrl: ${filter.setting.indexUrl}/#/login/LoginError
+    authLoginUrl: ${filter.setting.authAddress}/mc/page/login.html
+    serviceId: SDCUbvhEniceJoEjEM
+    changeProject: ${filter.setting.authAddress}/api/user/refresh/project
+    projectsUrl: ${filter.setting.authAddress}/api/user/projects
+    servicePre: ${filter.context-path}
+    noAuthUrl: ${filter.setting.indexUrl}
+spring:
+  cloud:
+    rdbms:
+      initialize:
+        enable: false
+    dataflow:
+      features:
+        analytics-enabled: false
+        streams-enabled: false
+    deployer:
+      local:
+        java-opts: -Xms128M -Xmx128M
+        workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
+    config:
+      enabled: false
+  output:
+    ansi:
+      enabled: always
+  application:
+    name: task-schedule-system
+  datasource:
+    password: root
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.42.136:3306/batch_schedule_center?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    hikari:
+      connection-timeout: 60000
+      max-lifetime: 60000
+      data-source-properties:
+        maintainTimeStats: false
+        prepStmtCacheSqlLimit: 2048
+        rewriteBatchedStatements: true
+        elideSetAutoCommits: true
+        cacheResultSetMetadata: true
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        useServerPrepStmts: true
+        useLocalSessionState: true
+        cacheServerConfiguration: true
+      validation-timeout: 3000
+      minimum-idle: 30
+      idle-timeout: 30000
+      maximum-pool-size: 200
+    username: root
+  batch:
+    initialize-schema: never
+    initializer:
+      enabled: false
+  boot:
+    admin:
+      url: http://172.16.102.24:8889
+jrx:
+  batch:
+    node:
+      server:
+        server-addr: 172.16.101.29:8848,172.16.101.30:8848,172.16.101.31:8848
+        namespace: 78ed2bf8-ebda-410a-856d-48c14f81f1dd
+      address:
+        local_test: http://localhost:9001
+        master_node: http://172.16.102.23:9002
+      nodeServers: testnacos
+server:
+  context-path: /act-task-schedule
+  port: 9090
+pagehelper:
+  supportMethodsArguments: true
+  reasonable: true
+  count: countSql
+  helperDialect: mysql
+management:
+  security:
+    enabled: false
+  context-path: /management
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: jrx.batch.scheduling.model
+batch:
+  scheduling:
+    partition-timeout-seconds: 60
+    monitor-server: true
+    external-execution-url: http://localhost:9090/%s
+    monitor-master: true
+    monitor-plan: true
+citic:
+  sso:
+    open: true

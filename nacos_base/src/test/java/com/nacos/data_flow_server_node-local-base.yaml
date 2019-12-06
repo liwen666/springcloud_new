@@ -1,0 +1,123 @@
+server:
+  port: 9001
+
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://192.168.42.136:3306/data_flow_test?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
+#    url: jdbc:mysql://192.168.42.136:3306/batch_flow?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
+    #    url: jdbc:mysql://192.168.42.136:3306/data_flow?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
+    #    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  #使用下面的配置LocalDeployerProperties可以省略 见  LocalPlatformProperties
+  cloud:
+    deployer:
+      local:
+        workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
+        java-opts: -Xms128M -Xmx128M
+
+    #平台配置
+    dataflow:
+      task:
+        platform:
+          local:
+            accounts:
+              local:
+                workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
+                java-opts: -Xms128M -Xmx128M
+              test:
+                workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
+                java-opts: -Xms128M -Xmx128M
+              default:
+                workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
+                java-opts: -Xms128M -Xmx128M
+
+  jpa:
+    database: Mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    properties:
+      spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL55Dialect
+  #  LocalDeployerProperties本地执行jar的配置项
+
+  #文件上传的配置
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 110MB
+
+
+  boot:
+    admin:
+      client:
+        url: http://172.16.102.24:8889    #server端地址
+        #url: http://127.0.0.1:8889    #server端地址
+        username: SBA_admin    #对应server端的账号密码，不配置就监控不到这个client。
+        password: SBA_password
+        instance:
+          service-base-url: http://localhost:9001   #client地址，
+          #不配置的情况下，在打包的时候会有提示。不影响运行。
+
+management:
+  server:
+    port: 8099
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      region: test_boot_admin
+
+---
+spring:
+  ##thymeleaf 页面跳转
+  thymeleaf:
+    #    enabled: false
+    prefix: classpath:/templates/
+    suffix: .html
+
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: jrx.batch.dataflow
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+  type-aliases-package: jrx.batch.dataflow.infrastructure.model
+  type-aliases-super-type: java.lang.Object
+#  type-handlers-package: com.example.springbootdemo.typeHandler
+#  type-enums-package: com.example.springbootdemo.enums
+
+
+jrx:
+  batch:
+    properties:
+      JAR_HOME_DEFAULT: C:/Users/liwen/Desktop/jrx/taskjar/
+#      NODE_NAME: master_node
+      NODE_NAME: local_test
+
+
+
+#showSql
+#logging:
+#  level:
+#    com:
+#      example:
+#        mapper : debug
+
+#logging:
+#  level:
+#    jrx:
+#      batch:
+#        dataflow:
+#          domain:
+#            dao: debug
