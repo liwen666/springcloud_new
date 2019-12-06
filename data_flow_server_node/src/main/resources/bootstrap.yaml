@@ -1,5 +1,6 @@
 
-
+server:
+  port: 9001
 spring:
   application:
     name: data_flow_server_node
@@ -8,6 +9,12 @@ spring:
   cloud:
     config:
       enabled: false
+com:
+  alibaba:
+    nacos:
+      naming:
+        cache:
+          dir: C:\Users\liwen\Desktop\jrx\nacoscache
 
 
 
