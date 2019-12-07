@@ -67,11 +67,11 @@ public class BeanOverideByFactory implements ApplicationRunner {
         ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
         String[] beanNamesForType1 = beanFactory.getBeanNamesForType(TaskExecutionService.class);
         log.info("taskExecutionService-->"+JSON.toJSONString(beanNamesForType1));
-        BeanDefinitionRegistry beanFactory1 = (BeanDefinitionRegistry) beanFactory;
-        BeanDefinition beanDefinition1 =beanFactory1.getBeanDefinition("taskExecutionService");
-        beanFactory1.removeBeanDefinition(beanNamesForType1[0]);
-        beanFactory1.removeBeanDefinition(beanNamesForType1[1]);
-        beanFactory1.registerBeanDefinition("taskService",beanDefinition1);
+//        BeanDefinitionRegistry beanFactory1 = (BeanDefinitionRegistry) beanFactory;
+//        BeanDefinition beanDefinition1 =beanFactory1.getBeanDefinition("taskExecutionService");
+//        beanFactory1.removeBeanDefinition(beanNamesForType1[0]);
+//        beanFactory1.removeBeanDefinition(beanNamesForType1[1]);
+//        beanFactory1.registerBeanDefinition("taskService",beanDefinition1);
     }
 
     @Override

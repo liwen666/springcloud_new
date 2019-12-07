@@ -31,9 +31,9 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-devtools</artifactId>-->
-            <!--<scope>runtime</scope>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-devtools</artifactId>-->
+        <!--<scope>runtime</scope>-->
         <!--</dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -102,16 +102,16 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>com.google.guava</groupId>-->
-            <!--<artifactId>guava</artifactId>-->
-            <!--<version>21.0</version>-->
+        <!--<groupId>com.google.guava</groupId>-->
+        <!--<artifactId>guava</artifactId>-->
+        <!--<version>21.0</version>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>com.thoughtworks.xstream</groupId>-->
-            <!--<artifactId>xstream</artifactId>-->
-            <!--<version>1.4.11.1</version>-->
+        <!--<groupId>com.thoughtworks.xstream</groupId>-->
+        <!--<artifactId>xstream</artifactId>-->
+        <!--<version>1.4.11.1</version>-->
         <!--</dependency>-->
-  <!--spring manager-->
+        <!--spring manager-->
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
