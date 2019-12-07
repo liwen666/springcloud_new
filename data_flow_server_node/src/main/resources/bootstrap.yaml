@@ -46,6 +46,8 @@ info:
 ---
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   cloud:
     nacos:
       config:
@@ -64,4 +66,4 @@ spring:
         server-addr: 172.16.101.29:8848,172.16.101.30:8848,172.16.101.31:8848
         # 命名空间ID
         namespace: 09ef3f23-52e0-4d51-b9aa-3364a47619f1
-        service: flow_node_test
+        service: local_test

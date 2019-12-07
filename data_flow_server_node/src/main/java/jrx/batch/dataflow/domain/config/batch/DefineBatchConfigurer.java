@@ -19,6 +19,7 @@ import org.springframework.batch.core.repository.support.MapJobRepositoryFactory
 import org.springframework.batch.support.transaction.ResourcelessTransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.dataflow.core.TaskPlatform;
 import org.springframework.cloud.dataflow.server.config.features.LocalPlatformProperties;
 import org.springframework.cloud.dataflow.server.config.features.LocalTaskPlatformFactory;
@@ -122,8 +123,9 @@ public class DefineBatchConfigurer implements BatchConfigurer {
 
     }
 
-    @Profile({"dev","local_test","dev_test"})
+//    @Profile({"dev","local_test","dev_test"})
     @Bean
+    @ConditionalOnMissingBean
     public TaskPlatform localTaskPlatform(LocalPlatformProperties localPlatformProperties, @Nullable Scheduler localScheduler) {
         TaskPlatform taskPlatform = (new LocalTaskPlatformFactory(localPlatformProperties, localScheduler)).createTaskPlatform();
         taskPlatform.setPrimary(true);
