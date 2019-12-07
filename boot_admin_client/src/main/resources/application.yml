@@ -1,0 +1,98 @@
+server:
+  servlet:
+#    context-path: /th-demo
+    context-path: /
+  port: 9001
+spring:
+#  main:
+#    allow-bean-definition-overriding: true
+  datasource:
+    username: root
+    password: 123.com
+    url: jdbc:mysql://172.16.101.19:3306/data_flow_node?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 60000
+      max-lifetime: 60000
+      data-source-properties:
+        maintainTimeStats: false
+        prepStmtCacheSqlLimit: 2048
+        rewriteBatchedStatements: true
+        elideSetAutoCommits: true
+        cacheResultSetMetadata: true
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        useServerPrepStmts: true
+        useLocalSessionState: true
+        cacheServerConfiguration: true
+      validation-timeout: 3000
+      minimum-idle: 10
+      idle-timeout: 30000
+      maximum-pool-size: 200
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+  application:
+    name: boot_admin_client
+  boot:
+    admin:
+      client:
+        url: http://localhost:8099    #server端地址
+        username: admin    #对应server端的账号密码，不配置就监控不到这个client。
+        password: 123456
+        instance:
+          service-base-url: http://localhost:9001   #client地址，
+          #不配置的情况下，在打包的时候会有提示。不影响运行。
+management:
+#  server:
+#    port: 9099
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      region: base
+eureka:
+  instance:
+    metadata-map:
+      user.name: lw
+      user.password: 123456
+    easeRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    ip-address: 127.0.0.1
+    prefer-ip-address: true
+    instance-id: ${eureka.instance.ip-address}:${server.port}
+  client:
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: http://lw:123456@127.0.0.1:8888/eureka/
+#hikari:
+#  master:
+#    jdbc-url: jdbc:mysql://masterhost:3306/testdb?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true&verifyServerCertificate=false
+#    username: root
+#    password: root
+#    maximum-pool-size: 20
+#    pool-name: master
+#    connection-timeout: 30000
+#    idle-timeout: 600000
+#    max-lifetime: 1765000
+#  slave:
+#    jdbc-url: jdbc:mysql://slavehost:3306/testdb?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true&verifyServerCertificate=false
+#    username: root
+#    password: root
+#    maximum-pool-size: 80
+#    pool-name: slave
+#    connection-timeout: 30000
+#    idle-timeout: 600000
+#    max-lifetime: 1765000
+#    read-only: true
