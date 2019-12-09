@@ -13,8 +13,6 @@ import javax.sql.DataSource;
 public class ThymeleafDemoApplication {
 
     public static void main(String[] args) {
-//        SpringApplication.run(ThymeleafDemoApplication.class);
-
 
         ConfigurableApplicationContext run = SpringApplication.run(ThymeleafDemoApplication.class, args);
         ConfigurableListableBeanFactory beanFactory = run.getBeanFactory();

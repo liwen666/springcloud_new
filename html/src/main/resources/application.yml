@@ -2,7 +2,7 @@ server:
   servlet:
 #    context-path: /th-demo
     context-path: /
-  port: 8081
+  port: 9099
 
 h2Service:
   ##thymeleaf 页面跳转
