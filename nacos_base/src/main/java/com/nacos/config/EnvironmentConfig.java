@@ -25,8 +25,11 @@ import java.util.Map;
 
 /**
  * 注册动态数据源bean
+ *   动态加载额外配置  见 ConfigFileApplicationListener  启动
+ *   System.out.println("====系统DAVINCI3_HOME环境变量地址是："+System.getenv("DAVINCI3_HOME"));
+ *         System.setProperty("spring.config.additional-location",System.getenv("DAVINCI3_HOME")+"/config/");
  *
- * @author: looyii
+ * @author: lw
  * @Date: 2019/7/25 16:12
  * @Description:
  */
