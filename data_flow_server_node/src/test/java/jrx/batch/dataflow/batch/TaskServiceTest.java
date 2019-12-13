@@ -110,7 +110,8 @@ public class TaskServiceTest {
              * 见配置项中的平台配置，配置项没有则为default
              */
 //            put("spring.cloud.dataflow.task.platformName", "default");
-            put("spring.cloud.dataflow.task.platformName", "local");
+//            put("spring.cloud.dataflow.task.platformName", "local");
+            put("spring.cloud.dataflow.task.platformName", "bigplatform");
         }}, new ArrayList<String>() {{
             ///执行任务传入的参数
             add("param = test");//此参数表示执行这个任务时指定平台是什么，如果和task_deployment中的不一致任务无法执行

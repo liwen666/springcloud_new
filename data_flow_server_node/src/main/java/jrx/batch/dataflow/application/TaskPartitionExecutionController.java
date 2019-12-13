@@ -53,6 +53,12 @@ public class TaskPartitionExecutionController {
         try {
             log.info("====开始执行任务： parentId:{},taskDefine:{},properties:{},argumes:{}",parentId,taskDefine,properties,arguments);
             arguments.add("--spring.cloud.task.parentExecutionId="+parentId);
+            //定制platform执行平台
+            arguments.stream().forEach(e->{
+                if(e.startsWith("--spring.cloud.dataflow.task.platformName")){
+                    properties.put(e.split("=")[0].replace("--",""),e.split("=")[1]);
+                }
+            });
              executeTask = taskExecutionService.executeTask(taskDefine, properties, arguments);
             taskExecutionServiceImpl.update(TaskExecution.builder().parentExecutionId(Long.parseLong(parentId)).build(), Wrappers.<TaskExecution>lambdaUpdate().eq(TaskExecution::getTaskExecutionId,executeTask));
         } catch (Exception e) {
