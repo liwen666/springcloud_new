@@ -2,7 +2,9 @@ package com.example.thymeleafdemo;
 
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +16,8 @@ import javax.sql.DataSource;
 public class ThymeleafDemoApplication {
 
     public static void main(String[] args) {
+
+//            new SpringApplicationBuilder().sources(ThymeleafDemoApplication.class).web(WebApplicationType.NONE).run(args);
         ConfigurableApplicationContext run = SpringApplication.run(ThymeleafDemoApplication.class, args);
         ConfigurableListableBeanFactory beanFactory = run.getBeanFactory();
         DataSource bean = beanFactory.getBean(DataSource.class);
