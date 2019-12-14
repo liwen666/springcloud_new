@@ -2,14 +2,32 @@
 <html lang="en-US">
 
 <head>
+    <script type="text/javascript">
+        function submitXML(){
+            var fileInput =document.getElementById("upload").value;
+            console.info(fileInput);
+            console.log(fileInput=="")
+            console.log(fileInput==undefined)
+            console.log(fileInput==null)
+            // console.info(JSON.stringify(fileInput));
+            // for(var i=0; i< files.length; i++){
+            //     alert(input.files[i].name);
+            // }
+        }
+    </script>
     <meta charset="UTF-8">
     <title>上传APP</title>
 </head>
 <body>
 <form action="/batch/node/registerapp" method="post" enctype="multipart/form-data">
-    <label>上传图片</label>
-    <input type="file" name="file"/>
+    <label>上传文件</label>
+    <input type="file" id="upload" name="file" multiple="multiple"/>
+
     <input type="submit" value="上传"/>
+    <input type="button" onclick="submitXML()" value="测试"/>
 </form>
 </body>
+
+
+
 </html>
