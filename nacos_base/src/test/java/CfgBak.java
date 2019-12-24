@@ -52,11 +52,12 @@ public class CfgBak {
             m.put("spring.datasource.url","jdbc:mysql://172.16.101.19:3306/batch_schedule_center_test?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
             m.put("spring.datasource.username","root");
             m.put("spring.datasource.password","123.com");
-            m.put("server.port","9099");
+            m.put("server.port",9099);
             m.put("spring.cloud.deployer.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.deployer.local.java-opts","-Xms128M -Xmx128M");
             m.put("filter.setting.indexUrl","http://172.16.102.23:9099/${server.context-path}/p/index.html#/");
             m.put("filter.setting.localUrl","http://172.16.102.23:9099");
+            m.put("citic.sso.open",false);
         }
         if (file.equals("dev")) {
             m.put("jrx.batch.node.address.master_node","http://172.16.102.23:9001");
@@ -64,7 +65,7 @@ public class CfgBak {
             m.put("spring.datasource.url","jdbc:mysql://172.16.101.19:3306/batch_schedule_center?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
             m.put("spring.datasource.username","root");
             m.put("spring.datasource.password","123.com");
-            m.put("server.port","9090");
+            m.put("server.port",9090);
             m.put("spring.cloud.deployer.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.deployer.local.java-opts","-Xms128M -Xmx128M");
             m.put("filter.setting.indexUrl","http://172.16.102.24:9090/${server.context-path}/p/index.html#/");
