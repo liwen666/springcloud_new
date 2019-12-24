@@ -1,8 +1,11 @@
 package jrx.batch.dataflow.batch.job;
 
+import com.alibaba.fastjson.JSON;
 import jrx.batch.dataflow.SpringbootDataflowServerApplication;
 import jrx.batch.dataflow.domain.config.batch.TaskCommandRunner;
+import jrx.batch.dataflow.domain.config.system.PropertiesThreadLocalHolder;
 import jrx.batch.dataflow.domain.listener.SimpleStepExecutionListener;
+import jrx.batch.dataflow.domain.nacos.NodeServerConfigProperties;
 import lombok.extern.java.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,6 +44,9 @@ public class SimpleJobTest {
     private ConfigurableApplicationContext applicationContext;
 
     @Autowired
+    NodeServerConfigProperties nodeServerConfigProperties;
+
+    @Autowired
     TaskCommandRunner taskCommandRunner;
 
     private static final Logger logger = LoggerFactory.getLogger(SimpleJobTest.class);
@@ -62,14 +68,22 @@ public class SimpleJobTest {
         Job job = simpleJob();
         taskCommandRunner.runJobForExternal(job);
     }
+
+
+    @Test
+    public void testpro() {
+        System.out.println(JSON.toJSONString(nodeServerConfigProperties));
+    }
+
     @Test
     public void runJobByParamExternal() throws Exception {
         Job job = simpleJob();
         JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
 //        "param = test","--spring.cloud.data.flow.platformname=local","--spring.cloud.task.executionid=40","--job.runDate=1573133299335","--job.ptime=200"
-//        jobParametersBuilder.addDate("start",new Date());
+        jobParametersBuilder.addDate("start",new Date());
         jobParametersBuilder.addString("dir","/home/jrx");
-        jobParametersBuilder.addString("--spring.cloud.task.executionid","10008");
+        PropertiesThreadLocalHolder.addProperties("--spring.cloud.task.executionid","110");
+        jobParametersBuilder.addString("--spring.cloud.task.executionid","110");
         JobParameters jobParameters = jobParametersBuilder.toJobParameters();
         taskCommandRunner.runJobByParamExternal(job,jobParameters);
     }
@@ -128,6 +142,7 @@ public class SimpleJobTest {
 
     public ItemProcessor<String,String> itemProcessor(
             @Value("#{jobParameters['job.ptime']}") Integer ptime){
+//        int i=1/0;
         return (String item) -> {
             Thread.sleep(ptime);
             return item;

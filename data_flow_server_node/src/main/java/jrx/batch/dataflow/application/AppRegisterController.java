@@ -7,13 +7,12 @@ import jrx.batch.dataflow.domain.enums.JrxBatchEnums;
 import jrx.batch.dataflow.domain.service.AppRegisterService;
 import jrx.batch.dataflow.domain.service.IAppRegistrationService;
 import jrx.batch.dataflow.infrastructure.model.AppRegistration;
-import jrx.batch.dataflow.util.BatachNodeContextUtils;
-import jrx.batch.dataflow.util.JrxRegxUtil;
-import jrx.batch.dataflow.util.JsonResult;
-import jrx.batch.dataflow.util.SystemUtils;
+import jrx.batch.dataflow.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.dataflow.core.ApplicationType;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,22 +58,32 @@ public class AppRegisterController {
         }
         String fileName = file.getOriginalFilename();  // 文件名
         log.info("====上传app   fileName: {}", fileName);
-        String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
         if (!JrxRegxUtil.isAccept(fileName)) {
             log.error("====文件名不合法 filename: {}", fileName);
             return JsonResult.error(CodeEnums.FILE_NOT_ACCEPT.code(), CodeEnums.FILE_NOT_ACCEPT.getCnDesc());
         }
+
+        String filePath = null; // 上传后的路径
+        String type = request.getParameter("type");
         String appName = fileName.substring(0, fileName.lastIndexOf("."));
+        filePath = JrxBatchProperties.properties.get(JrxBatchEnums.JAR_HOME_DEFAULT.name());
+        if (StringUtils.isEmpty(type)) {
+            type = ApplicationType.task.name();
+        }
+        if ("app".equals(type)) {
+            filePath = JrxBatchProperties.properties.get(JrxBatchEnums.JOB_SERVER_HOME_DEFAULT.name());
+        }
+        Assert.state(!StringUtils.isEmpty(filePath), "文件上传存储路径有误 任务类型 type:" + type);
+        if (!filePath.endsWith("/")) {
+            filePath = filePath + "/";
+        }
         /**
          * TODO 目前没有app版本控制，目前appName只能有一个
          */
-        AppRegistration app = appRegistrationService.getOne(Wrappers.<AppRegistration>lambdaQuery().eq(AppRegistration::getName, appName));
-        if(null!=app){
+        Integer appCode = TaskExecutionUtils.getAppCode(type);
+        AppRegistration app = appRegistrationService.getOne(Wrappers.<AppRegistration>lambdaQuery().eq(AppRegistration::getName, appName).eq(AppRegistration::getType, appCode));
+        if (null != app) {
             return JsonResult.error(CodeEnums.EXIST_DATA.code(), CodeEnums.EXIST_DATA.getCnDesc());
-        }
-        String filePath = JrxBatchProperties.properties.get(JrxBatchEnums.JAR_HOME_DEFAULT.name()); // 上传后的路径
-        if (!filePath.endsWith("/")) {
-            filePath = filePath + "/";
         }
 
         File dest = new File(filePath + fileName);
@@ -90,7 +99,7 @@ public class AppRegisterController {
         /**
          * 注册app
          */
-        return appRegisterService.registerApplication(fileName, filePath);
+        return appRegisterService.registerApplication(fileName, filePath, type);
     }
 
 

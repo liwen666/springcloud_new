@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,15 @@ public class TaskTaskBatchMapperTest {
         TaskExecution one = taskExecutionMapper.selectOne(Wrappers.<TaskExecution>lambdaQuery().eq(TaskExecution::getParentExecutionId, "4119170606029377536"));
 
         System.out.println(one);
+
+    }
+
+    @Test
+    public void update() {
+        TaskExecution build = TaskExecution.builder().taskExecutionId(103l).endTime(LocalDateTime.now()).build();
+        int update = taskExecutionMapper.update(build, Wrappers.<TaskExecution>lambdaUpdate().eq(TaskExecution::getTaskExecutionId,build.getTaskExecutionId()));
+
+        System.out.println(update);
 
     }
 }

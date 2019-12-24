@@ -51,6 +51,8 @@ public class ConfigLoadCommandLineRunner implements CommandLineRunner {
         logger.info("使用taskLauncher，{}", taskLauncher);
           String  filePath = JrxBatchProperties.properties.get(JrxBatchEnums.JAR_HOME_DEFAULT.name()); // 上传后的路径
         logger.info("===APP 上传到节点的路径是：{}",filePath);
+        String  jobServerPath = JrxBatchProperties.properties.get(JrxBatchEnums.JOB_SERVER_HOME_DEFAULT.name()); // 上传后的路径
+        logger.info("===APP jobServer上传到节点的路径是：{}",jobServerPath);
 
     }
 }

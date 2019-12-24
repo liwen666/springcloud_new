@@ -35,5 +35,9 @@ public class TaskContants {
 
     public static final String RERUN_TASK = "task.rerun";
     public static final String RERUN_TASK_TS = "task.rerun.ts";
+    /**
+     * 拉起jobserver 之后多久执行job
+     */
+    public static final long LAUNCH_SLEEP_DELAY = 20000;
 
 }

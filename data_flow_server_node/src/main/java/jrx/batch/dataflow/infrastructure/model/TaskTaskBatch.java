@@ -1,8 +1,7 @@
 package jrx.batch.dataflow.infrastructure.model;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,6 +17,9 @@ import java.io.Serializable;
  */
 @Data
 @Slf4j
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class TaskTaskBatch implements Serializable {

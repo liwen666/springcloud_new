@@ -6,7 +6,8 @@ public enum JrxBatchEnums implements IBaseEnum {
     JAR_HOME_DEFAULT(1, "默认文件上传到节点路径"),
     WIN_JAR_HOME(2, "window系统jar文件上传路径"),
     LINUX_JAR_HOME(3, "linux系统jar文件上传路径"),
-    NODE_NAME(4, "节点名称");
+    NODE_NAME(4, "节点名称"),
+    JOB_SERVER_HOME_DEFAULT(5, "默认文件上传到节点路径");
 
     private int code;
     private String desc;

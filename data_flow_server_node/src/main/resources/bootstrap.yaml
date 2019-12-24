@@ -15,7 +15,7 @@ spring:
     name: data_flow_server_node
   profiles:
     active: dev
-#    active: dev
+#    active: local
   cloud:
     config:
       enabled: false

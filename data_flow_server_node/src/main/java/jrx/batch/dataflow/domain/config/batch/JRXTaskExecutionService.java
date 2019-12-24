@@ -87,6 +87,9 @@ public class JRXTaskExecutionService extends DefaultTaskExecutionService {
             TaskExecution taskExecution = this.taskExecutionRepositoryService.createTaskExecution(taskName);
             AppDeploymentRequest request = this.taskAppDeploymentRequestCreator.createRequest(taskExecution, taskExecutionInformation, commandLineArgs, platformName);
             String id = taskLauncher.launch(request);
+            if(ApplicationType.app.name().equals(taskDeploymentProperties.get("app.type"))){
+                log.info("---jobServer启动日志地址是 filePath:{} ,commandLineArgs:{}",id,commandLineArgs);
+            }
             if (!StringUtils.hasText(id)) {
                 throw new IllegalStateException("Deployment ID is null for the task:" + taskName);
             } else {

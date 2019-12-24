@@ -2,6 +2,10 @@ package jrx.batch.dataflow.infrastructure.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import jrx.batch.dataflow.infrastructure.model.TaskDefinitions;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.type.JdbcType;
 
 /**
  * <p>
@@ -13,4 +17,11 @@ import jrx.batch.dataflow.infrastructure.model.TaskDefinitions;
  */
 public interface TaskDefinitionsMapper extends BaseMapper<TaskDefinitions> {
 
+    @Select({
+            "SELECT ar.`type` FROM app_registration ar WHERE ar.`name`=(SELECT td.`definition` FROM task_definitions td WHERE td.`definition_name`= #{taskDefine})"
+    })
+    @Results({
+            @Result(column = "type", property = "type", jdbcType = JdbcType.INTEGER),
+    })
+    Integer getAppType(String taskDefine);
 }

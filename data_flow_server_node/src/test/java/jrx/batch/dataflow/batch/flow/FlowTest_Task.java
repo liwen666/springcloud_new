@@ -67,7 +67,7 @@ public class FlowTest_Task {
         appRegistration.setVersion("1");
         appRegistration.setDefaultVersion(true);
         appRegistration.setType(ApplicationType.task);
-        appRegistration.setUri(new URI("file://C:/Users/liwen/Desktop/jrx/taskjar/local.jar"));
+        appRegistration.setUri(new URI("file://C:/Users/liwen/Desktop/jrx/localtask/b01-simple-job.jar"));
         appRegistration.setName("test_task_only");
         AppRegistration save = appRegistrationRepository.save(appRegistration);
         System.out.println(JSON.toJSONString(save));
@@ -100,7 +100,8 @@ public class FlowTest_Task {
              * 见配置项中的平台配置，配置项没有则为default
              * 本系统配置了test 和local 两个平台
              */
-            put("spring.cloud.dataflow.task.platformName", "default");
+//            put("spring.cloud.dataflow.task.platformName", "default");
+            put("spring.cloud.dataflow.task.platformName", "bigplatform");
 //            put("spring.cloud.dataflow.task.platformName", "local");
         }}, new ArrayList<String>() {{
             ///执行任务传入的参数

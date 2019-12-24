@@ -4,13 +4,17 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="jrx.batch.dataflow.infrastructure.model.TaskDefinitions">
-        <id column="definition_name" property="definitionName" />
-        <result column="definition" property="definition" />
+        <id column="definition_name" property="definitionName"/>
+        <result column="definition" property="definition"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         definition_name, definition
     </sql>
+
+    <!--<select id="getAppType">-->
+<!--SELECT ar.`type` FROM app_registration ar WHERE ar.`name`=(SELECT td.`definition` FROM task_definitions td WHERE td.`definition_name`= #{taskDefine})-->
+    <!--</select>-->
 
 </mapper>
