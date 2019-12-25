@@ -22,5 +22,16 @@ public class JrxRegxUtil {
         Matcher matcher = pattern.matcher(data);
         return matcher.matches();
     }
+    /**
+     * 匹配文件名
+     *
+     */
+    public static  boolean isAcceptTaskdefineName(String name){
+        String regx ="^[a-zA-Z][a-zA-Z0-9_]*$";
+        Pattern pattern = Pattern.compile(regx);
+        Matcher matcher = pattern.matcher(name);
+        return matcher.matches();
+    }
+
 
 }

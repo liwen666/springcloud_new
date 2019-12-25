@@ -8,6 +8,7 @@ import javafx.concurrent.Task;
 import jrx.batch.dataflow.domain.service.ITaskDefinitionsService;
 import jrx.batch.dataflow.infrastructure.model.TaskDefinitions;
 import jrx.batch.dataflow.util.BatachNodeContextUtils;
+import jrx.batch.dataflow.util.JrxRegxUtil;
 import jrx.batch.dataflow.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.dataflow.core.ApplicationType;
@@ -58,11 +59,15 @@ public class TaskDefinitionsController {
 
     @PostMapping("/http_task")
     public JsonResult saveNodeTask(@Param("name") String name, @Param("definition") String definition) {
-        TaskDefinitions taskDefinitions = taskDefinitionsService.getOne(Wrappers.<TaskDefinitions>lambdaQuery().eq(TaskDefinitions::getDefinitionName, name));
-        if(null==taskDefinitions){
-            JsonResult.success(taskDefinitionsService.save(TaskDefinitions.builder().definition(definition).definitionName(name).build()));
+        boolean accept = JrxRegxUtil.isAcceptTaskdefineName(name);
+        if (!accept) {
+            throw new RuntimeException("该任务定义不符合要求，需要以字母开头 taskDefingName:" + name);
         }
-        throw new RuntimeException("该任务已经注册不能重复注册 taskDefingName:"+name);
+        TaskDefinitions taskDefinitions = taskDefinitionsService.getOne(Wrappers.<TaskDefinitions>lambdaQuery().eq(TaskDefinitions::getDefinitionName, name));
+        if (null == taskDefinitions) {
+            return JsonResult.success(taskDefinitionsService.save(TaskDefinitions.builder().definition(definition).definitionName(name).build()));
+        }
+        throw new RuntimeException("该任务已经注册不能重复注册 taskDefingName:" + name);
     }
 
 }
