@@ -18,10 +18,10 @@ import org.apache.ibatis.type.JdbcType;
 public interface TaskDefinitionsMapper extends BaseMapper<TaskDefinitions> {
 
     @Select({
-            "SELECT ar.`type` FROM app_registration ar WHERE ar.`name`=(SELECT td.`definition` FROM task_definitions td WHERE td.`definition_name`= #{taskDefine})"
+            "SELECT ar.`type` FROM app_registration ar WHERE ar.`name`=(SELECT td.`definition` FROM task_definitions td WHERE td.`definition_name`= #{taskDefineName})"
     })
     @Results({
             @Result(column = "type", property = "type", jdbcType = JdbcType.INTEGER),
     })
-    Integer getAppType(String taskDefine);
+    Integer getAppType(String taskDefineName);
 }

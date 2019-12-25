@@ -55,12 +55,12 @@ public class RemoteClientHolderTest {
         String parentId = System.currentTimeMillis() + "";
         long taskExecutionId = httpBatchService.createTaskExecution("test_task_define", parentId);
 
-        JobExecuteClient job_server_test = remoteClientHolder.getClient("job_server_test", JobExecuteClient.class);
+        JobExecuteClient job_server_test = remoteClientHolder.getClient("http_task", JobExecuteClient.class);
         JsonResult result = null;
         try {
             result = job_server_test.executeRemoteJob(new ArrayList<String>() {{
                 //            add("task.jobName=simpleJob");
-                add("task.jobName=simpleJob");
+                add("--task.jobName=customTaskletJob");
                 add("--spring.cloud.task.executionid=" + taskExecutionId);
                 //            add("--spring.cloud.task.executionid=121" );
                 add("--jrx.batch.job.server.batch_datasource=" + JrxBatchProperties.properties.get("JOB_SERVER_DB"));
@@ -77,6 +77,7 @@ public class RemoteClientHolderTest {
 
         //失败做一下查询确认，更新分区
         if (null == result || result.getCode() == CodeEnums.EROOR.code()) {
+            log.error("===job执行失败，errorMsg:{},准备做失败数据检查。",result.getMessage());
             checkTask(taskExecutionId, parentId);
         }
 

@@ -22,8 +22,8 @@ import org.springframework.stereotype.Service;
 public class TaskDefinitionsServiceImpl extends ServiceImpl<TaskDefinitionsMapper, TaskDefinitions> implements ITaskDefinitionsService {
 
     @Override
-    public ApplicationType getAppType(String taskDefine) {
-        Integer appType=baseMapper.getAppType(taskDefine);
+    public ApplicationType getAppType(String taskDefineName) {
+        Integer appType=baseMapper.getAppType(taskDefineName);
         return TaskExecutionUtils.getApplicationType(appType);
     }
 }

@@ -42,7 +42,6 @@ public class AppRegisterService {
         if("app".equals(type)){
             log.info("上传http job服务jar");
             appRegistration.setType(ApplicationType.app);
-            appRegistration.setUri(new URI("http://"+filePath+fileName));
         }
         log.info("----注册App "+appRegistration.toString());
         AppRegistration save = appRegistrationRepository.save(appRegistration);

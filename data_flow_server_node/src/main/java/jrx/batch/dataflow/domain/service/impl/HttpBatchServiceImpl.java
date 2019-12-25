@@ -69,6 +69,7 @@ public class HttpBatchServiceImpl implements IHttpBatchService {
         }
         //失败做一下查询确认
         if (null == result || result.getCode() == CodeEnums.EROOR.code()) {
+            log.error("===job执行失败，errorMsg:{},准备做失败数据检查。",result.getMessage());
             checkTask(taskExecutionId, parentId);
         }
     }
