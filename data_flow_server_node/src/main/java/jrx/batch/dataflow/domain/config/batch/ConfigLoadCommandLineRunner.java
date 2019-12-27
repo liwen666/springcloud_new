@@ -1,6 +1,7 @@
 package jrx.batch.dataflow.domain.config.batch;
 
 import jrx.batch.dataflow.domain.enums.JrxBatchEnums;
+import jrx.batch.dataflow.infrastructure.model.AppRegistration;
 import jrx.batch.dataflow.util.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

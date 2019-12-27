@@ -27,9 +27,9 @@ class ZookeeperClient implements Watcher{
         }
 
         try {
-            zooKeeper.exists("/test1", true);
-            zooKeeper.create("/test1", "123".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE,
-                    CreateMode.EPHEMERAL);
+//            zooKeeper.exists("/test1", true);
+//            zooKeeper.create("/test1", "123".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE,
+//                    CreateMode.EPHEMERAL);
             //重新设置watch，zookeeper中watch被调用之后需要重新设置
             zooKeeper.exists("/test1", true);
             zooKeeper.delete("/test1", -1);

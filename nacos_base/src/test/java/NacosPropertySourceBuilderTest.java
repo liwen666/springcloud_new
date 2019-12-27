@@ -57,7 +57,7 @@ public class NacosPropertySourceBuilderTest {
         String pro = "{\"secretKey\":\"\",\"contextPath\":\"\",\"accessKey\":\"\",\"namespace\":\"78ed2bf8-ebda-410a-856d-48c14f81f1dd\",\"encode\":\"\",\"serverAddr\":\"172.16.101.29:8848,172.16.101.30:8848,172.16.101.31:8848\",\"clusterName\":\"\",\"endpoint\":\"\"}";
         Properties properties = JSON.parseObject(pro, Properties.class);
         ConfigService configService = NacosFactory.createConfigService(properties);
-        if (configService.publishConfig("testnacos-test.yaml", Constants.DEFAULT_GROUP, "server:\n" +
+        if (configService.publishConfig("jobstatus-test.yaml", Constants.DEFAULT_GROUP, "server:\n" +
                 "  port: 11000\n" +
                 "test:\n" +
                 "  demo:\n" +

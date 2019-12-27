@@ -38,9 +38,11 @@ public class ServerHealthCheck {
         NamingService namingService = nodeServerConfigProperties.namingServiceInstance();
 
         try {
+//            System.out.println("******************************************************");
+            System.out.println("注册中心测试");
 //            Instance testnacos = namingService.selectOneHealthyInstance("testnacos");
-            Instance testnacos = namingService.selectOneHealthyInstance("sss");
-            System.out.println(JSON.toJSONString(testnacos));
+//            Instance testnacos = namingService.selectOneHealthyInstance("sss");
+//            System.out.println(JSON.toJSONString(testnacos));
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("******************************************************");

@@ -80,10 +80,10 @@ public class SimpleJobTest {
         Job job = simpleJob();
         JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
 //        "param = test","--spring.cloud.data.flow.platformname=local","--spring.cloud.task.executionid=40","--job.runDate=1573133299335","--job.ptime=200"
-        jobParametersBuilder.addDate("start",new Date());
+//        jobParametersBuilder.addDate("start",new Date());
         jobParametersBuilder.addString("dir","/home/jrx");
-        PropertiesThreadLocalHolder.addProperties("--spring.cloud.task.executionid","110");
-        jobParametersBuilder.addString("--spring.cloud.task.executionid","110");
+        PropertiesThreadLocalHolder.addProperties("--spring.cloud.task.executionid","345");
+        jobParametersBuilder.addString("--spring.cloud.task.executionid","345");
         JobParameters jobParameters = jobParametersBuilder.toJobParameters();
         taskCommandRunner.runJobByParamExternal(job,jobParameters);
     }

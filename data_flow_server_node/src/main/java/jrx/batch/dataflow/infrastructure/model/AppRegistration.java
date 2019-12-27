@@ -20,7 +20,6 @@ import java.io.Serializable;
  @NoArgsConstructor
  @AllArgsConstructor
  @EqualsAndHashCode(callSuper = false)
-
 @Accessors(chain = true)
 public class AppRegistration implements Serializable {
 

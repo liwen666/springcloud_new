@@ -2,14 +2,36 @@ server:
   port: 9001
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     username: root
     password: root
+    #    password: 123.com
     url: jdbc:mysql://192.168.42.136:3306/data_flow_test?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
-#    url: jdbc:mysql://192.168.42.136:3306/batch_flow?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
+    #    url: jdbc:mysql://172.16.101.19:3306/data_flow_node?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
+    #    url: jdbc:mysql://192.168.42.136:3306/batch_flow?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
     #    url: jdbc:mysql://192.168.42.136:3306/data_flow?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
     #    driver-class-name: com.mysql.jdbc.Driver
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 60000
+      max-lifetime: 60000
+      data-source-properties:
+        maintainTimeStats: false
+        prepStmtCacheSqlLimit: 2048
+        rewriteBatchedStatements: true
+        elideSetAutoCommits: true
+        cacheResultSetMetadata: true
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        useServerPrepStmts: true
+        useLocalSessionState: true
+        cacheServerConfiguration: true
+      validation-timeout: 3000
+      minimum-idle: 10
+      idle-timeout: 30000
+      maximum-pool-size: 200
   #使用下面的配置LocalDeployerProperties可以省略 见  LocalPlatformProperties
   cloud:
     deployer:
@@ -32,10 +54,14 @@ spring:
               default:
                 workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/worktask
                 java-opts: -Xms128M -Xmx128M
+              bigplatform:
+                workingDirectoriesRoot: C:/Users/liwen/Desktop/jrx/bigPlatform
+                java-opts: -Xms1028M -Xmx2048M
+
 
   jpa:
     database: Mysql
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: update
       naming:
@@ -100,10 +126,17 @@ mybatis-plus:
 
 jrx:
   batch:
+    job:
+      server:
+        server-addr: 172.16.101.29:8848,172.16.101.30:8848,172.16.101.31:8848
+        namespace: a03c92e1-2623-4f4a-b07e-3e32b7af9281
+
     properties:
       JAR_HOME_DEFAULT: C:/Users/liwen/Desktop/jrx/taskjar/
-#      NODE_NAME: master_node
-      NODE_NAME: local_test
+      JOB_SERVER_HOME_DEFAULT: C:/Users/liwen/Desktop/jrx/jobserverhome/
+      #      NODE_NAME: master_node
+      NODE_NAME: ${spring.cloud.nacos.discovery.service}
+      JOB_SERVER_DB: local
 
 
 

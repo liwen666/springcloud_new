@@ -79,6 +79,7 @@ public class HttpBatchServiceImpl implements IHttpBatchService {
         List<Map> maps = taskTaskBatchService.listJobById(parentId);
         if (CollectionUtils.isEmpty(maps)) {
             log.error("未查询到任务对应的job信息：parentId:{}", parentId);
+            return;
         }
         Map map = maps.get(0);
         String status = (String) map.get("STATUS");

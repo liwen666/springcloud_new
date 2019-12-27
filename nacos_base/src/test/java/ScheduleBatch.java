@@ -18,7 +18,7 @@ import java.util.*;
  * @author tx
  * @since 2019/5/26 23:40
  */
-public class CfgBak {
+public class ScheduleBatch {
 
     @Test
     public void batchschedule() throws NacosException, IOException {
@@ -35,7 +35,7 @@ public class CfgBak {
         System.out.println(YamlUtil.converMapToProperties(map));
 
         for (String file : profiles) {
-            Map dev = get(file);
+            Map dev = getScheduleFile(file);
             for (Object o : dev.keySet()) {
                 YamlUtil.setProperty(map, o, dev.get(o));
             }
@@ -44,7 +44,7 @@ public class CfgBak {
 
     }
 
-    private Map get(String file) {
+    private Map getScheduleFile(String file) {
         Map m = new HashMap();
         if (file.equals("devtest")) {
             m.put("jrx.batch.node.address.master_node_test","http://172.16.102.23:9002");
@@ -80,15 +80,24 @@ public class CfgBak {
         String pro = "{\"secretKey\":\"\",\"contextPath\":\"\",\"accessKey\":\"\",\"namespace\":\"09ef3f23-52e0-4d51-b9aa-3364a47619f1\",\"encode\":\"\",\"serverAddr\":\"172.16.101.29:8848,172.16.101.30:8848,172.16.101.31:8848\",\"clusterName\":\"\",\"endpoint\":\"\"}";
         Properties properties = JSON.parseObject(pro, Properties.class);
         ConfigService configService = NacosFactory.createConfigService(properties);
-        List<String> cfg = new ArrayList<>();
-        cfg.add("data_flow_server_node-dev.yaml");
-        cfg.add("data_flow_server_node-local.yaml");
-        cfg.add("data_flow_server_node-dev_test.yaml");
-        cfg.add("data_flow_server_node-local_test.yaml");
-        for (String name : cfg) {
-            String default_group = configService.getConfig(name, "DEFAULT_GROUP", 1000);
-            Map<?, ?> map = YamlUtil.collatingCfg(default_group);
-            YamlUtil.dumpYaml(name, map);
+        List<String> profiles = new ArrayList<>();
+        profiles.add("dev");
+        profiles.add("dev_test");
+        profiles.add("dev_zh1");
+        profiles.add("dev_zh2");
+        profiles.add("dev_zh3");
+        String appname = "data_flow_server_node";
+        String localfile = configService.getConfig(appname + "-local.yaml", "DEFAULT_GROUP", 1000);
+        Map<?, ?> map = YamlUtil.collatingCfg(localfile);
+        YamlUtil.dumpYaml(appname + "-local.yaml", map);
+        System.out.println(YamlUtil.converMapToProperties(map));
+
+        for (String file : profiles) {
+            Map dev = getScheduleFile(file);
+            for (Object o : dev.keySet()) {
+                YamlUtil.setProperty(map, o, dev.get(o));
+            }
+            YamlUtil.dumpYaml(appname + "-" + file + ".yaml", map);
         }
 
     }
