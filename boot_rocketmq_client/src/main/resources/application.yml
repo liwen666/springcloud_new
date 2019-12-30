@@ -55,17 +55,30 @@ suning:
     topic: ANY_BATCH_JOB_RESULT_STATUE_TOPIC
 
 
-
+#batch-common的mq配置
 #生产者 RocketMQProperties
-rocketmq:
-  nameserver: 10.0.8.16:9876
-  producer:
-    access-key: BatchTaskMQ
-    secret-key: batch123456
-    group: anybatch_pro_group_job_server
+#rocketmq:
+#  nameserver: 10.0.8.16:9876
+#  producer:
+#    access-key: BatchTaskMQ
+#    secret-key: batch123456
+#    group: anybatch_pro_group_job_server
+#
+##消费者 RocketMQMessageListener
+#  consumer:
+#    access-key: BatchTaskMQ
+#    secret-key: batch123456
+##    groupname: anybatch_customer_group_exec_node
 
-#消费者 RocketMQMessageListener
-  consumer:
-    access-key: BatchTaskMQ
-    secret-key: batch123456
-#    groupname: anybatch_customer_group_exec_node
+#TXN的mq配置
+#rocketmq:
+#  nameserver: 10.0.8.16:9876
+#  producer:
+#    access-key: AnytxnMQ
+#    secret-key: any123456
+#    group: ANYTXN
+#
+##消费者 RocketMQMessageListener
+#  consumer:
+#    access-key: AnytxnMQ
+#    secret-key: any123456

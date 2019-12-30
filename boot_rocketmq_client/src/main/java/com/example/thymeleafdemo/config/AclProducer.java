@@ -13,21 +13,19 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
-@Component("testAclProducer")
+@Component
 public class AclProducer {
     @Autowired
     RocketMqCfgProperties rocketMqCfgProperties;
     @PostConstruct
     public void produder() throws MQClientException, InterruptedException {
-//        DefaultMQProducer producer = new DefaultMQProducer(rocketMqCfgProperties.getProducerGroup(), getAclRPCHook());
-        DefaultMQProducer producer = new DefaultMQProducer("wwww", getAclRPCHook());
+        DefaultMQProducer producer = new DefaultMQProducer(rocketMqCfgProperties.getProducerGroup(), getAclRPCHook());
         producer.setNamesrvAddr(rocketMqCfgProperties.getNamesrvaddr());
         producer.start();
         for (int i = 0; i < 10; i++) {
             try {
                 Thread.sleep(1000);
-//                Message msg = new Message(rocketMqCfgProperties.getTopic() ,"TagA" , ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET));
-                Message msg = new Message(rocketMqCfgProperties.getTopic() ,"" , ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET));
+                Message msg = new Message(rocketMqCfgProperties.getTopic() ,"TagA" , ("Hello RocketMQ " + i).getBytes(RemotingHelper.DEFAULT_CHARSET));
                 SendResult sendResult = producer.send(msg);
                 System.out.printf("====ACL  发送  %s%n", sendResult);
             } catch (Exception e) {
