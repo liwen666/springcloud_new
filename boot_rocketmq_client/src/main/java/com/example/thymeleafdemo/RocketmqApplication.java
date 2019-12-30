@@ -1,6 +1,7 @@
 package com.example.thymeleafdemo;
  
 //import com.example.thymeleafdemo.config.RocketMqCfgProperties;
+import com.example.thymeleafdemo.config.RocketMqCfgProperties;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @Modify By
  */
 @SpringBootApplication
-//@EnableConfigurationProperties(RocketMqCfgProperties.class)
+@EnableConfigurationProperties(RocketMqCfgProperties.class)
 public class RocketmqApplication {
     public static void main(String[] args) {
         SpringApplication.run(RocketmqApplication.class,args);

@@ -43,16 +43,16 @@ spring:
 
 
   # 生产者的组名
-#suning:
-#  rocketmq:
-#    producer-group: anybatch_pro_group_job_server
-#  # 消费者的组名
-#    conumer-group: anybatch_customer_group_exec_node
-#  # NameServer地址
-#    namesrvaddr: 10.0.8.16:9876
-#    accessKey: BatchTaskMQ
-#    secretKey:  batch123456
-#    topic: ANY_BATCH_JOB_RESULT_STATUE_TOPIC
+suning:
+  rocketmq:
+    producer-group: anybatch_pro_group_job_server
+  # 消费者的组名
+    conumer-group: anybatch_customer_group_exec_node
+  # NameServer地址
+    namesrvaddr: 10.0.8.16:9876
+    accessKey: BatchTaskMQ
+    secretKey:  batch123456
+    topic: ANY_BATCH_JOB_RESULT_STATUE_TOPIC
 
 
 
