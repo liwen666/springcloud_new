@@ -38,6 +38,6 @@ public class TaskContants {
     /**
      * 拉起jobserver 之后多久执行job
      */
-    public static final long LAUNCH_SLEEP_DELAY = 20000;
+    public static final long LAUNCH_SLEEP_DELAY = 30000;
 
 }
