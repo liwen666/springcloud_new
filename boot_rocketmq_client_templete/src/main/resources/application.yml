@@ -2,7 +2,7 @@ server:
   servlet:
 #    context-path: /th-demo
     context-path: /
-  port: 9001
+  port: 9003
 spring:
 #  main:
 #    allow-bean-definition-overriding: true
@@ -47,7 +47,7 @@ spring:
 
 #TXN的mq配置
 rocketmq:
-  nameserver: 10.0.8.16:9876
+  name-server: 10.0.8.16:9876
   producer:
     access-key: AnytxnMQ
     secret-key: any123456
@@ -57,3 +57,16 @@ rocketmq:
   consumer:
     access-key: AnytxnMQ
     secret-key: any123456
+
+
+suning:
+  rocketmq:
+    producer-group: anybatch_pro_group_job_server
+    # 消费者的组名
+    conumer-group: anybatch_customer_group_exec_node
+    # NameServer地址
+    namesrvaddr: 10.0.8.16:9876
+    accessKey: BatchTaskMQ
+    secretKey:  batch123456
+    topic: ANY_BATCH_JOB_RESULT_STATUE_TOPIC1
+

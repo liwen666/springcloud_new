@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
@@ -35,6 +36,8 @@ public class TaskTaskBatchMapperTest {
     @Test
     public void getExecute() {
         TaskExecution one = taskExecutionMapper.selectOne(Wrappers.<TaskExecution>lambdaQuery().eq(TaskExecution::getParentExecutionId, "4119170606029377536"));
+//        List<Map<String, Object>> query = scheduleCenterJdbcTemplete.query("SELECT * FROM schedule_partition_execution LIMIT 100 ", new ColumnMapRowMapper());
+
 
         System.out.println(one);
 

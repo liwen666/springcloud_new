@@ -3,6 +3,7 @@ package jrx.batch.dataflow;
 //import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource
 
 import jrx.batch.dataflow.domain.config.batch.EnableJrxProperties;
+import jrx.batch.dataflow.domain.config.batch.ScheduleCenterHikariDataSourceBuilder;
 import jrx.batch.dataflow.domain.nacos.NodeServerConfigProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +20,7 @@ import org.springframework.cloud.dataflow.server.EnableDataFlowServer;
 @EnableDiscoveryClient
 @EnableDataFlowServer
 @EnableJrxProperties
-@EnableConfigurationProperties({NodeServerConfigProperties.class})
+@EnableConfigurationProperties({NodeServerConfigProperties.class, ScheduleCenterHikariDataSourceBuilder.class})
 public class SpringbootDataflowServerApplication {
 
     public static void main(String[] args) {

@@ -27,6 +27,7 @@ import org.springframework.cloud.scheduler.spi.core.Scheduler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -131,4 +132,12 @@ public class DefineBatchConfigurer implements BatchConfigurer {
         taskPlatform.setPrimary(true);
         return taskPlatform;
     }
+
+    @Bean("scheduleCenterJdbcTemplete")
+    public JdbcTemplate scheduleCenterJdbcTemplete(ScheduleCenterHikariDataSourceBuilder localPlatformProperties) {
+        DataSource build = localPlatformProperties.build("");
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(build);
+        return jdbcTemplate;
+    }
+
 }
