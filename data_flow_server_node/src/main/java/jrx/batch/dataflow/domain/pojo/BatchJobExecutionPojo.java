@@ -62,5 +62,9 @@ private String jobConfigurationLocation;
   */
  private  String taskParentExecutionId;
 
+ /**
+  * 服务器注册名称
+  */
+ private  String serverName;
 
 }
