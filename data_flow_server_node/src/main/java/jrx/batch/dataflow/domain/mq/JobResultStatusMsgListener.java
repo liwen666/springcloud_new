@@ -65,6 +65,7 @@ public class JobResultStatusMsgListener implements RocketMQListener<String> {
             }
             log.info("------------分区状态更新成功：task_execution_id：{},run_state:{}",batchJobExecutionPojo.getTaskParentExecutionId() ,batchJobExecutionPojo.getStatus());
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("--------分区状态更新异常：-->jobResultMsg:{} ", jobResultMsg);
         }
 

@@ -14,8 +14,8 @@ spring:
   application:
     name: data_flow_server_node
   profiles:
-#    active: dev
-    active: local
+    active: dev
+#    active: local
   cloud:
     config:
       enabled: false
@@ -53,22 +53,6 @@ jrx:
       access-key: BatchTaskMQ
       secret-key:  batch123456
       topic: ANY_BATCH_JOB_RESULT_STATUE_TOPIC
-rocketmq:
-  name-server: 10.0.8.16:9876
-
-schedule:
-  center:
-    jdbc:
-      datasource:
-        props:
-          driverClassName: com.mysql.cj.jdbc.Driver
-          jdbcUrl:  jdbc:mysql://192.168.42.136:3306/batch_schedule_center?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
-          username: root
-          password: root
-          maximumPoolSize: 20
-          connectionTestQuery: SELECT 1
-
-
 
 ---
 
