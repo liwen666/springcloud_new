@@ -12,7 +12,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.dataflow.server.EnableDataFlowServer;
 
-//import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+//import org.springframexecuteTaskPartitioework.cloud.client.discovery.EnableDiscoveryClient;
 //import org.springframework.cloud.context.config.annotation.RefreshScope;
 @SpringBootApplication
 @ServletComponentScan

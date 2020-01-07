@@ -25,9 +25,7 @@ import java.util.Map;
 @Slf4j
 @RocketMQMessageListener(
         topic = "${jrx.node.rocketmq.topic}",
-        consumerGroup = "${jrx.node.rocketmq.conumer-group}",
-        accessKey = "${jrx.node.rocketmq.access-key}",
-        secretKey = "${jrx.node.rocketmq.secret-key}"
+        consumerGroup = "${jrx.node.rocketmq.conumer-group}"
 
 )
 public class JobResultStatusMsgListener implements RocketMQListener<String> {

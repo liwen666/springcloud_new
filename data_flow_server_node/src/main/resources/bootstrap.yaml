@@ -43,6 +43,7 @@ info:
   groupId: jrx.batch.node
   artifactId: data_flow_server_node
 
+
 jrx:
   node:
     rocketmq:
@@ -50,8 +51,8 @@ jrx:
       # 消费者的组名
       conumer-group: anybatch_customer_group_exec_node
       # NameServer地址
-      access-key: BatchTaskMQ
-      secret-key:  batch123456
+#      access-key: BatchTaskMQ
+#      secret-key:  batch123456
       topic: ANY_BATCH_JOB_RESULT_STATUE_TOPIC
 
 ---
