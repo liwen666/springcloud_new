@@ -28,6 +28,7 @@ public class ScheduleBatch {
         List<String> profiles = new ArrayList<>();
         profiles.add("dev");
         profiles.add("devtest");
+        profiles.add("dev_demo");
         String appname = "task-schedule-system";
         String localfile = configService.getConfig(appname + "-local.yaml", "DEFAULT_GROUP", 1000);
         Map<?, ?> map = YamlUtil.collatingCfg(localfile);
@@ -57,11 +58,11 @@ public class ScheduleBatch {
             m.put("spring.cloud.deployer.local.java-opts","-Xms128M -Xmx128M");
             m.put("filter.setting.indexUrl","http://172.16.102.23:9099/${server.context-path}/p/index.html#/");
             m.put("filter.setting.localUrl","http://172.16.102.23:9099");
-            m.put("citic.sso.open",false);
+//            m.put("citic.sso.open",false);
         }
         if (file.equals("dev")) {
             m.put("jrx.batch.node.address.master_node","http://172.16.102.23:9001");
-            m.put("jrx.batch.node.init-servers","master_node_test");
+            m.put("jrx.batch.node.init-servers","dev_zh1,dev_zh2,dev_zh3");
             m.put("spring.datasource.url","jdbc:mysql://172.16.101.19:3306/batch_schedule_center?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
             m.put("spring.datasource.username","root");
             m.put("spring.datasource.password","123.com");
@@ -70,6 +71,21 @@ public class ScheduleBatch {
             m.put("spring.cloud.deployer.local.java-opts","-Xms128M -Xmx128M");
             m.put("filter.setting.indexUrl","http://172.16.102.24:9090/${server.context-path}/p/index.html#/");
             m.put("filter.setting.localUrl","http://172.16.102.24:9090");
+        }
+
+        if (file.equals("dev_demo")) {
+            m.put("jrx.batch.node.address.master_node","http://172.16.101.41:9001");
+            m.put("jrx.batch.node.init-servers","");
+            m.put("spring.datasource.url","jdbc:mysql://172.16.101.56:3306/any_schedule_center?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
+            m.put("spring.datasource.username","root");
+            m.put("spring.datasource.password","mysqlhan");
+            m.put("server.port",9090);
+            m.put("spring.cloud.deployer.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
+            m.put("spring.cloud.deployer.local.java-opts","-Xms128M -Xmx128M");
+            m.put("filter.setting.indexUrl","http://172.16.101.41:9090/${server.context-path}/p/index.html#/");
+            m.put("filter.setting.localUrl","http://172.16.101.41:9090");
+            m.put("filter.setting.authAddress","http://172.16.101.42:9600");
+
         }
         return m;
     }
