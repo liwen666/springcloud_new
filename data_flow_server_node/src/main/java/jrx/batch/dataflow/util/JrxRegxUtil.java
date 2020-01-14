@@ -27,7 +27,7 @@ public class JrxRegxUtil {
      *
      */
     public static  boolean isAcceptTaskdefineName(String name){
-        String regx ="^[a-zA-Z][a-zA-Z0-9_]*$";
+        String regx ="^[a-zA-Z][a-zA-Z0-9_-]*$";
         Pattern pattern = Pattern.compile(regx);
         Matcher matcher = pattern.matcher(name);
         return matcher.matches();
