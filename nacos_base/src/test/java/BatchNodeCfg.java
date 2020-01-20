@@ -31,6 +31,7 @@ public class BatchNodeCfg {
         profiles.add("dev_zh2");
         profiles.add("dev_zh3");
         profiles.add("dev_demo");
+        profiles.add("dev_demo2");
         String appname = "data_flow_server_node";
         String localfile = configService.getConfig(appname + "-local.yaml", "DEFAULT_GROUP", 1000);
         Map<?, ?> map = YamlUtil.collatingCfg(localfile);
@@ -179,6 +180,26 @@ public class BatchNodeCfg {
             m.put("jrx.batch.properties.JOB_SERVER_DB","batch_node1");
             m.put("jrx.batch.properties.JOB_SERVER_HOME_DEFAULT","/home/jrxany/batch_schedule/jobserverhome");
             m.put("jrx.batch.properties.JAR_HOME_DEFAULT","/home/jrxany/batch_schedule/jarhome");
+            m.put("schedule.center.jdbc.datasource.props.jdbcUrl","jdbc:mysql://172.16.101.56:3306/any_schedule_center?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
+            m.put("schedule.center.jdbc.datasource.props.password","mysqlhan");
+            m.put("rocketmq.name-server","10.0.8.16:9876");
+
+        }
+        if (file.equals("dev_demo2")) {
+            m.put("server.port",9008);
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.test.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.default.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platpfrm/bigspace");
+            m.put("spring.cloud.deployer.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
+            m.put("spring.datasource.password","mysqlhan");
+            m.put("spring.datasource.url","jdbc:mysql://172.16.101.56:3306/data_flow_node2?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
+            m.put("spring.boot.admin.client.instance.service-base-url","http://172.16.102.23:9008");
+            m.put("jrx.batch.job.server.server-addr","172.16.101.23:8848,172.16.101.37:8848,172.16.101.38:8848");
+            m.put("jrx.batch.job.server.namespace","4b5fe50d-eac1-4c43-afcd-49d6da44ab0b");
+            m.put("jrx.batch.properties.JOB_SERVER_DB","batch_node2");
+            m.put("jrx.batch.properties.JOB_SERVER_HOME_DEFAULT","/home/jrxany/batch_schedule/jobserverhome_yanshi");
+            m.put("jrx.batch.properties.JAR_HOME_DEFAULT","/home/jrxany/batch_schedule/jarhome_yanshi");
             m.put("schedule.center.jdbc.datasource.props.jdbcUrl","jdbc:mysql://172.16.101.56:3306/any_schedule_center?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
             m.put("schedule.center.jdbc.datasource.props.password","mysqlhan");
             m.put("rocketmq.name-server","10.0.8.16:9876");
