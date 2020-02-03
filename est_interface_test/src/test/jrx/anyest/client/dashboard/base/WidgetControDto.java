@@ -19,3 +19,5 @@ public class WidgetControDto {
     private List<String> columns;
     private String table;
 }
+
+

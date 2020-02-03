@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
@@ -89,8 +90,7 @@ public class DashboardInterfaceTest {
 
 //        String ip ="172.16.102.22";
         String ip ="127.0.0.1";
-        String token="content=W3siaWQiOjE1MDI5LCJuYW1lIjoianJ45rWL6K+V5py65p6EIn1d; project={%22projectId%22:88%2C%22projectName%22:%22%E6%B5%8B%E8%AF%95%E9%A1%B9%E7%9B%AE%22%2C%22projectCode%22:%22test1%22%2C%22project%22:%22icon1.png%22%2C%22createPerson%22:null%2C%22category%22:null%2C%22description%22:%22%22%2C%22useState%22:%22UNUSE%22%2C%22approvalWay%22:%22None%22}; user=eyJjb250ZW50Q29kZSI6IjE1MDI5IiwiY29udGVudE5hbWUiOiJqcnjmtYvor5XmnLrmnoQiLCJjdXJyZW50UHJvamVjdENvZGUiOjg4LCJlbmFibGVkIjp0cnVlLCJpZCI6NzA2MjQsIm5pY2tOYW1lIjoibHN3IiwidXNlck5hbWUiOiJsc3cifQ==; token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsc3ciLCJhdWQiOiJ3ZWIiLCJpc3MiOiIxNTAxNS0xNTAyOSIsIjE1MDE1IjoiNDYyOTA0MGZlYWE1NGMwNzhjY2MxOWQ4NThmMGM4YTYiLCJleHAiOjE1NzkyNTgyMjcsImlhdCI6MTU3OTI1NDYyN30.G3I3BMeDMZijEgM5MsGbdicyCjAN-4V8422cDMvt726mmb86VENm77a9wveWVWb7341qhTxRWhJgZv2HhcIBig";
-
+        String token="content=W3siaWQiOjE1MDI5LCJuYW1lIjoianJ45rWL6K+V5py65p6EIn1d; user=eyJjb250ZW50Q29kZSI6IjE1MDI5IiwiY29udGVudE5hbWUiOiJqcnjmtYvor5XmnLrmnoQiLCJlbmFibGVkIjp0cnVlLCJpZCI6NzA2MjQsIm5pY2tOYW1lIjoibHN3IiwidXNlck5hbWUiOiJsc3cifQ==; token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsc3ciLCJhdWQiOiJ3ZWIiLCJpc3MiOiIxNTAxNS0xNTAyOSIsIjE1MDE1IjoiMzExYTk4NDRhMjM3NGQwOWFkOGI5OTkyMDE2NDg2NGUiLCJleHAiOjE1Nzk0OTYzNDksImlhdCI6MTU3OTQ5Mjc0OX0.aMYgoLat7OzfQkY9ApuyMBQ09__iodb1AfXJt-lgL05vwsJGQQyZQIXFqGrCKfRwGsvIWYNN8N8qHZBE7lstIg";
 
 
 
@@ -136,34 +136,35 @@ public class DashboardInterfaceTest {
     public void distinctControValue() throws IOException {
 
         String ip ="127.0.0.1";
-        String token="content=W3siaWQiOjE1MDI5LCJuYW1lIjoianJ45rWL6K+V5py65p6EIn1d; project={%22projectId%22:88%2C%22projectName%22:%22%E6%B5%8B%E8%AF%95%E9%A1%B9%E7%9B%AE%22%2C%22projectCode%22:%22test1%22%2C%22project%22:%22icon1.png%22%2C%22createPerson%22:null%2C%22category%22:null%2C%22description%22:%22%22%2C%22useState%22:%22UNUSE%22%2C%22approvalWay%22:%22None%22}; user=eyJjb250ZW50Q29kZSI6IjE1MDI5IiwiY29udGVudE5hbWUiOiJqcnjmtYvor5XmnLrmnoQiLCJjdXJyZW50UHJvamVjdENvZGUiOjg4LCJlbmFibGVkIjp0cnVlLCJpZCI6NzA2MjQsIm5pY2tOYW1lIjoibHN3IiwidXNlck5hbWUiOiJsc3cifQ==; token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsc3ciLCJhdWQiOiJ3ZWIiLCJpc3MiOiIxNTAxNS0xNTAyOSIsIjE1MDE1IjoiNDYyOTA0MGZlYWE1NGMwNzhjY2MxOWQ4NThmMGM4YTYiLCJleHAiOjE1NzkyNTA5NjEsImlhdCI6MTU3OTI0NzM2MX0.eUeCYvZOL1N_r-Qe6wf0AOeUcKWi_VB1NraIdXFzPvLabBrYALhT06HuKFVGjP_63g-1UC-DNUf6anLNCmmeKA";
+        String token="content=W3siaWQiOjE1MDI5LCJuYW1lIjoianJ45rWL6K+V5py65p6EIn1d; project={%22projectId%22:88%2C%22projectName%22:%22%E6%B5%8B%E8%AF%95%E9%A1%B9%E7%9B%AE%22%2C%22projectCode%22:%22test1%22%2C%22project%22:%22icon1.png%22%2C%22createPerson%22:null%2C%22category%22:null%2C%22description%22:%22%22%2C%22useState%22:%22UNUSE%22%2C%22approvalWay%22:%22None%22}; user=eyJjb250ZW50Q29kZSI6IjE1MDI5IiwiY29udGVudE5hbWUiOiJqcnjmtYvor5XmnLrmnoQiLCJjdXJyZW50UHJvamVjdENvZGUiOjg4LCJlbmFibGVkIjp0cnVlLCJpZCI6NzA2MjQsIm5pY2tOYW1lIjoibHN3IiwidXNlck5hbWUiOiJsc3cifQ==; token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsc3ciLCJhdWQiOiJ3ZWIiLCJpc3MiOiIxNTAxNS0xNTAyOSIsIjE1MDE1IjoiMjg1MWQ0Y2YxNzY1NGI3OGJkYzIyZDUyZWE0ZGE2ZmUiLCJleHAiOjE1Nzk1MTMzMzgsImlhdCI6MTU3OTUwOTczOH0.tn7pLqyz_J87yXNhYti5CEBrKQAvQ5HJ5RpeG86kAiSN7IKfgBZxz1zhME-Atp3ejJMsIeec6DULwaWeaiiFzQ";
+
+
 
 
         OkHttpClient client = new OkHttpClient();
 
-        MediaType mediaType = MediaType.parse("application/json");
-        RequestBody body = RequestBody.create(mediaType, "[{\"columns\":[\"user1.uuid\",\"user1.username\"],\"objectType\":\"TOPIC\",\"table\":\"\",\"topicInfoId\":82,\"widgetId\":146}]");
+        MediaType mediaType = MediaType.parse("application/json;charset=UTF-8");
+        RequestBody body = RequestBody.create(mediaType, "[{\r\n\t\"columns\": [\"user1.uuid\", \"user1.username\"],\r\n\t\"table\": \"\",\r\n\t\"topicInfoId\": 82,\r\n\t\"widgetId\": 146\r\n}]\r\n");
         Request request = new Request.Builder()
-                .url("http://"+ip+":9800/project/88/report-data/distinct-contro-value")
+                .url("http://127.0.0.1:9800/project/88/report-data/distinct-contro-value")
                 .post(body)
                 .addHeader("Accept", "application/json, text/plain, */*")
                 .addHeader("Accept-Encoding", "gzip, deflate, br")
                 .addHeader("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8")
                 .addHeader("Cache-Control", "no-cache")
                 .addHeader("Connection", "keep-alive")
-                .addHeader("Content-Length", "184")
-                .addHeader("Content-Type", "application/json")
-                .addHeader("Cookie", "content=W3siaWQiOjE1MDI5LCJuYW1lIjoianJ45rWL6K+V5py65p6EIn1d; project={%22projectId%22:88%2C%22projectName%22:%22%E6%B5%8B%E8%AF%95%E9%A1%B9%E7%9B%AE%22%2C%22projectCode%22:%22test1%22%2C%22project%22:%22icon1.png%22%2C%22createPerson%22:null%2C%22category%22:null%2C%22description%22:%22%22%2C%22useState%22:%22UNUSE%22%2C%22approvalWay%22:%22None%22}; user=eyJjb250ZW50Q29kZSI6IjE1MDI5IiwiY29udGVudE5hbWUiOiJqcnjmtYvor5XmnLrmnoQiLCJjdXJyZW50UHJvamVjdENvZGUiOjg4LCJlbmFibGVkIjp0cnVlLCJpZCI6NzA2MjQsIm5pY2tOYW1lIjoibHN3IiwidXNlck5hbWUiOiJsc3cifQ==; token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsc3ciLCJhdWQiOiJ3ZWIiLCJpc3MiOiIxNTAxNS0xNTAyOSIsIjE1MDE1IjoiNDYyOTA0MGZlYWE1NGMwNzhjY2MxOWQ4NThmMGM4YTYiLCJleHAiOjE1NzkyNTA4OTAsImlhdCI6MTU3OTI0NzI5MH0.lCoxymU86dfERAArZNx0C5J94Lla2vDm-CCw22Rb1ANtF0M_l5g_wleEfosr2498SgnHY1xHCNPnZhX97Iperw")
-                .addHeader("Host", ip)
-                .addHeader("Origin", "http://"+ip+":9800")
+                .addHeader("Content-Length", "199")
+                .addHeader("Content-Type", "application/json;charset=UTF-8")
+                .addHeader("Cookie", "content=W3siaWQiOjE1MDI5LCJuYW1lIjoianJ45rWL6K+V5py65p6EIn1d; project={%22projectId%22:88%2C%22projectName%22:%22%E6%B5%8B%E8%AF%95%E9%A1%B9%E7%9B%AE%22%2C%22projectCode%22:%22test1%22%2C%22project%22:%22icon1.png%22%2C%22createPerson%22:null%2C%22category%22:null%2C%22description%22:%22%22%2C%22useState%22:%22UNUSE%22%2C%22approvalWay%22:%22None%22}; user=eyJjb250ZW50Q29kZSI6IjE1MDI5IiwiY29udGVudE5hbWUiOiJqcnjmtYvor5XmnLrmnoQiLCJjdXJyZW50UHJvamVjdENvZGUiOjg4LCJlbmFibGVkIjp0cnVlLCJpZCI6NzA2MjQsIm5pY2tOYW1lIjoibHN3IiwidXNlck5hbWUiOiJsc3cifQ==; token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsc3ciLCJhdWQiOiJ3ZWIiLCJpc3MiOiIxNTAxNS0xNTAyOSIsIjE1MDE1IjoiMjg1MWQ0Y2YxNzY1NGI3OGJkYzIyZDUyZWE0ZGE2ZmUiLCJleHAiOjE1Nzk1MTMzMzgsImlhdCI6MTU3OTUwOTczOH0.tn7pLqyz_J87yXNhYti5CEBrKQAvQ5HJ5RpeG86kAiSN7IKfgBZxz1zhME-Atp3ejJMsIeec6DULwaWeaiiFzQ")
+                .addHeader("Host", "127.0.0.1:9800")
+                .addHeader("Origin", "http://127.0.0.1:9800")
                 .addHeader("Pragma", "no-cache")
-                .addHeader("Referer", "http://"+ip+":9800/index.html")
+                .addHeader("Referer", "http://127.0.0.1:9800/index.html")
                 .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.92 Safari/537.36")
-                .addHeader("Postman-Token", "ca72a40e-fc16-46e5-b2e7-402357097843")
+                .addHeader("Postman-Token", "c55ac312-3243-466a-bca3-dd54f5d982a2")
                 .build();
 
         Response response = client.newCall(request).execute();
-
         System.out.println(response.body().string());
     }
 
@@ -200,6 +201,73 @@ public class DashboardInterfaceTest {
                 .addHeader("Referer", "http://127.0.0.1:9800/index.html")
                 .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.92 Safari/537.36")
                 .addHeader("Postman-Token", "d69a53bb-d00f-4c23-a5e3-94a26b6d64a6")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        System.out.println(response.body().string());
+    }
+
+
+    @Test
+    public void getData() throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        MediaType mediaType = MediaType.parse("application/json;charset=UTF-8");
+        RequestBody body = RequestBody.create(mediaType, "{\"cache\":false,\"expired\":300,\"groups\":[\"user1.username\",\"user1.cj_wd2\"],\"filters\":[],\"aggregators\":[{\"column\":\"user1.uuid\",\"func\":\"count\"}],\"params\":[],\"orders\":[],\"table\":\"\",\"pageSize\":0,\"pageNo\":0}");
+        Request request = new Request.Builder()
+                .url("http://127.0.0.1:9800/project/88/report-data/data/82/TOPIC")
+                .post(body)
+                .addHeader("Accept", "application/json, text/plain, */*")
+                .addHeader("Accept-Encoding", "gzip, deflate, br")
+                .addHeader("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8")
+                .addHeader("Cache-Control", "no-cache")
+                .addHeader("Connection", "keep-alive")
+                .addHeader("Content-Length", "199")
+                .addHeader("Content-Type", "application/json;charset=UTF-8")
+                .addHeader("Cookie", "content=W3siaWQiOjE1MDI5LCJuYW1lIjoianJ45rWL6K+V5py65p6EIn1d; project={%22projectId%22:88%2C%22projectName%22:%22%E6%B5%8B%E8%AF%95%E9%A1%B9%E7%9B%AE%22%2C%22projectCode%22:%22test1%22%2C%22project%22:%22icon1.png%22%2C%22createPerson%22:null%2C%22category%22:null%2C%22description%22:%22%22%2C%22useState%22:%22UNUSE%22%2C%22approvalWay%22:%22None%22}; user=eyJjb250ZW50Q29kZSI6IjE1MDI5IiwiY29udGVudE5hbWUiOiJqcnjmtYvor5XmnLrmnoQiLCJjdXJyZW50UHJvamVjdENvZGUiOjg4LCJlbmFibGVkIjp0cnVlLCJpZCI6NzA2MjQsIm5pY2tOYW1lIjoibHN3IiwidXNlck5hbWUiOiJsc3cifQ==; token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsc3ciLCJhdWQiOiJ3ZWIiLCJpc3MiOiIxNTAxNS0xNTAyOSIsIjE1MDE1IjoiMjg1MWQ0Y2YxNzY1NGI3OGJkYzIyZDUyZWE0ZGE2ZmUiLCJleHAiOjE1Nzk1MTI0ODMsImlhdCI6MTU3OTUwODg4M30.b1gvVPiNvYT91tK4fIt2d_JEPtc_ccOxaIe3YgQq5ZoY5M70MLbZPYGteV0mhLZoojHB1TxK6fWjnQ9m9A8ChQ")
+                .addHeader("Host", "127.0.0.1:9800")
+                .addHeader("Origin", "http://127.0.0.1:9800")
+                .addHeader("Pragma", "no-cache")
+                .addHeader("Referer", "http://127.0.0.1:9800/index.html")
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.92 Safari/537.36")
+                .addHeader("Postman-Token", "4e14af12-815f-4c0e-9779-3ed3efdce60f")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        System.out.println(response.body().string());
+    }
+
+    @Test
+    public void testPar() throws IOException {
+//        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)//设置连接超时时间
+                .readTimeout(20, TimeUnit.SECONDS)//设置读取超时时间
+                .build();
+
+
+
+
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, "{\"widgetId\":146,\"topicInfoId\":82,\"objectType\":\"TOPIC\",\"controFilters\":[{\"type\":\"STRING\",\"value\":\"user1.username in ('用户4')\"}],\"cache\":false,\"expired\":300,\"groups\":[\"user1.cj_wd2\",\"user1.username\"],\"filters\":[\"user1.username in ('用户4')\"],\"aggregators\":[{\"column\":\"user1.uuid\",\"func\":\"count\"}],\"params\":[],\"orders\":[],\"table\":\"\",\"pageSize\":0,\"pageNo\":0}");
+        Request request = new Request.Builder()
+                .url("http://127.0.0.1:9800/project/88/dash_board/contro/data")
+                .post(body)
+                .addHeader("Accept", "application/json, text/plain, */*")
+                .addHeader("Accept-Encoding", "gzip, deflate, br")
+                .addHeader("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8")
+                .addHeader("Cache-Control", "no-cache")
+                .addHeader("Connection", "keep-alive")
+                .addHeader("Content-Length", "199")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Cookie", "content=W3siaWQiOjE1MDI5LCJuYW1lIjoianJ45rWL6K+V5py65p6EIn1d; project={%22projectId%22:88%2C%22projectName%22:%22%E6%B5%8B%E8%AF%95%E9%A1%B9%E7%9B%AE%22%2C%22projectCode%22:%22test1%22%2C%22project%22:%22icon1.png%22%2C%22createPerson%22:null%2C%22category%22:null%2C%22description%22:%22%22%2C%22useState%22:%22UNUSE%22%2C%22approvalWay%22:%22None%22}; user=eyJjb250ZW50Q29kZSI6IjE1MDI5IiwiY29udGVudE5hbWUiOiJqcnjmtYvor5XmnLrmnoQiLCJjdXJyZW50UHJvamVjdENvZGUiOjg4LCJlbmFibGVkIjp0cnVlLCJpZCI6NzA2MjQsIm5pY2tOYW1lIjoibHN3IiwidXNlck5hbWUiOiJsc3cifQ==; token=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsc3ciLCJhdWQiOiJ3ZWIiLCJpc3MiOiIxNTAxNS0xNTAyOSIsIjE1MDE1IjoiOTI1Y2M1ZjM3MTJlNGUzY2IxNDMxZjRmZWJhYTJlMWEiLCJleHAiOjE1ODA3MjMwMzksImlhdCI6MTU4MDcxOTQzOX0.Ke8IlXD6OZaYFafaXv3dvQU4gi1Dpq1Re7FsUi9ECQ2j5UGXHtNHlza1KLPGP9oIIw-uhl2jI02cV_xsXl0RYQ")
+                .addHeader("Host", "127.0.0.1:9800")
+                .addHeader("Origin", "http://127.0.0.1:9800")
+                .addHeader("Pragma", "no-cache")
+                .addHeader("Referer", "http://127.0.0.1:9800/index.html")
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.92 Safari/537.36")
+                .addHeader("Postman-Token", "c77822ef-636d-4a30-a9cb-7cbed3e83df5")
                 .build();
 
         Response response = client.newCall(request).execute();
