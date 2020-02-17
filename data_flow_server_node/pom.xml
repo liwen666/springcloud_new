@@ -8,9 +8,9 @@
         <version>2.1.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.temp.springboot</groupId>
+    <groupId>jrx.batch</groupId>
     <artifactId>data_flow_server_node</artifactId>
-    <version>2.1.5.1_http</version>
+    <version>2.1.5.1_http-SNAPSHOT</version>
     <name>spring_batch批次执行节点</name>
 
     <properties>
