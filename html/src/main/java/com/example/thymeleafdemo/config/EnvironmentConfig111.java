@@ -47,23 +47,23 @@ public class EnvironmentConfig111 implements EnvironmentAware , BeanDefinitionRe
 
     @Override
     public void setEnvironment(Environment env) {
-        /**
-         * 添加动态端口参数
-         */
-        int freePort = 0;
-        try {
-
-            freePort = SysFreePortUtils.getAndFreePort();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        logger.info("=====系统启动端口号是 server.port：" + freePort);
-        MutablePropertySources propertySources = ((StandardServletEnvironment) env).getPropertySources();
-        int finalFreePort = freePort;
-        PropertySource backupSource = new MapPropertySource("taskInitProperties", new HashMap() {{
-            put("server.port", finalFreePort);
-        }});
-        propertySources.addFirst(backupSource);
+//        /**
+//         * 添加动态端口参数
+//         */
+//        int freePort = 0;
+//        try {
+//
+//            freePort = SysFreePortUtils.getAndFreePort();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        logger.info("=====系统启动端口号是 server.port：" + freePort);
+//        MutablePropertySources propertySources = ((StandardServletEnvironment) env).getPropertySources();
+//        int finalFreePort = freePort;
+//        PropertySource backupSource = new MapPropertySource("taskInitProperties", new HashMap() {{
+//            put("server.port", finalFreePort);
+//        }});
+//        propertySources.addFirst(backupSource);
     }
 
     @Override

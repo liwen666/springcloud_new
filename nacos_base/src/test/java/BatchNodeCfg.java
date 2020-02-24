@@ -27,11 +27,14 @@ public class BatchNodeCfg {
         profiles.add("dev");
         profiles.add("dev9006");
         profiles.add("dev_test");
+        profiles.add("dev_test2");
         profiles.add("dev_zh1");
         profiles.add("dev_zh2");
         profiles.add("dev_zh3");
+        profiles.add("dev_im");
         profiles.add("dev_demo");
         profiles.add("dev_demo2");
+
         String appname = "data_flow_server_node";
         String localfile = configService.getConfig(appname + "-local.yaml", "DEFAULT_GROUP", 1000);
         Map<?, ?> map = YamlUtil.collatingCfg(localfile);
@@ -62,7 +65,7 @@ public class BatchNodeCfg {
             m.put("spring.cloud.dataflow.task.platform.local.accounts.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.dataflow.task.platform.local.accounts.test.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.dataflow.task.platform.local.accounts.default.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
-            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platpfrm/bigspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platform/bigspace");
             m.put("spring.cloud.deployer.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.datasource.password","123.com");
             m.put("spring.datasource.url","jdbc:mysql://172.16.101.19:3306/data_flow_node_20?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
@@ -74,12 +77,29 @@ public class BatchNodeCfg {
             m.put("schedule.center.jdbc.datasource.props.password","123.com");
             m.put("rocketmq.name-server","10.0.8.16:9876");
         }
+        if (file.equals("dev_test2")) {
+            m.put("server.port",9001);
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.local.workingDirectoriesRoot","/home/anyTxnCF/batch_schedule/workspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.test.workingDirectoriesRoot","/home/anyTxnCF/batch_schedule/workspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.default.workingDirectoriesRoot","/home/anyTxnCF/batch_schedule/workspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/anyTxnCF/batch_schedule/platform/bigspace");
+            m.put("spring.cloud.deployer.local.workingDirectoriesRoot","/home/anyTxnCF/batch_schedule/workspace");
+            m.put("spring.datasource.password","123.com");
+            m.put("spring.datasource.url","jdbc:mysql://172.16.101.19:3306/data_flow_node_20_dev?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
+            m.put("spring.boot.admin.client.instance.service-base-url","http://10.0.9.21:9001");
+            m.put("jrx.batch.properties.JOB_SERVER_DB","dev_test");
+            m.put("jrx.batch.properties.JOB_SERVER_HOME_DEFAULT","/home/anyTxnCF/batch_schedule/dev_jobserverhome");
+            m.put("jrx.batch.properties.JAR_HOME_DEFAULT","/home/anyTxnCF/batch_schedule/dev_jarhome");
+            m.put("schedule.center.jdbc.datasource.props.jdbcUrl","jdbc:mysql://172.16.101.19:3306/batch_schedule_center_test?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
+            m.put("schedule.center.jdbc.datasource.props.password","123.com");
+            m.put("rocketmq.name-server","10.0.8.16:9876");
+        }
         if (file.equals("dev")) {
             m.put("server.port",9001);
             m.put("spring.cloud.dataflow.task.platform.local.accounts.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.dataflow.task.platform.local.accounts.test.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.dataflow.task.platform.local.accounts.default.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
-            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platpfrm/bigspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platform/bigspace");
             m.put("spring.cloud.deployer.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.datasource.password","123.com");
             m.put("spring.datasource.url","jdbc:mysql://172.16.101.19:3306/data_flow_node?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
@@ -97,7 +117,7 @@ public class BatchNodeCfg {
             m.put("spring.cloud.dataflow.task.platform.local.accounts.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.dataflow.task.platform.local.accounts.test.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.dataflow.task.platform.local.accounts.default.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
-            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platpfrm/bigspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platform/bigspace");
             m.put("spring.cloud.deployer.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.datasource.password","123.com");
             m.put("spring.datasource.url","jdbc:mysql://172.16.101.19:3306/data_flow_node?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
@@ -115,7 +135,7 @@ public class BatchNodeCfg {
             m.put("spring.cloud.dataflow.task.platform.local.accounts.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.dataflow.task.platform.local.accounts.test.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.dataflow.task.platform.local.accounts.default.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
-            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platpfrm/bigspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platform/bigspace");
             m.put("spring.cloud.deployer.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.datasource.password","123.com");
             m.put("spring.datasource.url","jdbc:mysql://172.16.101.19:3306/data_flow_node_zh1?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
@@ -133,7 +153,7 @@ public class BatchNodeCfg {
             m.put("spring.cloud.dataflow.task.platform.local.accounts.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.dataflow.task.platform.local.accounts.test.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.dataflow.task.platform.local.accounts.default.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
-            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platpfrm/bigspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platform/bigspace");
             m.put("spring.cloud.deployer.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.datasource.password","123.com");
             m.put("spring.datasource.url","jdbc:mysql://172.16.101.19:3306/data_flow_node_zh2?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
@@ -151,7 +171,7 @@ public class BatchNodeCfg {
             m.put("spring.cloud.dataflow.task.platform.local.accounts.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.dataflow.task.platform.local.accounts.test.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.dataflow.task.platform.local.accounts.default.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
-            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platpfrm/bigspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platform/bigspace");
             m.put("spring.cloud.deployer.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.datasource.password","123.com");
             m.put("spring.datasource.url","jdbc:mysql://172.16.101.19:3306/data_flow_node_zh3?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
@@ -164,13 +184,31 @@ public class BatchNodeCfg {
             m.put("rocketmq.name-server","172.16.101.30:9876;172.16.101.31:9876");
 
         }
+        if (file.equals("dev_im")) {
+            m.put("server.port",9002);
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.test.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.default.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platform/bigspace");
+            m.put("spring.cloud.deployer.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
+            m.put("spring.datasource.password","jrx0203");
+            m.put("spring.datasource.url","jdbc:mysql://172.16.101.65:3306/data_flow_node?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
+            m.put("spring.boot.admin.client.instance.service-base-url","http://172.16.102.23:9002");
+            m.put("jrx.batch.properties.JOB_SERVER_DB","batch_node_im");
+            m.put("jrx.batch.properties.JOB_SERVER_HOME_DEFAULT","/home/jrxany/batch_schedule/jobserverhome");
+            m.put("jrx.batch.properties.JAR_HOME_DEFAULT","/home/jrxany/batch_schedule/jarhome");
+            m.put("schedule.center.jdbc.datasource.props.jdbcUrl","jdbc:mysql://172.16.101.65:3306/batch_schedule_center?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
+            m.put("schedule.center.jdbc.datasource.props.password","jrx0203");
+            m.put("rocketmq.name-server","10.0.8.16:9876");
+
+        }
 
         if (file.equals("dev_demo")) {
             m.put("server.port",9001);
             m.put("spring.cloud.dataflow.task.platform.local.accounts.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.dataflow.task.platform.local.accounts.test.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.dataflow.task.platform.local.accounts.default.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
-            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platpfrm/bigspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platform/bigspace");
             m.put("spring.cloud.deployer.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.datasource.password","mysqlhan");
             m.put("spring.datasource.url","jdbc:mysql://172.16.101.56:3306/data_flow_node1?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
@@ -190,7 +228,7 @@ public class BatchNodeCfg {
             m.put("spring.cloud.dataflow.task.platform.local.accounts.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.dataflow.task.platform.local.accounts.test.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.cloud.dataflow.task.platform.local.accounts.default.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
-            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platpfrm/bigspace");
+            m.put("spring.cloud.dataflow.task.platform.local.accounts.bigplatform.workingDirectoriesRoot","/home/jrxany/batch_schedule/platform/bigspace");
             m.put("spring.cloud.deployer.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
             m.put("spring.datasource.password","mysqlhan");
             m.put("spring.datasource.url","jdbc:mysql://172.16.101.56:3306/data_flow_node2?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
@@ -205,6 +243,8 @@ public class BatchNodeCfg {
             m.put("rocketmq.name-server","10.0.8.16:9876");
 
         }
+
+
         return m;
     }
 

@@ -151,94 +151,219 @@
         </dependency>
     </dependencies>
 
+    <!--<build>-->
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-dependency-plugin</artifactId>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>copy-dependencies</id>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>copy-dependencies</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<outputDirectory>target/lib</outputDirectory>-->
+                            <!--<overWriteReleases>false</overWriteReleases>-->
+                            <!--<overWriteSnapshots>false</overWriteSnapshots>-->
+                            <!--<overWriteIfNewer>true</overWriteIfNewer>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-jar-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<excludes>-->
+                        <!--<exclude>*.properties</exclude>-->
+                        <!--<exclude>*.yml</exclude>-->
+                        <!--<exclude>*.sh</exclude>-->
+                        <!--<exclude>*.bat</exclude>-->
+                        <!--<exclude>portlets/**</exclude>-->
+                    <!--</excludes>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<layout>ZIP</layout>-->
+                    <!--<includes>-->
+                        <!--<include>-->
+                            <!--<groupId>non-exists</groupId>-->
+                            <!--<artifactId>non-exists</artifactId>-->
+                        <!--</include>-->
+                    <!--</includes>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>repackage</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-antrun-plugin</artifactId>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>run</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<target>-->
+                                <!--<property name="dist">target/${name}</property>-->
+                                <!--<property name="app-name">${project.artifactId}-${project.version}</property>-->
+                                <!--<move file="target/${app-name}.jar" todir="${dist}" />-->
+                                <!--<move todir="${dist}/lib">-->
+                                    <!--<fileset dir="target/lib" />-->
+                                <!--</move>-->
+                                <!--<copy todir="${dist}">-->
+                                    <!--<fileset dir="target/classes">-->
+                                        <!--<include name="**/*.properties" />-->
+                                        <!--<include name="**/*.yml" />-->
+                                        <!--<include name="*.sh" />-->
+                                        <!--<include name="*.bat" />-->
+                                        <!--<include name="portlets/**" />-->
+                                    <!--</fileset>-->
+                                <!--</copy>-->
+                            <!--</target>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
+    <!--</build>-->
+
+
+    <!--<build>-->
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-surefire-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<skipTests>true</skipTests>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-compiler-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<source>1.8</source>-->
+                    <!--<target>1.8</target>-->
+                    <!--<encoding>UTF-8</encoding>-->
+                    <!--&lt;!&ndash; 过期的方法的警告-->
+                      <!--<compilerArgs>-->
+                          <!--<arg>-Xlint:deprecation</arg>-->
+                      <!--</compilerArgs> &ndash;&gt;-->
+                    <!--<compilerArguments>-->
+                        <!--&lt;!&ndash; 是否输出所有的编译信息（包括类的加载等）&ndash;&gt;-->
+                        <!--&lt;!&ndash;<verbose />&ndash;&gt;-->
+                        <!--&lt;!&ndash; 解决maven命令编译报错，因为rt.jar 和jce.jar在jre的lib下面，不在jdk的lib下面，-->
+                        <!--导致maven找不到（java7以后会出现这个问题），将这2个jar包拷贝到jdk的lib下面估计也好使&ndash;&gt;-->
+                        <!--&lt;!&ndash;<bootclasspath>.;${java.home}\lib\tools.jar;${java.home}\lib\rt.jar;${java.home}\lib\jce.jar;</bootclasspath>&ndash;&gt;-->
+                    <!--</compilerArguments>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.codehaus.mojo</groupId>-->
+                <!--<artifactId>build-helper-maven-plugin</artifactId>-->
+                <!--<version>3.0.0</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>timestamp-property</id>-->
+                        <!--<goals>-->
+                            <!--<goal>timestamp-property</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<name>build.time</name>-->
+                            <!--&lt;!&ndash;<locale>zh_CN</locale>&ndash;&gt;-->
+                            <!--<pattern>yyyy-MM-dd'T'HH:mm</pattern>-->
+                            <!--<timeZone>GMT+8</timeZone>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+
+
+            <!--<plugin>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>repackage</id>-->
+                        <!--<goals>-->
+                            <!--<goal>repackage</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<skip>true</skip>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                    <!--<execution>-->
+                        <!--<id>build-info</id>-->
+                        <!--<goals>-->
+                            <!--<goal>build-info</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<additionalProperties>-->
+                                <!--<encoding>${project.build.sourceEncoding}</encoding>-->
+                                <!--<time>${build.time}</time>-->
+                            <!--</additionalProperties>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
+    <!--</build>-->
+
     <build>
+
         <plugins>
+
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>target/lib</outputDirectory>
-                            <overWriteReleases>false</overWriteReleases>
-                            <overWriteSnapshots>false</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
-                        </configuration>
-                    </execution>
-                </executions>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>*.properties</exclude>
-                        <exclude>*.yml</exclude>
-                        <exclude>*.sh</exclude>
-                        <exclude>*.bat</exclude>
-                        <exclude>portlets/**</exclude>
-                    </excludes>
-                </configuration>
             </plugin>
+            <!--打包插件-->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.6</version>
                 <configuration>
-                    <layout>ZIP</layout>
-                    <includes>
-                        <include>
-                            <groupId>non-exists</groupId>
-                            <artifactId>non-exists</artifactId>
-                        </include>
-                    </includes>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>src/assembly/package.xml</descriptor> <!-- Assembly 描述符文件 -->
+                    </descriptors>
+                    <finalName>${project.artifactId}-${project.version}</finalName>
                 </configuration>
                 <executions>
                     <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
+                        <id>make-assembly</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>run</goal>
+                            <goal>single</goal>
                         </goals>
-                        <configuration>
-                            <target>
-                                <property name="dist">target/${name}</property>
-                                <property name="app-name">${project.artifactId}-${project.version}</property>
-                                <move file="target/${app-name}.jar" todir="${dist}" />
-                                <move todir="${dist}/lib">
-                                    <fileset dir="target/lib" />
-                                </move>
-                                <copy todir="${dist}">
-                                    <fileset dir="target/classes">
-                                        <include name="**/*.properties" />
-                                        <include name="**/*.yml" />
-                                        <include name="*.sh" />
-                                        <include name="*.bat" />
-                                        <include name="portlets/**" />
-                                    </fileset>
-                                </copy>
-                            </target>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
-
     <repositories>
         <repository>
             <id>spring-milestones</id>
