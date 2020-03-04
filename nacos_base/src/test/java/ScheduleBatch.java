@@ -20,6 +20,34 @@ import java.util.*;
  */
 public class ScheduleBatch {
 
+
+    @Test
+    public void name() {
+
+    }
+
+    /**
+     * 演示环境
+     */
+    @Test
+    public void batchschedule演示() throws NacosException, IOException {
+        String pro = "{\"secretKey\":\"\",\"contextPath\":\"\",\"accessKey\":\"\",\"namespace\":\"fe5439ca-757c-4e93-ad97-f6bfb20fcc9a\",\"encode\":\"\",\"serverAddr\":\"172.16.101.23:8848\",\"clusterName\":\"\",\"endpoint\":\"\"}";
+        Properties properties = JSON.parseObject(pro, Properties.class);
+        ConfigService configService = NacosFactory.createConfigService(properties);
+        List<String> profiles = new ArrayList<>();
+        String appname = "task-schedule-system";
+        String localfile = configService.getConfig(appname + "-dev_demo.yaml", "DEFAULT_GROUP", 1000);
+        Map<?, ?> map = YamlUtil.collatingCfg(localfile);
+        YamlUtil.dumpYaml(appname + "-dev_demo.yaml2", map);
+        System.out.println(YamlUtil.converMapToProperties(map));
+
+    }
+    /**
+     *
+     * @throws NacosException
+     * @throws IOException
+     */
+
     @Test
     public void batchschedule() throws NacosException, IOException {
         String pro = "{\"secretKey\":\"\",\"contextPath\":\"\",\"accessKey\":\"\",\"namespace\":\"0a00b50c-9d02-4e0c-b43f-07ca7d1c160d\",\"encode\":\"\",\"serverAddr\":\"172.16.101.29:8848,172.16.101.30:8848,172.16.101.31:8848\",\"clusterName\":\"\",\"endpoint\":\"\"}";

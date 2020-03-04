@@ -1,7 +1,5 @@
 package com.jsp.config;
 
-import org.springframework.cloud.dataflow.core.ApplicationType;
-import org.springframework.cloud.dataflow.rest.resource.DetailedAppRegistrationResource;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -35,12 +33,5 @@ public interface FeignClientNode {
 //    @RequestLine("POST /uploadArray/{folder}")
 //    public List<UploadInfo> uploadArray(@Param("folder") String folder, @Param("files") MultipartFile[] files, @Param("metadata") UploadMetadata metadata);
 
-
-    @RequestMapping(
-            value = {"/{type}/{name}/{version:.+}"},
-            method = {RequestMethod.GET}
-    )
-    @ResponseStatus(HttpStatus.OK)
-    public DetailedAppRegistrationResource info(@PathVariable("type") ApplicationType type, @PathVariable("name") String name, @PathVariable("version") String version, @RequestParam(required = false,name = "exhaustive") boolean exhaustive) ;
 
 }

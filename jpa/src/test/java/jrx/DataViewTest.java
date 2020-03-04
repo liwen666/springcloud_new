@@ -2,11 +2,18 @@ package jrx;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.temp.jpa.ApplicationStart;
 import com.temp.jpa.jpa.dao.ReportFieldDao;
 import com.temp.jpa.jpa.entity.ReportFieldEntity;
 import com.temp.jpa.jpa.jpautil.DataViewInfo;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,6 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author lw
  * @since 2019/5/26 23:40
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = ApplicationStart.class)
+@WebAppConfiguration
 public class DataViewTest {
     @Test
     public void name() {
@@ -64,8 +74,27 @@ public class DataViewTest {
         ReportFieldEntity build = new ReportFieldEntity();
         build.setResourceId(parse.getId());
 //        build.setResourceType(parse.get);
+        List<ReportFieldEntity> byResourceIdAndUsed = reportFieldDao.findByResourceIdAndUsed(parse.getId(), true);
+        /**
+         * 将仪表盘字段整合到数据集
+         */
+        for(ReportFieldEntity reportFieldEntity:byResourceIdAndUsed){
+            jsonObject.put(reportFieldEntity.getFieldName(),toVo(reportFieldEntity));
+        }
+        parse.setModel(JSON.toJSONString(jsonObject));
+        System.out.println("******************************************************");
 
+        System.out.println(JSON.toJSONString(jsonObject));
+        System.out.println("******************************************************");
 
+        System.out.println(JSON.toJSONString(parse));
 
+    }
+
+    private Object toVo(ReportFieldEntity reportFieldEntity) {
+
+        reportFieldEntity.setCreateTime(null);
+        reportFieldEntity.setUpdatePerson(null);
+        return reportFieldEntity;
     }
 }

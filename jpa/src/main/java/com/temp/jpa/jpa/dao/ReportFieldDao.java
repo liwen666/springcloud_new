@@ -16,6 +16,8 @@ public interface ReportFieldDao extends BaseDao<ReportFieldEntity> {
 
     List<ReportFieldEntity> findByResourceId(int resourceId);
 
+    List<ReportFieldEntity> findByResourceIdAndUsed(int resourceId,boolean used);
+
     List<ReportFieldEntity> findByUsed(boolean b);
 //    List<ReportFieldEntity> findByResourceIdAndFieldName(int resourceId,String fieldName);
 }
