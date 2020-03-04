@@ -5,12 +5,14 @@
 
 package com.example.thymeleafdemo.config;
 
+import com.netflix.client.config.IClientConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Primary;
 
 @ConfigurationProperties("anyest.client")
 @Primary
-public class FeignConfig implements IClientConfig {
+public class FeignConfig  {
+
     public boolean enable = true;
     public boolean ableApi = true;
     public boolean routeByUserid = false;

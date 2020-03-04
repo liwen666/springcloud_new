@@ -1,0 +1,11 @@
+#org.springframework.context.ApplicationContextInitializer=\
+# jrx.batch.dataflow.domain.config.system.JRXApplicationContextInitializer
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  com.example.thymeleafdemo.config.MockEnvironmentPostProcessor
+#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+#  org.springframework.cloud.dataflow.server.config.features.TaskConfiguration,\
+#  org.springframework.cloud.dataflow.server.config.DataFlowServerAutoConfiguration,\
+#  org.springframework.cloud.dataflow.server.config.DataFlowControllerAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.example.thymeleafdemo.config.MockAutoConfiguration
+

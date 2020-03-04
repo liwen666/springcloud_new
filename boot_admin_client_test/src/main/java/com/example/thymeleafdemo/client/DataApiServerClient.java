@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author peidong.meng
  * @date 2019/11/26
  */
-@FeignClient(name = ServiceModule.ANYEST_DATA_SERVICE)
+//@FeignClient(name = ServiceModule.ANYEST_DATA_SERVICE)
+@FeignClient(name = ServiceModule.BOOT_ADMIN_CLIENT)
+//@FeignClient(name = ServiceModule.ANYEST_DATA_SERVICE,url="{test.http:http://127.0.0.1:9099}")
 public interface DataApiServerClient extends IDataApiImpl {
     /**
      //     * 清空表数据

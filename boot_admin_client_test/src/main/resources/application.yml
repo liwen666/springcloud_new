@@ -74,3 +74,33 @@ eureka:
 #    idle-timeout: 600000
 #    max-lifetime: 1765000
 #    read-only: true
+
+
+
+# 开启 mock 功能
+mock:
+  server:
+    enabled: true
+    ip-address: 127.0.0.1:9800
+#    services: BOOT-ADMIN-CLIENT,HELLO-SERVICE-1
+    mock-server-url: /admin/mock
+    services-map:
+      BOOT-ADMIN-CLIENT: 127.0.0.1:9800
+
+## mock 服务器ip地址和端口
+#mock.server.ip-address=123.90.8.1:18820
+## mock 服务器的 url
+#mock.server.mock-server-url=/admin/mock
+## mock 服务的列表，这里填写 feign 服务的服务名，多个以 ，号隔开,并大写
+#mock.server.services=PLATFORM-SERVICE,HELLO-SERVICE-1
+#如果项目中需要所有服务都要使用 mock 功能，则添加下面的属性
+## 开启全局 mock 功能，也就是项目中所有的 feign服务都需要 mock
+#mock.server.global=true
+#如果项目中需要服务直连，则添加下面的属性
+## user-service 服务的直连ip地址和端口
+#mock.server.services-map.user-service=192.168.111.10:9010
+## cache-service 服务的直连ip地址和端口
+#mock.server.services-map.cache-service=10.10.90.23:9090
+
+#  关闭全局 mock 功能
+#  mock.server.global=false
