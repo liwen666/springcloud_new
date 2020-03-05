@@ -87,7 +87,9 @@ mock:
     services-map:
       BOOT-ADMIN-CLIENT: 127.0.0.1:9800
 
-## mock 服务器ip地址和端口
+#      全局表示的是对所有的请求前面拼接上  serverurl 加上服务名小写
+#    global: true
+    # mock 服务器ip地址和端口
 #mock.server.ip-address=123.90.8.1:18820
 ## mock 服务器的 url
 #mock.server.mock-server-url=/admin/mock

@@ -6,7 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.env.EnvironmentPostProcessor;
-import org.springframework.boot.env.OriginTrackedMapPropertySource;
+import org.springframework.boot.origin.OriginTrackedValue;
 import org.springframework.core.env.*;
 
 import java.lang.annotation.Annotation;
@@ -32,11 +32,12 @@ public class MockEnvironmentPostProcessor implements EnvironmentPostProcessor {
         StandardEnvironment standardEnvironment = (StandardEnvironment) environment;
         String batch_source = standardEnvironment.getProperty("mock.server.enabled");
         PropertySource<?> propertySource = standardEnvironment.getPropertySources().get("applicationConfig: [classpath:/application.yml]");
-        if (null != propertySource) {
-            converBean(target, propertySource);
-        }
 
-//        OriginTrackedMapPropertySource {name='applicationConfig: [classpath:/application.yml]'}
+        if (null != propertySource) {
+            Map source = (Map) propertySource.getSource();
+            Map map = YamlUtil.converPropertiesToMap(source);
+            converBean(target, map);
+        }
         boolean enabled = target.isEnabled();
         if (true == enabled) {
             System.out.println("mock server 构建环境属性");
@@ -53,9 +54,9 @@ public class MockEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
             // 自定义 每个服务的ip地址 服务直连情况
             if (!target.getServicesMap().isEmpty()) {
-                Map<String, String> servicesMap = target.getServicesMap();
+                Map<String, Object> servicesMap = target.getServicesMap();
                 for (String key : servicesMap.keySet()) {
-                    String ip = servicesMap.get(key);
+                   String ip = (String) ((OriginTrackedValue)servicesMap.get(key)).getValue();
                     map.put(key.toUpperCase() + ".ribbon.listOfServers", ip);
                     System.out.println(String.format("对[%s]服务配置直连地址[%s]", key, ip));
                 }
@@ -84,7 +85,7 @@ public class MockEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
     }
 
-    private void converBean(MockProperties target, PropertySource<?> propertySource) {
+    private void converBean(MockProperties target, Map map) {
         Class<? extends MockProperties> aClass = target.getClass();
         Annotation[] declaredAnnotations = aClass.getDeclaredAnnotations();
         String prefix = "";
@@ -96,23 +97,18 @@ public class MockEnvironmentPostProcessor implements EnvironmentPostProcessor {
         Field[] declaredFields = aClass.getDeclaredFields();
         for (Field field : declaredFields) {
             field.setAccessible(true);
-            System.out.println(field.getType().getName());
-            if (field.getType().getName().equals("java.util.Map")) {
-                try {
-                    Map map = (Map) field.get(target);
-                    map.put("BOOT-ADMIN-CLIENT","127.0.0.1:9800");
-
-                    continue;
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-                Object property = propertySource.getProperty(prefix + "." + CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, field.getName()));
-                continue;
-            }
-            Object property = propertySource.getProperty(prefix + "." + CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, field.getName()));
+            String key = prefix + "." + CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, field.getName());
+            Object property = YamlUtil.getProperty(map,key);
             try {
                 if (property != null) {
-                    field.set(target, property);
+                    String name = field.getType().getName();
+                    System.out.println(name);
+                    if(property instanceof OriginTrackedValue ){
+                        field.set(target, ((OriginTrackedValue)property).getValue());
+                    }else {
+                        field.set(target,property);
+                    }
+
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();

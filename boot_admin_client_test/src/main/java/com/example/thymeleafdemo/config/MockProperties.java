@@ -37,7 +37,7 @@ public class MockProperties {
      */
     @Getter
     @Setter
-    private Map<String, String> servicesMap = new ConcurrentHashMap<>();
+    private Map<String, Object> servicesMap = new ConcurrentHashMap<>();
  
     /**
      * mock server 服务url
