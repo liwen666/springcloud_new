@@ -1,7 +1,14 @@
 package jrx.batch.dataflow.domain.enums;
 
 import jrx.batch.dataflow.domain.config.system.PropertiesThreadLocalHolder;
-
+/**
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/3/6 21:07
+ */
 public enum BatchNodePropertiesKey {
    PARENT_ID;  //批次执行时 调度中心传入的任务执行  父id
 

@@ -4,8 +4,12 @@ import javax.sql.DataSource;
 import java.util.Map;
 
 /**
- * @author yxy
- * @date 2018/7/12
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/3/6 21:05
  */
 public interface IDataSourceBuilder {
 

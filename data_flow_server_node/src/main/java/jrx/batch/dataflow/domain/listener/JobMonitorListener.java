@@ -16,9 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
 
 /**
- * 每一个job执行的监听器，对job执行完成做处理
- * @author yxy
- * @date 2018/6/18
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/3/6 21:06
  */
 public class JobMonitorListener implements JobExecutionListener {
     @Autowired

@@ -7,8 +7,12 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 
 /**
- * @author yxy
- * @date 2018/8/1
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/3/6 21:06
  */
 public class SimpleStepExecutionListener implements StepExecutionListener {
 

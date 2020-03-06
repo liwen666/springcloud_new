@@ -25,7 +25,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 文件上传
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/3/6 21:04
  */
 @Slf4j
 @RestController

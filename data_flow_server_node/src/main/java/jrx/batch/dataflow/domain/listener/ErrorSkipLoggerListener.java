@@ -5,8 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.SkipListener;
 
 /**
- * @author yuanxingyu
- * @date 2018/3/27
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/3/6 21:06
  */
 
 public class ErrorSkipLoggerListener<T,S> implements SkipListener<T,S> {

@@ -20,8 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author yxy
- * @date 2018/10/25
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/3/6 21:05
  */
 @Component
 public class ConfigLoadCommandLineRunner implements CommandLineRunner {

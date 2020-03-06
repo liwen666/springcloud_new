@@ -1,6 +1,13 @@
 package jrx.batch.dataflow.domain.enums;
 
-
+/**
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/3/6 21:06
+ */
 public enum JrxBatchEnums implements IBaseEnum {
 
     JAR_HOME_DEFAULT(1, "默认文件上传到节点路径"),

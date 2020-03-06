@@ -9,8 +9,12 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * @Date: 2018/12/17 09:29
- * @Description:
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/3/6 21:05
  */
 @Configuration
 @EnableAsync

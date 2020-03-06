@@ -27,7 +27,14 @@ import org.springframework.cloud.dataflow.server.service.impl.TaskServiceUtils;
 import org.springframework.cloud.task.repository.TaskExplorer;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
+/**
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/3/6 21:06
+ */
 @Service("taskExecutionInfoService")
 public class JrxTaskExecutionInfoService implements TaskExecutionInfoService {
     private final DataSourceProperties dataSourceProperties;

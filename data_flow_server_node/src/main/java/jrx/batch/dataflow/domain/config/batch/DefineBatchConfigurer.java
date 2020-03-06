@@ -34,10 +34,13 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-
 /**
- * @author yxy
- * @date 2018/10/23
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/3/6 21:05
  */
 @Configuration
 public class DefineBatchConfigurer implements BatchConfigurer {

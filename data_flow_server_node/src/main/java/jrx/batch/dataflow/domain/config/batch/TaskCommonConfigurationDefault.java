@@ -12,10 +12,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
-
 /**
- * @author yuanxingyu
- * @date 2018/3/28
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/3/6 21:06
  */
 @Configuration
 public class TaskCommonConfigurationDefault {

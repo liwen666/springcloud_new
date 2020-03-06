@@ -14,11 +14,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
-
 /**
- * 使用Hikari数据库连接池配置
- * @author yuanxingyu
- * @date 2018/3/28
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/3/6 21:06
  */
 @ConfigurationProperties(prefix = "schedule.center.jdbc.datasource")
 public class ScheduleCenterHikariDataSourceBuilder implements IDataSourceBuilder {

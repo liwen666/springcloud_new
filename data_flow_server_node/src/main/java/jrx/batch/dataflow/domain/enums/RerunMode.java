@@ -1,10 +1,12 @@
 package jrx.batch.dataflow.domain.enums;
 
 /**
- * 执行状态
+ * <p>
+ *  描述
+ * </p>
  *
- * @author yxy
- * @date 2018/4/11
+ * @author lw
+ * @since  2020/3/6 21:06
  */
 public enum RerunMode implements IBaseEnum {
 

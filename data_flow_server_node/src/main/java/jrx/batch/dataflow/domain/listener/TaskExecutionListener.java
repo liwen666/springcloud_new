@@ -16,8 +16,12 @@ import org.springframework.util.StringUtils;
 import java.util.Arrays;
 
 /**
- * @author yuanxingyu
- * @date 2018/3/28
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/3/6 21:06
  */
 public class TaskExecutionListener {
 

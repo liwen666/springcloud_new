@@ -22,12 +22,11 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * <p>
- * 前端控制器
- * 自定义
+ *  描述
  * </p>
  *
- * @author schedule
- * @since 2019-11-12
+ * @author lw
+ * @since  2020/3/6 21:04
  */
 @Lazy
 @Slf4j

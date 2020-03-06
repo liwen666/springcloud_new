@@ -1,8 +1,11 @@
 package jrx.batch.dataflow.domain.enums;
-
 /**
- * @Date: 2019/5/18 17:14
- * @Description:
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/3/6 21:07
  */
 public interface IBaseEnum<T> {
     int code();

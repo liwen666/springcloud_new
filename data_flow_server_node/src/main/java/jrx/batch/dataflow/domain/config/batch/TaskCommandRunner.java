@@ -23,12 +23,13 @@ import org.springframework.util.StopWatch;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-
 /**
- * spring task 执行监听器，执行job任务
+ * <p>
+ *  描述
+ * </p>
  *
- * @author yuanxingyu
- * @date 2018/3/28
+ * @author lw
+ * @since  2020/3/6 21:06
  */
 public class TaskCommandRunner  {
 
