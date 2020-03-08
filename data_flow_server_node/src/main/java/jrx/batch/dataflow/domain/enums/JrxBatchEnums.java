@@ -6,7 +6,7 @@ package jrx.batch.dataflow.domain.enums;
  * </p>
  *
  * @author lw
- * @since  2020/3/6 21:06
+ * @since  2020/3/6 21:08
  */
 public enum JrxBatchEnums implements IBaseEnum {
 
