@@ -1,6 +1,9 @@
 
 server:
   port: 9001
+#  指定tomcat的启动文件默认路径，jar拉起任务有冲突
+#  tomcat:
+#    basedir:
 spring:
   boot:
     admin:
