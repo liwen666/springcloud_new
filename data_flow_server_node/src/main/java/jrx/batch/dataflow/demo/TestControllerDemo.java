@@ -12,6 +12,8 @@ import org.springframework.cloud.deployer.spi.local.LocalDeployerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -75,22 +77,17 @@ public class TestControllerDemo {
 
     @ResponseBody
     @GetMapping("/getlogs/{uuid}")
-    public JsonResult getLog(@PathVariable  String uuid) throws IOException {
+    public void getLog(HttpServletResponse response, @PathVariable  String uuid) throws IOException {
         Path workingDirectoriesRoot = localDeployerProperties.getWorkingDirectoriesRoot();
         File f = new File(workingDirectoriesRoot.toUri());
         File file = FileRecursionScan.getFileByName(f, uuid, "stdout.log");
         if (null != file) {
             @Cleanup FileInputStream fileInputStream = new FileInputStream(file);
             byte [] cache = new byte[1024*1024];
-//            byte[] cache = new byte[fileInputStream.available()];
-//            fileInputStream.read(cache);
-            while(fileInputStream.read(cache)!=-1){
-
+            int len=0;
+            while((len=fileInputStream.read(cache))!=-1){
+                response.getOutputStream().write(cache,0,len);
             }
-             return JsonResult.success(new String (cache,"UTF-8"));
         }
-        return JsonResult.success("查询成功，无数据！");
     }
-
-
 }

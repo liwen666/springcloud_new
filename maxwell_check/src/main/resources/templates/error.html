@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:portal="http://www.tjhq.com">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>程序异常</title>
+<link rel="icon" type="image/x-icon" th:href="@{/images/default/logo.png}" />
+<link rel="stylesheet" th:href=@{/styles/designer.css} />
+<link rel="stylesheet" th:href=@{/styles/home.css} />
+<link rel="stylesheet" th:href=@{/vendors/layui/css/layui.css} />
+<script type="text/javascript" th:src="@{/vendors/layui/layui.all.js}"></script>
+<script type="text/javascript" th:src="@{/vendors/jquery/js/jquery-1.11.0.js}"></script>
+</head>
+<body style="background:#fff">
+	<div class="error-box">
+		<img th:src=@{/images/error.png}></img>
+		<div class="info">
+			<div th:text="'异常代码：'+${status}">异常代码：500</div>
+			<div th:text="'异常信息：'+${message}">异常信息：内部错误</div>
+		</div>
+	</div>
+</body>
+</html>

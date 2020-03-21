@@ -57,6 +57,8 @@ public class ScheduleBatch {
         profiles.add("dev");
         profiles.add("devtest");
         profiles.add("dev_demo");
+        profiles.add("yc_admin");  //172.16.101.81
+        profiles.add("local_yc");  //172.16.101.81   http://172.16.101.81:9090/act-task-schedule/p/index.html#/
         String appname = "task-schedule-system";
         String localfile = configService.getConfig(appname + "-local.yaml", "DEFAULT_GROUP", 1000);
         Map<?, ?> map = YamlUtil.collatingCfg(localfile);
@@ -64,6 +66,8 @@ public class ScheduleBatch {
         System.out.println(YamlUtil.converMapToProperties(map));
 
         for (String file : profiles) {
+            map = YamlUtil.collatingCfg(localfile);
+            System.out.println(YamlUtil.converMapToProperties(map));
             Map dev = getScheduleFile(file);
             for (Object o : dev.keySet()) {
                 YamlUtil.setProperty(map, o, dev.get(o));
@@ -113,6 +117,38 @@ public class ScheduleBatch {
             m.put("filter.setting.indexUrl","http://172.16.101.41:9090/${server.context-path}/p/index.html#/");
             m.put("filter.setting.localUrl","http://172.16.101.41:9090");
             m.put("filter.setting.authAddress","http://172.16.101.42:9600");
+
+        }
+        if (file.equals("yc_admin")) {
+            m.put("jrx.batch.node.address.master_node_yc","http://172.16.101.11:9001");
+            m.put("jrx.batch.node.init-servers","master_node_yc");
+            m.put("jrx.batch.node.server.server-addr","172.16.101.23:8848,172.16.101.37:8848,172.16.101.38:8848");
+            m.put("jrx.batch.node.server.namespace","df09f227-c5a5-47de-b915-8858c9c43651");
+
+            m.put("spring.datasource.url","jdbc:mysql://172.16.101.62:3306/any_schedule_center?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
+            m.put("spring.datasource.username","any");
+            m.put("spring.datasource.password","any1234");
+            m.put("server.port",9090);
+            m.put("spring.cloud.deployer.local.workingDirectoriesRoot","/home/jrxany/batch_schedule/workspace");
+            m.put("spring.cloud.deployer.local.java-opts","-Xms128M -Xmx128M");
+            m.put("filter.setting.indexUrl","http://172.16.101.81:9090/${server.context-path}/p/index.html#/");
+            m.put("filter.setting.localUrl","http://172.16.101.81:9090");
+            m.put("filter.setting.authAddress","http://172.16.101.42:9600");
+
+        }
+        if (file.equals("local_yc")) {
+            m.put("jrx.batch.node.address.master_node","http://172.16.101.11:9001");
+            m.put("jrx.batch.node.server.server-addr","172.16.101.23:8848,172.16.101.37:8848,172.16.101.38:8848");
+            m.put("jrx.batch.node.server.namespace","df09f227-c5a5-47de-b915-8858c9c43651");
+            m.put("jrx.batch.node.init-servers","master_node_yc");
+            m.put("spring.datasource.url","jdbc:mysql://172.16.101.62:3306/any_schedule_center?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8");
+            m.put("spring.datasource.username","any");
+            m.put("spring.datasource.password","any1234");
+            m.put("server.port",9090);
+            m.put("filter.setting.indexUrl","http://172.16.101.81:9090/${server.context-path}/p/index.html#/");
+            m.put("filter.setting.localUrl","http://172.16.101.81:9090");
+            m.put("filter.setting.authAddress","http://172.16.101.42:9600");
+
 
         }
         return m;

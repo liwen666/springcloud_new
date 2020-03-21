@@ -24,8 +24,32 @@ public class KafkaReceiver {
         }
 
     }
+    @KafkaListener(topics = {"test"})
+    public void test(ConsumerRecord<?, ?> record) {
+        Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+        if (kafkaMessage.isPresent()) {
+            Object message = kafkaMessage.get();
+//            logger.info("------testcsm----------- record =" + record);
+            logger.info("---------test--------- message =" + message);
+        }
 
-    @KafkaListener(topics = {"ddl_topic"})
+    }
+
+    @KafkaListener(topics = {"test_dml"})
+    public void test_dml(ConsumerRecord<?, ?> record) {
+        Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+        if (kafkaMessage.isPresent()) {
+            Object message = kafkaMessage.get();
+//            logger.info("------testcsm----------- record =" + record);
+            logger.info("---------test_dml--------- message =" + message);
+        }
+
+    }
+
+    @KafkaListener(topics = {"ddl_topic"},id="fkdjkaf")
+    /**
+     * kafka的消费机制是，所有的消费者都会对队列里面的所有数据全部依次消费一遍。
+     */
     public void maxwell(ConsumerRecord<?, ?> record) {
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());
         if (kafkaMessage.isPresent()) {
@@ -35,4 +59,46 @@ public class KafkaReceiver {
         }
 
     }
+
+    @KafkaListener(topics = {"test_kafka_partion"})
+    /**
+     * kafka的消费机制是，所有的消费者都会对队列里面的所有数据全部依次消费一遍。
+     */
+    public void test_partion(ConsumerRecord<?, ?> record) {
+        Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+        if (kafkaMessage.isPresent()) {
+            Object message = kafkaMessage.get();
+//            logger.info("------ddl_topic----------- record =" + record);
+            logger.info("---------test_kafka_partition--------- message =" + message);
+        }
+
+    }
+
+    @KafkaListener(topics = {"test_kafka_maxwell"})
+    /**
+     * kafka的消费机制是，所有的消费者都会对队列里面的所有数据全部依次消费一遍。
+     */
+    public void test_kafka_maxwell(ConsumerRecord<?, ?> record) {
+        Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+        if (kafkaMessage.isPresent()) {
+            Object message = kafkaMessage.get();
+//            logger.info("------ddl_topic----------- record =" + record);
+            logger.info("---------test_kafka_maxwell--------- message =" + message);
+        }
+
+    }
+    @KafkaListener(topics = {"test_ddl_topic"})
+    /**
+     * kafka的消费机制是，所有的消费者都会对队列里面的所有数据全部依次消费一遍。
+     */
+    public void test_ddl_topic(ConsumerRecord<?, ?> record) {
+        Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+        if (kafkaMessage.isPresent()) {
+            Object message = kafkaMessage.get();
+//            logger.info("------ddl_topic----------- record =" + record);
+            logger.info("---------test_ddl_topic--------- message =" + message);
+        }
+
+    }
+
 }

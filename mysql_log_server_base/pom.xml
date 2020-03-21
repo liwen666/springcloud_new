@@ -48,6 +48,12 @@
             <artifactId>gson</artifactId>
             <version>2.8.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.temp.springcloud</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
