@@ -51,16 +51,17 @@ public class HttpTaskPartitionExecutionController {
         /**
          * 创建任务
          */
-        String serverPortParam = null;
-        for (String param : arguments) {
-            if (param.startsWith("--server.port=")) {
-                serverPortParam = param;
-            }
-        }
-        if (null == serverPortParam) {
-            log.error("请配置jobServer 服务启动端口参数 如：[--server.port=xxxx]");
-            return JsonResult.error("请配置jobServer 服务启动端口参数 如：[--server.port=xxxx]");
-        }
+//        String serverPortParam = null;
+//        for (String param : arguments) {
+//            if (param.startsWith("--server.port=")) {
+//                serverPortParam = param;
+//            }
+//        }
+//        if (null == serverPortParam) {
+//            log.error("请配置jobServer 服务启动端口参数 如：[--server.port=xxxx]");
+//            return JsonResult.error("请配置jobServer 服务启动端口参数 如：[--server.port=xxxx]");
+//        }
+
         long taskExecutionId = 0;
         taskExecutionId = httpBatchService.createTaskExecution(taskDefine, parentId);
         arguments.add("--jrx.batch.job.server.batch_datasource=" + JrxBatchProperties.properties.get("JOB_SERVER_DB"));//指定服务启动数据源

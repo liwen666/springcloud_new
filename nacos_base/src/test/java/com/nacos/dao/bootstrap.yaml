@@ -1,0 +1,132 @@
+
+server:
+  port: 9001
+#  指定tomcat的启动文件默认路径，jar拉起任务有冲突
+#  tomcat:
+#    basedir:
+#spring:
+#  boot:
+#    admin:
+#      client:
+#        url: http://172.16.102.24:8889    #server端地址
+#        #url: http://127.0.0.1:8889    #server端地址
+#        username: SBA_admin    #对应server端的账号密码，不配置就监控不到这个client。
+#        password: SBA_password
+#        instance:
+#          service-base-url: http://172.16.102.23:${server.port}   #client地址，
+
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      region: mybase
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        #监控所有端点，其中health和status是必须监控的
+        exclude: configprops	#排除对配置信息的监控，每次浏览这个节点的时候，
+          #数据库的链接就一直释放不掉，最后导致超时，因为配置信息的监控也不重要，
+        #就不再监控这个节点，以下为可监控的endpoint。可以根据需要有选择的进行监控。
+
+# info信息会显示到SBA的server端，这里取的是maven中的数据
+info:
+  version: 2.1.4
+  groupId: jrx.batch.node
+  artifactId: data_flow_server_node
+
+
+jrx:
+  node:
+    rocketmq:
+      producer-group: anybatch_pro_group_job_server
+      # 消费者的组名
+      conumer-group: anybatch_customer_group_exec_node
+      # NameServer地址
+#      access-key: BatchTaskMQ
+#      secret-key:  batch123456
+      topic: ANY_BATCH_JOB_RESULT_STATUE_TOPIC
+
+
+#spring:
+#  main:
+#    allow-bean-definition-overriding: true
+#  cloud:
+#    nacos:
+#      config:
+#        enabled: true
+#        server-addr: 172.16.101.29:8848,172.16.101.30:8848,172.16.101.31:8848
+#        # 命名空间ID
+#        namespace: 09ef3f23-52e0-4d51-b9aa-3364a47619f1
+#        file-extension: yaml
+#        group: DEFAULT_GROUP #默认组
+#      #      #配置多个共享配置, 多个的时候用用逗号分隔
+#      #      shared-dataids: application_dev
+#      #      #配置可以刷新文件,需要配合@RefreshScope使用见上文.
+#      #      refreshable-dataids: application_dev
+#      #服务的发现
+#      discovery:
+#        server-addr: 172.16.101.29:8848,172.16.101.30:8848,172.16.101.31:8848
+#        # 命名空间ID
+#        namespace: 09ef3f23-52e0-4d51-b9aa-3364a47619f1
+#        service: local_test
+
+##演示环境
+#spring:
+#  main:
+#    allow-bean-definition-overriding: true
+#  cloud:
+#    nacos:
+#      config:
+#        enabled: true
+#        server-addr: 172.16.101.23:8848,172.16.101.37:8848,172.16.101.38:8848
+#        # 命名空间ID
+#        namespace: df09f227-c5a5-47de-b915-8858c9c43651
+#        file-extension: yaml
+#        group: DEFAULT_GROUP #默认组
+#      #      #配置多个共享配置, 多个的时候用用逗号分隔
+#      #      shared-dataids: application_dev
+#      #      #配置可以刷新文件,需要配合@RefreshScope使用见上文.
+#      #      refreshable-dataids: application_dev
+#      #服务的发现
+#      discovery:
+#        server-addr: 172.16.101.23:8848,172.16.101.37:8848,172.16.101.38:8848
+#        # 命名空间ID
+#        namespace: df09f227-c5a5-47de-b915-8858c9c43651
+#        service: local_test
+
+
+#演示环境
+spring:
+  application:
+    name: data_flow_server_node
+    profiles:
+      active: dev
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    config:
+      enabled: false
+    nacos:
+      config:
+        enabled: true
+        server-addr: 172.16.101.23:8848,172.16.101.37:8848,172.16.101.38:8848
+        # 命名空间ID
+        namespace: df09f227-c5a5-47de-b915-8858c9c43651
+        file-extension: yaml
+        group: DEFAULT_GROUP #默认组
+      #      #配置多个共享配置, 多个的时候用用逗号分隔
+      #      shared-dataids: application_dev
+      #      #配置可以刷新文件,需要配合@RefreshScope使用见上文.
+      #      refreshable-dataids: application_dev
+      #服务的发现
+      discovery:
+        server-addr: 172.16.101.23:8848,172.16.101.37:8848,172.16.101.38:8848
+        # 命名空间ID
+        namespace: df09f227-c5a5-47de-b915-8858c9c43651
+        service: local_test
+

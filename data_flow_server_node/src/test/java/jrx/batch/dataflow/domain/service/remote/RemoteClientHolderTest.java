@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.CollectionUtils;
 
@@ -26,6 +27,7 @@ import java.util.Map;
 
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("local")
 @SpringBootTest(classes = SpringbootDataflowServerApplication.class)
 public class RemoteClientHolderTest {
     @Autowired
@@ -67,6 +69,7 @@ public class RemoteClientHolderTest {
                 //            add("--spring.cloud.task.executionid=40");
                 //            add("job.runDate=" + System.currentTimeMillis());
                 add("job.runDate=200101");
+//                add("--server.port=11111");
                 add("job.ptime=200");
             }});
         } catch (Exception e) {

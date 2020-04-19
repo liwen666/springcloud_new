@@ -52,28 +52,75 @@ public class UnilityTest<TransactionConfiguration> {
 
     }
 
+    @Test
+    public void name() {
+        for(int i=0;i<10;i++){
+            String userName = "李四"+i;
+            String idCard = "100002"+i;
+            String orderNo = System.currentTimeMillis()+"";
+            System.out.println(orderNo);
+            BigDecimal brrowCount = new BigDecimal(10000);
+            Integer repayMentNum = 5;
+            unilityService.brrowMoney(userName,idCard,orderNo,brrowCount,repayMentNum);
+        }
+
+    }
+
     /**
      * 借款
      */
     @Test
-    public void brrow() {
+    public void brrow() throws InterruptedException {
         String userName = "张三";
         String idCard = "100001";
         String orderNo = System.currentTimeMillis()+"";
         System.out.println(orderNo);
         BigDecimal brrowCount = new BigDecimal(10000);
         Integer repayMentNum = 5;
-        unilityService.brrowMoney(userName,idCard,orderNo,brrowCount,repayMentNum);
+        for(int j=0;j<5;j++){
+            new Thread(() -> {
+                for(int i = 0;i<1000000;i++){
+                    unilityService.brrowMoney(userName+i,IdGenerator.getNext(),orderNo,brrowCount,repayMentNum);
+                }
+            }).start();
+        }
+
+   Thread.sleep(20000000);
+
     }
 
+
+
+    /**
+     * 借款
+     */
+    @Test
+    public void simple() throws InterruptedException {
+        String userName = "张三";
+        String idCard = "100001";
+        String orderNo = System.currentTimeMillis()+"";
+        System.out.println(orderNo);
+        BigDecimal brrowCount = new BigDecimal(10000);
+        Integer repayMentNum = 5;
+        for(int j=0;j<5;j++){
+            new Thread(() -> {
+                for(int i = 0;i<1000000;i++){
+                    unilityService.brrowSimple(userName+i,IdGenerator.getNext(),orderNo,brrowCount,repayMentNum);
+                }
+            }).start();
+        }
+
+        Thread.sleep(20000000);
+
+    }
     /**
      * 还款
      */
     @Test
     public void reopay() {
 //        String orderNo = "1584778236736";  //订单号
-        String orderNo = "1584778271476";  //订单号
-        Integer repayNum = 4;  //返还期数
+        String orderNo = "1584784128894";  //订单号
+        Integer repayNum = 1;  //返还期数
         unilityService.reopay(orderNo,repayNum);
     }
 }

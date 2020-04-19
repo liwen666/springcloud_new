@@ -25,14 +25,17 @@ public class OrderHistoryCountDaoTest {
      */
     @Test
     public void historyAmount() {
-        OrderHistoryCount orderHistoryCount = OrderHistoryCount.builder()
-                .borrowAmmount(new BigDecimal(10000))
-                .repayMentAmmount(BigDecimal.ZERO)
-                .createIime(LocalTime.now())
-                .idCard("100001")
-                .userName("张三")
-                .build();
+        for(int i=0;i<1;i++){
+            OrderHistoryCount orderHistoryCount = OrderHistoryCount.builder()
+                    .borrowAmmount(new BigDecimal(10000))
+                    .repayMentAmmount(BigDecimal.ZERO)
+                    .createIime(LocalTime.now())
+                    .idCard(IdGenerator.getNext())
+                    .userName("张三")
+                    .build();
 
-        orderHistoryCountDao.save(orderHistoryCount);
+            orderHistoryCountDao.save(orderHistoryCount);
+        }
+
     }
 }

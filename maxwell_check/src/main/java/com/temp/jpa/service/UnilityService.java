@@ -127,4 +127,13 @@ public class UnilityService {
         orderHistoryCountDao.save(userHistory);
 
     }
+
+    public void brrowSimple(String userName, String idCard, String orderNo, BigDecimal brrowCount, Integer repayMentNum) {
+        orderAccountDao.save(OrderAccount.builder().account(brrowCount)
+                .orderNo(orderNo)
+                .idCard(idCard)
+                .borrowAccount(brrowCount)
+                .userName(userName)
+                .createTime(LocalTime.now()).build());
+    }
 }

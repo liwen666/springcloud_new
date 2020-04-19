@@ -60,6 +60,8 @@ spring:
       spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL55Dialect
   #  LocalDeployerProperties本地执行jar的配置项
 
+  #spring.jpa.hibernate.naming-strategy=cn.studyBoot.dao.strategy.UpperTableStrateg
+
   #文件上传的配置
   servlet:
     multipart:
