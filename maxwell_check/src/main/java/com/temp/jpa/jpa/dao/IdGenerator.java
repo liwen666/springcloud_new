@@ -1,6 +1,12 @@
 package com.temp.jpa.jpa.dao;
 
 
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.id.IdentityGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -10,13 +16,8 @@ import java.net.NetworkInterface;
  *
  * @author xinre
  */
-public class IdGenerator {
-    public static void main(String[] args) {
-        IdGenerator pkid = new IdGenerator();
-        long l = System.currentTimeMillis();
-        System.out.println(pkid.nextId());
-        System.out.println(IdGenerator.getNext());
-    }
+public class IdGenerator extends IdentityGenerator {
+    private static final Logger logger = LoggerFactory.getLogger(IdGenerator.class);
 
     /**
      * 基准时间戳（确定后不可变动）
@@ -67,6 +68,11 @@ public class IdGenerator {
         this.workerId = getMaxWorkerId(datacenterId, maxWorkerId);
     }
 
+    @Override
+    public Serializable generate(SharedSessionContractImplementor s, Object obj) {
+        return nextId();
+    }
+
     /**
      * @param workerId     工作机器ID
      * @param datacenterId 序列号
@@ -83,7 +89,6 @@ public class IdGenerator {
     }
 
     public String getNextId() {
-        //return UUID.randomUUID().toString().replace("-", "");
         return String.valueOf(nextId());
     }
 
@@ -174,13 +179,13 @@ public class IdGenerator {
                 id = id % (maxDatacenterId + 1);
             }
         } catch (Exception e) {
-            System.out.println(" getDatacenterId: " + e.getMessage());
+            logger.error("getDatacenterId 获取数据标识异常：error:{}",e.getMessage());
         }
         return id;
     }
 
     public static IdGenerator getPrimaryKeyGeneratorByUuid() {
-        return IdGenerator.PrimaryKeyGeneratorByUuidHolder.primaryKeyGeneratorByUuid;
+        return PrimaryKeyGeneratorByUuidHolder.primaryKeyGeneratorByUuid;
     }
 
     public static class PrimaryKeyGeneratorByUuidHolder {

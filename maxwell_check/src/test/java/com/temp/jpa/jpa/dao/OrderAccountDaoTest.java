@@ -12,6 +12,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -44,9 +45,18 @@ public class OrderAccountDaoTest {
 
     @Test
     public void name() {
-        OrderAccount orderAccount =  orderAccountDao.findByOrderNo("1584764719562");
-        System.out.println(JSON.toJSONString(orderAccount));
-//        List<OrderAccount> userCount = orderAccountDao.findUserCount("100002");
-//        System.out.println(JSON.toJSONString(userCount));
+//        OrderAccount orderAccount =  orderAccountDao.findByOrderNo("1584764719562");
+//        System.out.println(JSON.toJSONString(orderAccount));
+        List<OrderAccount> userCount = orderAccountDao.findUserCount("4166374628087640064");
+        System.out.println(JSON.toJSONString(userCount));
+    }
+
+    @Test
+    public void queryIn() {
+//        OrderAccount orderAccount =  orderAccountDao.findByOrderNo("1584764719562");
+//        System.out.println(JSON.toJSONString(orderAccount));
+//        List<OrderAccount> userCount = orderAccountDao.findUserIn(new ArrayList<String>(){{add("4166374627882119168");add("4166374628112805888");}});
+        List<OrderAccount> userCount = orderAccountDao.findUserIn(new String[]{"4166374628087640064","4166374628372852736"});
+        System.out.println(JSON.toJSONString(userCount));
     }
 }

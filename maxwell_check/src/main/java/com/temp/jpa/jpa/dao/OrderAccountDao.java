@@ -16,4 +16,8 @@ public interface OrderAccountDao extends BaseDao<OrderAccount> {
     List<OrderAccount > findUserCount(String idCard);
 
     OrderAccount findByOrderNo(String s);
+    @Query(value = "select t from OrderAccount t where t.idCard in ?1 ORDER BY t.createTime DESC ")
+    List<OrderAccount> findUserIn(List<String> ids);
+    @Query(value = "select t from OrderAccount t where t.idCard in ?1 ORDER BY t.createTime DESC ")
+    List<OrderAccount> findUserIn(String  ... ids);
 }
