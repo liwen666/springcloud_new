@@ -8,12 +8,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.FileNotFoundException;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
-@RestController()
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ThymeleafDemoApplication.class)
+//@RestController()
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringBootTest(classes = ThymeleafDemoApplication.class)
 public class TestDemo {
 
     @Test
@@ -35,7 +34,21 @@ public class TestDemo {
      */
     @Test
     public void isNull() {
+        Map map = new HashMap();
+        map.put("aaa","bbb");
+        System.out.println(map.get("aaa"));
+        System.out.println(getKey(map,"bbb"));
+    }
 
+
+    public static Object getKey(Map map, Object value){
+        List<Object> keyList = new ArrayList<>();
+        for(Object key: map.keySet()){
+            if(map.get(key).equals(value)){
+                keyList.add(key);
+            }
+        }
+        return keyList;
     }
 
     ;

@@ -29,6 +29,13 @@ public class TaskChain {
     private static final Logger logger = LoggerFactory.getLogger(TaskChain.class);
 
     private String taskChainInfo;
+
+    public List<TaskNodeData> getNodeDatas() {
+        return nodeDatas;
+    }
+
+    private  List<TaskNodeData> nodeDatas;
+
     /**
      * key为taskKey，value为节点的父节点的taskKey集合
      **/
@@ -48,6 +55,7 @@ public class TaskChain {
         if (taskLinkNode == null) {
             return;
         }
+        nodeDatas=taskLinkNode.getNodeDatas();
 
         for (TaskNodeData nodeData : taskLinkNode.getNodeDatas()) {
             TaskNode node = new TaskNode(nodeData.getKey());
@@ -151,6 +159,10 @@ public class TaskChain {
         }
 
         return cache.lastEntry() == null ? new HashSet<>() : cache.lastEntry().getValue();
+    }
+
+    public void setNodeDatas(List<TaskNodeData> nodeDatas) {
+        this.nodeDatas = nodeDatas;
     }
 
     public TaskChain() {
