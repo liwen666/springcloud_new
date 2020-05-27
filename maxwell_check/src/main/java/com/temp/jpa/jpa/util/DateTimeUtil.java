@@ -1,6 +1,6 @@
 package com.temp.jpa.jpa.util;
 
-import com.temp.jpa.jpa.entity.DataTimeFormat;
+import com.temp.jpa.jpa.enums.DataTimeFormat;
 import com.temp.jpa.jpa.enums.ChangeType;
 import com.temp.jpa.jpa.enums.MathType;
 import com.temp.jpa.jpa.enums.TimeSpliceUnit;

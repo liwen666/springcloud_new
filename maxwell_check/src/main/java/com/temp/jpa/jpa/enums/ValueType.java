@@ -1,4 +1,4 @@
-package com.temp.jpa.jpa.entity;
+package com.temp.jpa.jpa.enums;
 
 import com.alibaba.fastjson.JSONArray;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static com.temp.jpa.jpa.entity.DataTimeFormat.*;
+import static com.temp.jpa.jpa.enums.DataTimeFormat.*;
 
 /**
  * |String|字符串|abc||

@@ -1,6 +1,7 @@
-package com.temp.jpa.jpa.entity;
+package com.temp.jpa.jpa.enums;
 
 
+import com.temp.jpa.jpa.enums.ValueType;
 import com.temp.jpa.jpa.util.ValueUtils;
 
 /**

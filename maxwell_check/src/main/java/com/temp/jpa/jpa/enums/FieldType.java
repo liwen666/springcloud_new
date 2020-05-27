@@ -1,4 +1,4 @@
-package com.temp.jpa.jpa.entity;
+package com.temp.jpa.jpa.enums;
 
 
 import com.temp.jpa.jpa.dto.ObjectField;

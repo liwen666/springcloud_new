@@ -1,10 +1,9 @@
 package com.temp.jpa.jpa.util;
 
-import com.temp.jpa.jpa.entity.DataTimeFormat;
-import com.temp.jpa.jpa.entity.ValueType;
+import com.temp.jpa.jpa.enums.DataTimeFormat;
+import com.temp.jpa.jpa.enums.ValueType;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
-import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

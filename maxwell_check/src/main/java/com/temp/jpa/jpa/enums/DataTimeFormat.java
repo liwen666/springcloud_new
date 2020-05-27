@@ -1,4 +1,4 @@
-package com.temp.jpa.jpa.entity;
+package com.temp.jpa.jpa.enums;
 
 /**
  * 时间格式

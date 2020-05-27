@@ -1,9 +1,7 @@
 package com.temp.jpa.jpa.entity;
 
 
-import com.temp.jpa.jpa.enums.ComputePeriod;
-import com.temp.jpa.jpa.enums.FieldState;
-import com.temp.jpa.jpa.enums.ObjectType;
+import com.temp.jpa.jpa.enums.*;
 import com.temp.jpa.jpa.jpautil.LargeTextConverter;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,9 +9,12 @@ import lombok.Setter;
 import javax.persistence.*;
 
 /**
- * 对象字段(包含业务字段、统计字段、公式字段、条件字段、正则字段、函数字段)
- * 所有衍生信息存放在一个字段中，通过model进行转换存储
- * @author peidong.meng on 2018/9/23
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/5/26 14:43
  */
 @Entity
 @Getter
