@@ -1,0 +1,20 @@
+server:
+  port: 11000
+  servlet:
+    context-path: /demo
+spring:
+  datasource:
+#    hikari:
+    default:
+      jdbc-url: jdbc:mysql://192.168.42.136:3306/est_map?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
+      username: root
+      password: root
+      minimum-idle: 5
+      maximum-pool-size: 11
+      idle-timeout: 31000
+      connection-timeout: 31000
+      driver-class-name: com.mysql.jdbc.Driver
+
+  jpa:
+    open-in-view=true: true
+
