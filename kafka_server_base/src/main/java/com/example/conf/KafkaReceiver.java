@@ -26,6 +26,11 @@ public class KafkaReceiver {
 
     //    @KafkaListener(topics = {"${kafka.dml.topic}"})
 //    @KafkaListener(topics = {"#{'${kafka.dml.topic}'.split(',')}"})
+
+    /**
+     * 线程数必须小于所有分区的总和
+     * @param record
+     */
     @KafkaListener(id="dml_topic",topics = {"#{'${kafka.dml.topic}'.split(',')}"},concurrency = "2")
     public void dml(ConsumerRecord<?, ?> record) {
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());
