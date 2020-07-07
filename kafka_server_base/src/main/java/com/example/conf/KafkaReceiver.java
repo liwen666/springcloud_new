@@ -7,52 +7,67 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Component
 public class KafkaReceiver {
 
     private static Logger logger = LoggerFactory.getLogger(KafkaReceiver.class);
 
+    /****
+     *
+     * 添加测试计数器
+     *
+     */
+    private AtomicLong count = new AtomicLong(0);
 
-    @KafkaListener(topics = {"${kafka.dml.topic}"})
+    private long firstTime;
+    private long tmpTIme;
+
+    //    @KafkaListener(topics = {"${kafka.dml.topic}"})
+//    @KafkaListener(topics = {"#{'${kafka.dml.topic}'.split(',')}"})
+    @KafkaListener(id="dml_topic",topics = {"#{'${kafka.dml.topic}'.split(',')}"},concurrency = "2")
     public void dml(ConsumerRecord<?, ?> record) {
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());
         if (kafkaMessage.isPresent()) {
             Object message = kafkaMessage.get();
-            logger.info("---------kafka.dml.topic--------- message =" + message);
+            logger.info("---------kafka.dml.topic:{}--------- message:{} ", record.topic(), message);
+        }
+        long l = count.incrementAndGet();
+        if (l == 1) {
+            firstTime = System.currentTimeMillis();
+            tmpTIme = firstTime;
+
+        }
+        if (l % 100000 == 0) {
+            long now = System.currentTimeMillis();
+            logger.info("发送到kafka数据总量:{},本次10万耗时:{} s,总耗时：{} s", l, (now - tmpTIme) / 1000, (now - firstTime) / 1000);
+            this.tmpTIme = now;
         }
 
     }
 
-    @KafkaListener(topics = {"${kafka.ddl.topic}"})
+    //    @KafkaListener(topics = {"${kafka.ddl.topic}"})
+//    @KafkaListener(topics = {"#{'${kafka.ddl.topic}'.split(',')}"})
+    @KafkaListener(id ="ddl_topic",topics={"#{'${kafka.ddl.topic}'.split(',')}"},concurrency = "2")
     public void ddl(ConsumerRecord<?, ?> record) {
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());
         if (kafkaMessage.isPresent()) {
             Object message = kafkaMessage.get();
-            logger.info("---------kafka.ddl.topic--------- message =" + message);
+            logger.info("---------kafka.ddl.topic:{}--------- message:{} ",record.topic(), message);
         }
+
 
     }
 
-    @KafkaListener(topics = {"test_ddl_topic_101_56"})
-    public void test_ddl_topic_101_56(ConsumerRecord<?, ?> record) {
+    @KafkaListener(topics = {"hello"})
+    public void check(ConsumerRecord<?, ?> record) {
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());
         if (kafkaMessage.isPresent()) {
             Object message = kafkaMessage.get();
-            logger.info("---------test_ddl_topic_101_56--------- message =" + message);
+            logger.info("---------hello--------- message =" + message);
         }
 
     }
-
-    @KafkaListener(topics = {"test_dml_101_56"})
-    public void test_dml_101_56(ConsumerRecord<?, ?> record) {
-        Optional<?> kafkaMessage = Optional.ofNullable(record.value());
-        if (kafkaMessage.isPresent()) {
-            Object message = kafkaMessage.get();
-            logger.info("---------test_dml_101_56--------- message =" + message);
-        }
-
-    }
-
 
 }

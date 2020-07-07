@@ -23,7 +23,7 @@ public class KfkaProducer implements ApplicationRunner {
 	
 	//发送消息方法
     public void send() {
-    	for(int i=0;i<5;i++){
+    	for(int i=0;i<2;i++){
     		Message message = new Message();
     		message.setId("test");
             logger.info("发送消息 ----->>>>>  message = {}", gson.toJson(message));
