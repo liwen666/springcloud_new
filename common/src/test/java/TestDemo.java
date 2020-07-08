@@ -1,5 +1,6 @@
 import com.alibaba.fastjson.JSON;
 import com.temp.springboot.common.ThymeleafDemoApplication;
+import com.temp.springboot.common.util.DateUtils;
 import com.temp.springboot.common.util.YamlUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,5 +52,12 @@ public class TestDemo {
         return keyList;
     }
 
-    ;
+    @Test
+    public void name() {
+
+//        Date date = new Date(1593773707000l);
+        Date date = new Date(1593773710000L);
+        System.out.println(DateUtils.format(date,DateUtils.YYYY_MM_DD_HH_MM_SS));
+
+    }
 }
