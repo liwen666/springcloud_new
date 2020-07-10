@@ -25,7 +25,7 @@ public class SpringBootEurekaApplication {
             try {
                 ChatServer.main(args);
                 if (KafkaReceiver.websocket==null) {
-                    KafkaReceiver. websocket = new ExampleClient(new URI("ws://localhost:8887"));
+                    KafkaReceiver. websocket = new ExampleClient(new URI("ws://localhost:22081"));
                     KafkaReceiver.  websocket.connect();
                 }
             } catch (InterruptedException e) {

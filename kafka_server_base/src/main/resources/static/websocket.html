@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>Java后端WebSocket</title>
 </head>
 <body>
@@ -15,14 +15,75 @@ Welcome<br/><input id="text" type="text"/>
 </body>
 
 <script type="text/javascript">
+    var userIp = 'localhost';
+
+    function getUrlRelativePath() {
+        var url = document.location.toString();
+        var arrUrl = url.split("//");
+
+        var start = arrUrl[1].indexOf("/");
+        var relUrl = arrUrl[1].substring(start);//stop省略，截取从start开始到结尾的所有字符
+
+        if (relUrl.indexOf("?") != -1) {
+            relUrl = relUrl.split("?")[0];
+        }
+        return relUrl;
+    }
+
+
+    function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
+        //compatibility for firefox and chrome
+        var myPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+        var pc = new myPeerConnection({
+                iceServers: []
+            }),
+            noop = function () {
+            },
+            localIPs = {},
+            ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g,
+            key;
+
+        function iterateIP(ip) {
+            if (!localIPs[ip]) onNewIP(ip);
+            localIPs[ip] = true;
+        }
+
+        //create a bogus data channel
+        pc.createDataChannel("");
+
+        // create offer and set local description
+        pc.createOffer().then(function (sdp) {
+            sdp.sdp.split('\n').forEach(function (line) {
+                if (line.indexOf('candidate') < 0) return;
+                line.match(ipRegex).forEach(iterateIP);
+            });
+
+            pc.setLocalDescription(sdp, noop, noop);
+        }).catch(function (reason) {
+            // An error occurred, so handle the failure to connect
+        });
+
+        //sten for candidate events
+        pc.onicecandidate = function (ice) {
+            if (!ice || !ice.candidate || !ice.candidate.candidate || !ice.candidate.candidate.match(ipRegex)) return;
+            ice.candidate.candidate.match(ipRegex).forEach(iterateIP);
+        };
+    }
+
+    // Usage
+
+    getUserIP(function (ip) {
+        userIp = ip;
+    });
+    console.log(userIp)
+    console.log(getUrlRelativePath())
     var websocket = null;
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
-       var url= encodeURI('ws://localhost:8887/web?{"name":"maxwell"}');
+        var url = encodeURI('ws://' + userIp + ':22081/web?{"name":"maxwell"}');
         websocket = new WebSocket(url);
 
-    }
-    else {
+    } else {
         alert('当前浏览器 Not support websocket')
     }
 
@@ -39,7 +100,7 @@ Welcome<br/><input id="text" type="text"/>
 
     //接收到消息的回调方法
     websocket.onmessage = function (event) {
-        setMessageInnerHTML("接收到后台消息："+event.data);
+        setMessageInnerHTML("接收到后台消息：" + event.data);
     }
 
     //连接关闭的回调方法
@@ -61,10 +122,11 @@ Welcome<br/><input id="text" type="text"/>
     function closeWebSocket() {
         websocket.close();
     }
+
     function openWebSocket() {
         // alert(websocket.readyState)
         // var url= encodeURI('ws://localhost:8887/web?{"name":"maxwell"}');
-        var url= encodeURI('ws://localhost:8887?{"name":"maxwell"}');
+        var url = encodeURI('ws://' + userIp + ':22081?{"name":"maxwell"}');
         websocket = new WebSocket(url);
         // alert(websocket.readyState)
     }
@@ -74,8 +136,9 @@ Welcome<br/><input id="text" type="text"/>
         var message = document.getElementById('text').value;
         websocket.send(message);
     }
+
     // 循环定时器
-    var timer = setInterval(function(){
+    var timer = setInterval(function () {
         websocket.send("heartbeat")
     }, 2000);
 
