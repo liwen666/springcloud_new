@@ -18,22 +18,25 @@ import java.net.URL;
 @SpringBootApplication
 public class SpringBootEurekaApplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         SpringApplication.run(SpringBootEurekaApplication.class, args);
-        try {
-            ChatServer.main(args);
-            if (KafkaReceiver.websocket==null) {
-                KafkaReceiver. websocket = new ExampleClient(new URI("ws://localhost:8887"));
-                KafkaReceiver.  websocket.connect();
+        new Thread(()->{
+            try {
+                ChatServer.main(args);
+                if (KafkaReceiver.websocket==null) {
+                    KafkaReceiver. websocket = new ExampleClient(new URI("ws://localhost:8887"));
+                    KafkaReceiver.  websocket.connect();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        }).start();
+
     }
 
 }

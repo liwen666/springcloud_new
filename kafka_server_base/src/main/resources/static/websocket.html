@@ -6,9 +6,9 @@
 </head>
 <body>
 Welcome<br/><input id="text" type="text"/>
-<button onclick="send()">发送消息</button>
+<button onclick="send()">测试连接</button>
 <hr/>
-<button onclick="closeWebSocket()">关闭WebSocket连接</button>
+<!--<button onclick="closeWebSocket()">关闭WebSocket连接</button>-->
 <button onclick="openWebSocket()">开启WebSocket连接</button>
 <hr/>
 <div id="message"></div>
@@ -39,7 +39,7 @@ Welcome<br/><input id="text" type="text"/>
 
     //接收到消息的回调方法
     websocket.onmessage = function (event) {
-        setMessageInnerHTML(event.data+"接收消息");
+        setMessageInnerHTML("接收到后台消息："+event.data);
     }
 
     //连接关闭的回调方法
@@ -63,7 +63,8 @@ Welcome<br/><input id="text" type="text"/>
     }
     function openWebSocket() {
         // alert(websocket.readyState)
-        var url= encodeURI('ws://localhost:8887/web?{"name":"maxwell"}');
+        // var url= encodeURI('ws://localhost:8887/web?{"name":"maxwell"}');
+        var url= encodeURI('ws://localhost:8887?{"name":"maxwell"}');
         websocket = new WebSocket(url);
         // alert(websocket.readyState)
     }
@@ -73,5 +74,15 @@ Welcome<br/><input id="text" type="text"/>
         var message = document.getElementById('text').value;
         websocket.send(message);
     }
+    // 循环定时器
+    var timer = setInterval(function(){
+        websocket.send("heartbeat")
+    }, 2000);
+
+    // setTimeout(function(){
+    //     // 清除定时器
+    //     clearInterval(timer);
+    //     // clearTimeout()
+    // }, 8000);
 </script>
 </html>

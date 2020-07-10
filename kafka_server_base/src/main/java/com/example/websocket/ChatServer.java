@@ -109,9 +109,18 @@ public class ChatServer extends WebSocketServer {
 		for(Map.Entry me:clientSocket.entrySet()){
 			System.out.println("连接有：  "+me.getKey());
 		}
-		broadcast( message+"后台返回" );
-		System.out.println( conn + ": " + message );
-		broadcast("后台返回消息", new ArrayList<WebSocket>(){{add(conn);}});
+//		broadcast( message+"  后台返回数据" );
+//		System.out.println( conn + ": " + message );
+//		broadcast("ddddddssss", new ArrayList<WebSocket>(){{add(conn);}});
+//		broadcast(message, new ArrayList<WebSocket>(){{add(conn);}});
+		try {
+			if(clientSocket.get("maxwell")!=null){
+				broadcast(message, new ArrayList<WebSocket>(){{add(clientSocket.get("maxwell"));}});
+			}
+
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public void onMessage(WebSocket conn, ByteBuffer message ) {
