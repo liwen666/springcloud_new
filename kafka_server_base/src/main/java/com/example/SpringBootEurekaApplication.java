@@ -1,5 +1,6 @@
 package com.example;
 
+import com.alibaba.fastjson.JSON;
 import com.example.conf.JrxMaxwellConfig;
 import com.example.conf.KafkaReceiver;
 import com.example.websocket.ChatServer;
@@ -19,13 +20,21 @@ import java.net.URL;
 public class SpringBootEurekaApplication {
 
     public static void main(String[] args) throws InterruptedException {
-
+        int port = 40000; // 843 flash policy port
+        for (String str : args) {
+            if (str.startsWith("--socket")) {
+                port = Integer.parseInt(str.split("=")[1]);
+            }
+        }
+        System.out.println(JSON.toJSONString(args));
+        System.out.println("-------------------------socket_port："+port+"----------------------------------");
         SpringApplication.run(SpringBootEurekaApplication.class, args);
+        int finalPort = port;
         new Thread(()->{
             try {
                 ChatServer.main(args);
                 if (KafkaReceiver.websocket==null) {
-                    KafkaReceiver. websocket = new ExampleClient(new URI("ws://localhost:22081"));
+                    KafkaReceiver. websocket = new ExampleClient(new URI("ws://localhost:"+ finalPort));
                     KafkaReceiver.  websocket.connect();
                 }
             } catch (InterruptedException e) {

@@ -67,7 +67,12 @@ public class KafkaReceiver {
                 logger.info("发送到kafka数据总量:{},本次10万耗时:{} s,总耗时：{} s", l, (now - tmpTIme) / 1000, (now - firstTime) / 1000);
                 this.tmpTIme = now;
             }
-            websocket.send(record.topic() + "->" + kafkaMessage.get());
+            String s = colar.get(record.topic());
+            if(StringUtils.isEmpty(s)){
+                s=getColor();
+                colar.put(record.topic(),s);
+            }
+            websocket.send("<span style='color:#"+s+"'>"+record.topic()+"</span>" + "->" + kafkaMessage.get());
         } catch (Exception e) {
             e.printStackTrace();
         }

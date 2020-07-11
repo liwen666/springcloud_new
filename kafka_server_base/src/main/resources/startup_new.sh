@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-KAFKA_DML_TOPIC=101_dml_maxwell,local_dml
-KAFKA_DDL_TOPIC=101_ddl_maxwell,local_ddl
+KAFKA_DML_TOPIC=101_dml_maxwell,test_dml_local,3_dml_maxwell
+KAFKA_DDL_TOPIC=101_ddl_maxwell,test_ddl_local,3_ddl_maxwell
+SOCKET=20000
 SPRING_KAFKA_BOOTSTRAP_SERVERS=172.16.102.23:9092
 SERVER_NAME=local
  [[ ! -e "$JAVA_HOME/bin/java" ]] && JAVA_HOME=$HOME/jdk/java
@@ -148,7 +149,7 @@ startup(){
         echo "================================================================================================================"
     else
         echo "Starting ${APPLICATION_MAIN}\n"
-		nohup java -jar      ${JAVA_OPT}   ${PROJECT_HOME}/$SERVER_NAME.jar   --kafka.dml.topic=$KAFKA_DML_TOPIC --kafka.ddl.topic=$KAFKA_DDL_TOPIC --spring.kafka.bootstrap-servers=$SPRING_KAFKA_BOOTSTRAP_SERVERS    > $LOG_DIR/start.out &
+		nohup java -jar      ${JAVA_OPT}   ${PROJECT_HOME}/$SERVER_NAME.jar  --socket=$SOCKET  --kafka.dml.topic=$KAFKA_DML_TOPIC --kafka.ddl.topic=$KAFKA_DDL_TOPIC --spring.kafka.bootstrap-servers=$SPRING_KAFKA_BOOTSTRAP_SERVERS    > $LOG_DIR/start.out &
         sleep 1
         getPID
         if [[ ${TPID} -ne 0 ]]; then

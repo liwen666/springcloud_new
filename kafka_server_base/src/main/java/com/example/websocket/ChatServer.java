@@ -27,6 +27,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
+import org.springframework.util.CollectionUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,99 +46,110 @@ import java.util.Map;
  */
 
 public class ChatServer extends WebSocketServer {
-	public static Map<String ,WebSocket> clientSocket = new HashMap<String,WebSocket>();
+    public static Map<String, WebSocket> clientSocket = new HashMap<String, WebSocket>();
 
-	public ChatServer(int port ) throws UnknownHostException {
-		super( new InetSocketAddress( port ) );
-	}
+    public ChatServer(int port) throws UnknownHostException {
+        super(new InetSocketAddress(port));
+    }
 
-	public ChatServer(InetSocketAddress address ) {
-		super( address );
-	}
+    public ChatServer(InetSocketAddress address) {
+        super(address);
+    }
 
 
-	@Override
-	public void onOpen(WebSocket conn, ClientHandshake handshake ) {
-		conn.send("Welcome to the server!"); //This method sends a message to the new client
-		String resourceDescriptor = "";
-		try {
-			 resourceDescriptor=URLDecoder.decode(handshake.getResourceDescriptor(),"UTF-8");
-			broadcast( "new connection: " + resourceDescriptor); //This method sends a message to all clients connected
+    @Override
+    public void onOpen(WebSocket conn, ClientHandshake handshake) {
+        conn.send("Welcome to the server!"); //This method sends a message to the new client
+        String resourceDescriptor = "";
+        try {
+            resourceDescriptor = URLDecoder.decode(handshake.getResourceDescriptor(), "UTF-8");
+            broadcast("new connection: " + resourceDescriptor); //This method sends a message to all clients connected
 
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		String[] split = resourceDescriptor.split("\\?");
-		if(split.length>1){
-			String jsonParam=split[1];
-			JSONObject jsonObject = JSONObject.parseObject(jsonParam);
-			clientSocket.put((String) jsonObject.get("name"),conn);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String[] split = resourceDescriptor.split("\\?");
+        if (split.length > 1) {
+            String jsonParam = split[1];
+            JSONObject jsonObject = JSONObject.parseObject(jsonParam);
+            clientSocket.put((String) jsonObject.get("name"), conn);
 
-			System.out.println(jsonObject.get("name"));
+            System.out.println(jsonObject.get("name"));
 
-		}
-		for(Map.Entry me:clientSocket.entrySet()){
-			System.out.println("连接有：  "+me.getKey());
-		}
-		System.out.println( conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!" );
-	}
+        }
+        for (Map.Entry me : clientSocket.entrySet()) {
+            System.out.println("连接有：  " + me.getKey());
+        }
+        System.out.println(conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!");
+    }
 
-	@Override
-	public void onClose(WebSocket conn, int code, String reason, boolean remote ) {
-		String resourceDescriptor = "";
-		try {
-			resourceDescriptor=URLDecoder.decode(conn.getResourceDescriptor(),"UTF-8");
+    @Override
+    public void onClose(WebSocket conn, int code, String reason, boolean remote) {
+        String resourceDescriptor = "";
+        try {
+            resourceDescriptor = URLDecoder.decode(conn.getResourceDescriptor(), "UTF-8");
 
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		String[] split = resourceDescriptor.split("\\?");
-		if(split.length>1){
-			String jsonParam=split[1];
-			JSONObject jsonObject = JSONObject.parseObject(jsonParam);
-			clientSocket.remove(jsonObject.get("name"));
-			System.out.println(jsonObject.get("name"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String[] split = resourceDescriptor.split("\\?");
+        if (split.length > 1) {
+            String jsonParam = split[1];
+            JSONObject jsonObject = JSONObject.parseObject(jsonParam);
+            clientSocket.remove(jsonObject.get("name"));
+            System.out.println(jsonObject.get("name"));
 
-		}
-		broadcast( conn + " has left the room!" );
-		System.out.println( conn + " has left the room!" );
+        }
+        broadcast(conn + " has left the room!");
+        System.out.println(conn + " has left the room!");
 
-	}
+    }
 
-	@Override
-	public void onMessage(WebSocket conn, String message ) {
-		for(Map.Entry me:clientSocket.entrySet()){
-			System.out.println("连接有：  "+me.getKey());
-		}
+    @Override
+    public void onMessage(WebSocket conn, String message) {
+        for (Map.Entry me : clientSocket.entrySet()) {
+            System.out.println("连接有：  " + me.getKey());
+        }
+        System.out.println(message);
 //		broadcast( message+"  后台返回数据" );
 //		System.out.println( conn + ": " + message );
 //		broadcast("ddddddssss", new ArrayList<WebSocket>(){{add(conn);}});
 //		broadcast(message, new ArrayList<WebSocket>(){{add(conn);}});
-		try {
-			if(clientSocket.get("maxwell")!=null){
-				broadcast(message, new ArrayList<WebSocket>(){{add(clientSocket.get("maxwell"));}});
-			}
+        try {
+//			if(clientSocket.get("maxwell")!=null){
+//				broadcast(message, new ArrayList<WebSocket>(){{add(clientSocket.get("maxwell"));}});
+//			}
+            if (!CollectionUtils.isEmpty(clientSocket.values())) {
+                broadcast(message, clientSocket.values());
+            }
 
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-	}
-	@Override
-	public void onMessage(WebSocket conn, ByteBuffer message ) {
-		broadcast( message.array() );
-		System.out.println( conn + ": " + message );
-	}
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onMessage(WebSocket conn, ByteBuffer message) {
+        broadcast(message.array());
+        System.out.println(conn + ": " + message);
+    }
 
 
-	public static void main( String[] args ) throws InterruptedException , IOException {
-		int port = 22081; // 843 flash policy port
-		try {
-			port = Integer.parseInt( args[ 0 ] );
-		} catch ( Exception ex ) {
-		}
-		ChatServer s = new ChatServer( port );
-		s.start();
-		System.out.println( "ChatServer started on port: " + s.getPort() );
+    public static void main(String[] args) throws InterruptedException, IOException {
+        int port = 40000; // 843 flash policy port
+        for (String str : args) {
+            if (str.startsWith("--socket")) {
+                port = Integer.parseInt(str.split("=")[1]);
+            }
+        }
+
+        try {
+            port = Integer.parseInt(args[0]);
+        } catch (Exception ex) {
+        }
+        ChatServer s = new ChatServer(port);
+        s.start();
+        System.out.println("ChatServer started on port: " + s.getPort());
 
 //		BufferedReader sysin = new BufferedReader( new InputStreamReader( System.in ) );
 //		while ( true ) {
@@ -148,20 +160,21 @@ public class ChatServer extends WebSocketServer {
 //				break;
 //			}
 //		}
-	}
-	@Override
-	public void onError(WebSocket conn, Exception ex ) {
-		ex.printStackTrace();
-		if( conn != null ) {
-			// some errors like port binding failed may not be assignable to a specific websocket
-		}
-	}
+    }
 
-	@Override
-	public void onStart() {
-		System.out.println("Server started!");
-		setConnectionLostTimeout(0);
-		setConnectionLostTimeout(100);
-	}
+    @Override
+    public void onError(WebSocket conn, Exception ex) {
+        ex.printStackTrace();
+        if (conn != null) {
+            // some errors like port binding failed may not be assignable to a specific websocket
+        }
+    }
+
+    @Override
+    public void onStart() {
+        System.out.println("Server started!");
+        setConnectionLostTimeout(0);
+        setConnectionLostTimeout(100);
+    }
 
 }
