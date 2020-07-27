@@ -108,7 +108,7 @@ public class KafkaReceiver {
     }
 
     @KafkaListener(topics = {"hello"})
-    public void check(ConsumerRecord<?, ?> record) throws URISyntaxException, InterruptedException {
+    public void check(ConsumerRecord<?, ?> record)   {
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());
         if (kafkaMessage.isPresent()) {
             Object message = kafkaMessage.get();

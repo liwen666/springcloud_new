@@ -1,0 +1,5 @@
+jasypt:
+  encryptor:
+    #加密秘钥
+    password: anyest
+jdbc.password: ENC(v1YldGj7aoXQH2DATPZc0A==)

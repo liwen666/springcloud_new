@@ -6,6 +6,7 @@ import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingFactory;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
+import com.nacos.IpUtils;
 import org.junit.Test;
 
 import java.net.InetAddress;
@@ -44,6 +45,38 @@ public class NacosServerDescoverTest {
         Instance testnacos1 = namingService.selectOneHealthyInstance("testnacos");
         System.out.println(JSON.toJSONString(testnacos));
         System.out.println(JSON.toJSONString(testnacos1));
+    }
+
+    @Test
+    public void testNaming() throws NacosException {
+//        String pro = "{\"secretKey\":\"\",\"contextPath\":\"\",\"accessKey\":\"\",\"namespace\":\"254ba5e6-2a13-4f0e-bf1e-8eb3ea21f4ba\",\"encode\":\"\",\"serverAddr\":\"172.16.101.23:8848,172.16.101.37:8848,172.16.101.38:8848\",\"clusterName\":\"\",\"endpoint\":\"\"}";
+        String pro = "{\"secretKey\":\"\",\"contextPath\":\"\",\"accessKey\":\"\",\"namespace\":\"c5874023-84e9-4960-92aa-8d497916ed59\",\"encode\":\"\",\"serverAddr\":\"172.16.101.23:8848,172.16.101.37:8848,172.16.101.38:8848\",\"clusterName\":\"\",\"endpoint\":\"\"}";
+        Properties properties = JSON.parseObject(pro, Properties.class);
+        NamingService namingService = NamingFactory.createNamingService(properties);
+        for(int i=0;i<10;i++){
+            List<Instance> testnacos = namingService.getAllInstances("ANYEST-DATA-SERVICE");
+//            List<Instance> testnacos = namingService.getAllInstances("ANYEST-CENTER-ADMIN");
+            String serverStatus = namingService.getServerStatus();
+//        Instance testnacos1 = namingService.selectOneHealthyInstance("ANYEST-DATA-SERVICE");
+            if(testnacos.size()==0){
+                System.out.println("------------------");
+            }
+//            System.out.println(JSON.toJSONString(testnacos));
+        }
+        String ip = IpUtils.getIp();
+        namingService.registerInstance("test_nacos", ip, Integer.parseInt("1000"));
+        for(int i=0;i<10;i++){
+//            List<Instance> testnacos = namingService.getAllInstances("ANYEST-DATA-SERVICE");
+            List<Instance> testnacos = namingService.getAllInstances("test_nacos");
+            String serverStatus = namingService.getServerStatus();
+//        Instance testnacos1 = namingService.selectOneHealthyInstance("ANYEST-DATA-SERVICE");
+            if(testnacos.size()==0){
+                System.out.println("jkjkj-------------");
+            }
+//            System.out.println(JSON.toJSONString(testnacos));
+        }
+
+//        System.out.println(JSON.toJSONString(testnacos1));
     }
 
 
@@ -93,5 +126,18 @@ public class NacosServerDescoverTest {
     @Test
     public void nacosFactoryName() throws NacosException, InterruptedException {
         NamingService namingService = NacosFactory.createNamingService("172.16.101.29:8848,172.16.101.30:8848,172.16.101.31:8848");
+    }
+
+
+    @Test
+    public void localest() throws NacosException {
+        String pro = "{\"secretKey\":\"\",\"contextPath\":\"\",\"accessKey\":\"\",\"namespace\":\"any_est\",\"encode\":\"\",\"serverAddr\":\"192.168.42.220:8848\",\"clusterName\":\"\",\"endpoint\":\"\"}";
+        Properties properties = JSON.parseObject(pro, Properties.class);
+        NamingService namingService = NamingFactory.createNamingService(properties);
+        List<Instance> testnacos = namingService.getAllInstances("ANYEST-CENTER-ADMIN");
+        String serverStatus = namingService.getServerStatus();
+        Instance testnacos1 = namingService.selectOneHealthyInstance("ANYEST-CENTER-ADMIN");
+        System.out.println(JSON.toJSONString(testnacos));
+        System.out.println(JSON.toJSONString(testnacos1));
     }
 }
