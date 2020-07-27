@@ -1,7 +1,7 @@
 package com.temp.jpa.jpa.jpautil;
 
 /**
- * @author yxy
+ * @author
  * @date 2018/10/4
  */
 public enum ResourceType {

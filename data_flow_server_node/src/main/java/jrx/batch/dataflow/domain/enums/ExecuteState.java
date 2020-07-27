@@ -3,7 +3,7 @@ package jrx.batch.dataflow.domain.enums;
 /**
  * 执行状态
  *
- * @author yxy
+ * @author
  * @date 2018/4/11
  */
 public enum ExecuteState implements IBaseEnum {

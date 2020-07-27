@@ -18,7 +18,7 @@ import java.util.Set;
 /**
  * 注解开启 swagger2 功能
  *
- * @author yxy
+ * @author
  */
 @EnableSwagger2
 @Configuration

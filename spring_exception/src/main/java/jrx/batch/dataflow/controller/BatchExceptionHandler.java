@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 /**
  * 捕获异常返回对象.
  *
- * @author yxy
+ * @author
  */
 @ControllerAdvice
 public class BatchExceptionHandler {

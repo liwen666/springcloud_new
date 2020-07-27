@@ -13,7 +13,7 @@ import java.util.Date;
 
 /**
  * 基础版本信息实体类
- * @author yxy
+ * @author
  */
 @MappedSuperclass
 @Setter

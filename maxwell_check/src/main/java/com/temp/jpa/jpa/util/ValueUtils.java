@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 /**
  * 值计算
- * @author yxy
+ * @author
  * @version 1.0
  * @date 2019/4/28
  */

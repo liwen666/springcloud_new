@@ -2,7 +2,7 @@ package jrx.anyest.client.dashboard.base;
 
 /**
  * 对象类型
- * @author yxy
+ * @author
  * @date 2018/9/25
  */
 public enum ObjectType {

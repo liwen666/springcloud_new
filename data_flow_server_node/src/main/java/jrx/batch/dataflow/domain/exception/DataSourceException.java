@@ -2,7 +2,7 @@ package jrx.batch.dataflow.domain.exception;
 
 /**
  * 数据连接池初始化异常
- * @author yxy
+ * @author
  * @date 2018/6/16
  */
 public class DataSourceException extends RuntimeException {

@@ -2,7 +2,7 @@ package com.temp.jpa.jpa.jpautil;
 
 /**
  * 版本状态
- * @author yxy
+ * @author
  * @date 2018/9/26
  */
 public enum VersionState {

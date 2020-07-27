@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * g->i
  * h->i
  *
- * @author yxy
+ * @author
  * @date 2018/7/29
  */
 @ApiModel("任务链")

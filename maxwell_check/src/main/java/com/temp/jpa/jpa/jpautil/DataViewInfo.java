@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * 生产报表的图表的时候用到的宽表数据集
  *
- * @author yxy
+ * @author
  * @date 2018/12/3
  */
 //@ApiModel("宽表数据集")

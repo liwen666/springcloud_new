@@ -3,7 +3,7 @@ package jrx.batch.dataflow.util;
 import org.springframework.batch.core.Job;
 
 /**
- * @author yxy
+ * @author
  * @date 2018/5/23
  */
 public class TaskBatchManager {

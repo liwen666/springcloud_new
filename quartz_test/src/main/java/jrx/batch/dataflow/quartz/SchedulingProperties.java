@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @author yxy
+ * @author
  * @date 2018/7/5
  */
 @ConfigurationProperties("batch.scheduling")

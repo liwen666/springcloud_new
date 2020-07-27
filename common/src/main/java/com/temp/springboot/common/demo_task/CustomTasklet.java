@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 自定义tasklet处理业务逻辑，不使用固定的reader writer，processor
- * @author yxy
+ * @author
  * @date 2018/7/28
  */
 public class CustomTasklet implements Tasklet {

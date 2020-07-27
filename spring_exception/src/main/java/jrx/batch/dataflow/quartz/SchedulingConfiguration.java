@@ -10,7 +10,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import javax.sql.DataSource;
 
 /**
- * @author yxy
+ * @author
  * @date 2018/7/5
  */
 @Configuration
