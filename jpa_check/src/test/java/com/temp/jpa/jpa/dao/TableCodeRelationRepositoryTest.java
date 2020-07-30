@@ -20,12 +20,28 @@ public class TableCodeRelationRepositoryTest {
     @Test
     public void name() {
         TableCodeRelation tableCodeRelation = new TableCodeRelation();
-        tableCodeRelation.setPrimaryCodeKey("projectId");
+        tableCodeRelation.setPrimaryCodeKey("category_id");
         tableCodeRelation.setPrimaryTableChinaName("规则信息表");
         tableCodeRelation.setPrimaryTableName("res_rule_info");
-        tableCodeRelation.setSlaveTableChinaName("项目表");
-        tableCodeRelation.setPrimaryTableName("res_resource_project");
-        tableCodeRelationRepository.save(tableCodeRelation);
+        tableCodeRelation.setSlaveTableChinaName("分类表");
+        tableCodeRelation.setSlaveTableName("meta_category");
+        TableCodeRelation byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableName(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName());
+        if(null ==byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName){
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("category_id");
+        tableCodeRelation.setPrimaryTableChinaName("规则信息表");
+        tableCodeRelation.setPrimaryTableName("res_rule_info");
+        tableCodeRelation.setSlaveTableChinaName("分类表");
+        tableCodeRelation.setSlaveTableName("meta_category");
+         byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableName(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName());
+        if(null ==byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName){
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+
+
     }
 
 

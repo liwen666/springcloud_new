@@ -18,7 +18,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "table_code_relation")
-public class TableCodeRelation extends BaseEntity {
+public class TableCodeRelation
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
