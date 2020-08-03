@@ -1,6 +1,8 @@
 package test;
 
 import jrx.anyest.table.ApplicationStart;
+import jrx.anyest.table.jpa.entity.TableCodeRelation;
+import jrx.anyest.table.utils.ReflectionUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -18,6 +20,18 @@ public class BaseTest {
 	
 	@Test
 	public void testFoo() {
+
 		System.out.println("hello word");
+	}
+
+	@Test
+	public void name() {
+		TableCodeRelation tableCodeRelation = new TableCodeRelation();
+		tableCodeRelation.setPrimaryCodeKey("category_id");
+		tableCodeRelation.setPrimaryTableChinaName("规则信息表");
+		tableCodeRelation.setPrimaryTableName("res_rule_info");
+		tableCodeRelation.setSlaveTableChinaName("分类表");
+		tableCodeRelation.setSlaveTableName("meta_category");
+//		ReflectionUtils.getFieldValue(tableCodeRelation,)
 	}
 }

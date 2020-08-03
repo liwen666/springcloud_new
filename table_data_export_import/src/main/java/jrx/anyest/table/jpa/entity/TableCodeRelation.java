@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "table_code_relation")
-public class TableCodeRelation
+public class TableCodeRelation extends TableBaseEntity
 {
 
     @Id
@@ -52,6 +52,13 @@ public class TableCodeRelation
      */
     @Column
     protected String slaveTableChinaName;
+
+    /**
+     * 数据库表名
+     */
+    @Column
+    protected String slaveCodeKey;
+
 
 
 

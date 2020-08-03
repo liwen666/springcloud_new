@@ -1,4 +1,4 @@
-package jrx.anyest.table.jpa.util;
+package jrx.anyest.table.jpa.sql;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,5 +1,8 @@
 package jrx.anyest.table.jpa.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +11,8 @@ import java.util.List;
  * 表数据导入导出处理结果
  * @param <T>
  */
+@Getter
+@Setter
 public class TableDataImportOrExpResult<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -17,11 +22,12 @@ public class TableDataImportOrExpResult<T> implements Serializable {
 	 */
 	private String tableName;
 	/**
-	 * 数据code标识
+	 * 表名称
 	 */
-	private String strCode;
+	private String tableChinaName;
 	/**
-	 * 数据数量
+	 * 数据内容
 	 */
-	private Integer num;
+	private T data;
+
 }

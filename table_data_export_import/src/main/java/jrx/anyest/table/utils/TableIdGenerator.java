@@ -4,18 +4,19 @@ package jrx.anyest.table.utils;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.util.UUID;
 
 /**
  * activiti主键生成策略工具
  *
  * @author xinre
  */
-public class IdGenerator {
+public class TableIdGenerator {
     public static void main(String[] args) {
-        IdGenerator pkid = new IdGenerator();
+        TableIdGenerator pkid = new TableIdGenerator();
         long l = System.currentTimeMillis();
         System.out.println(pkid.nextId());
-        System.out.println(IdGenerator.getNext());
+        System.out.println(TableIdGenerator.getNext());
     }
 
     /**
@@ -62,7 +63,7 @@ public class IdGenerator {
      */
     private final long datacenterId;
 
-    public IdGenerator() {
+    public TableIdGenerator() {
         this.datacenterId = getDatacenterId(maxDatacenterId);
         this.workerId = getMaxWorkerId(datacenterId, maxWorkerId);
     }
@@ -71,7 +72,7 @@ public class IdGenerator {
      * @param workerId     工作机器ID
      * @param datacenterId 序列号
      */
-    public IdGenerator(long workerId, long datacenterId) {
+    public TableIdGenerator(long workerId, long datacenterId) {
         if (workerId > maxWorkerId || workerId < 0) {
             throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
         }
@@ -179,15 +180,20 @@ public class IdGenerator {
         return id;
     }
 
-    public static IdGenerator getPrimaryKeyGeneratorByUuid() {
-        return IdGenerator.PrimaryKeyGeneratorByUuidHolder.primaryKeyGeneratorByUuid;
+    public static TableIdGenerator getPrimaryKeyGeneratorByUuid() {
+        return TableIdGenerator.PrimaryKeyGeneratorByUuidHolder.primaryKeyGeneratorByUuid;
     }
 
     public static class PrimaryKeyGeneratorByUuidHolder {
-        private static IdGenerator primaryKeyGeneratorByUuid = new IdGenerator();
+        private static TableIdGenerator primaryKeyGeneratorByUuid = new TableIdGenerator();
     }
 
     public static String getNext() {
         return String.valueOf(getPrimaryKeyGeneratorByUuid().nextId());
     }
+
+    public static String getUUID() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
+
 }

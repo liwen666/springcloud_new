@@ -1,26 +1,26 @@
 package jrx.anyest.table.config;
 
-import org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.stereotype.Component;
-import org.thymeleaf.dialect.AbstractProcessorDialect;
-import org.thymeleaf.processor.IProcessor;
 
-import javax.sql.DataSource;
-import javax.transaction.TransactionManager;
-import java.util.Set;
+import java.net.URL;
 
-@Component
 public class SystemConfig {
 
+    public static String getConfigPath() {
 
-//	@Bean
-//	@ConditionalOnMissingBean(TransactionManager.class)
-//	public TransactionManager transactionManager(DataSource datasource) {
-//
-//		return JpaTransactionManager(datasource);
-//	}
+        String os = System.getProperty("os.name");
+        URL resource = SystemConfig.class.getResource("");
+        String dataPath = resource.getPath();
+        String configPath=null;
+        if(os.toLowerCase().startsWith("win") || os.toLowerCase().startsWith("mac")){
+            String replace = dataPath.substring(0, dataPath.indexOf("/com/")).replace("/target/classes", "");
+            configPath= replace+"/bin/config/";
+        }else{
+//			String substring = dataPath.substring(0, dataPath.indexOf(JrxMaxwellConfig.MAXWELL_VERSION))+JrxMaxwellConfig.MAXWELL_VERSION+"bin/config/";
+//			 configPath =substring.replace("file:","");
+        }
+        return configPath;
+    }
+
+
+
 }

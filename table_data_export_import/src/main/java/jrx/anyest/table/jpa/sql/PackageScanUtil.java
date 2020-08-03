@@ -1,5 +1,6 @@
-package jrx.anyest.table.jpa.util;
+package jrx.anyest.table.jpa.sql;
 
+import jrx.anyest.table.config.SystemConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileUrlResource;
@@ -43,9 +44,6 @@ public class PackageScanUtil {
 		Map<String, Resource> resourceMap = new HashMap<>();
 		Resource[] resources = new PathMatchingResourcePatternResolver().getResources(packageSearchPath);
 		for (Resource resource : resources) {
-//			if (null != resourceMap.get(resource.getFilename())) {
-//				logger.error("初始化资源有重复" + resource.getURL());
-//			}
 			resourceMap.put(resource.getFilename(), resource);
 		}
 		resourceStatics.put(packageParten, resourceMap);

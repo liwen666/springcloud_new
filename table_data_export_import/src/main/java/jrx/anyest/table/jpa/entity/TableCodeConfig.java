@@ -19,7 +19,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Table(name = "table_code_config")
-public class TableCodeConfig
+public class TableCodeConfig extends TableBaseEntity
 {
 
     @Id
@@ -41,19 +41,34 @@ public class TableCodeConfig
      * 用于计算code的列名称
      * 如果是多个字段用 | 分割
      */
-    @Column(length = 100)
-    protected String coloums;
+    @Column(length = 200)
+    protected String columns;
 
     /**
      * 处理器类名称
      */
     @Column
     protected String handleBeanName;
+
     /**
-     * 创建时间
+     * 排除的数据列名称
      */
     @Column
-    protected Date createTime;
+    protected String ignoreColumnName;
+    /**
+     *  排除的数据列值
+     */
+    @Column
+    protected String ignoreColumnValue;
+
+
+//    /**
+//     * 数据转换模型
+//     */
+//    @Column
+//    @Enumerated(EnumType.STRING)
+//    protected DataConversionModel dataConversionModel;
+
 
 
 

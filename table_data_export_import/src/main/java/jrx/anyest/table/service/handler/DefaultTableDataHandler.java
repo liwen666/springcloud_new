@@ -1,7 +1,8 @@
-package jrx.anyest.table.service;
+package jrx.anyest.table.service.handler;
 
 import com.alibaba.fastjson.JSON;
 import jrx.anyest.table.jpa.enums.HandlerParam;
+import jrx.anyest.table.service.TableDataHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;

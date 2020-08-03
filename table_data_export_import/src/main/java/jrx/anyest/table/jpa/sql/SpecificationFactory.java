@@ -1,4 +1,4 @@
-package jrx.anyest.table.jpa.util;
+package jrx.anyest.table.jpa.sql;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;

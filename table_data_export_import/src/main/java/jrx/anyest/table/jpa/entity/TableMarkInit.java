@@ -5,11 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 /**
  * <p>
  *  描述
+ *  为无法判断唯一性的数据指定唯一键
  * </p>
  *
  * @author lw
@@ -18,9 +18,10 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-@Table(name = "table_conversion_key")
-public class TableConversionKey extends TableBaseEntity
+@Table(name = "table_mark_init")
+public class TableMarkInit extends TableBaseEntity
 {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
@@ -30,30 +31,12 @@ public class TableConversionKey extends TableBaseEntity
      *  表名称
      */
     @Column
-    protected String tableCodeName;
+    protected String tableName;
     /**
      *  表中文名称
      */
     @Column
-    protected String tableCodeChinaName;
-
-
-    /**
-     *  表数据需要做转换的key
-     */
-    @Column
-    protected String conversionKey;
-
-
-    /**
-     * 处理器类名称
-     */
-    @Column
-    protected String handleBeanName;
-
-
-
-
+    protected String tableChinaName;
 
 
 }

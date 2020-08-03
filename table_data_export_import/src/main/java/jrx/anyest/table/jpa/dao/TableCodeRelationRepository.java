@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TableCodeRelationRepository  extends BaseDao<TableCodeRelation> {
 
-    TableCodeRelation findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableName(String priKey,String priTable,String slaveTable);
+    TableCodeRelation findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(String priKey,String priTable,String slaveTable,String slaveCode);
 
 
 }

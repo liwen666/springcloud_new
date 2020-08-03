@@ -23,7 +23,8 @@ public class TableCodeRelationRepositoryTest {
         tableCodeRelation.setPrimaryTableName("res_rule_info");
         tableCodeRelation.setSlaveTableChinaName("分类表");
         tableCodeRelation.setSlaveTableName("meta_category");
-        TableCodeRelation byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableName(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName());
+        tableCodeRelation.setSlaveCodeKey("category_id");
+        TableCodeRelation byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(),tableCodeRelation.getSlaveCodeKey());
         if(null ==byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName){
             tableCodeRelationRepository.save(tableCodeRelation);
         }
@@ -33,7 +34,8 @@ public class TableCodeRelationRepositoryTest {
         tableCodeRelation.setPrimaryTableName("res_rule_info");
         tableCodeRelation.setSlaveTableChinaName("分类表");
         tableCodeRelation.setSlaveTableName("meta_category");
-         byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableName(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName());
+        tableCodeRelation.setSlaveCodeKey("category_id");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(),tableCodeRelation.getSlaveCodeKey());
         if(null ==byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName){
             tableCodeRelationRepository.save(tableCodeRelation);
         }

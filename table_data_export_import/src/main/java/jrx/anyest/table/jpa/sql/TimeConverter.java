@@ -1,4 +1,4 @@
-package jrx.anyest.table.jpa.jpautil;
+package jrx.anyest.table.jpa.sql;
 
 import javax.persistence.AttributeConverter;
 import java.sql.Timestamp;
