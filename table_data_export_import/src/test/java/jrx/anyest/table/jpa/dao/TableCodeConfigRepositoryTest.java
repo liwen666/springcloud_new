@@ -2,6 +2,7 @@ package jrx.anyest.table.jpa.dao;
 
 import com.google.common.collect.Maps;
 import jrx.anyest.table.ApplicationStart;
+import jrx.anyest.table.jpa.entity.TableCodeConfig;
 import jrx.anyest.table.service.TableDataCodeCacheManager;
 import jrx.anyest.table.service.TableDataHandler;
 import jrx.anyest.table.utils.TableSpringUtil;
@@ -13,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -56,13 +58,26 @@ public class TableCodeConfigRepositoryTest {
         /**
          * 项目内导出
          */
-//        TableCodeConfig tableCodeConfig = new TableCodeConfig();
+        TableCodeConfig tableCodeConfig = new TableCodeConfig();
+        tableCodeConfig.setCreateTime(new Date());
+        tableCodeConfig.setTableCodeName("res_rule_info");
+        tableCodeConfig.setTableCodeChinaName("规则信息表");
+        tableCodeConfig.setColumns("name");
+        tableCodeConfig.setWhereSqlColumns("project_id");
+        tableCodeConfig.setHandleBeanName("defaultTableDataHandler");
+        TableCodeConfig tableCodeConfigByTableCodeName = tableCodeConfigRepository.findTableCodeConfigByTableCodeName(tableCodeConfig.getTableCodeName());
+        if (null == tableCodeConfigByTableCodeName) {
+            tableCodeConfigRepository.save(tableCodeConfig);
+        }
+
+//        tableCodeConfig.setId(null);
 //        tableCodeConfig.setCreateTime(new Date());
-//        tableCodeConfig.setTableCodeName("res_rule_info");
-//        tableCodeConfig.setTableCodeChinaName("规则信息表");
-//        tableCodeConfig.setColumns("name");
+//        tableCodeConfig.setTableCodeName("res_rule");
+//        tableCodeConfig.setTableCodeChinaName("规则版本表");
+//        tableCodeConfig.setColumns("resource_id,version");
+//        tableCodeConfig.setWhereSqlColumns("project_id");
 //        tableCodeConfig.setHandleBeanName("defaultTableDataHandler");
-//        TableCodeConfig tableCodeConfigByTableCodeName = tableCodeConfigRepository.findTableCodeConfigByTableCodeName(tableCodeConfig.getTableCodeName());
+//         tableCodeConfigByTableCodeName = tableCodeConfigRepository.findTableCodeConfigByTableCodeName(tableCodeConfig.getTableCodeName());
 //        if (null == tableCodeConfigByTableCodeName) {
 //            tableCodeConfigRepository.save(tableCodeConfig);
 //        }

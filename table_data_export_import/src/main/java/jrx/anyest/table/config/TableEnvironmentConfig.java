@@ -2,6 +2,7 @@ package jrx.anyest.table.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import jrx.anyest.table.service.JdbcTemplateService;
+import jrx.anyest.table.service.TableDataCodeCacheManager;
 import jrx.anyest.table.service.TableDataExpOrImpService;
 import jrx.anyest.table.utils.TableSpringUtil;
 import org.slf4j.Logger;
@@ -20,16 +21,14 @@ import org.springframework.core.env.StandardEnvironment;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-/**
- * 注册动态数据源bean
- *
- * @author: looyii
- * @Date: 2019/7/25 16:12
- * @Description:
- */
 @Configuration
 public class TableEnvironmentConfig implements EnvironmentAware, BeanDefinitionRegistryPostProcessor, ApplicationRunner {
+
     private static final Logger logger = LoggerFactory.getLogger(TableEnvironmentConfig.class);
     private String url;
     private String username;
@@ -39,10 +38,10 @@ public class TableEnvironmentConfig implements EnvironmentAware, BeanDefinitionR
     @Override
     public void setEnvironment(Environment env) {
         StandardEnvironment standardEnvironment = (StandardEnvironment) env;
-       url= standardEnvironment.getProperty("spring.datasource.url");
-       username= standardEnvironment.getProperty("spring.datasource.username");
-       password= standardEnvironment.getProperty("spring.datasource.password");
-       driverClassName= standardEnvironment.getProperty("spring.datasource.driver-class-name");
+        url = standardEnvironment.getProperty("spring.datasource.url");
+        username = standardEnvironment.getProperty("spring.datasource.username");
+        password = standardEnvironment.getProperty("spring.datasource.password");
+        driverClassName = standardEnvironment.getProperty("spring.datasource.driver-class-name");
 
     }
 
@@ -85,5 +84,10 @@ public class TableEnvironmentConfig implements EnvironmentAware, BeanDefinitionR
             dataSource.setTestOnBorrow(true);
             JdbcTemplateService.jdbcTemplate = new JdbcTemplate(dataSource);
         }
+        logger.info("初始化数据库主键缓存");
+        String datasource = TableSpringUtil.getBean(TablePropertiesConfig.class).getDatasource();
+        List<Map<String, Object>> maps = JdbcTemplateService.jdbcTemplate.queryForList("select  table_name,column_name from  INFORMATION_SCHEMA.KEY_COLUMN_USAGE  t where t.table_schema='" + datasource + "'");
+        Map<String, String > collect = maps.stream().collect(Collectors.toMap(e ->(String) e.get("table_name"), e ->(String) e.get("column_name")));
+        TableDataCodeCacheManager.tableKey=collect;
     }
 }

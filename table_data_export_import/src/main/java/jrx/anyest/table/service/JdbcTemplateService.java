@@ -27,7 +27,7 @@ public class JdbcTemplateService {
 
     }
 
-    public static void intiTableBySql(String sqlName) {
+    public static void initTableBySql(String sqlName) {
         try {
             /**
              * 初始化表结构

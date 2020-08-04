@@ -60,6 +60,11 @@ public class TableCodeConfig extends TableBaseEntity
      */
     @Column
     protected String ignoreColumnValue;
+    /**
+     *  过滤数据的条件
+     */
+    @Column
+    protected String whereSqlColumns;
 
 
 //    /**

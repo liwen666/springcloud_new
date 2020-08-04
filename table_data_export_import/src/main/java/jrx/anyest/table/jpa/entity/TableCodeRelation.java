@@ -58,6 +58,11 @@ public class TableCodeRelation extends TableBaseEntity
      */
     @Column
     protected String slaveCodeKey;
+    /**
+     * 对查询到的表数据处理器
+     */
+    @Column
+    protected String filterHandleBean;
 
 
 

@@ -34,6 +34,13 @@ public class TableDataCodeCacheManager {
     public static   Map<String, List<TableCodeRelation>> relations = new ConcurrentHashMap<>();
 
 
+    /**
+     * 表主键
+     */
+    public static   Map<String, String> tableKey ;
+
+
+
 
 
 }

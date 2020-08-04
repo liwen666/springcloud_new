@@ -2,7 +2,14 @@ package jrx.anyest.table.config;
 
 
 import java.net.URL;
-
+/**
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/8/3 17:47
+ */
 public class SystemConfig {
 
     public static String getConfigPath() {

@@ -1,9 +1,15 @@
 package jrx.anyest.table.service;
 
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import jrx.anyest.table.ApplicationStart;
+import jrx.anyest.table.jpa.dao.IdGenerator;
 import jrx.anyest.table.jpa.dto.CodeCheck;
 import jrx.anyest.table.jpa.dto.TableDataImportOrExpResult;
 import jrx.anyest.table.utils.DownUploadUtils;
+import jrx.anyest.table.utils.TableSpringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,14 +18,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.function.BiConsumer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = ApplicationStart.class)
+@Slf4j
 public class TableDataExpOrImpServiceTest {
     @Autowired
     private TableDataExpOrImpService tableDataExpOrImpService;
@@ -46,24 +58,46 @@ public class TableDataExpOrImpServiceTest {
 
     @Test
     public void checkCode() throws FileNotFoundException {
-//        初始化code缓存信息
-        List<TableDataImportOrExpResult<CodeCheck>> tableDataImportOrExpResult = tableDataExpOrImpService.checkCode();
-
+        /**
+         * 数据code检查
+         */
+        Map map = new HashMap();
+        map.put("projectId", 335);
+        List<TableDataImportOrExpResult<CodeCheck>> tableDataImportOrExpResult = tableDataExpOrImpService.checkCode(map);
+        log.error(JSON.toJSONString(tableDataImportOrExpResult
+        ));
     }
 
     @Test
     public void initCodeCache() throws FileNotFoundException {
-//        初始化code缓存信息
-        List<TableDataImportOrExpResult> tableDataImportOrExpResult = tableDataExpOrImpService.initCodeCache();
+        /**
+         * 初始化code缓存信息
+         */
+        Map<String, Object> map = new HashMap();
+        map.put("projectId", 335);
+        String next = IdGenerator.getNext();
+        try {
+            PropertiesThreadLocalHolder.addProperties("table_code_uuid", next);
+            tableDataExpOrImpService.initCodeCache(map);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        } finally {
+            TableDataCodeCacheManager.idToCode.remove(PropertiesThreadLocalHolder.getProperties("table_code_uuid"));
+            TableDataCodeCacheManager.codeToId.remove(PropertiesThreadLocalHolder.getProperties("table_code_uuid"));
+            PropertiesThreadLocalHolder.remove("table_code_uuid");
+        }
+
 
     }
+
 
     @Test
     public void initRelationCache() throws FileNotFoundException {
 //        初始化code缓存信息
-         tableDataExpOrImpService.initRelationCache();
+        tableDataExpOrImpService.initRelationCache();
 
     }
+
 
     /**
      * 递归查询所有关联数据
@@ -74,18 +108,64 @@ public class TableDataExpOrImpServiceTest {
     public void listAllRelationData() {
         String tableName = "res_rule_info";
         Integer dataId = 896;
-        Map<String, Map<String, String>> dataMap = new ConcurrentHashMap<>();
+        Set<Object> objects = Sets.newHashSet();
+        objects.add(dataId);
+        Map<String, Map<String, Map<String, Object>>> dataMap = new ConcurrentHashMap<>();
 //        初始化code缓存信息
-         tableDataExpOrImpService.listAllRelationData(tableName, dataId,dataMap);
+//         tableDataExpOrImpService.listAllRelationData(tableName, objects,null,dataMap,null);
+        ConcurrentMap<String, Object> objectObjectConcurrentMap = Maps.newConcurrentMap();
+        objectObjectConcurrentMap.put("version", 1);
+        tableDataExpOrImpService.listAllRelationData(tableName, objects, objectObjectConcurrentMap, dataMap, null);
+        /**
+         * 将数据进行code转换
+         *
+         */
+
 
     }
 
 
     @Test
     public void exportData() throws FileNotFoundException {
-        File file = new File("D:\\workspace\\springcloud_new\\jpa_check\\src\\test\\java\\com\\temp\\jpa\\service\\" + "测试数据.zip");
+        File file = new File("D:\\workspace\\springcloud_new\\table_data_export_import\\src\\test\\java\\jrx\\anyest\\table\\service\\" + "测试数据.zip");
         FileOutputStream fileOutputStream = new FileOutputStream(file);
+        String tableName = "res_rule_info";
+        Integer dataId = 896;
+        Set<Object> objects = Sets.newHashSet();
+        objects.add(dataId);
+        ConcurrentHashMap<String, Map<String, Map<String, Object>>> dataMap = new ConcurrentHashMap<>();
+//        初始化code缓存信息
+//         tableDataExpOrImpService.listAllRelationData(tableName, objects,null,dataMap,null);
+        ConcurrentMap<String, Object> objectObjectConcurrentMap = Maps.newConcurrentMap();
+        objectObjectConcurrentMap.put("version", 1);
+        tableDataExpOrImpService.listAllRelationData(tableName, objects, objectObjectConcurrentMap, dataMap, null);
+        Map<String, String> data = Maps.newConcurrentMap();
+        dataMap.forEach((s, stringMapMap) -> {
+            Set<String> set = stringMapMap.keySet();
+            for (String key : set) {
+                data.put(s + "/" + key, JSON.toJSONString(stringMapMap.get(key)));
+            }
+        });
+        String md5String = MD5FileUtil.getMD5String(data.toString());
+        data.put("sign", md5String);
+        DownUploadUtils.expData(fileOutputStream, data);
+    }
 
-//        DownUploadUtils.expData(fileOutputStream,);
+    /**
+     * 签名校验
+     *
+     * @throws FileNotFoundException
+     */
+    @Test
+    public void importdata() throws FileNotFoundException {
+        File file = new File("D:\\workspace\\springcloud_new\\table_data_export_import\\src\\test\\java\\jrx\\anyest\\table\\service\\测试数据.zip");
+        FileInputStream fileInputStream = new FileInputStream(file);
+        Map<String, String> stringStringMap = DownUploadUtils.importData(fileInputStream);
+        String sign = stringStringMap.get("sign");
+        System.out.println("******************************************************");
+        System.out.println(sign);
+        stringStringMap.remove("sign");
+        String md5String = MD5FileUtil.getMD5String(stringStringMap.toString());
+        System.out.println(md5String.equals(sign));
     }
 }

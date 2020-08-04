@@ -23,8 +23,8 @@ public class XmlHelper {
 	 * 解析包含命名空间的XML
 	 * 
 	 * @param in
-	 * @param map
 	 */
+
 	public XmlHelper(InputStream in) {
 		try {
 			SAXReader saxReader = new SAXReader();
@@ -194,7 +194,6 @@ public class XmlHelper {
 	 *            新插入节点的名称
 	 * @param attriValues
 	 *            新插入节点的属性及属性值
-	 * @param nodeValues
 	 *            新插入节点的值
 	 * @return
 	 */
@@ -302,7 +301,6 @@ public class XmlHelper {
 	 *            节点xpath路径表达式
 	 * @param attriValues
 	 *            节点的属性名称及属性值
-	 * @param nodeValues
 	 *            节点的值
 	 * @return
 	 */
@@ -328,7 +326,6 @@ public class XmlHelper {
 	/**
 	 * 根据父结点的xpath获取其所有的子节点
 	 * 
-	 * @param parentPath
 	 * @return
 	 */
 	@SuppressWarnings({ "rawtypes" })

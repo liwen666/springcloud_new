@@ -77,13 +77,5 @@ public class TableSpringUtil implements ApplicationContextAware {
         return beansOfType;
     }
 
-    public static String toUnderScore(String string) {
-        return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, string);
-    }
-
-    public static String toLowerCamel(String string) {
-        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, string));
-    }
-
 
 }
