@@ -1,7 +1,6 @@
 package com.temp.jpa.jpa.entity;
 
 
-import com.temp.jpa.jpa.enums.*;
 import com.temp.jpa.jpa.jpautil.LargeTextConverter;
 import lombok.Getter;
 import lombok.Setter;

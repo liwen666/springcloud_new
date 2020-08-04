@@ -56,6 +56,12 @@ public class TableCodeConfigRepositoryTest {
     @Test
     public void insert() {
         /**
+         * 项目外
+         */
+
+
+
+        /**
          * 项目内导出
          */
         TableCodeConfig tableCodeConfig = new TableCodeConfig();
@@ -81,6 +87,55 @@ public class TableCodeConfigRepositoryTest {
 //        if (null == tableCodeConfigByTableCodeName) {
 //            tableCodeConfigRepository.save(tableCodeConfig);
 //        }
+        tableCodeConfig.setId(null);
+        tableCodeConfig.setCreateTime(new Date());
+        tableCodeConfig.setTableCodeName("res_resource_set_item");
+        tableCodeConfig.setTableCodeChinaName("资源配置表");
+        tableCodeConfig.setColumns("resource_id");
+        tableCodeConfig.setWhereSqlColumns("project_id");
+        tableCodeConfig.setHandleBeanName("defaultTableDataHandler");
+         tableCodeConfigByTableCodeName = tableCodeConfigRepository.findTableCodeConfigByTableCodeName(tableCodeConfig.getTableCodeName());
+        if (null == tableCodeConfigByTableCodeName) {
+            tableCodeConfigRepository.save(tableCodeConfig);
+        }
+
+//        项目外
+        tableCodeConfig.setId(null);
+        tableCodeConfig.setCreateTime(new Date());
+        tableCodeConfig.setTableCodeName("meta_data_object_info");
+        tableCodeConfig.setTableCodeChinaName("数据集信息表");
+        tableCodeConfig.setColumns("code");
+        tableCodeConfig.setWhereSqlColumns(null);
+        tableCodeConfig.setHandleBeanName("defaultTableDataHandler");
+        tableCodeConfigByTableCodeName = tableCodeConfigRepository.findTableCodeConfigByTableCodeName(tableCodeConfig.getTableCodeName());
+        if (null == tableCodeConfigByTableCodeName) {
+            tableCodeConfigRepository.save(tableCodeConfig);
+        }
+
+        tableCodeConfig.setId(null);
+        tableCodeConfig.setCreateTime(new Date());
+        tableCodeConfig.setTableCodeName("meta_model_object_info");
+        tableCodeConfig.setTableCodeChinaName("事件和模型对象信息表");
+        tableCodeConfig.setColumns("code");
+        tableCodeConfig.setWhereSqlColumns(null);
+        tableCodeConfig.setHandleBeanName("defaultTableDataHandler");
+        tableCodeConfigByTableCodeName = tableCodeConfigRepository.findTableCodeConfigByTableCodeName(tableCodeConfig.getTableCodeName());
+        if (null == tableCodeConfigByTableCodeName) {
+            tableCodeConfigRepository.save(tableCodeConfig);
+        }
+        tableCodeConfig.setId(null);
+        tableCodeConfig.setCreateTime(new Date());
+        tableCodeConfig.setTableCodeName("meta_topic_object_info");
+        tableCodeConfig.setTableCodeChinaName("统计模型信息表");
+        tableCodeConfig.setColumns("code");
+        tableCodeConfig.setIgnoreColumnName("resource_type");
+        tableCodeConfig.setIgnoreColumnValue("STRATEGY_FIELD");
+        tableCodeConfig.setWhereSqlColumns(null);
+        tableCodeConfig.setHandleBeanName("defaultTableDataHandler");
+        tableCodeConfigByTableCodeName = tableCodeConfigRepository.findTableCodeConfigByTableCodeName(tableCodeConfig.getTableCodeName());
+        if (null == tableCodeConfigByTableCodeName) {
+            tableCodeConfigRepository.save(tableCodeConfig);
+        }
 
 
 

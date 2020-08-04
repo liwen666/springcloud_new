@@ -69,6 +69,7 @@ public class TableDataExpOrImpService {
         for (TableCodeConfig tableCodeConfig : all) {
             String ck = getCheckSql(tableCodeConfig, whereParam);
             List<Map<String, Object>> maps = JdbcTemplateService.jdbcTemplate.queryForList(ck);
+
             maps.forEach(e -> {
                 if ((Long) e.get("num") != 1) {
                     TableDataImportOrExpResult<CodeCheck> codeCheck = new TableDataImportOrExpResult<>();
@@ -120,7 +121,7 @@ public class TableDataExpOrImpService {
                     }
                     if(!StringUtils.isEmpty(tableCodeConfig.getHandleBeanName())){
                         TableDataHandler bean = TableSpringUtil.getBean(tableCodeConfig.getHandleBeanName(), TableDataHandler.class);
-                        cd=bean.codeInit(e.get(col),tableCodeConfig.getTableCodeName());
+                        cd=bean.codeInit(tableCodeConfig.getTableCodeName(),col,e.get(col));
                     }else {
                         cd = e.get(col).toString();
                     }
@@ -140,10 +141,19 @@ public class TableDataExpOrImpService {
      * @return
      */
     private String getCodeDataSql(TableCodeConfig tableCodeConfig, Map<String, Object> whereParam) {
-        String[] whereSqls = tableCodeConfig.getWhereSqlColumns().split(",");
-        String wheresql = TableSqlBulider.getWhereSql(Arrays.asList(whereSqls), whereParam);
+        String wheresql = TableSqlBulider.getWhereSql(tableCodeConfig,Arrays.asList(whereSqls(tableCodeConfig)), whereParam);
         StringBuffer dataSql = new StringBuffer("SELECT *  FROM " + tableCodeConfig.getTableCodeName() + " " + wheresql);
         return dataSql.toString();
+    }
+
+    private String[] whereSqls(TableCodeConfig tableCodeConfig) {
+        String[] whereSqls;
+        if(!StringUtils.isEmpty(tableCodeConfig.getWhereSqlColumns())){
+            whereSqls = tableCodeConfig.getWhereSqlColumns().split(",");
+        }else {
+            whereSqls= new String[0];
+        }
+        return whereSqls;
     }
 
 
@@ -156,10 +166,10 @@ public class TableDataExpOrImpService {
     private String getErrorDataSql(TableCodeConfig tableCodeConfig, Map<String, Object> param) {
         ArrayList<String> objects = Lists.newArrayList();
         String[] split = tableCodeConfig.getColumns().split(",");
-        String[] whereSqls = tableCodeConfig.getWhereSqlColumns().split(",");
+        String[] whereSqls = whereSqls(tableCodeConfig);
         objects.addAll(Arrays.asList(whereSqls));
         objects.addAll(Arrays.asList(split));
-        String wheresql = TableSqlBulider.getWhereSql(objects, param);
+        String wheresql = TableSqlBulider.getWhereSql(tableCodeConfig,objects, param);
         StringBuffer checkSql = new StringBuffer("SELECT *  FROM " + tableCodeConfig.getTableCodeName() + " " + wheresql);
         return checkSql.toString();
     }
@@ -172,10 +182,10 @@ public class TableDataExpOrImpService {
      */
     private String getCheckSql(TableCodeConfig tableCodeConfig, Map<String, Object> whereParam) {
         String[] split = tableCodeConfig.getColumns().split(",");
-        String[] whereSqls = tableCodeConfig.getWhereSqlColumns().split(",");
+        String[] whereSqls = whereSqls(tableCodeConfig );
         String sql = TableSqlBulider.getSql(Arrays.asList(split));
-        String wheresql = TableSqlBulider.getWhereSql(Arrays.asList(whereSqls), whereParam);
-        StringBuffer checkSql = new StringBuffer("SELECT count(1) num ," + sql + " FROM `res_rule_info`  " + wheresql + "  group by  " + sql);
+        String wheresql = TableSqlBulider.getWhereSql(tableCodeConfig,Arrays.asList(whereSqls), whereParam);
+        StringBuffer checkSql = new StringBuffer("SELECT count(1) num ," + sql + " FROM "+tableCodeConfig.getTableCodeName()+"  " + wheresql + "  group by  " + sql);
         checkSql.append(" ORDER BY num;");
         return checkSql.toString();
     }
@@ -269,5 +279,9 @@ public class TableDataExpOrImpService {
 
     public void initRelationCache() {
         TableDataCodeCacheManager.relations = tableCodeRelationRepository.findAll().stream().filter(e -> e.isUsed()).collect(Collectors.groupingBy(TableCodeRelation::getPrimaryTableName));
+    }
+
+    public List<Map<String, Object>> prepareData(String prepareSql) {
+        return JdbcTemplateService.jdbcTemplate.queryForList(prepareSql);
     }
 }

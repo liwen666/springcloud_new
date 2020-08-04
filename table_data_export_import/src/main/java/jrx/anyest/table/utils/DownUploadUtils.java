@@ -9,6 +9,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -107,7 +108,7 @@ public class DownUploadUtils {
 
 
     public static Map<String, String> importData(InputStream fileInputStream) {
-        Map<String, String> data = new ConcurrentHashMap<>();
+        Map<String, String> data = new TreeMap<>();
         ZipInputStream zipInputStream = null;
         ByteArrayOutputStream byteArrayOutputStream = null;
         try {

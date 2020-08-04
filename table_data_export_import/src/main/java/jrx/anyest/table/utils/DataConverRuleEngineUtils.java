@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
 
 import javax.persistence.Table;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * <p>
@@ -176,5 +179,22 @@ public class DataConverRuleEngineUtils {
             }
         }
         return null;
+    }
+
+    /**
+     * 获取节点地址
+     */
+    public static String getValue(String name,int index) {
+        Pattern compile = Pattern.compile("([A-Za-z0-9_]+):([A-Za-z0-9_-]+)");
+        Matcher matcher = compile.matcher(name);
+        boolean matches = matcher.matches();
+        Assert.state(matches, "key不符合规则" + name);
+        return  matcher.group(index);
+    }
+
+    public static void main(String[] args) {
+        String aaa = "table:aaa";
+        System.out.println(getValue(aaa,1));
+        System.out.println(getValue(aaa,2));
     }
 }

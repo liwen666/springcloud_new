@@ -19,8 +19,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static com.temp.jpa.jpa.enums.DataTimeFormat.*;
-
 /**
  * |String|字符串|abc||
  * |Integer|整型|22||

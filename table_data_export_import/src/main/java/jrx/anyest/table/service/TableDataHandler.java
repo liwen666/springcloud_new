@@ -15,12 +15,14 @@ import java.util.Map;
  */
 public interface TableDataHandler {
 
-
     /**
-     * code初始化处理
+     *
+     * @param tableName 表名称
+     * @param columnName  列名称
+     * @param value 列值
+     * @return
      */
-
-    String codeInit(Object object,String tableName);
+    String codeInit(String tableName,String columnName,Object value);
 
     /**
      * 数据处理

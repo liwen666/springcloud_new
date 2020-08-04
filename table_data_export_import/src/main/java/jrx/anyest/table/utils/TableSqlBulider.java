@@ -2,6 +2,9 @@ package jrx.anyest.table.utils;
 
 import com.google.common.base.CaseFormat;
 import jrx.anyest.table.exception.TableDataConversionException;
+import jrx.anyest.table.jpa.entity.TableCodeConfig;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,9 +21,25 @@ import java.util.stream.Collectors;
  */
 public class TableSqlBulider {
     public static String getSql(Collection collection){
+        if(CollectionUtils.isEmpty(collection)){
+            return "''";
+        }
         StringBuffer stringBuffer = new StringBuffer();
         collection.stream().distinct().forEach(e -> {
-            stringBuffer.append(e + ",");
+                stringBuffer.append(e + ",");
+
+        });
+        return stringBuffer.toString().substring(0, stringBuffer.length() - 1);
+    }
+    public static String getIgnore(Collection collection){
+        StringBuffer stringBuffer = new StringBuffer();
+        collection.stream().distinct().forEach(e -> {
+            if(e instanceof  Integer){
+                stringBuffer.append(e + ",");
+            }else{
+                stringBuffer.append("'"+e+"',");
+            }
+
         });
         return stringBuffer.toString().substring(0, stringBuffer.length() - 1);
     }
@@ -43,7 +62,8 @@ public class TableSqlBulider {
         return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, string));
     }
 
-    public static String getWhereSql(Collection<String> whereSqls, Map<String, Object> whereParam) {
+    public static String getWhereSql(TableCodeConfig tableCodeConfig,Collection<String> whereSqls, Map<String, Object> whereParam) {
+        String ignoreColumnName = tableCodeConfig.getIgnoreColumnName();
         StringBuffer stringBuffer = new StringBuffer(" where 1=1 ");
         for(String column:whereSqls){
             String s = toLowerCamel(column);
@@ -56,6 +76,9 @@ public class TableSqlBulider {
             }else{
                 stringBuffer.append(" and "+column+"="+o);
             }
+        }
+        if(!StringUtils.isEmpty(ignoreColumnName)){
+            stringBuffer.append(" and "+ignoreColumnName+" not in ("+TableSqlBulider.getIgnore(Arrays.asList(tableCodeConfig.getIgnoreColumnValue().split(",")))+")");
         }
         return stringBuffer.toString();
     }

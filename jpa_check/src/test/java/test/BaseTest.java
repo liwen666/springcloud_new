@@ -1,6 +1,6 @@
 package test;
 
-import com.temp.jpa.ApplicationStart;
+import jrx.anyest.table.ApplicationStart;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
