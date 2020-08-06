@@ -1,6 +1,10 @@
 package jrx.anyest.table.service;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import jrx.anyest.table.jpa.entity.TableCodeConfig;
 import jrx.anyest.table.jpa.entity.TableCodeRelation;
+import jrx.anyest.table.jpa.entity.TableImportSort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,21 +30,31 @@ public class TableDataCodeCacheManager {
     /**
      * 数据导出code转换成id数据集合
      */
-    public static Map<String,Map<String, String>> codeToId = new ConcurrentHashMap<>();
+    public static Map<String, Map<String, String>> codeToId = new ConcurrentHashMap<>();
+    /**
+     * 表code配置信息
+     */
+    public static  Map<String, TableCodeConfig> tableCodeConfigs = new ConcurrentHashMap<>();
 
     /**
      * 数据导出code转换成id数据集合
      */
-    public static   Map<String, List<TableCodeRelation>> relations = new ConcurrentHashMap<>();
+    public static Map<String, List<TableCodeRelation>> relations = new ConcurrentHashMap<>();
+    /**
+     * 表数据导入顺序
+     */
+    public static List<TableImportSort> tableImportSorts = Lists.newArrayList();
 
 
     /**
      * 表主键
      */
-    public static   Map<String, String> tableKey ;
+    public static Map<String, String> tableKey;
 
-
-
+    /**
+     * 表字段类型
+     */
+    public static Map<String, Map<String, String>> tableColumns = Maps.newConcurrentMap();
 
 
 }

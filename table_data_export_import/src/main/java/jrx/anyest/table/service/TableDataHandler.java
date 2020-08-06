@@ -18,11 +18,11 @@ public interface TableDataHandler {
     /**
      *
      * @param tableName 表名称
-     * @param columnName  列名称
-     * @param value 列值
+     * @param data 数据对象
+     * @param param 数据的过滤条件
      * @return
      */
-    String codeInit(String tableName,String columnName,Object value);
+    boolean codeInit(String tableName,Map<String ,Object> data,Map <String ,Object> param);
 
     /**
      * 数据处理

@@ -27,18 +27,21 @@ public class TableConversionKeyRepositoryTest
         tableConversionKey.setConversionKey("category_id");
         tableConversionKey.setHandleBeanName("defaultTableDataHandler");
         TableConversionKey tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
-        if (null == tableConversionKeyByTableCodeNameAndConversionKey) {
-            tableConversionKeyRepository.save(tableConversionKey);
+        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
         }
+        tableConversionKeyRepository.save(tableConversionKey);
+
         tableConversionKey.setId(null);
-        tableConversionKey.setTableCodeName("res_rule_info");
+        tableConversionKey.setTableCodeName("res_rule");
         tableConversionKey.setTableCodeChinaName("规则信息表");
-        tableConversionKey.setConversionKey("project_id");
+        tableConversionKey.setConversionKey("resource_id");
         tableConversionKey.setHandleBeanName("defaultTableDataHandler");
         tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
-        if (null == tableConversionKeyByTableCodeNameAndConversionKey) {
-            tableConversionKeyRepository.save(tableConversionKey);
+        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
         }
+        tableConversionKeyRepository.save(tableConversionKey);
 
     }
 

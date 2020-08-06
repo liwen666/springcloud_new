@@ -1,7 +1,9 @@
 package jrx.anyest.table.service;
 
 import com.google.common.base.CaseFormat;
+import com.google.common.collect.Lists;
 import jrx.anyest.table.jpa.sql.PackageScanUtil;
+import jrx.anyest.table.utils.TableSqlBulider;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.util.Arrays;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -43,8 +45,8 @@ public class JdbcTemplateService {
 
     public static void save(Object object,String tableName)  {
         Field[] fields = object.getClass().getDeclaredFields();
-        String[] cols = Arrays.asList(fields).stream().filter(e -> !e.getName().equals("log")).map(e -> e.getName()).collect(Collectors.toList()).toArray(new String[0]);
-        Object[] vals = Arrays.asList(fields).stream().filter(e -> !e.getName().equals("log")).map(e -> {
+        List<String> cols = Arrays.asList(fields).stream().filter(e -> !e.getName().equals("log")).map(e -> e.getName()).collect(Collectors.toList());
+        Object[] values = Arrays.asList(fields).stream().filter(e -> !e.getName().equals("log")).map(e -> {
             try {
                 e.setAccessible(true);
                 return e.get(object);
@@ -54,12 +56,30 @@ public class JdbcTemplateService {
             }
         }).collect(Collectors.toList()).toArray(new Object[0]);
         String insertSql = getInsertSql(cols, tableName);
-        jdbcTemplate.update(insertSql, vals);
+        jdbcTemplate.update(insertSql, values);
+
+    }
+
+    public synchronized static void saveByMap(String tableName, Map<String,Object> data)  {
+        Map<String, String> stringIntegerMap = TableDataCodeCacheManager.tableColumns.get(tableName);
+        ArrayList<String> columns = Lists.newArrayList();
+        ArrayList<Object> values = Lists.newArrayList();
+        data.forEach((k,v)->{
+            columns.add(k);
+            /**
+             * 根据表结构构建数据对象
+             */
+            String s = stringIntegerMap.get(k);
+           Object value = TableSqlBulider.getColumnVaule(s,v);
+            values.add(value);
+            });
+        String insertSql = getInsertSql(columns, tableName);
+        jdbcTemplate.update(insertSql, values.toArray());
 
     }
 
 
-    public synchronized static String getInsertSql(String[] columnNames, String tableName) {
+    public  static String getInsertSql(Collection<String> columnNames, String tableName) {
         StringBuffer insert = new StringBuffer(" INSERT INTO " + tableName + "(");
         StringBuffer value = new StringBuffer(" VALUES (");
 

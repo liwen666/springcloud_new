@@ -1,28 +1,31 @@
 package jrx.anyest.table.jpa.dto;
 
+import com.google.common.collect.Lists;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
 import java.util.Map;
 
-/**
- * <p>
- * 描述 code检查结果集
- * </p>
- *
- * @author lw
- * @since 2019/5/26 23:40
- */
+
+ /**
+  * <p>
+  *  描述
+  * </p>
+  *
+  * @author lw
+  * @since  2020/8/5 16:16
+  */
+ @Getter
+ @Setter
 public class ImportDataResult {
-    /**
-     * 导入成功的数据数量
-     */
-    private Integer successNum;
-    /**
-     * 错误数据数量
-     */
-    private Integer errorNum;
-    /**
-     * 错误消息
-     * key为原始数据的id
-     * value 为错误提示消息
-     */
-    private Map<String,String> errorData;
+     /**
+      * 导入结果
+      */
+    private boolean result=true;
+     /**
+      * 导入情况明细
+      */
+    private List<ImportData> importData= Lists.newArrayList();
+
 }

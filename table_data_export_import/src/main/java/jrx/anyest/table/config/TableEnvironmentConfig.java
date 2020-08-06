@@ -1,6 +1,12 @@
 package jrx.anyest.table.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Maps;
+import jrx.anyest.table.jpa.dao.TableCodeConfigRepository;
+import jrx.anyest.table.jpa.entity.TableCodeConfig;
+import jrx.anyest.table.jpa.enums.TableDataTypeEnum;
+import jrx.anyest.table.listener.ITableImportListener;
 import jrx.anyest.table.service.JdbcTemplateService;
 import jrx.anyest.table.service.TableDataCodeCacheManager;
 import jrx.anyest.table.service.TableDataExpOrImpService;
@@ -19,8 +25,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCountCallbackHandler;
 
 import javax.sql.DataSource;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -84,10 +92,49 @@ public class TableEnvironmentConfig implements EnvironmentAware, BeanDefinitionR
             dataSource.setTestOnBorrow(true);
             JdbcTemplateService.jdbcTemplate = new JdbcTemplate(dataSource);
         }
-        logger.info("初始化数据库主键缓存");
+
+        initCacheData();
+
+    }
+
+    /**
+     * 系统缓存初始化方法，有特殊情况可以手动刷新
+     */
+    public void initCacheData() {
         String datasource = TableSpringUtil.getBean(TablePropertiesConfig.class).getDatasource();
         List<Map<String, Object>> maps = JdbcTemplateService.jdbcTemplate.queryForList("select  table_name,column_name from  INFORMATION_SCHEMA.KEY_COLUMN_USAGE  t where t.table_schema='" + datasource + "'");
-        Map<String, String > collect = maps.stream().collect(Collectors.toMap(e ->(String) e.get("table_name"), e ->(String) e.get("column_name")));
-        TableDataCodeCacheManager.tableKey=collect;
+        Map<String, String> collect = maps.stream().collect(Collectors.toMap(e -> (String) e.get("table_name"), e -> (String) e.get("column_name")));
+        TableDataCodeCacheManager.tableKey = collect;
+        logger.info("----------初始化数据库主键缓存已完成 database:{}-------------", datasource);
+        initColumnType(datasource, TableDataTypeEnum.MYSQL);
+        logger.info("-----------初始化表字段类型已完成---------------");
+        Collection<ITableImportListener> values = TableSpringUtil.getBeansByInteface(ITableImportListener.class).values();
+        TableDataExpOrImpService tableDataExpOrImpService = TableSpringUtil.getBean(TableDataExpOrImpService.class);
+        tableDataExpOrImpService.setTableImportListeners(values);
+        logger.info("-----------装配数据处理监听器已完成: size:{}------------", values.size());
+        TableCodeConfigRepository tableCodeConfigRepository = TableSpringUtil.getBean(TableCodeConfigRepository.class);
+        TableDataCodeCacheManager.tableCodeConfigs = tableCodeConfigRepository.findAll().stream().filter(TableCodeConfig::isUsed).collect(Collectors.toMap(TableCodeConfig::getTableCodeName, Function.identity()));
+        logger.info("-----------初始化code系统配置已完成: size:{}------------", TableDataCodeCacheManager.tableCodeConfigs.size());
+    }
+
+    private void initColumnType(String datasource, TableDataTypeEnum tableDataTypeEnum) {
+        List<String> tables = JdbcTemplateService.jdbcTemplate.queryForList("select table_name from information_schema.tables where table_schema='" + datasource + "'", String.class);
+        /**
+         * 获取表字段类型
+         */
+        tables.forEach(table -> {
+            List<Map<String, Object>> maps;
+            if (tableDataTypeEnum == TableDataTypeEnum.MYSQL) {
+                maps = JdbcTemplateService.jdbcTemplate.queryForList("desc " + table);
+            } else {
+                throw new RuntimeException("暂不支持其他数据库！");
+            }
+            if (TableDataCodeCacheManager.tableColumns.get(table) == null) {
+                TableDataCodeCacheManager.tableColumns.put(table, Maps.newConcurrentMap());
+            }
+            maps.forEach(column -> {
+                TableDataCodeCacheManager.tableColumns.get(table).put((String) column.get("Field"), (String) column.get("Type"));
+            });
+        });
     }
 }

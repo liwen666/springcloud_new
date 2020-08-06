@@ -182,10 +182,10 @@ public class DataConverRuleEngineUtils {
     }
 
     /**
-     * 获取节点地址
+     * 获取表名称
      */
     public static String getValue(String name,int index) {
-        Pattern compile = Pattern.compile("([A-Za-z0-9_]+):([A-Za-z0-9_-]+)");
+        Pattern compile = Pattern.compile("([A-Za-z0-9_]+)@([A-Za-z0-9_-]+)");
         Matcher matcher = compile.matcher(name);
         boolean matches = matcher.matches();
         Assert.state(matches, "key不符合规则" + name);

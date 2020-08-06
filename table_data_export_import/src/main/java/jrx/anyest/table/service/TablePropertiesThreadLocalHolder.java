@@ -12,7 +12,7 @@ import java.util.Map;
  * @author lw
  * @since  2020/6/23 18:23
  */
-public class PropertiesThreadLocalHolder {
+public class TablePropertiesThreadLocalHolder {
     private final static ThreadLocal<Map<String, String>> localProperties = new ThreadLocal<>();
 
     public static void addProperties(String key, String value) {

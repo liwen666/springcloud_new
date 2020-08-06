@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import jrx.anyest.table.jpa.enums.HandlerParam;
 import jrx.anyest.table.service.TableDataHandler;
+import jrx.anyest.table.utils.TableSqlBulider;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -28,12 +29,28 @@ import static org.codehaus.groovy.runtime.DefaultGroovyMethods.retainAll;
 @Service("defaultTableDataHandler")
 public class DefaultTableDataHandler implements TableDataHandler {
     @Override
-    public String codeInit(String tableName, String columnName, Object value) {
+    public boolean codeInit(String tableName, Map<String, Object> data, Map<String, Object> param) {
         if (tableName.equals("res_resource_set_item")) {
 
         }
+        if (tableName.equals("meta_category")) {
+            /**
+             * 过滤掉不是当前项目的分类
+             */
+            if ("RULE".equals(data.get("category_type"))||"SCORECARD".equals(data.get("category_type"))||"RULETREE".equals(data.get("category_type"))
+            ||"STRATEGY".equals(data.get("category_type"))||"RULESET".equals(data.get("category_type"))||"SCRIPT".equals(data.get("category_type"))
+                    ||"MATRIX".equals(data.get("category_type"))) {
+                for(Map.Entry<String,Object> map:param.entrySet()){
+                    Object o = data.get(TableSqlBulider.toUnderScore(map.getKey()));
+                    if(o!=null&&!o.toString().equals(map.getValue().toString())){
+                        return false;
+                    }
+                }
+            }
 
-        return value.toString();
+        }
+
+        return true;
     }
 
     @Override
@@ -43,7 +60,8 @@ public class DefaultTableDataHandler implements TableDataHandler {
     }
 
     @Override
-    public List<Map<String, Object>> filterData(String tableName, List<Map<String, Object>> data, Map<String, Object> exetraParam) {
+    public List<Map<String, Object>> filterData(String
+                                                        tableName, List<Map<String, Object>> data, Map<String, Object> exetraParam) {
         /**
          * 针对项目内的表数据过滤
          */
@@ -73,7 +91,7 @@ public class DefaultTableDataHandler implements TableDataHandler {
             case "meta_topic_object":
                 List<Map<String, Object>> result = Lists.newArrayList();
                 Map<Object, List<Map<String, Object>>> resourceObj = data.stream().collect(Collectors.groupingBy(e -> e.get("resource_id")));
-                resourceObj.forEach((k,v)->{
+                resourceObj.forEach((k, v) -> {
                     List<Map<String, Object>> version = v.stream().sorted(Comparator.comparing(e -> (Integer) e.get("version"), (x, y) -> {
                         if (x > y) {
                             return -1;

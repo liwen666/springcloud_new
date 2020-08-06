@@ -100,8 +100,6 @@ public class TableCodeRelationRepositoryTest {
         if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
             tableCodeRelationRepository.save(tableCodeRelation);
         }
-
-
         tableCodeRelation.setId(null);
         tableCodeRelation.setPrimaryCodeKey("data_source_id");
         tableCodeRelation.setPrimaryTableChinaName("数据集信息表");
@@ -220,6 +218,7 @@ public class TableCodeRelationRepositoryTest {
             tableCodeRelationRepository.save(tableCodeRelation);
         }
 
+
         tableCodeRelation.setId(null);
         tableCodeRelation.setPrimaryCodeKey("primary_resource_id");
         tableCodeRelation.setPrimaryTableChinaName("统计模型信息表");
@@ -233,6 +232,18 @@ public class TableCodeRelationRepositoryTest {
             tableCodeRelationRepository.save(tableCodeRelation);
         }
 
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("category_id");
+        tableCodeRelation.setPrimaryTableChinaName("统计模型版本表");
+        tableCodeRelation.setPrimaryTableName("meta_topic_object");
+        tableCodeRelation.setSlaveTableChinaName("分类表");
+        tableCodeRelation.setSlaveTableName("meta_category");
+        tableCodeRelation.setSlaveCodeKey("category_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
 
 
 
