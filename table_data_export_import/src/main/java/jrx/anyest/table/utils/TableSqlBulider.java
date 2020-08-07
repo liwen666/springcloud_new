@@ -4,6 +4,9 @@ import com.google.common.base.CaseFormat;
 import jrx.anyest.table.exception.TableDataConversionException;
 import jrx.anyest.table.jpa.entity.TableCodeConfig;
 import jrx.anyest.table.service.JdbcTemplateService;
+import jrx.anyest.table.service.TableDataExpOrImpService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowCountCallbackHandler;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -23,6 +26,9 @@ import java.util.stream.Collectors;
  * @since 2019/5/26 23:40
  */
 public class TableSqlBulider {
+
+    public static Logger logger = LoggerFactory.getLogger(TableSqlBulider.class);
+
     public static String getSql(Collection collection){
         if(CollectionUtils.isEmpty(collection)){
             return "''";

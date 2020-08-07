@@ -3,8 +3,11 @@ package jrx.anyest.table.service.handler;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import jrx.anyest.table.constant.TableConstants;
 import jrx.anyest.table.jpa.enums.HandlerParam;
+import jrx.anyest.table.service.TableDataCodeCacheManager;
 import jrx.anyest.table.service.TableDataHandler;
+import jrx.anyest.table.service.TablePropertiesThreadLocalHolder;
 import jrx.anyest.table.utils.TableSqlBulider;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +43,12 @@ public class DefaultTableDataHandler implements TableDataHandler {
             if ("RULE".equals(data.get("category_type"))||"SCORECARD".equals(data.get("category_type"))||"RULETREE".equals(data.get("category_type"))
             ||"STRATEGY".equals(data.get("category_type"))||"RULESET".equals(data.get("category_type"))||"SCRIPT".equals(data.get("category_type"))
                     ||"MATRIX".equals(data.get("category_type"))) {
+                /**
+                 * 如果时项目外导出不需要project_id,初始化时排除所有项目内的分类数据
+                 */
+                if(!param.containsKey("projectId")){
+                   return false;
+                }
                 for(Map.Entry<String,Object> map:param.entrySet()){
                     Object o = data.get(TableSqlBulider.toUnderScore(map.getKey()));
                     if(o!=null&&!o.toString().equals(map.getValue().toString())){
@@ -51,6 +60,17 @@ public class DefaultTableDataHandler implements TableDataHandler {
         }
 
         return true;
+    }
+
+    @Override
+    public String codeProcess(String tableName, String column, Object value) {
+        String tableCodeUuid = TablePropertiesThreadLocalHolder.getProperties("table_code_uuid");
+        //分类表的二次code转换
+        if("meta_category".equals(tableName)&&"parent_id".equals(column)&&(Integer) value!=0){
+           return  TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get(tableName+ TableConstants.CODE_SEPATATION+value);
+        }
+
+        return value.toString();
     }
 
     @Override

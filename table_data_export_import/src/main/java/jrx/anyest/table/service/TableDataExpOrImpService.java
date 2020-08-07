@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -46,7 +47,7 @@ import static jrx.anyest.table.service.JdbcTemplateService.jdbcTemplate;
 public class TableDataExpOrImpService {
 
     private Collection<ITableImportListener> tableImportListeners;
-    public static TableTimeMap<String, DataCheckResult> tabeDataCache = new TableTimeMap<>();
+    public static TableTimeMap<String, DataCheckResult> tableDataCache = new TableTimeMap<>();
 
 
     public void setTableImportListeners(Collection<ITableImportListener> tableImportListeners) {
@@ -112,6 +113,7 @@ public class TableDataExpOrImpService {
     }
 
     public void initCodeCache(Map<String, Object> whereParam) {
+        logger.info("开始初始化code缓存信息");
         /**
          * 查询所有表的code规则配置
          */
@@ -119,6 +121,13 @@ public class TableDataExpOrImpService {
         TableDataCodeCacheManager.idToCode.put(codeUuid, Maps.newConcurrentMap());
         TableDataCodeCacheManager.codeToId.put(codeUuid, Maps.newConcurrentMap());
         List<TableCodeConfig> all = tableCodeConfigRepository.findAll().stream().filter(e -> e.isUsed()).collect(Collectors.toList());
+        /**
+         * 如果是项目外就不需要projectId  把Code规则去掉
+         */
+        if (null == whereParam.get("projectId")) {
+            logger.info("-------------执行项目外导出code初始化---------");
+            all = all.stream().filter(e -> !"project_id".equals(e.getWhereSqlColumns())).collect(Collectors.toList());
+        }
         for (TableCodeConfig tableCodeConfig : all) {
             String keyName = TableDataCodeCacheManager.tableKey.get(tableCodeConfig.getTableCodeName());
             String ck = getCodeDataSql(tableCodeConfig, whereParam);
@@ -139,7 +148,12 @@ public class TableDataExpOrImpService {
                     if (null == e.get(col)) {
                         continue;
                     }
-                    cd = e.get(col).toString();
+                    if (!StringUtils.isEmpty(tableCodeConfig.getHandleBeanName())) {
+                        TableDataHandler bean = TableSpringUtil.getBean(tableCodeConfig.getHandleBeanName(), TableDataHandler.class);
+                        cd = bean.codeProcess(tableCodeConfig.getTableCodeName(), col, e.get(col));
+                    } else {
+                        cd = e.get(col).toString();
+                    }
                     code.append(cd + TableConstants.CODE_SEPATATION);
                 }
                 TableDataCodeCacheManager.idToCode.get(codeUuid).put(id, code.toString().substring(0, code.length() - 1));
@@ -163,6 +177,12 @@ public class TableDataExpOrImpService {
     public String getCodeDataSql(TableCodeConfig tableCodeConfig, Map<String, Object> whereParam) {
         String where = TableSqlBulider.getWhereSql(tableCodeConfig, Arrays.asList(getWhere(tableCodeConfig)), whereParam);
         StringBuffer dataSql = new StringBuffer("SELECT *  FROM " + tableCodeConfig.getTableCodeName() + " " + where);
+        /**
+         * 针对分类表需要做分类排序，先硬编码有空再弄
+         */
+        if (tableCodeConfig.getTableCodeName().equals("meta_category")) {
+            return dataSql.toString() + " ORDER BY parent_id asc";
+        }
         return dataSql.toString();
     }
 
@@ -310,103 +330,71 @@ public class TableDataExpOrImpService {
     /**
      * 导入数据
      */
-    public ImportDataResult importData(String dataKey) {
-        Connection conn = null;
-        try {
-            conn = jdbcTemplate.getDataSource().getConnection();
-        } catch (SQLException e) {
-            logger.error("获取连接失败" + e.getMessage());
-        }
-        boolean ac = false;
-        try {
-            ac = conn.getAutoCommit();
-            conn.setAutoCommit(false);
-        } catch (SQLException e) {
-            logger.error("修改jdbctemplete事务失败");
+    @Transactional
+    public void importData(String dataKey, ImportDataResult importDataResult) {
+        DataCheckResult dataCheckResult = tableDataCache.get(dataKey);
+        logger.info("--------准备导入数据----------");
+        Map<String, List<JSONObject>> importDataMap = dataCheckResult.getImportDataMap();
+        if (CollectionUtils.isEmpty(importDataMap)) {
+            throw new TableDataImportException("数据不存在，请重新导入！");
         }
 
 
-        ImportDataResult importDataResult = new ImportDataResult();
-        try {
-            DataCheckResult dataCheckResult = tabeDataCache.get(dataKey);
-            Map<String, List<JSONObject>> importDataMap = dataCheckResult.getImportDataMap();
-            if (CollectionUtils.isEmpty(importDataMap)) {
-                throw new TableDataImportException("数据不存在，请重新导入！");
-            }
-
-
-            /**
-             * 开始数据导入
-             */
-            List<TableImportSort> collect = tableImportSortRepository.findAll().stream().sorted(Comparator.comparing(TableImportSort::getOrderId)).collect(Collectors.toList());
-            List<String> tableNames = collect.stream().map(TableImportSort::getTableCodeName).collect(Collectors.toList());
-            Set<String> set = importDataMap.keySet();
-            boolean b = tableNames.containsAll(set);
-            if (!b) {
-                StringBuffer missTables = new StringBuffer();
-                for (String str : set) {
-                    if (!tableNames.contains(str)) {
-                        missTables.append(str + " ");
-                    }
+        /**
+         * 开始数据导入
+         */
+        List<TableImportSort> collect = tableImportSortRepository.findAll().stream().sorted(Comparator.comparing(TableImportSort::getOrderId)).collect(Collectors.toList());
+        List<String> tableNames = collect.stream().map(TableImportSort::getTableCodeName).collect(Collectors.toList());
+        Set<String> set = importDataMap.keySet();
+        boolean b = tableNames.containsAll(set);
+        if (!b) {
+            StringBuffer missTables = new StringBuffer();
+            for (String str : set) {
+                if (!tableNames.contains(str)) {
+                    missTables.append(str + " ");
                 }
-                throw new TableDataImportException("存在表数据不在TableImportSort表排序列表中! 缺失的表有： " + missTables.toString());
             }
+            throw new TableDataImportException("存在表数据不在TableImportSort表排序列表中! 缺失的表有： " + missTables.toString());
+        }
 
-            collect.forEach(e -> {
-                List<JSONObject> tableDatas = importDataMap.get(e.getTableCodeName());
-                if (!CollectionUtils.isEmpty(tableDatas)) {
-                    ImportData importData = new ImportData();
-                    Map<String, String> errorMsgs = Maps.newConcurrentMap();
-                    List<JSONObject> successObj = Lists.newArrayList();
-                    List<JSONObject> errorObj = Lists.newArrayList();
-                    circleSaveDatas(e.getTableCodeName(), tableDatas, successObj, errorObj, errorMsgs, dataCheckResult);
-                    importData.setTableName(e.getTableCodeName());
-                    importData.setSuccessNum(successObj.size());
-                    importData.setErrorNum(errorObj.size());
-                    if (importData.getErrorNum() != 0) {
-                        importDataResult.setResult(false);
-                    }
-                    importDataResult.getImportData().add(importData);
+        collect.forEach(e -> {
+            List<JSONObject> tableDatas = importDataMap.get(e.getTableCodeName());
+            if (!CollectionUtils.isEmpty(tableDatas)) {
+                ImportData importData = new ImportData();
+                Map<String, String> errorMsgs = Maps.newConcurrentMap();
+                List<JSONObject> successObj = Lists.newArrayList();
+                List<JSONObject> errorObj = Lists.newArrayList();
+                circleSaveDatas(e.getTableCodeName(), tableDatas, successObj, errorObj, errorMsgs, dataCheckResult);
+                importData.setTableName(e.getTableCodeName());
+                importData.setSuccessNum(successObj.size());
+                importData.setErrorNum(errorObj.size());
+                importData.setErrorData(errorMsgs);
+                if (importData.getErrorNum() != 0) {
+                    importDataResult.setResult(false);
                 }
-            });
+                importDataResult.getImportData().add(importData);
+            }
+        });
 
-            /**
-             * 数据导入后置处理
-             */
-            if (!CollectionUtils.isEmpty(tableImportListeners)) {
-                tableImportListeners.forEach(e -> {
-                    importDataMap.forEach((k, v) -> {
-                        v.forEach(x -> {
-                            e.after(k, x);
-                        });
+        /**
+         * 数据导入后置处理
+         */
+        if (!CollectionUtils.isEmpty(tableImportListeners)) {
+            tableImportListeners.forEach(e -> {
+                importDataMap.forEach((k, v) -> {
+                    v.forEach(x -> {
+                        e.after(k, x);
                     });
                 });
-            }
-
-//            if(importDataResult.isResult()){
-//                conn.commit();
-//            }else{
-            conn.rollback();
-//            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                conn.setAutoCommit(ac);
-            } catch (SQLException e) {
-                logger.error("恢复事务状态异常！");
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    logger.error("connect close exception");
-                }
-            }
-            tabeDataCache.remove(dataKey);
+            });
         }
-        return importDataResult;
+        if (!importDataResult.isResult()) {
+            tableDataCache.remove(dataKey);
+            throw new TableDataImportException("导入失败");
+        }
+        tableDataCache.remove(dataKey);
     }
+
 
     /**
      * 此方法正对一张表数据互相引用
@@ -418,7 +406,9 @@ public class TableDataExpOrImpService {
      * @param errorMsgs
      * @param dataCheckResult
      */
-    private void circleSaveDatas(String tableName, List<JSONObject> tableDatas, List<JSONObject> successObj, List<JSONObject> errorObj, Map<String, String> errorMsgs, DataCheckResult dataCheckResult) {
+    private void circleSaveDatas(String
+                                         tableName, List<JSONObject> tableDatas, List<JSONObject> successObj, List<JSONObject> errorObj, Map<String, String> errorMsgs, DataCheckResult
+                                         dataCheckResult) {
         if (tableDatas.size() == successObj.size() + errorObj.size()) {
             logger.info("-------表数据保存结束--------tableName:{},successNum:{},errorNum:{},errorMsg:{}", tableName, successObj.size(), errorObj.size(), JSON.toJSONString(errorMsgs));
             return;
@@ -442,7 +432,7 @@ public class TableDataExpOrImpService {
                 } catch (Exception e) {
                     logger.error("保存数据异常，tableName:{},key,{} errorMsg,{}", tableName, x.get(key), e.getMessage());
                     errorObj.add(x);
-                    errorMsgs.put(key, e.getMessage());
+                    errorMsgs.put(x.get(key).toString(), e.getMessage());
                 }
             }
             circleSaveDatas(tableName, tableDatas, successObj, errorObj, errorMsgs, dataCheckResult);
@@ -496,7 +486,7 @@ public class TableDataExpOrImpService {
             }
             importDataMap.get(tableName).add(JSON.parseObject(v));
         });
-        tabeDataCache.put(tableCodeUuid, dataCheckResult);
+        tableDataCache.put(tableCodeUuid, dataCheckResult);
         dataCheckResult.setImportDataMap(importDataMap);
         dataCheckResult.setUpdateDataMap(updateDataMap);
         dataCheckResult.setInsertDataMap(insertDataMap);

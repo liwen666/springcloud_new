@@ -6,10 +6,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import jrx.anyest.table.ApplicationStart;
 import jrx.anyest.table.constant.TableConstants;
-import jrx.anyest.table.jpa.dto.CodeCheck;
-import jrx.anyest.table.jpa.dto.DataCheckResult;
-import jrx.anyest.table.jpa.dto.ImportDataResult;
-import jrx.anyest.table.jpa.dto.TableDataImportOrExpResult;
+import jrx.anyest.table.jpa.dto.*;
 import jrx.anyest.table.utils.DownUploadUtils;
 import jrx.anyest.table.utils.TableIdGenerator;
 import lombok.extern.slf4j.Slf4j;
@@ -81,7 +78,7 @@ public class TableDataExpOrImpServiceTest {
          * 初始化code缓存信息
          */
         Map<String, Object> map = new HashMap();
-        map.put("projectId", 950);
+//        map.put("projectId", 950);
         map.put("contentCode", 15029);
         String next = TableIdGenerator.getNext();
         try {
@@ -120,6 +117,7 @@ public class TableDataExpOrImpServiceTest {
         Map<String, Map<String, Map<String, Object>>> dataMap = new ConcurrentHashMap<>();
         Map<String, Object> mapParam = new HashMap();
         mapParam.put("projectId", projectId);
+        mapParam.put("contentCode", 15029);
         String next = TableIdGenerator.getNext();
         try {
             TablePropertiesThreadLocalHolder.addProperties("table_code_uuid", next);
@@ -260,8 +258,21 @@ public class TableDataExpOrImpServiceTest {
         Integer projectId = 335;
         Map<String, Object> mapParam = new HashMap();
         mapParam.put("projectId", projectId);
+        mapParam.put("contentCode", 15029);
         tableDataExpOrImpService.initCodeCache(mapParam);
-        ImportDataResult importDataResult = tableDataExpOrImpService.importData(tableCodeUuid);
+        ImportDataResult importResult = new ImportDataResult();
+
+        try {
+            tableDataExpOrImpService.importData(tableCodeUuid,importResult);
+        } catch (Exception e) {
+            List<ImportData> importData = importResult.getImportData();
+            for(ImportData importData1:importData){
+                if(importData1.getErrorNum()!=0){
+                    log.error("[---导入失败数据---]tableName:{},errorMsg:{}",importData1.getTableName(),JSON.toJSONString(importData1.getErrorData()));
+                }
+            }
+        }
+        System.out.println(importResult);
 
     }
 
@@ -275,6 +286,7 @@ public class TableDataExpOrImpServiceTest {
             TablePropertiesThreadLocalHolder.addProperties("table_code_uuid", next);
             Integer projectId = 335;
             Map<String, Object> mapParam = new HashMap();
+            mapParam.put("contentCode", 15029);
             mapParam.put("projectId", projectId);
             tableDataExpOrImpService.initCodeCache(mapParam);
             File file = new File("D:\\workspace\\springcloud_new\\table_data_export_import\\src\\test\\java\\jrx\\anyest\\table\\service\\测试数据.zip");

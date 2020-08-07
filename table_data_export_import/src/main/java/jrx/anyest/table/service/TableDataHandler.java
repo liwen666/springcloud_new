@@ -25,6 +25,15 @@ public interface TableDataHandler {
     boolean codeInit(String tableName,Map<String ,Object> data,Map <String ,Object> param);
 
     /**
+     * code 需要要做二次转换时用到
+     * @param tableName
+     * @param column
+     * @param value
+     * @return
+     */
+    String codeProcess(String tableName,String column,Object value);
+
+    /**
      * 数据处理
      */
 

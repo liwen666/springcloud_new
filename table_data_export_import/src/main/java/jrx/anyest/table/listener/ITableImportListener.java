@@ -15,6 +15,7 @@ import java.util.Map;
 public interface ITableImportListener {
     /**
      * 数据入库前置数据处理
+     * 主要做code的转换处理
      * @param tableName
      * @param data
      * @param dataCheckResult
