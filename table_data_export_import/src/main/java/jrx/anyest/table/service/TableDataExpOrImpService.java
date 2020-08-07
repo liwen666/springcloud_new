@@ -12,6 +12,7 @@ import jrx.anyest.table.jpa.dto.*;
 import jrx.anyest.table.jpa.entity.TableCodeConfig;
 import jrx.anyest.table.jpa.entity.TableCodeRelation;
 import jrx.anyest.table.jpa.entity.TableImportSort;
+import jrx.anyest.table.jpa.enums.FieldType;
 import jrx.anyest.table.listener.ITableImportListener;
 import jrx.anyest.table.utils.DataConverRuleEngineUtils;
 import jrx.anyest.table.utils.TableSpringUtil;
@@ -143,6 +144,10 @@ public class TableDataExpOrImpService {
                 }
                 StringBuffer code = new StringBuffer(tableCodeConfig.getTableCodeName() + TableConstants.CODE_SEPATATION);
                 String id = tableCodeConfig.getTableCodeName() + TableConstants.CODE_SEPATATION + e.get(keyName);
+                String bid = null;
+                if (tableCodeConfig.getTableCodeName().equals("meta_object_field")) {
+                    bid = FieldType.valueOf((String) e.get("field_type")).name() + id;
+                }
                 for (String col : columns.split(TableConstants.ID_SEPATATION)) {
                     String cd;
                     if (null == e.get(col)) {
@@ -155,6 +160,10 @@ public class TableDataExpOrImpService {
                         cd = e.get(col).toString();
                     }
                     code.append(cd + TableConstants.CODE_SEPATATION);
+                }
+                if (bid != null) {
+                    TableDataCodeCacheManager.idToCode.get(codeUuid).put(bid, code.toString().substring(0, code.length() - 1));
+                    TableDataCodeCacheManager.codeToId.get(codeUuid).put(code.toString().substring(0, code.length() - 1), bid);
                 }
                 TableDataCodeCacheManager.idToCode.get(codeUuid).put(id, code.toString().substring(0, code.length() - 1));
                 TableDataCodeCacheManager.codeToId.get(codeUuid).put(code.toString().substring(0, code.length() - 1), id);
@@ -227,6 +236,14 @@ public class TableDataExpOrImpService {
         String[] whereSqls = getWhere(tableCodeConfig);
         String sql = TableSqlBulider.getSql(Arrays.asList(split));
         String where = TableSqlBulider.getWhereSql(tableCodeConfig, Arrays.asList(whereSqls), whereParam);
+        /**
+         * 分类信息表特殊处理
+         */
+        if (whereParam.get("projectId") != null && tableCodeConfig.getTableCodeName().equals("meta_category")) {
+            where = where + "  and project_id=" + whereParam.get("project_id");
+        } else if (tableCodeConfig.getTableCodeName().equals("meta_category")) {
+            where = where + "  and category_type not in('RULE','SCORECARD','RULETREE','STRATEGY','RULESET','SCRIPT,'MATRIX'')";
+        }
         StringBuffer checkSql = new StringBuffer("SELECT count(1) num ," + sql + " FROM " + tableCodeConfig.getTableCodeName() + "  " + where + "  group by  " + sql);
         checkSql.append(" ORDER BY num;");
         return checkSql.toString();
@@ -415,6 +432,9 @@ public class TableDataExpOrImpService {
         }
         tableDatas.forEach(x -> {
             String key = TableDataCodeCacheManager.tableKey.get(tableName);
+            /**
+             * 递归查找满足条件的数据然后入库，直到所有数据全部入库或失败为止
+             */
             boolean flag = checkDataConversionKeys(tableName, x);
             if (flag) {
                 /**
@@ -439,7 +459,7 @@ public class TableDataExpOrImpService {
         });
     }
 
-    private boolean checkDataConversionKeys(String tableName, JSONObject x) {
+    private boolean checkDataConversionKeys(String tableName, JSONObject data) {
         /**
          * 检查code缓存是否存在所有要转化的key
          */

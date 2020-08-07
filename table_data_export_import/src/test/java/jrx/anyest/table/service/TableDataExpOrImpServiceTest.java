@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import jrx.anyest.table.ApplicationStart;
 import jrx.anyest.table.constant.TableConstants;
+import jrx.anyest.table.exception.TableDataImportException;
 import jrx.anyest.table.jpa.dto.*;
 import jrx.anyest.table.utils.DownUploadUtils;
 import jrx.anyest.table.utils.TableIdGenerator;
@@ -78,7 +79,7 @@ public class TableDataExpOrImpServiceTest {
          * 初始化code缓存信息
          */
         Map<String, Object> map = new HashMap();
-//        map.put("projectId", 950);
+//        map.put("projectId", 335);
         map.put("contentCode", 15029);
         String next = TableIdGenerator.getNext();
         try {
@@ -302,7 +303,7 @@ public class TableDataExpOrImpServiceTest {
 
             System.out.println(dataCheckResult.getUuidKey());
 
-            importdata();
+//            importdata();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -321,25 +322,23 @@ public class TableDataExpOrImpServiceTest {
             TablePropertiesThreadLocalHolder.addProperties("table_code_uuid", next);
             Integer projectId = 335;
             Map<String, Object> mapParam = new HashMap();
+            mapParam.put("contentCode", 15029);
             mapParam.put("projectId", projectId);
             tableDataExpOrImpService.initCodeCache(mapParam);
             File file = new File("D:\\workspace\\springcloud_new\\table_data_export_import\\src\\test\\java\\jrx\\anyest\\table\\service\\测试数据.zip");
             FileInputStream fileInputStream = new FileInputStream(file);
             Map<String, String> stringStringMap = DownUploadUtils.importData(fileInputStream);
             String sign = stringStringMap.get("sign");
-            System.out.println("******************************************************");
-            System.out.println(sign);
             stringStringMap.remove("sign");
             String md5String = MD5FileUtil.getMD5String(stringStringMap.toString());
-            System.out.println(md5String.equals(sign));
+            if(!sign.equals(md5String)){
+                throw new TableDataImportException("数据包异常，MD5检验数据失败！");
+            }
             DataCheckResult dataCheckResult = tableDataExpOrImpService.checkData(stringStringMap);
-
-            System.out.println(dataCheckResult.getUuidKey());
-
             importdata();
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.error("导入数据失败"+e.getMessage());
         } finally {
             TableDataCodeCacheManager.idToCode.remove(TablePropertiesThreadLocalHolder.getProperties("table_code_uuid"));
             TableDataCodeCacheManager.codeToId.remove(TablePropertiesThreadLocalHolder.getProperties("table_code_uuid"));

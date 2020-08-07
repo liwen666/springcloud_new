@@ -40,18 +40,18 @@ public class DefaultTableDataHandler implements TableDataHandler {
             /**
              * 过滤掉不是当前项目的分类
              */
-            if ("RULE".equals(data.get("category_type"))||"SCORECARD".equals(data.get("category_type"))||"RULETREE".equals(data.get("category_type"))
-            ||"STRATEGY".equals(data.get("category_type"))||"RULESET".equals(data.get("category_type"))||"SCRIPT".equals(data.get("category_type"))
-                    ||"MATRIX".equals(data.get("category_type"))) {
+            if ("RULE".equals(data.get("category_type")) || "SCORECARD".equals(data.get("category_type")) || "RULETREE".equals(data.get("category_type"))
+                    || "STRATEGY".equals(data.get("category_type")) || "RULESET".equals(data.get("category_type")) || "SCRIPT".equals(data.get("category_type"))
+                    || "MATRIX".equals(data.get("category_type"))) {
                 /**
                  * 如果时项目外导出不需要project_id,初始化时排除所有项目内的分类数据
                  */
-                if(!param.containsKey("projectId")){
-                   return false;
+                if (!param.containsKey("projectId")) {
+                    return false;
                 }
-                for(Map.Entry<String,Object> map:param.entrySet()){
+                for (Map.Entry<String, Object> map : param.entrySet()) {
                     Object o = data.get(TableSqlBulider.toUnderScore(map.getKey()));
-                    if(o!=null&&!o.toString().equals(map.getValue().toString())){
+                    if (o != null && !o.toString().equals(map.getValue().toString())) {
                         return false;
                     }
                 }
@@ -66,8 +66,19 @@ public class DefaultTableDataHandler implements TableDataHandler {
     public String codeProcess(String tableName, String column, Object value) {
         String tableCodeUuid = TablePropertiesThreadLocalHolder.getProperties("table_code_uuid");
         //分类表的二次code转换
-        if("meta_category".equals(tableName)&&"parent_id".equals(column)&&(Integer) value!=0){
-           return  TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get(tableName+ TableConstants.CODE_SEPATATION+value);
+        if ("meta_category".equals(tableName) && "parent_id".equals(column) && (Integer) value != 0) {
+            return TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get(tableName + TableConstants.CODE_SEPATATION + value);
+        }
+        //资源管理表的二次code转换
+        if ("res_resource_set_item".equals(tableName) && "resource_id".equals(column)) {
+
+            String code = TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_model_object_info" + TableConstants.CODE_SEPATATION + value) == null ?
+                          TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_topic_object_info" + TableConstants.CODE_SEPATATION + value) == null ?
+                          TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_data_object_info" + TableConstants.CODE_SEPATATION + value) :
+                          TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_topic_object_info" + TableConstants.CODE_SEPATATION + value) :
+                          TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_model_object_info" + TableConstants.CODE_SEPATATION + value);
+
+            return code;
         }
 
         return value.toString();
