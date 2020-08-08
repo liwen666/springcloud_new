@@ -11,8 +11,10 @@ import jrx.anyest.table.jpa.dao.*;
 import jrx.anyest.table.jpa.dto.*;
 import jrx.anyest.table.jpa.entity.TableCodeConfig;
 import jrx.anyest.table.jpa.entity.TableCodeRelation;
+import jrx.anyest.table.jpa.entity.TableConversionKey;
 import jrx.anyest.table.jpa.entity.TableImportSort;
 import jrx.anyest.table.jpa.enums.FieldType;
+import jrx.anyest.table.listener.ITableExportListener;
 import jrx.anyest.table.listener.ITableImportListener;
 import jrx.anyest.table.utils.DataConverRuleEngineUtils;
 import jrx.anyest.table.utils.TableSpringUtil;
@@ -26,10 +28,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static jrx.anyest.table.service.JdbcTemplateService.jdbcTemplate;
@@ -47,7 +48,14 @@ import static jrx.anyest.table.service.JdbcTemplateService.jdbcTemplate;
 @Service
 public class TableDataExpOrImpService {
 
+    /**
+     * 导入监听器
+     */
     private Collection<ITableImportListener> tableImportListeners;
+    /**
+     * 导出监听器
+     */
+    private Collection<ITableExportListener> tableExportListeners;
     public static TableTimeMap<String, DataCheckResult> tableDataCache = new TableTimeMap<>();
 
 
@@ -82,7 +90,23 @@ public class TableDataExpOrImpService {
         List<TableCodeConfig> all = tableCodeConfigRepository.findAll();
         all.stream().filter(e -> e.isUsed()).collect(Collectors.toList());
         for (TableCodeConfig tableCodeConfig : all) {
-            String ck = getCheckSql(tableCodeConfig, whereParam);
+            String condition = null;
+            if (!StringUtils.isEmpty(tableCodeConfig.getHandleBeanName())) {
+                TableDataHandler bean = TableSpringUtil.getBean(tableCodeConfig.getHandleBeanName(), TableDataHandler.class);
+                /**
+                 * code 表权限过滤
+                 */
+                boolean enableCode = bean.enableCode(tableCodeConfig, whereParam);
+                if (!enableCode) {
+                    continue;
+                }
+                /**
+                 * code查询条件构造
+                 */
+                condition = bean.getCondition(tableCodeConfig, whereParam);
+            }
+            String ck = getCheckSql(tableCodeConfig, whereParam, condition);
+
             List<Map<String, Object>> maps = jdbcTemplate.queryForList(ck);
 
             maps.forEach(e -> {
@@ -122,16 +146,28 @@ public class TableDataExpOrImpService {
         TableDataCodeCacheManager.idToCode.put(codeUuid, Maps.newConcurrentMap());
         TableDataCodeCacheManager.codeToId.put(codeUuid, Maps.newConcurrentMap());
         List<TableCodeConfig> all = tableCodeConfigRepository.findAll().stream().filter(e -> e.isUsed()).collect(Collectors.toList());
-        /**
-         * 如果是项目外就不需要projectId  把Code规则去掉
-         */
-        if (null == whereParam.get("projectId")) {
-            logger.info("-------------执行项目外导出code初始化---------");
-            all = all.stream().filter(e -> !"project_id".equals(e.getWhereSqlColumns())).collect(Collectors.toList());
-        }
         for (TableCodeConfig tableCodeConfig : all) {
+            String condition = null;
+            if (!StringUtils.isEmpty(tableCodeConfig.getHandleBeanName())) {
+                TableDataHandler bean = TableSpringUtil.getBean(tableCodeConfig.getHandleBeanName(), TableDataHandler.class);
+                /**
+                 * code 表权限过滤
+                 */
+                boolean enableCode = bean.enableCode(tableCodeConfig, whereParam);
+                if (!enableCode) {
+                    continue;
+                }
+                /**
+                 * code查询条件构造
+                 */
+                condition = bean.getCondition(tableCodeConfig, whereParam);
+            }
             String keyName = TableDataCodeCacheManager.tableKey.get(tableCodeConfig.getTableCodeName());
-            String ck = getCodeDataSql(tableCodeConfig, whereParam);
+            String ck = getCodeDataSql(tableCodeConfig, whereParam, condition);
+            if (!StringUtils.isEmpty(tableCodeConfig.getHandleBeanName())) {
+                TableDataHandler bean = TableSpringUtil.getBean(tableCodeConfig.getHandleBeanName(), TableDataHandler.class);
+                ck = bean.processDataSql(tableCodeConfig, ck);
+            }
             List<Map<String, Object>> maps = jdbcTemplate.queryForList(ck);
             String columns = tableCodeConfig.getColumns();
             maps.stream().forEach(e -> {
@@ -144,10 +180,6 @@ public class TableDataExpOrImpService {
                 }
                 StringBuffer code = new StringBuffer(tableCodeConfig.getTableCodeName() + TableConstants.CODE_SEPATATION);
                 String id = tableCodeConfig.getTableCodeName() + TableConstants.CODE_SEPATATION + e.get(keyName);
-                String bid = null;
-                if (tableCodeConfig.getTableCodeName().equals("meta_object_field")) {
-                    bid = FieldType.valueOf((String) e.get("field_type")).name() + id;
-                }
                 for (String col : columns.split(TableConstants.ID_SEPATATION)) {
                     String cd;
                     if (null == e.get(col)) {
@@ -161,16 +193,22 @@ public class TableDataExpOrImpService {
                     }
                     code.append(cd + TableConstants.CODE_SEPATATION);
                 }
+                String bid = null;
+                String bcode = null;
+                if (tableCodeConfig.getTableCodeName().equals("meta_object_field")) {
+                    bid = FieldType.valueOf((String) e.get("field_type")).name() + id;
+                    bcode = FieldType.valueOf((String) e.get("field_type")).name() + code;
+                }
                 if (bid != null) {
-                    TableDataCodeCacheManager.idToCode.get(codeUuid).put(bid, code.toString().substring(0, code.length() - 1));
-                    TableDataCodeCacheManager.codeToId.get(codeUuid).put(code.toString().substring(0, code.length() - 1), bid);
+                    TableDataCodeCacheManager.idToCode.get(codeUuid).put(bid, bcode.toString().substring(0, bcode.length() - 1));
+                    TableDataCodeCacheManager.codeToId.get(codeUuid).put(bcode.toString().substring(0, bcode.length() - 1), bid);
                 }
                 TableDataCodeCacheManager.idToCode.get(codeUuid).put(id, code.toString().substring(0, code.length() - 1));
                 TableDataCodeCacheManager.codeToId.get(codeUuid).put(code.toString().substring(0, code.length() - 1), id);
             });
 
             if (TableDataCodeCacheManager.idToCode.get(codeUuid).size() != TableDataCodeCacheManager.codeToId.get(codeUuid).size()) {
-                throw new TableDataConversionException("初始化code缓存异常，idToCode和codeToId数量不一样！");
+                throw new TableDataConversionException("初始化code缓存异常，idToCode和codeToId数量不一样！ tableName:" + tableCodeConfig.getTableCodeName() + " sql " + ck);
 
             }
         }
@@ -183,14 +221,11 @@ public class TableDataExpOrImpService {
      * @param whereParam
      * @return
      */
-    public String getCodeDataSql(TableCodeConfig tableCodeConfig, Map<String, Object> whereParam) {
+    public String getCodeDataSql(TableCodeConfig tableCodeConfig, Map<String, Object> whereParam, String condition) {
         String where = TableSqlBulider.getWhereSql(tableCodeConfig, Arrays.asList(getWhere(tableCodeConfig)), whereParam);
         StringBuffer dataSql = new StringBuffer("SELECT *  FROM " + tableCodeConfig.getTableCodeName() + " " + where);
-        /**
-         * 针对分类表需要做分类排序，先硬编码有空再弄
-         */
-        if (tableCodeConfig.getTableCodeName().equals("meta_category")) {
-            return dataSql.toString() + " ORDER BY parent_id asc";
+        if (!StringUtils.isEmpty(condition)) {
+            dataSql.append("  " + condition);
         }
         return dataSql.toString();
     }
@@ -231,19 +266,15 @@ public class TableDataExpOrImpService {
      * @param whereParam
      * @return
      */
-    private String getCheckSql(TableCodeConfig tableCodeConfig, Map<String, Object> whereParam) {
+    private String getCheckSql(TableCodeConfig tableCodeConfig, Map<String, Object> whereParam, String condition) {
         String[] split = tableCodeConfig.getColumns().split(",");
         String[] whereSqls = getWhere(tableCodeConfig);
         String sql = TableSqlBulider.getSql(Arrays.asList(split));
         String where = TableSqlBulider.getWhereSql(tableCodeConfig, Arrays.asList(whereSqls), whereParam);
-        /**
-         * 分类信息表特殊处理
-         */
-        if (whereParam.get("projectId") != null && tableCodeConfig.getTableCodeName().equals("meta_category")) {
-            where = where + "  and project_id=" + whereParam.get("project_id");
-        } else if (tableCodeConfig.getTableCodeName().equals("meta_category")) {
-            where = where + "  and category_type not in('RULE','SCORECARD','RULETREE','STRATEGY','RULESET','SCRIPT,'MATRIX'')";
+        if (!StringUtils.isEmpty(condition)) {
+            where = where + condition;
         }
+
         StringBuffer checkSql = new StringBuffer("SELECT count(1) num ," + sql + " FROM " + tableCodeConfig.getTableCodeName() + "  " + where + "  group by  " + sql);
         checkSql.append(" ORDER BY num;");
         return checkSql.toString();
@@ -285,16 +316,18 @@ public class TableDataExpOrImpService {
         List<Map<String, Object>> maps = jdbcTemplate.queryForList("select * from   " + tableName + " where " + keyName + " in (" + sql + ")");
         if (!StringUtils.isEmpty(handlerBeanName)) {
             TableDataHandler bean = TableSpringUtil.getBean(handlerBeanName, TableDataHandler.class);
+            /**
+             * 过滤掉旧版本数据
+             */
             maps = bean.filterData(tableName, maps, exetraParam);
         }
-        List<RelationData> relationDatas = new ArrayList<>();
 
+        List<RelationData> relationDatas = new ArrayList<>();
         for (Map map : maps) {
             if (!CollectionUtils.isEmpty(tableCodeRelations)) {
                 for (TableCodeRelation tableCodeRelation : tableCodeRelations) {
                     if (map.get(tableCodeRelation.getPrimaryCodeKey()) != null) {
                         String tableProperty = DataConverRuleEngineUtils.getTableProperty(map, tableCodeRelation.getPrimaryCodeKey()).toString();
-//                        relationDatas.add(RelationData.builder().key(map.get(tableCodeRelation.getPrimaryCodeKey()).toString())
                         /**
                          * 有些关联数据在json字符串中
                          */
@@ -518,5 +551,25 @@ public class TableDataExpOrImpService {
 
         TableDataCodeCacheManager.tableImportSorts = tableImportSortRepository.findAll().stream().sorted(Comparator.comparing(TableImportSort::getOrderId)).collect(Collectors.toList());
 
+    }
+
+    public void conversionIdToCode(Map<String, Map<String, Map<String, Object>>> dataMap) {
+        String tableCodeUuid = TablePropertiesThreadLocalHolder.getProperties("table_code_uuid");
+        Map<String, String> idToCode = TableDataCodeCacheManager.idToCode.get(tableCodeUuid);
+        Map<String, List<TableConversionKey>> collect = tableConversionKeyRepository.findAll().stream().filter(TableConversionKey::isUsed).collect(Collectors.groupingBy(TableConversionKey::getTableCodeName));
+        AtomicInteger success = new AtomicInteger(0);
+        AtomicInteger conversion = new AtomicInteger(0);
+        dataMap.forEach((k, v) -> tableExportListeners.forEach(e -> {
+            conversion.addAndGet(v.size());
+            success.addAndGet(e.before(k, v, idToCode, jdbcTemplate, collect));
+        }));
+        if (success.get()!=conversion.get()) {
+            throw new TableDataConversionException("数据导出失败，有数据id-code转换失败");
+        }
+    }
+
+
+    public void setTableExportListeners(Collection<ITableExportListener> tableExportListeners) {
+        this.tableExportListeners = tableExportListeners;
     }
 }

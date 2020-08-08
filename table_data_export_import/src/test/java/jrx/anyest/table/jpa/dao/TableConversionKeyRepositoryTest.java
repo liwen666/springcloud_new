@@ -24,7 +24,8 @@ public class TableConversionKeyRepositoryTest
         tableConversionKey.setCreateTime(new Date());
         tableConversionKey.setTableCodeName("res_rule_info");
         tableConversionKey.setTableCodeChinaName("规则信息表");
-        tableConversionKey.setConversionKey("category_id");
+        tableConversionKey.setConversionKey("meta_category@category_id");
+        tableConversionKey.setJsonObject(false);
         tableConversionKey.setHandleBeanName("defaultTableDataHandler");
         TableConversionKey tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
         if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
@@ -35,8 +36,21 @@ public class TableConversionKeyRepositoryTest
         tableConversionKey.setId(null);
         tableConversionKey.setTableCodeName("res_rule");
         tableConversionKey.setTableCodeChinaName("规则信息表");
-        tableConversionKey.setConversionKey("resource_id");
+        tableConversionKey.setConversionKey("res_rule_info@resource_id");
         tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+        tableConversionKey.setJsonObject(false);
+        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+        }
+        tableConversionKeyRepository.save(tableConversionKey);
+
+        tableConversionKey.setId(null);
+        tableConversionKey.setTableCodeName("res_rule");
+        tableConversionKey.setTableCodeChinaName("规则信息表");
+        tableConversionKey.setConversionKey("meta_object_field@field_ids");
+        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+        tableConversionKey.setJsonObject(true);
         tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
         if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
             tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());

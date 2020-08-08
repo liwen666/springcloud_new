@@ -66,7 +66,7 @@ public class TableDataExpOrImpServiceTest {
          * 数据code检查
          */
         Map map = new HashMap();
-        map.put("projectId", 335);
+//        map.put("projectId", 335);
         map.put("contentCode", 15029);
         List<TableDataImportOrExpResult<CodeCheck>> tableDataImportOrExpResult = tableDataExpOrImpService.checkCode(map);
         log.error(JSON.toJSONString(tableDataImportOrExpResult
@@ -79,7 +79,7 @@ public class TableDataExpOrImpServiceTest {
          * 初始化code缓存信息
          */
         Map<String, Object> map = new HashMap();
-//        map.put("projectId", 335);
+        map.put("projectId", 335);
         map.put("contentCode", 15029);
         String next = TableIdGenerator.getNext();
         try {
@@ -166,6 +166,8 @@ public class TableDataExpOrImpServiceTest {
              * 将数据进行code转换
              *
              */
+            tableDataExpOrImpService.conversionIdToCode(dataMap);
+
             /**
              * 下载数据
              */

@@ -24,32 +24,40 @@ public class TableConversionKey extends TableBaseEntity
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    protected Integer  id;
+    private Integer  id;
 
     /**
      *  表名称
      */
     @Column
-    protected String tableCodeName;
+    private String tableCodeName;
     /**
      *  表中文名称
      */
     @Column
-    protected String tableCodeChinaName;
+    private String tableCodeChinaName;
 
 
     /**
      *  表数据需要做转换的key
      */
     @Column
-    protected String conversionKey;
+    private String conversionKey;
 
 
     /**
      * 处理器类名称
      */
     @Column
-    protected String handleBeanName;
+    private String handleBeanName;
+
+    /**
+     * 数据转换key 是否是一个版本对象
+     */
+
+    @Column
+    private boolean isJsonObject = false;
+
 
 
 

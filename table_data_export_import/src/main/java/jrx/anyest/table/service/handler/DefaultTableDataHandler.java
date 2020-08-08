@@ -1,15 +1,19 @@
 package jrx.anyest.table.service.handler;
 
+import ch.qos.logback.classic.db.SQLBuilder;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import jrx.anyest.table.constant.TableConstants;
+import jrx.anyest.table.jpa.entity.TableCodeConfig;
 import jrx.anyest.table.jpa.enums.HandlerParam;
 import jrx.anyest.table.service.TableDataCodeCacheManager;
 import jrx.anyest.table.service.TableDataHandler;
 import jrx.anyest.table.service.TablePropertiesThreadLocalHolder;
 import jrx.anyest.table.utils.TableSqlBulider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -29,6 +33,7 @@ import static org.codehaus.groovy.runtime.DefaultGroovyMethods.retainAll;
  * @author lw
  * @since 2019/5/26 23:40
  */
+@Slf4j
 @Service("defaultTableDataHandler")
 public class DefaultTableDataHandler implements TableDataHandler {
     @Override
@@ -73,10 +78,10 @@ public class DefaultTableDataHandler implements TableDataHandler {
         if ("res_resource_set_item".equals(tableName) && "resource_id".equals(column)) {
 
             String code = TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_model_object_info" + TableConstants.CODE_SEPATATION + value) == null ?
-                          TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_topic_object_info" + TableConstants.CODE_SEPATATION + value) == null ?
-                          TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_data_object_info" + TableConstants.CODE_SEPATATION + value) :
-                          TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_topic_object_info" + TableConstants.CODE_SEPATATION + value) :
-                          TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_model_object_info" + TableConstants.CODE_SEPATATION + value);
+                    TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_topic_object_info" + TableConstants.CODE_SEPATATION + value) == null ?
+                            TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_data_object_info" + TableConstants.CODE_SEPATATION + value) :
+                            TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_topic_object_info" + TableConstants.CODE_SEPATATION + value) :
+                    TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_model_object_info" + TableConstants.CODE_SEPATATION + value);
 
             return code;
         }
@@ -95,6 +100,7 @@ public class DefaultTableDataHandler implements TableDataHandler {
                                                         tableName, List<Map<String, Object>> data, Map<String, Object> exetraParam) {
         /**
          * 针对项目内的表数据过滤
+         * 拿到最新版本数据
          */
         switch (tableName) {
             case "res_rule":
@@ -135,5 +141,46 @@ public class DefaultTableDataHandler implements TableDataHandler {
 
         }
         return data;
+    }
+
+    @Override
+    public String getCondition(TableCodeConfig tableCodeConfig, Map<String, Object> whereParam) {
+        /**
+         * 分类信息表特殊处理
+         */
+        if (whereParam.get("projectId") != null && tableCodeConfig.getTableCodeName().equals("meta_category")) {
+            return "  and project_id=" + whereParam.get("projectId");
+        } else if (tableCodeConfig.getTableCodeName().equals("meta_category")) {
+            return "  and category_type not in('RULE','SCORECARD','RULETREE','STRATEGY','RULESET','SCRIPT','MATRIX') ";
+        }
+
+
+        return null;
+    }
+
+    @Override
+    public boolean enableCode(TableCodeConfig tableCodeConfig, Map<String, Object> whereParam) {
+        /**
+         * 如果参数中没有code需要的筛选条件就过滤掉code
+         */
+        if (!StringUtils.isEmpty(tableCodeConfig.getWhereSqlColumns())) {
+            Object o = whereParam.get(tableCodeConfig.getWhereSqlColumns()) == null ? whereParam.get(TableSqlBulider.toLowerCamel(tableCodeConfig.getWhereSqlColumns())) : whereParam.get(tableCodeConfig.getWhereSqlColumns());
+            if (null == o) {
+                log.info("code 配置缺少必要的列查询条件，,column:{}  tablename:{}", tableCodeConfig.getWhereSqlColumns(), tableCodeConfig.getTableCodeName());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public String processDataSql(TableCodeConfig tableCodeConfig, String ck) {
+        /**
+         * 对分类表的特殊处理
+         */
+        if (tableCodeConfig.getTableCodeName().equals("meta_category")) {
+            return ck + " order by parent_id asc";
+        }
+        return ck;
     }
 }

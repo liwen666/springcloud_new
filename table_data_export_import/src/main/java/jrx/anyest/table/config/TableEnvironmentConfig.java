@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 import jrx.anyest.table.jpa.dao.TableCodeConfigRepository;
 import jrx.anyest.table.jpa.entity.TableCodeConfig;
 import jrx.anyest.table.jpa.enums.TableDataTypeEnum;
+import jrx.anyest.table.listener.ITableExportListener;
 import jrx.anyest.table.listener.ITableImportListener;
 import jrx.anyest.table.service.JdbcTemplateService;
 import jrx.anyest.table.service.TableDataCodeCacheManager;
@@ -111,10 +112,12 @@ public class TableEnvironmentConfig implements EnvironmentAware, BeanDefinitionR
         Collection<ITableImportListener> values = TableSpringUtil.getBeansByInteface(ITableImportListener.class).values();
         TableDataExpOrImpService tableDataExpOrImpService = TableSpringUtil.getBean(TableDataExpOrImpService.class);
         tableDataExpOrImpService.setTableImportListeners(values);
+        Collection<ITableExportListener> exportListeners = TableSpringUtil.getBeansByInteface(ITableExportListener.class).values();
+        tableDataExpOrImpService.setTableExportListeners(exportListeners);
         logger.info("-----------装配数据处理监听器已完成: size:{}------------", values.size());
         TableCodeConfigRepository tableCodeConfigRepository = TableSpringUtil.getBean(TableCodeConfigRepository.class);
         TableDataCodeCacheManager.tableCodeConfigs = tableCodeConfigRepository.findAll().stream().filter(TableCodeConfig::isUsed).collect(Collectors.toMap(TableCodeConfig::getTableCodeName, Function.identity()));
-        logger.info("-----------初始化code系统配置已完成: size:{}------------", TableDataCodeCacheManager.tableCodeConfigs.size());
+        logger.info("-----------初始化code系统配置已完成:size:{} name:{}------------",TableDataCodeCacheManager.tableCodeConfigs.size(), JSON.toJSONString(TableDataCodeCacheManager.tableCodeConfigs.keySet()));
     }
 
     private void initColumnType(String datasource, TableDataTypeEnum tableDataTypeEnum) {

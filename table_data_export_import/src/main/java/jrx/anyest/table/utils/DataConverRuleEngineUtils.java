@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-
 import javax.persistence.Table;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -92,7 +91,7 @@ public class DataConverRuleEngineUtils {
         }
     }
 
-    public static void setProperty(Map map, Object qualifiedKey, Object value, Map<String, String> keyVaule, boolean replacePre) {
+    public static void setProperty(Map map, Object qualifiedKey, Object value, Map<String, String> keyVaule, String replacePre) {
         Object property = getProperty(map, qualifiedKey);
         if (property == null) {
             return;
@@ -112,8 +111,8 @@ public class DataConverRuleEngineUtils {
                 String subCode = String.valueOf(qualifiedKey).substring(String.valueOf(qualifiedKey).lastIndexOf(".") + 1);
                 Object property1 = getProperty((Map<?, ?>) jsonObject, subCode);
                 if (null != property1) {
-                    if (replacePre) {
-                        value = keyVaule.get(String.valueOf(property1).replaceAll("[a-z]", ""));
+                    if (!StringUtils.isEmpty(replacePre)) {
+                        value = keyVaule.get(replacePre+property1);
                     } else {
                         value = keyVaule.get(property1);
                     }
@@ -127,12 +126,12 @@ public class DataConverRuleEngineUtils {
             }
             String s = String.valueOf(property).replaceAll("\\[", "").replaceAll("]", "");
             if (null != keyVaule) {
-                value = new StringBuffer("");
+                value = new StringBuffer();
                 String[] split = s.split(",");
                 for (String s1 : split) {
-                    String s2 = null;
-                    if (replacePre) {
-                        s2 = keyVaule.get(s1.replaceAll("[a-z]", ""));
+                    String s2;
+                    if (!StringUtils.isEmpty(replacePre)) {
+                        s2 = keyVaule.get(replacePre+s1);
                     } else {
                         s2 = keyVaule.get(s1);
                     }
@@ -142,17 +141,18 @@ public class DataConverRuleEngineUtils {
                         throw new RuntimeException("数据转换未查询到对应key的值 key:"+s1);
                     }
                 }
+                value=value.toString().substring(0, value.toString().length() - 1);
             }
             if (listFlag) {
-                setProperty(map, qualifiedKey, "["+value.toString().substring(0, value.toString().length() - 1)+"]");
+                setProperty(map, qualifiedKey, "["+value+"]");
 
             } else {
-                setProperty(map, qualifiedKey, value.toString().substring(0, value.toString().length() - 1));
+                setProperty(map, qualifiedKey, value);
             }
         }
     }
 
-    public static void setPropertyTable(Map map, Object qualifiedKey, Object value, Map<String, String> keyVaule, boolean replacePre) {
+    public static void setPropertyTable(Map map, Object qualifiedKey, Object value, Map<String, String> keyVaule, String replacePre) {
         if (String.valueOf(qualifiedKey).contains(".")) {
             String left = String.valueOf(qualifiedKey).substring(0, String.valueOf(qualifiedKey).indexOf("."));
             String right = String.valueOf(qualifiedKey).substring(String.valueOf(qualifiedKey).indexOf(".") + 1);
