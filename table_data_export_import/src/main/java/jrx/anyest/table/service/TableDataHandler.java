@@ -46,7 +46,7 @@ public interface TableDataHandler {
      * 数据过滤
      *
      */
-    List<Map<String, Object>>  filterData(String tableName,List<Map<String, Object>> data, Map<String,Object> exetraParam);
+    List<Map<String, Object>>  filterData(String tableName,List<Map<String, Object>> data, Map<String, Map<String,Object>> extraParam);
 
     /**
      * 查询生成表数据的条件

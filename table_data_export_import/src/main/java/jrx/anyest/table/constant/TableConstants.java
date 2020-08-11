@@ -23,4 +23,14 @@ public class TableConstants {
      */
     public static final  String ID_SEPATATION=",";
 
+    /**
+     * 导入导出每次执行的唯一ID
+     */
+    public static final  String TABLE_CODE_UUID="table_code_uuid";
+
+    /**
+     * 导入导出每次执行的唯一ID
+     */
+    public static final  String KEY_SEQUENCE="key_sequence";
+
 }

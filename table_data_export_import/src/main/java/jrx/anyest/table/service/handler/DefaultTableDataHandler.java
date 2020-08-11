@@ -4,8 +4,11 @@ import ch.qos.logback.classic.db.SQLBuilder;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import jrx.anyest.table.constant.TableConstants;
+import jrx.anyest.table.exception.TableDataConversionException;
 import jrx.anyest.table.jpa.entity.TableCodeConfig;
+import jrx.anyest.table.jpa.entity.TableParamConfig;
 import jrx.anyest.table.jpa.enums.HandlerParam;
 import jrx.anyest.table.service.TableDataCodeCacheManager;
 import jrx.anyest.table.service.TableDataHandler;
@@ -39,7 +42,7 @@ public class DefaultTableDataHandler implements TableDataHandler {
     @Override
     public boolean codeInit(String tableName, Map<String, Object> data, Map<String, Object> param) {
         if (tableName.equals("res_resource_set_item")) {
-
+            System.out.println(tableName);
         }
         if (tableName.equals("meta_category")) {
             /**
@@ -71,22 +74,41 @@ public class DefaultTableDataHandler implements TableDataHandler {
     public String codeProcess(String tableName, String column, Object value) {
         String tableCodeUuid = TablePropertiesThreadLocalHolder.getProperties("table_code_uuid");
         //分类表的二次code转换
-        if ("meta_category".equals(tableName) && "parent_id".equals(column) && (Integer) value != 0) {
+        if ("meta_category".equals(tableName) && "parent_id".equals(column) ) {
             return TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get(tableName + TableConstants.CODE_SEPATATION + value);
         }
         //资源管理表的二次code转换
         if ("res_resource_set_item".equals(tableName) && "resource_id".equals(column)) {
-
-            String code = TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_model_object_info" + TableConstants.CODE_SEPATATION + value) == null ?
-                    TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_topic_object_info" + TableConstants.CODE_SEPATATION + value) == null ?
-                            TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_data_object_info" + TableConstants.CODE_SEPATATION + value) :
-                            TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_topic_object_info" + TableConstants.CODE_SEPATATION + value) :
-                    TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_model_object_info" + TableConstants.CODE_SEPATATION + value);
-
+            return getInfoCode(value, tableCodeUuid,tableName);
+        }
+        //数据集的code二次转换
+        if ("meta_data_object_info".equals(tableName) && "data_source_id".equals(column)) {
+            String code = TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_data_source_info" + TableConstants.CODE_SEPATATION + value) ;
             return code;
         }
 
+        //分类信息表的code二次转换
+        if ("meta_category".equals(tableName) && "parent_id".equals(column)&&!value.toString().equals("0")) {
+            String code = TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_category" + TableConstants.CODE_SEPATATION + value) ;
+            return code;
+        }
+
+        //字段表的code二次转换
+        if ("meta_object_field".equals(tableName) && "resource_object_id".equals(column)) {
+            return getInfoCode(value, tableCodeUuid,tableName);
+        }
+
         return value.toString();
+    }
+
+    private String getInfoCode(Object value, String tableCodeUuid,String tableName) {
+        String code = TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_model_object_info" + TableConstants.CODE_SEPATATION + value) == null ?
+            TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_topic_object_info" + TableConstants.CODE_SEPATATION + value) == null ?
+                    TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_data_object_info" + TableConstants.CODE_SEPATATION + value) :
+                    TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_topic_object_info" + TableConstants.CODE_SEPATATION + value) :
+            TableDataCodeCacheManager.idToCode.get(tableCodeUuid).get("meta_model_object_info" + TableConstants.CODE_SEPATATION + value);
+        if(code==null) log.error("code转换异常 找不到对应的对象 primaryTable:{}, relationId{} ",tableName,value);
+        return code;
     }
 
     @Override
@@ -97,10 +119,30 @@ public class DefaultTableDataHandler implements TableDataHandler {
 
     @Override
     public List<Map<String, Object>> filterData(String
-                                                        tableName, List<Map<String, Object>> data, Map<String, Object> exetraParam) {
+                                                        tableName, List<Map<String, Object>> data, Map<String, Map<String,Object>> extraParam) {
         /**
          * 针对项目内的表数据过滤
          * 拿到最新版本数据
+         */
+//        switch (tableName) {
+//            case "res_rule":
+//            case "res_rule_set":
+//            case "res_rule_tree":
+//            case "res_strategy":
+//            case "res_matrix":
+//            case "res_score_card":
+//            case "res_script":
+//                return data.stream().filter(e -> {
+//                    boolean flag = true;
+//                    for (Map.Entry map : extraParam.get(tableName).entrySet()) {
+//                        flag = e.get(map.getKey()) == map.getValue();
+//                    }
+//                    return flag;
+//                }).collect(Collectors.toList());
+//
+//        }
+        /**
+         * 针对项目外的表数据过滤 只导出最新版本
          */
         switch (tableName) {
             case "res_rule":
@@ -110,26 +152,15 @@ public class DefaultTableDataHandler implements TableDataHandler {
             case "res_matrix":
             case "res_score_card":
             case "res_script":
-                return data.stream().filter(e -> {
-                    boolean flag = true;
-                    for (Map.Entry map : exetraParam.entrySet()) {
-                        flag = e.get(map.getKey()) == map.getValue();
-                    }
-                    return flag;
-                }).collect(Collectors.toList());
 
-        }
-        /**
-         * 针对项目外的表数据过滤 只导出最新版本
-         */
-        switch (tableName) {
             case "meta_model_object":
             case "meta_data_object":
             case "meta_topic_object":
+                TableParamConfig tableParamConfig = TableDataCodeCacheManager.tableParamConfigs.get(tableName);
                 List<Map<String, Object>> result = Lists.newArrayList();
-                Map<Object, List<Map<String, Object>>> resourceObj = data.stream().collect(Collectors.groupingBy(e -> e.get("resource_id")));
+                Map<Object, List<Map<String, Object>>> resourceObj = data.stream().collect(Collectors.groupingBy(e -> e.get(tableParamConfig.getResourceIdColumn())));
                 resourceObj.forEach((k, v) -> {
-                    List<Map<String, Object>> version = v.stream().sorted(Comparator.comparing(e -> (Integer) e.get("version"), (x, y) -> {
+                    List<Map<String, Object>> version = v.stream().sorted(Comparator.comparing(e -> (Integer) e.get(tableParamConfig.getVersionColumn()), (x, y) -> {
                         if (x > y) {
                             return -1;
                         }
@@ -149,12 +180,17 @@ public class DefaultTableDataHandler implements TableDataHandler {
          * 分类信息表特殊处理
          */
         if (whereParam.get("projectId") != null && tableCodeConfig.getTableCodeName().equals("meta_category")) {
-            return "  and project_id=" + whereParam.get("projectId");
+            return "  and project_id=" + whereParam.get("projectId") +" or project_id is null ";
         } else if (tableCodeConfig.getTableCodeName().equals("meta_category")) {
             return "  and category_type not in('RULE','SCORECARD','RULETREE','STRATEGY','RULESET','SCRIPT','MATRIX') ";
         }
 
-
+        /**
+         *  字段表的特殊处理 排除掉事件策略版本对象的字段
+         */
+        if("meta_object_field".equals(tableCodeConfig.getTableCodeName())){
+            return "  and field_code not like 'NODE_%' ";
+        }
         return null;
     }
 
@@ -170,6 +206,7 @@ public class DefaultTableDataHandler implements TableDataHandler {
                 return false;
             }
         }
+
         return true;
     }
 

@@ -59,6 +59,23 @@ public class TableConversionKey extends TableBaseEntity
     private boolean isJsonObject = false;
 
 
+    /**
+     * 是否是多级引用
+     * 如果是多级引用用需要 其他表数据全部处理完才去处理这个
+     */
+    @Column
+    private boolean isMultipleRelation = false;
+
+
+
+
+
+
+
+
+
+
+
 
 
 

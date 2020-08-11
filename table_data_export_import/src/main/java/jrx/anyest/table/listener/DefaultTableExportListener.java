@@ -2,6 +2,7 @@ package jrx.anyest.table.listener;
 
 import com.alibaba.fastjson.JSON;
 import jrx.anyest.table.constant.TableConstants;
+import jrx.anyest.table.exception.TableDataConversionException;
 import jrx.anyest.table.exception.TableDataImportException;
 import jrx.anyest.table.jpa.dao.TableConversionKeyRepository;
 import jrx.anyest.table.jpa.dto.DataCheckResult;
@@ -34,8 +35,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class DefaultTableExportListener implements ITableExportListener {
-    @Autowired
-    private TableConversionKeyRepository tableConversionKeyRepository;
+    private int order = 0;
+
 
     @Override
     public int before(String tableName, Map<String, Map<String, Object>> data, Map<String, String> idToCode, JdbcTemplate jdbcTemplate, Map<String, List<TableConversionKey>> tableConversionKeys) {
@@ -46,10 +47,11 @@ public class DefaultTableExportListener implements ITableExportListener {
         }
         //code转换成功数
         AtomicInteger successNum = new AtomicInteger(0);
+
         /**
          * 查询转换key
          */
-        log.info("----before id-code tableName:{},datasize:{}", tableName, data.size());
+        log.info("----before id-code tableName:{},dataSize:{}", tableName, data.size());
         data.forEach((k, v) -> {
             tableConversionKeys.get(tableName).forEach(x -> {
                 try {
@@ -70,12 +72,20 @@ public class DefaultTableExportListener implements ITableExportListener {
                             tableConversionKeys1.forEach(w -> {
                                 String codeTable = w.getConversionKey().split(TableConstants.CODE_SEPATATION)[0];
                                 String conversion = w.getConversionKey().split(TableConstants.CODE_SEPATATION)[1];
+                                /**
+                                 *  如果是字段表 他的resourceID 是3个表中的一个
+                                 */
+                                codeTable = getTableName(idToCode, v, codeTable, conversion);
                                 DataConverRuleEngineUtils.setPropertyTable(stringObjectMap, conversion, null, idToCode, codeTable + TableConstants.CODE_SEPATATION);
                             });
                         }
                         DataConverRuleEngineUtils.setPropertyTable(v, conversionKey, JSON.toJSONString(stringObjectMap), null, codeTableName + TableConstants.CODE_SEPATATION);
                         return;
                     }
+                        /**
+                         *  如果是字段表 他的resourceID 是3个表中的一个
+                         */
+                    codeTableName = getTableName(idToCode, v, codeTableName, conversionKey);
                     DataConverRuleEngineUtils.setPropertyTable(v, conversionKey, null, idToCode, codeTableName + TableConstants.CODE_SEPATATION);
                 } catch (Exception e) {
                     log.error("-----id-code error tableName:{} dataId:{} dataKey:{} errorMsg:{}", tableName, k, x.getConversionKey(), e.getClass().getName() + e.getMessage());
@@ -87,6 +97,29 @@ public class DefaultTableExportListener implements ITableExportListener {
         return successNum.get();
     }
 
+    private String getTableName(Map<String, String> idToCode, Map<String, Object> v, String codeTable, String conversion) {
+        if (codeTable.contains("|")) {
+            String[] split = codeTable.split("\\|");
+            Object tableProperty1 = DataConverRuleEngineUtils.getTableProperty(v, conversion);
+            if (null == tableProperty1) {
+                throw new TableDataConversionException("---id-code---转换异常,值不能为NULL" + codeTable + " conversionKey:" + conversion);
+            }
+            String relTableName = null;
+            for (String s : split) {
+                String code = idToCode.get(s + TableConstants.CODE_SEPATATION + tableProperty1);
+                if (!StringUtils.isEmpty(code)) {
+                    relTableName = s;
+                    break;
+                }
+            }
+            if (StringUtils.isEmpty(relTableName)) {
+                throw new TableDataConversionException("---id-code---转换异常，未查询到id对应的表名" + codeTable + "  id:" + tableProperty1);
+            }
+            codeTable = relTableName;
+        }
+        return codeTable;
+    }
+
     private Map<String, Object> cycleConversion(String codeTableName, Map<String, Object> v, String conversionKey, JdbcTemplate jdbcTemplate) {
         return null;
     }
@@ -95,5 +128,10 @@ public class DefaultTableExportListener implements ITableExportListener {
     @Override
     public void after(String tableName, Map<String, Object> data) {
 
+    }
+
+    @Override
+    public int order() {
+        return order;
     }
 }

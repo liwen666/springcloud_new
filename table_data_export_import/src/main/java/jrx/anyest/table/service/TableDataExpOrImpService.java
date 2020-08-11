@@ -145,11 +145,16 @@ public class TableDataExpOrImpService {
         String codeUuid = TablePropertiesThreadLocalHolder.getProperties("table_code_uuid");
         TableDataCodeCacheManager.idToCode.put(codeUuid, Maps.newConcurrentMap());
         TableDataCodeCacheManager.codeToId.put(codeUuid, Maps.newConcurrentMap());
+        /**
+         * 如果是分类表分类表初始化code
+         */
+        TableDataCodeCacheManager.idToCode.get(codeUuid).put("meta_category@0", "meta_category@系统");
+        TableDataCodeCacheManager.codeToId.get(codeUuid).put("meta_category@系统", "0");
         List<TableCodeConfig> all = tableCodeConfigRepository.findAll().stream().filter(e -> e.isUsed()).collect(Collectors.toList());
         for (TableCodeConfig tableCodeConfig : all) {
             String condition = null;
             if (!StringUtils.isEmpty(tableCodeConfig.getHandleBeanName())) {
-                TableDataHandler bean = TableSpringUtil.getBean(tableCodeConfig.getHandleBeanName(), TableDataHandler.class);
+                TableDataHandler bean = getTableDataHandler(tableCodeConfig);
                 /**
                  * code 表权限过滤
                  */
@@ -169,6 +174,7 @@ public class TableDataExpOrImpService {
                 ck = bean.processDataSql(tableCodeConfig, ck);
             }
             List<Map<String, Object>> maps = jdbcTemplate.queryForList(ck);
+            logger.info("-----------------初始化code 缓存信息tableName:{} sql:{} codeSize:{}", tableCodeConfig.getTableCodeName(), ck, maps.size());
             String columns = tableCodeConfig.getColumns();
             maps.stream().forEach(e -> {
                 if (!StringUtils.isEmpty(tableCodeConfig.getHandleBeanName())) {
@@ -178,33 +184,7 @@ public class TableDataExpOrImpService {
                         return;
                     }
                 }
-                StringBuffer code = new StringBuffer(tableCodeConfig.getTableCodeName() + TableConstants.CODE_SEPATATION);
-                String id = tableCodeConfig.getTableCodeName() + TableConstants.CODE_SEPATATION + e.get(keyName);
-                for (String col : columns.split(TableConstants.ID_SEPATATION)) {
-                    String cd;
-                    if (null == e.get(col)) {
-                        continue;
-                    }
-                    if (!StringUtils.isEmpty(tableCodeConfig.getHandleBeanName())) {
-                        TableDataHandler bean = TableSpringUtil.getBean(tableCodeConfig.getHandleBeanName(), TableDataHandler.class);
-                        cd = bean.codeProcess(tableCodeConfig.getTableCodeName(), col, e.get(col));
-                    } else {
-                        cd = e.get(col).toString();
-                    }
-                    code.append(cd + TableConstants.CODE_SEPATATION);
-                }
-                String bid = null;
-                String bcode = null;
-                if (tableCodeConfig.getTableCodeName().equals("meta_object_field")) {
-                    bid = FieldType.valueOf((String) e.get("field_type")).name() + id;
-                    bcode = FieldType.valueOf((String) e.get("field_type")).name() + code;
-                }
-                if (bid != null) {
-                    TableDataCodeCacheManager.idToCode.get(codeUuid).put(bid, bcode.toString().substring(0, bcode.length() - 1));
-                    TableDataCodeCacheManager.codeToId.get(codeUuid).put(bcode.toString().substring(0, bcode.length() - 1), bid);
-                }
-                TableDataCodeCacheManager.idToCode.get(codeUuid).put(id, code.toString().substring(0, code.length() - 1));
-                TableDataCodeCacheManager.codeToId.get(codeUuid).put(code.toString().substring(0, code.length() - 1), id);
+                addCache(codeUuid, tableCodeConfig, keyName, columns, e);
             });
 
             if (TableDataCodeCacheManager.idToCode.get(codeUuid).size() != TableDataCodeCacheManager.codeToId.get(codeUuid).size()) {
@@ -212,6 +192,41 @@ public class TableDataExpOrImpService {
 
             }
         }
+
+    }
+
+    private TableDataHandler getTableDataHandler(TableCodeConfig tableCodeConfig) {
+        return TableSpringUtil.getBean(tableCodeConfig.getHandleBeanName(), TableDataHandler.class);
+    }
+
+    public static void addCache(String codeUuid, TableCodeConfig tableCodeConfig, String keyName, String columns, Map<String, Object> e) {
+        StringBuffer code = new StringBuffer(tableCodeConfig.getTableCodeName() + TableConstants.CODE_SEPATATION);
+        String id = tableCodeConfig.getTableCodeName() + TableConstants.CODE_SEPATATION;
+        for (String col : columns.split(TableConstants.ID_SEPATATION)) {
+            String cd;
+            if (null == e.get(col)) {
+                continue;
+            }
+            if (!StringUtils.isEmpty(tableCodeConfig.getHandleBeanName())) {
+                TableDataHandler bean = TableSpringUtil.getBean(tableCodeConfig.getHandleBeanName(), TableDataHandler.class);
+                cd = bean.codeProcess(tableCodeConfig.getTableCodeName(), col, e.get(col));
+            } else {
+                cd = e.get(col).toString();
+            }
+            code.append(cd + TableConstants.CODE_SEPATATION);
+        }
+        String bid = null;
+        String bcode = null;
+        if (tableCodeConfig.getTableCodeName().equals("meta_object_field")) {
+            bid = id + FieldType.valueOf((String) e.get("field_type")).getIndex() + e.get(keyName);
+            bcode = code.substring(0, code.length() - 1) + FieldType.valueOf((String) e.get("field_type")).getIndex();
+        }
+        if (bid != null) {
+            TableDataCodeCacheManager.idToCode.get(codeUuid).put(bid, bcode);
+            TableDataCodeCacheManager.codeToId.get(codeUuid).put(bcode, FieldType.valueOf((String) e.get("field_type")).getIndex() + e.get(keyName).toString());
+        }
+        TableDataCodeCacheManager.idToCode.get(codeUuid).put(id + e.get(keyName), code.toString().substring(0, code.length() - 1));
+        TableDataCodeCacheManager.codeToId.get(codeUuid).put(code.toString().substring(0, code.length() - 1), e.get(keyName).toString());
     }
 
     /**
@@ -300,13 +315,13 @@ public class TableDataExpOrImpService {
         return "ALTER table " + tableName + " add mark_id varchar(32);";
     }
 
-    public void listAllRelationData(String tableName, Set<Object> dataIds, Map<String, Object> exetraParam, Map<String, Map<String, Map<String, Object>>> dataMap, String handlerBeanName) {
+    public void listAllRelationData(String tableName, Set<Object> dataIds, Map<String, Map<String,Object>> extraParam, Map<String, Map<String, Map<String, Object>>> dataMap, String handlerBeanName) {
         String key = TableDataCodeCacheManager.tableKey.get(tableName);
-        listAllRelationData(tableName, key, dataIds, exetraParam, dataMap, handlerBeanName);
+        listAllRelationData(tableName, key, dataIds, extraParam, dataMap, handlerBeanName);
     }
 
 
-    public void listAllRelationData(String tableName, String keyName, Set<Object> dataIds, Map<String, Object> exetraParam, Map<String, Map<String, Map<String, Object>>> dataMap, String handlerBeanName) {
+    public void listAllRelationData(String tableName, String keyName, Set<Object> dataIds, Map<String, Map<String,Object>> extraParam, Map<String, Map<String, Map<String, Object>>> dataMap, String handlerBeanName) {
         /**
          * 查询此表关联数据表
          */
@@ -319,7 +334,7 @@ public class TableDataExpOrImpService {
             /**
              * 过滤掉旧版本数据
              */
-            maps = bean.filterData(tableName, maps, exetraParam);
+            maps = bean.filterData(tableName, maps, extraParam);
         }
 
         List<RelationData> relationDatas = new ArrayList<>();
@@ -364,7 +379,14 @@ public class TableDataExpOrImpService {
             });
         }
         for (RelationData relationData : relationDataNew) {
-            listAllRelationData(relationData.getSlaveTableName(), relationData.getKeyCode(), relationData.getKeys(), exetraParam, dataMap, relationData.getHandlerBean());
+//            /**
+//             * 判断一个id对应多个表的情况
+//             */
+//            if(relationData.getSlaveTableName().contains("\\|")){
+//
+//
+//            }
+            listAllRelationData(relationData.getSlaveTableName(), relationData.getKeyCode(), relationData.getKeys(), extraParam, dataMap, relationData.getHandlerBean());
         }
 
     }
@@ -426,18 +448,6 @@ public class TableDataExpOrImpService {
             }
         });
 
-        /**
-         * 数据导入后置处理
-         */
-        if (!CollectionUtils.isEmpty(tableImportListeners)) {
-            tableImportListeners.forEach(e -> {
-                importDataMap.forEach((k, v) -> {
-                    v.forEach(x -> {
-                        e.after(k, x);
-                    });
-                });
-            });
-        }
         if (!importDataResult.isResult()) {
             tableDataCache.remove(dataKey);
             throw new TableDataImportException("导入失败");
@@ -460,43 +470,60 @@ public class TableDataExpOrImpService {
                                          tableName, List<JSONObject> tableDatas, List<JSONObject> successObj, List<JSONObject> errorObj, Map<String, String> errorMsgs, DataCheckResult
                                          dataCheckResult) {
         if (tableDatas.size() == successObj.size() + errorObj.size()) {
-            logger.info("-------表数据保存结束--------tableName:{},successNum:{},errorNum:{},errorMsg:{}", tableName, successObj.size(), errorObj.size(), JSON.toJSONString(errorMsgs));
+            logger.info("[-------表数据保存结束--------]tableName:{},successNum:{},errorNum:{},errorMsg:{}", tableName, successObj.size(), errorObj.size(), JSON.toJSONString(errorMsgs));
             return;
         }
-        tableDatas.forEach(x -> {
+        /**
+         * 排除掉成功或者失败的对象
+         */
+        tableDatas.stream().filter(e->!(successObj.contains(e)||errorObj.contains(e))).forEach(x -> {
             String key = TableDataCodeCacheManager.tableKey.get(tableName);
             /**
              * 递归查找满足条件的数据然后入库，直到所有数据全部入库或失败为止
              */
-            boolean flag = checkDataConversionKeys(tableName, x);
-            if (flag) {
-                /**
-                 * 数据导入前置处理
-                 */
-                try {
-                    tableImportListeners.forEach(e1 -> {
-                        e1.before(tableName, x, dataCheckResult);
-                    });
+            try {
+                boolean flag = checkDataConversionKeys(tableName, x);
+                if (flag) {
+                    /**
+                     * 数据导入前置处理
+                     */
+
+                    tableImportListeners.stream().sorted(Comparator.comparing(ITableImportListener::order)).forEach(e1 -> e1.before(tableName, x, dataCheckResult,jdbcTemplate));
                     JdbcTemplateService.saveByMap(tableName, x);
                     /**
                      * 更新code转换缓存信息
                      */
                     successObj.add(x);
-                } catch (Exception e) {
-                    logger.error("保存数据异常，tableName:{},key,{} errorMsg,{}", tableName, x.get(key), e.getMessage());
-                    errorObj.add(x);
-                    errorMsgs.put(x.get(key).toString(), e.getMessage());
+
+                    /**
+                     * 数据导入后置处理
+                     */
+
+                    tableImportListeners.stream().sorted(Comparator.comparing(ITableImportListener::order)).forEach(e1 -> e1.after(tableName, x));
                 }
+            } catch (Exception e) {
+                logger.error("保存数据异常，tableName:{},key,{} errorMsg,{}", tableName, x.get(key), e.getMessage());
+                errorObj.add(x);
+                errorMsgs.put(x.get(key).toString(), e.getMessage());
             }
             circleSaveDatas(tableName, tableDatas, successObj, errorObj, errorMsgs, dataCheckResult);
         });
     }
 
     private boolean checkDataConversionKeys(String tableName, JSONObject data) {
+        String properties = TablePropertiesThreadLocalHolder.getProperties(TableConstants.TABLE_CODE_UUID);
         /**
          * 检查code缓存是否存在所有要转化的key
          */
-//        TableDataCodeCacheManager.
+        List<TableConversionKey> tableConversionKeys = TableDataCodeCacheManager.tableConversionKeys.get(tableName);
+
+        for (TableConversionKey conversionKey : tableConversionKeys) {
+            String conversion = conversionKey.getConversionKey();
+            String code = (String) DataConverRuleEngineUtils.getTableProperty(data, conversion.substring(conversion.indexOf(TableConstants.CODE_SEPATATION)+1));
+            if (!StringUtils.isEmpty(code)&&!code.contains(TableConstants.ID_SEPATATION)&&null == TableDataCodeCacheManager.codeToId.get(properties).get(code)) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -559,11 +586,11 @@ public class TableDataExpOrImpService {
         Map<String, List<TableConversionKey>> collect = tableConversionKeyRepository.findAll().stream().filter(TableConversionKey::isUsed).collect(Collectors.groupingBy(TableConversionKey::getTableCodeName));
         AtomicInteger success = new AtomicInteger(0);
         AtomicInteger conversion = new AtomicInteger(0);
-        dataMap.forEach((k, v) -> tableExportListeners.forEach(e -> {
+        dataMap.forEach((k, v) -> tableExportListeners.stream().sorted(Comparator.comparing(ITableExportListener::order)).forEach(e -> {
             conversion.addAndGet(v.size());
             success.addAndGet(e.before(k, v, idToCode, jdbcTemplate, collect));
         }));
-        if (success.get()!=conversion.get()) {
+        if (success.get() != conversion.get()) {
             throw new TableDataConversionException("数据导出失败，有数据id-code转换失败");
         }
     }

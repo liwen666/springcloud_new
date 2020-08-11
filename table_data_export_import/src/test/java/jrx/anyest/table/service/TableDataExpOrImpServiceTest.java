@@ -26,6 +26,8 @@ import java.io.FileOutputStream;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = ApplicationStart.class)
@@ -69,8 +71,8 @@ public class TableDataExpOrImpServiceTest {
 //        map.put("projectId", 335);
         map.put("contentCode", 15029);
         List<TableDataImportOrExpResult<CodeCheck>> tableDataImportOrExpResult = tableDataExpOrImpService.checkCode(map);
-        log.error(JSON.toJSONString(tableDataImportOrExpResult
-        ));
+//        log.error(JSON.toJSONString(tableDataImportOrExpResult
+        System.out.println(JSON.toJSONString(tableDataImportOrExpResult));
     }
 
     @Test
@@ -109,12 +111,15 @@ public class TableDataExpOrImpServiceTest {
     /**
      * 递归查询所有关联数据
      *
+     * 暂时都只支持最新版本导出，如果需要指定版本，有时间再做
+     *
      * @throws FileNotFoundException
      */
     @Test
     public void exportAllRelationData() {
-        boolean enableOutProject = false;
+        boolean enableOutProject = true;
         Integer projectId = 335;
+           //tableName   key        data
         Map<String, Map<String, Map<String, Object>>> dataMap = new ConcurrentHashMap<>();
         Map<String, Object> mapParam = new HashMap();
         mapParam.put("projectId", projectId);
@@ -129,6 +134,11 @@ public class TableDataExpOrImpServiceTest {
             if (enableOutProject) {
                 String prepareSql = "SELECT * FROM `res_resource_set_item` where project_id = " + projectId;
                 List<Map<String, Object>> maps = tableDataExpOrImpService.prepareData(prepareSql);
+                /**
+                 * 将资源管理数据添加到导出数据中
+                 */
+                Map<String, Map<String, Object>> item_id = maps.stream().collect(Collectors.toMap(e -> e.get("item_id").toString(), Function.identity()));
+                dataMap.put("res_resource_set_item",item_id);
                 Map<String, Set<Object>> outProject = Maps.newConcurrentMap();
                 outProject.put("meta_topic_object_info", new HashSet<>());
                 outProject.put("meta_model_object_info", new HashSet<>());
@@ -155,12 +165,9 @@ public class TableDataExpOrImpServiceTest {
             Set<Object> objects = Sets.newHashSet();
             objects.add(dataId);
 //        初始化code缓存信息
-//         tableDataExpOrImpService.listAllRelationData(tableName, objects,null,dataMap,null);
-            /**
-             * 项目外导出需要先导出所有关联数据集
-             */
-            ConcurrentMap<String, Object> objectObjectConcurrentMap = Maps.newConcurrentMap();
-            objectObjectConcurrentMap.put("version", 1);
+            ConcurrentMap<String, Map<String,Object>> objectObjectConcurrentMap = Maps.newConcurrentMap();
+            objectObjectConcurrentMap.put("res_rule",new ConcurrentHashMap<String ,Object>(){{put("version",4);}});
+//            如果策略，规则及等没有版本号就抛异常
             tableDataExpOrImpService.listAllRelationData(tableName, objects, objectObjectConcurrentMap, dataMap, null);
             /**
              * 将数据进行code转换
@@ -217,37 +224,6 @@ public class TableDataExpOrImpServiceTest {
     }
 
 
-    @Test
-    public void exportData() throws FileNotFoundException {
-        File file = new File("D:\\workspace\\springcloud_new\\table_data_export_import\\src\\test\\java\\jrx\\anyest\\table\\service\\" + "测试数据.zip");
-        FileOutputStream fileOutputStream = new FileOutputStream(file);
-        String tableName = "res_rule_info";
-        Integer dataId = 896;
-        Set<Object> objects = Sets.newHashSet();
-        objects.add(dataId);
-        ConcurrentHashMap<String, Map<String, Map<String, Object>>> dataMap = new ConcurrentHashMap<>();
-//        初始化code缓存信息
-//         tableDataExpOrImpService.listAllRelationData(tableName, objects,null,dataMap,null);
-        ConcurrentMap<String, Object> objectObjectConcurrentMap = Maps.newConcurrentMap();
-        objectObjectConcurrentMap.put("version", 1);
-        tableDataExpOrImpService.listAllRelationData(tableName, objects, objectObjectConcurrentMap, dataMap, null);
-        Map<String, String> data = Maps.newConcurrentMap();
-        dataMap.forEach((k, v) -> {
-            Set<String> set = v.keySet();
-            for (String key : set) {
-                if (null == TableDataCodeCacheManager.idToCode.get(key)) {
-                    data.put(k + TableConstants.SPLIT + key, JSON.toJSONString(v.get(key)));
-                } else {
-                    data.put(k + TableConstants.SPLIT + key + ":" + TableDataCodeCacheManager.idToCode.get(key), JSON.toJSONString(v.get(key)));
-
-                }
-            }
-        });
-        String md5String = MD5FileUtil.getMD5String(data.toString());
-        data.put("sign", md5String);
-        DownUploadUtils.expData(fileOutputStream, data);
-    }
-
     /**
      * 签名校验
      *
@@ -255,9 +231,9 @@ public class TableDataExpOrImpServiceTest {
      */
 
     @Test
-    public void importdata() {
-        String tableCodeUuid = TablePropertiesThreadLocalHolder.getProperties("table_code_uuid");
-        TablePropertiesThreadLocalHolder.addProperties("table_code_uuid",tableCodeUuid);
+    public void importData() {
+        String tableCodeUuid = TablePropertiesThreadLocalHolder.getProperties(TableConstants.TABLE_CODE_UUID);
+        TablePropertiesThreadLocalHolder.addProperties(TableConstants.TABLE_CODE_UUID,tableCodeUuid);
         Integer projectId = 335;
         Map<String, Object> mapParam = new HashMap();
         mapParam.put("projectId", projectId);
@@ -267,6 +243,7 @@ public class TableDataExpOrImpServiceTest {
 
         try {
             tableDataExpOrImpService.importData(tableCodeUuid,importResult);
+            System.out.println("--------------导入成功------------------");
         } catch (Exception e) {
             List<ImportData> importData = importResult.getImportData();
             for(ImportData importData1:importData){
@@ -275,6 +252,7 @@ public class TableDataExpOrImpServiceTest {
                 }
             }
         }
+
         System.out.println(importResult);
 
     }
@@ -305,7 +283,6 @@ public class TableDataExpOrImpServiceTest {
 
             System.out.println(dataCheckResult.getUuidKey());
 
-//            importdata();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -321,7 +298,7 @@ public class TableDataExpOrImpServiceTest {
     public void importInnerProject() {
         try {
             String next = TableIdGenerator.getNext();
-            TablePropertiesThreadLocalHolder.addProperties("table_code_uuid", next);
+            TablePropertiesThreadLocalHolder.addProperties(TableConstants.TABLE_CODE_UUID, next);
             Integer projectId = 335;
             Map<String, Object> mapParam = new HashMap();
             mapParam.put("contentCode", 15029);
@@ -337,14 +314,14 @@ public class TableDataExpOrImpServiceTest {
                 throw new TableDataImportException("数据包异常，MD5检验数据失败！");
             }
             DataCheckResult dataCheckResult = tableDataExpOrImpService.checkData(stringStringMap);
-            importdata();
+            importData();
 
         } catch (Exception e) {
             log.error("导入数据失败"+e.getMessage());
         } finally {
-            TableDataCodeCacheManager.idToCode.remove(TablePropertiesThreadLocalHolder.getProperties("table_code_uuid"));
-            TableDataCodeCacheManager.codeToId.remove(TablePropertiesThreadLocalHolder.getProperties("table_code_uuid"));
-            TablePropertiesThreadLocalHolder.remove("table_code_uuid");
+            TableDataCodeCacheManager.idToCode.remove(TablePropertiesThreadLocalHolder.getProperties(TableConstants.TABLE_CODE_UUID));
+            TableDataCodeCacheManager.codeToId.remove(TablePropertiesThreadLocalHolder.getProperties(TableConstants.TABLE_CODE_UUID));
+            TablePropertiesThreadLocalHolder.remove(TableConstants.TABLE_CODE_UUID);
         }
     }
 

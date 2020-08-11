@@ -26,7 +26,7 @@ public class TableCodeRelationRepositoryTest {
     }
 
     @Test
-    public void name() {
+    public void insert() {
 
 
         /**
@@ -114,7 +114,6 @@ public class TableCodeRelationRepositoryTest {
         }
 
 
-        System.out.println("**********************meta_model_object_info********************************");
 
         tableCodeRelation.setId(null);
         tableCodeRelation.setPrimaryCodeKey("resource_id");
@@ -224,6 +223,7 @@ public class TableCodeRelationRepositoryTest {
         tableCodeRelation.setPrimaryTableChinaName("统计模型信息表");
         tableCodeRelation.setPrimaryTableName("meta_topic_object_info");
         tableCodeRelation.setSlaveTableChinaName("数据集信息表");
+//        tableCodeRelation.setSlaveTableName("meta_data_object_info|meta_model_object_info|meta_topic_object_info");
         tableCodeRelation.setSlaveTableName("meta_data_object_info");
         tableCodeRelation.setSlaveCodeKey("resource_id");
         tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
@@ -246,6 +246,35 @@ public class TableCodeRelationRepositoryTest {
         }
 
 
+//        meta_topic_object_relation
+
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("primary_resource_id");
+        tableCodeRelation.setPrimaryTableChinaName("统计模型关系表");
+        tableCodeRelation.setPrimaryTableName("meta_topic_object_relation");
+        tableCodeRelation.setSlaveTableChinaName("对象信息表");
+//        tableCodeRelation.setSlaveTableName("meta_data_object_info|meta_model_object_info|meta_topic_object_info");
+        tableCodeRelation.setSlaveTableName("meta_data_object_info");
+        tableCodeRelation.setSlaveCodeKey("resource_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("relation_object_id");
+        tableCodeRelation.setPrimaryTableChinaName("统计模型关系表");
+        tableCodeRelation.setPrimaryTableName("meta_topic_object_relation");
+        tableCodeRelation.setSlaveTableChinaName("对象信息表");
+//        tableCodeRelation.setSlaveTableName("meta_data_object_info|meta_model_object_info|meta_topic_object_info");
+        tableCodeRelation.setSlaveTableName("meta_data_object_info");
+        tableCodeRelation.setSlaveCodeKey("resource_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
 
     }
 }

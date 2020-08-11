@@ -75,6 +75,9 @@ public class JdbcTemplateService {
             });
         String insertSql = getInsertSql(columns, tableName);
         jdbcTemplate.update(insertSql, values.toArray());
+        /**
+         * 保存之后需要更新code缓存
+         */
 
     }
 

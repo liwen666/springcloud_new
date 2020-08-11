@@ -11,9 +11,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ApplicationStart.class)
-@WebAppConfiguration
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class BaseTest {
 
 	protected Logger LOG=LoggerFactory.getLogger(getClass());
@@ -33,5 +34,29 @@ public class BaseTest {
 		tableCodeRelation.setSlaveTableChinaName("分类表");
 		tableCodeRelation.setSlaveTableName("meta_category");
 //		ReflectionUtils.getFieldValue(tableCodeRelation,)
+	}
+
+	@Test
+	public void test(){
+		String len="^[A-Z].*[\\.]$";//表示以字母开始句号结尾
+		String aaa= "asss111";
+		System.out.println(aaa.matches("^[a-z].*"));
+	}
+
+
+	@Test
+	public void testStream() {
+		List<Integer> aaa = new ArrayList<>();
+		aaa.add(2);
+		aaa.add(1);
+		aaa.add(100);;
+		System.out.println(aaa.stream().sorted().collect(Collectors.toList()));
+
+
+		for(int a:aaa){
+			System.out.println(a);
+			break;
+		}
+
 	}
 }

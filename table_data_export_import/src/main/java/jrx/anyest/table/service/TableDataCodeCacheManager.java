@@ -2,9 +2,7 @@ package jrx.anyest.table.service;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import jrx.anyest.table.jpa.entity.TableCodeConfig;
-import jrx.anyest.table.jpa.entity.TableCodeRelation;
-import jrx.anyest.table.jpa.entity.TableImportSort;
+import jrx.anyest.table.jpa.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +53,17 @@ public class TableDataCodeCacheManager {
      * 表字段类型
      */
     public static Map<String, Map<String, String>> tableColumns = Maps.newConcurrentMap();
+
+    /**
+     * 转换KEY缓存
+     */
+    public static  Map<String, List<TableConversionKey>> tableConversionKeys = new ConcurrentHashMap<>();
+
+
+    /**
+     * 表code配置信息
+     */
+    public static  Map<String, TableParamConfig> tableParamConfigs = new ConcurrentHashMap<>();
 
 
 }

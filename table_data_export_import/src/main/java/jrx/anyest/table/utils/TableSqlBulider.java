@@ -97,6 +97,9 @@ public class TableSqlBulider {
             if(v instanceof Long) return new Date((Long)v);
             return v;
         }
+        if(s.startsWith("longtext")){
+            return v;
+        }
         return v;
     }
 }
