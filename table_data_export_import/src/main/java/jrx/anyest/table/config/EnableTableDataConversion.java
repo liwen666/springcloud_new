@@ -32,5 +32,5 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @Import(TableApplicationStart.class)
-public @interface TableDataConversionEnable {
+public @interface EnableTableDataConversion {
 }
