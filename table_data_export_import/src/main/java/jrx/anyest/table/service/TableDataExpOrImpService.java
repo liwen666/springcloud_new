@@ -189,7 +189,6 @@ public class TableDataExpOrImpService {
 
             if (TableDataCodeCacheManager.idToCode.get(codeUuid).size() != TableDataCodeCacheManager.codeToId.get(codeUuid).size()) {
                 throw new TableDataConversionException("初始化code缓存异常，idToCode和codeToId数量不一样！ tableName:" + tableCodeConfig.getTableCodeName() + " sql " + ck);
-
             }
         }
 
@@ -551,7 +550,7 @@ public class TableDataExpOrImpService {
                 versionDataMap.put(tableName, Lists.newArrayList());
             }
             /**
-             * 判断时新增加还是更新,还是版本迭代
+             * 判断是新增加还是更新,还是版本迭代
              */
             if (k.contains(TableConstants.CODE_SEPATATION)) {
                 String codeId = k.split(TableConstants.SPLIT)[1];

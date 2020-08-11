@@ -1,7 +1,6 @@
 package jrx.anyest.table.service;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import jrx.anyest.table.ApplicationStart;
@@ -32,7 +31,7 @@ import java.util.stream.Collectors;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = ApplicationStart.class)
 @Slf4j
-public class TableDataExpOrImpServiceTest {
+public class TableDataExpOrImpServiceTest2 {
     @Autowired
     private TableDataExpOrImpService tableDataExpOrImpService;
 
@@ -117,7 +116,7 @@ public class TableDataExpOrImpServiceTest {
      */
     @Test
     public void exportAllRelationData() {
-        boolean enableOutProject = false;
+        boolean enableOutProject = true;
         Integer projectId = 335;
            //tableName   key        data
         Map<String, Map<String, Map<String, Object>>> dataMap = new ConcurrentHashMap<>();
@@ -159,16 +158,6 @@ public class TableDataExpOrImpServiceTest {
                     tableDataExpOrImpService.listAllRelationData(s, objects, null, dataMap, null);
                 });
             }
-//        tableDataExpOrImpService.listAllRelationData(tableName, objects, null, dataMap, null);
-            String tableName = "res_rule_info";
-            Integer dataId = 896;
-            Set<Object> objects = Sets.newHashSet();
-            objects.add(dataId);
-//        初始化code缓存信息
-            ConcurrentMap<String, Map<String,Object>> objectObjectConcurrentMap = Maps.newConcurrentMap();
-            objectObjectConcurrentMap.put("res_rule",new ConcurrentHashMap<String ,Object>(){{put("version",4);}});
-//            如果策略，规则及等没有版本号就抛异常
-            tableDataExpOrImpService.listAllRelationData(tableName, objects, objectObjectConcurrentMap, dataMap, null);
             /**
              * 将数据进行code转换
              *
@@ -178,7 +167,7 @@ public class TableDataExpOrImpServiceTest {
             /**
              * 下载数据
              */
-            File file = new File("D:\\workspace\\springcloud_new\\table_data_export_import\\src\\test\\java\\jrx\\anyest\\table\\service\\" + "测试数据.zip");
+            File file = new File("D:\\workspace\\springcloud_new\\table_data_export_import\\src\\test\\java\\jrx\\anyest\\table\\service\\" + "资源管理.zip");
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             Map<String, String> data = Maps.newTreeMap();
             dataMap.forEach((k, v) -> {
@@ -257,43 +246,6 @@ public class TableDataExpOrImpServiceTest {
 
     }
 
-    /**
-     * 导入前的数据检查
-     */
-    @Test
-    public void importCheck() {
-        try {
-            String next = TableIdGenerator.getNext();
-            TablePropertiesThreadLocalHolder.addProperties("table_code_uuid", next);
-            Integer projectId = 335;
-            Map<String, Object> mapParam = new HashMap();
-            mapParam.put("contentCode", 15029);
-            mapParam.put("projectId", projectId);
-            tableDataExpOrImpService.initCodeCache(mapParam);
-            File file = new File("D:\\workspace\\springcloud_new\\table_data_export_import\\src\\test\\java\\jrx\\anyest\\table\\service\\测试数据.zip");
-            FileInputStream fileInputStream = new FileInputStream(file);
-            Map<String, String> stringStringMap = DownUploadUtils.importData(fileInputStream);
-            String sign = stringStringMap.get("sign");
-            System.out.println("******************************************************");
-            System.out.println(sign);
-            stringStringMap.remove("sign");
-            String md5String = MD5FileUtil.getMD5String(stringStringMap.toString());
-            System.out.println(md5String.equals(sign));
-            DataCheckResult dataCheckResult = tableDataExpOrImpService.checkData(stringStringMap);
-
-            System.out.println(dataCheckResult.getUuidKey());
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            TableDataCodeCacheManager.idToCode.remove(TablePropertiesThreadLocalHolder.getProperties("table_code_uuid"));
-            TableDataCodeCacheManager.codeToId.remove(TablePropertiesThreadLocalHolder.getProperties("table_code_uuid"));
-            TablePropertiesThreadLocalHolder.remove("table_code_uuid");
-        }
-
-    }
-
     @Test
     public void importInnerProject() {
         try {
@@ -325,34 +277,7 @@ public class TableDataExpOrImpServiceTest {
         }
     }
 
-    @Test
-    public void sqlTest() {
-        String sql =" INSERT INTO meta_category( category_id  ) VALUES (?)";
-//        String sql =" INSERT INTO meta_category(update_time , category_id , create_time , project_id , parent_id , name , category_type , update_person , used , content_code ) VALUES (?,?,?,?,?,?,?,?,?,?)";
-//        String value="[1595214790000,337,1595214790000,335,0,\"默认\",\"RULE\",\"lsw\",true,\"15029\"]";
-        String value="[1000]";
-        List list = JSON.parseObject(value, List.class);
-        JdbcTemplateService.jdbcTemplate.update(sql,list.toArray());
 
-    }
-
-
-    @Test
-    public void sqltese2() {
-        /**
-         * 查询表数据两以及字段类型
-         */
-        RowCountCallbackHandler rowCountCallbackHandler = new RowCountCallbackHandler();
-        JdbcTemplateService.jdbcTemplate.query("select * from ins_market_channel ", rowCountCallbackHandler);
-        List<Map<String, Object>> desc_ins_market_channel_ = JdbcTemplateService.jdbcTemplate.queryForList("desc ins_market_channel ");
-
-    }
-
-    @Test
-    public void tableId() {
-        String next = TableIdGenerator.getNext();
-        System.out.println(next);
-    }
 
 
 }

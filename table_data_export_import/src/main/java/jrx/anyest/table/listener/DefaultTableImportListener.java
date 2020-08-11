@@ -10,6 +10,7 @@ import jrx.anyest.table.jpa.entity.TableParamConfig;
 import jrx.anyest.table.service.*;
 import jrx.anyest.table.utils.DataConverRuleEngineUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -21,11 +22,11 @@ import java.util.Map;
 
 /**
  * <p>
- * 描述
+ *  描述
  * </p>
  *
  * @author lw
- * @since 2019/5/26 23:40
+ * @since  2020/8/11 17:42
  */
 @Service
 public class DefaultTableImportListener implements ITableImportListener {
@@ -43,7 +44,13 @@ public class DefaultTableImportListener implements ITableImportListener {
         boolean version = dataCheckResult.getVersionDataMap().get(tableName).contains(data);
         boolean update = dataCheckResult.getUpdateDataMap().get(tableName).contains(data);
         if (insert) {
-
+            Integer newKey = tableKeyService.getNewKey(jdbcTemplate);
+            /**
+             * 做数据转换处理
+             */
+            String keyName = TableDataCodeCacheManager.tableKey.get(tableName);
+            data.put(keyName,newKey);
+            conversionKey(tableName, data, codeToId);
         } else if (version) {
             /**
              * 获取到infoCode 根据infoCode找到version
@@ -51,7 +58,12 @@ public class DefaultTableImportListener implements ITableImportListener {
             //这里est系统的infoCode都是在版本对象的resource_id里面
             TableParamConfig tableParamConfig = TableDataCodeCacheManager.tableParamConfigs.get(tableName);
             Integer resource = Integer.parseInt(TableDataCodeCacheManager.codeToId.get(tableCodeUuid).get(data.get(tableParamConfig.getResourceIdColumn())));
-            Integer oldVersion = jdbcTemplate.queryForObject("select "+tableParamConfig.getVersionColumn()+" from " + tableName + " where  "+tableParamConfig.getResourceIdColumn()+"=" + resource + " order by "+tableParamConfig.getVersionColumn()+" desc limit 1", Integer.class);
+            Integer oldVersion;
+            try {
+                oldVersion = jdbcTemplate.queryForObject("select "+tableParamConfig.getVersionColumn()+" from " + tableName + " where  "+tableParamConfig.getResourceIdColumn()+"=" + resource + " order by "+tableParamConfig.getVersionColumn()+" desc limit 1", Integer.class);
+            } catch (DataAccessException e) {
+                oldVersion=1;
+            }
             Integer newKey = tableKeyService.getNewKey(jdbcTemplate);
             String key = TableDataCodeCacheManager.tableKey.get(tableName);
             data.put("version",++oldVersion);
