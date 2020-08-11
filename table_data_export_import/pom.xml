@@ -6,7 +6,7 @@
 
     <groupId>jrx.anyest.table</groupId>
     <artifactId>table_data_export_import</artifactId>
-    <version>fc_1.2.0-SNAPSHOT</version>
+    <version>fc_1.2.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>

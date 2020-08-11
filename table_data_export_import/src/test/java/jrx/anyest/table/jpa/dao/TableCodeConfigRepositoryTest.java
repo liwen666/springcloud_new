@@ -1,7 +1,7 @@
 package jrx.anyest.table.jpa.dao;
 
 import com.google.common.collect.Maps;
-import jrx.anyest.table.ApplicationStart;
+import jrx.anyest.table.TableApplicationStart;
 import jrx.anyest.table.jpa.entity.TableCodeConfig;
 import jrx.anyest.table.service.TableDataCodeCacheManager;
 import jrx.anyest.table.service.TableDataHandler;
@@ -19,7 +19,7 @@ import java.util.Map;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ApplicationStart.class)
+@SpringBootTest(classes = TableApplicationStart.class)
 public class TableCodeConfigRepositoryTest {
     @Autowired
     private TableCodeConfigRepository tableCodeConfigRepository;

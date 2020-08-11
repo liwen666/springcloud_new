@@ -1,6 +1,6 @@
 package jrx.anyest.table.jpa.dao;
 
-import jrx.anyest.table.ApplicationStart;
+import jrx.anyest.table.TableApplicationStart;
 import jrx.anyest.table.jpa.entity.TableMarkInit;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,10 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ApplicationStart.class)
+@SpringBootTest(classes = TableApplicationStart.class)
 public class TableMarkInitRepositoryTest {
     @Autowired
     private  TableMarkInitRepository tableMarkInitRepository;

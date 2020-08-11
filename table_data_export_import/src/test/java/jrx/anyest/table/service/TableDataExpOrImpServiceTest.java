@@ -1,10 +1,9 @@
 package jrx.anyest.table.service;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import jrx.anyest.table.ApplicationStart;
+import jrx.anyest.table.TableApplicationStart;
 import jrx.anyest.table.constant.TableConstants;
 import jrx.anyest.table.exception.TableDataImportException;
 import jrx.anyest.table.jpa.dto.*;
@@ -30,7 +29,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ApplicationStart.class)
+@SpringBootTest(classes = TableApplicationStart.class)
 @Slf4j
 public class TableDataExpOrImpServiceTest {
     @Autowired

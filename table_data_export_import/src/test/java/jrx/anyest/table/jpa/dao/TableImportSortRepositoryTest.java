@@ -1,7 +1,6 @@
 package jrx.anyest.table.jpa.dao;
 
-import jrx.anyest.table.ApplicationStart;
-import jrx.anyest.table.jpa.entity.TableCodeRelation;
+import jrx.anyest.table.TableApplicationStart;
 import jrx.anyest.table.jpa.entity.TableImportSort;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,11 +12,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.*;
-
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ApplicationStart.class)
+@SpringBootTest(classes = TableApplicationStart.class)
 public class TableImportSortRepositoryTest {
     @Autowired
     private TableImportSortRepository tableImportSortRepository;

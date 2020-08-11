@@ -1,6 +1,6 @@
 package jrx.anyest.table.jpa.dao;
 
-import jrx.anyest.table.ApplicationStart;
+import jrx.anyest.table.TableApplicationStart;
 import jrx.anyest.table.jpa.entity.TableConversionKey;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +12,7 @@ import java.util.Date;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ApplicationStart.class)
+@SpringBootTest(classes = TableApplicationStart.class)
 public class TableConversionKeyRepositoryTest {
     @Autowired
     private TableConversionKeyRepository tableConversionKeyRepository;
