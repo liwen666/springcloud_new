@@ -32,9 +32,6 @@ import java.util.stream.Collectors;
 public class DefaultTableDataHandler implements TableDataHandler {
     @Override
     public boolean codeInit(String tableName, Map<String, Object> data, Map<String, Object> param) {
-        if (tableName.equals("res_resource_set_item")) {
-            System.out.println(tableName);
-        }
         if (tableName.equals("meta_category")) {
             /**
              * 过滤掉不是当前项目的分类
@@ -171,7 +168,7 @@ public class DefaultTableDataHandler implements TableDataHandler {
          * 分类信息表特殊处理
          */
         if (whereParam.get("projectId") != null && tableCodeConfig.getTableCodeName().equals("meta_category")) {
-            return "  and project_id=" + whereParam.get("projectId") +" or project_id is null ";
+            return "  and (project_id=" + whereParam.get("projectId") +" or project_id is null) ";
         } else if (tableCodeConfig.getTableCodeName().equals("meta_category")) {
             return "  and category_type not in('RULE','SCORECARD','RULETREE','STRATEGY','RULESET','SCRIPT','MATRIX') ";
         }

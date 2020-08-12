@@ -280,6 +280,25 @@ public class TableImportSortRepositoryTest {
         tableImportSortRepository.save(tableImportSort);
 
 
+        tableImportSort.setId(null);
+        tableImportSort.setOrderId(orderId++);
+        tableImportSort.setTableCodeName("res_matrix_info");
+        byTableCodeName = tableImportSortRepository.findByTableCodeName(tableImportSort.getTableCodeName());
+        if (null != byTableCodeName) {
+            tableImportSort.setId(byTableCodeName.getId());
+        }
+        tableImportSortRepository.save(tableImportSort);
+
+        tableImportSort.setId(null);
+        tableImportSort.setOrderId(orderId++);
+        tableImportSort.setTableCodeName("res_matrix");
+        byTableCodeName = tableImportSortRepository.findByTableCodeName(tableImportSort.getTableCodeName());
+        if (null != byTableCodeName) {
+            tableImportSort.setId(byTableCodeName.getId());
+        }
+        tableImportSortRepository.save(tableImportSort);
+
+
     }
 
     @Test

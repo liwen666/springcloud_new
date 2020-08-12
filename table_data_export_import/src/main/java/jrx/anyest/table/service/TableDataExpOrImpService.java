@@ -130,6 +130,7 @@ public class TableDataExpOrImpService {
                     codeCheck1.setCode(tableCodeConfig.getColumns());
                     codeCheck1.setData(errorDatas);
                     codeCheck.setData(codeCheck1);
+                    codeCheck1.setCodeSql(ck);
                     errorData.add(codeCheck);
                 }
             });
@@ -405,9 +406,12 @@ public class TableDataExpOrImpService {
     public void importData(String dataKey, ImportDataResult importDataResult) {
         DataCheckResult dataCheckResult = tableDataCache.get(dataKey);
         logger.info("--------准备导入数据----------");
+        if (null==dataCheckResult) {
+            throw new TableDataImportException("数据不存在，或者导入超时，请重新导入！");
+        }
         Map<String, List<JSONObject>> importDataMap = dataCheckResult.getImportDataMap();
         if (CollectionUtils.isEmpty(importDataMap)) {
-            throw new TableDataImportException("数据不存在，请重新导入！");
+            throw new TableDataImportException("数据不存在，或者导入超时，请重新导入！");
         }
 
 

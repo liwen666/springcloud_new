@@ -7,6 +7,7 @@ import jrx.anyest.table.constant.TableConstants;
 import jrx.anyest.table.exception.TableDataImportException;
 import jrx.anyest.table.jpa.dto.*;
 import jrx.anyest.table.utils.DownUploadUtils;
+import jrx.anyest.table.utils.MD5FileUtil;
 import jrx.anyest.table.utils.TableIdGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -64,8 +65,8 @@ public class TableDataExpOrImpServiceTest2 {
          * 数据code检查
          */
         Map map = new HashMap();
-        map.put("projectId", 335);
-        map.put("contentCode", 15029);
+        map.put("projectId", 13784);
+        map.put("contentCode", 2);
         List<TableDataImportOrExpResult<CodeCheck>> tableDataImportOrExpResult = tableDataExpOrImpService.checkCode(map);
 //        log.error(JSON.toJSONString(tableDataImportOrExpResult
         System.out.println(JSON.toJSONString(tableDataImportOrExpResult));
@@ -128,32 +129,7 @@ public class TableDataExpOrImpServiceTest2 {
              * 项目内导出依赖项目外的导出数据
              */
             if (enableOutProject) {
-                String prepareSql = "SELECT * FROM `res_resource_set_item` where project_id = " + projectId;
-                List<Map<String, Object>> maps = tableDataExpOrImpService.prepareData(prepareSql);
-                /**
-                 * 将资源管理数据添加到导出数据中
-                 */
-                Map<String, Map<String, Object>> item_id = maps.stream().collect(Collectors.toMap(e -> e.get("item_id").toString(), Function.identity()));
-                dataMap.put("res_resource_set_item",item_id);
-                Map<String, Set<Object>> outProject = Maps.newConcurrentMap();
-                outProject.put("meta_topic_object_info", new HashSet<>());
-                outProject.put("meta_model_object_info", new HashSet<>());
-                outProject.put("meta_data_object_info", new HashSet<>());
-                for (Map map : maps) {
-                    String resource_id = map.get("resource_id").toString();
-                    if (TableDataCodeCacheManager.idToCode.get(next).get("meta_topic_object_info" + TableConstants.CODE_SEPATATION + resource_id) != null) {
-                        outProject.get("meta_topic_object_info").add(map.get("resource_id"));
-                    }
-                    if (TableDataCodeCacheManager.idToCode.get(next).get("meta_model_object_info" + TableConstants.CODE_SEPATATION + resource_id) != null) {
-                        outProject.get("meta_model_object_info").add(map.get("resource_id"));
-                    }
-                    if (TableDataCodeCacheManager.idToCode.get(next).get("meta_data_object_info" + TableConstants.CODE_SEPATATION + resource_id) != null) {
-                        outProject.get("meta_data_object_info").add(map.get("resource_id"));
-                    }
-                }
-                outProject.forEach((s, objects) -> {
-                    tableDataExpOrImpService.listAllRelationData(s, objects, null, dataMap, null);
-                });
+                listProjectResource(projectId, dataMap, next);
             }
             /**
              * 将数据进行code转换
@@ -207,6 +183,35 @@ public class TableDataExpOrImpServiceTest2 {
             TablePropertiesThreadLocalHolder.remove("table_code_uuid");
         }
 
+    }
+
+    private void listProjectResource(Integer projectId, Map<String, Map<String, Map<String, Object>>> dataMap, String next) {
+        String prepareSql = "SELECT * FROM `res_resource_set_item` where project_id = " + projectId;
+        List<Map<String, Object>> maps = tableDataExpOrImpService.prepareData(prepareSql);
+        /**
+         * 将资源管理数据添加到导出数据中
+         */
+        Map<String, Map<String, Object>> item_id = maps.stream().collect(Collectors.toMap(e -> e.get("item_id").toString(), Function.identity()));
+        dataMap.put("res_resource_set_item",item_id);
+        Map<String, Set<Object>> outProject = Maps.newConcurrentMap();
+        outProject.put("meta_topic_object_info", new HashSet<>());
+        outProject.put("meta_model_object_info", new HashSet<>());
+        outProject.put("meta_data_object_info", new HashSet<>());
+        for (Map map : maps) {
+            String resource_id = map.get("resource_id").toString();
+            if (TableDataCodeCacheManager.idToCode.get(next).get("meta_topic_object_info" + TableConstants.CODE_SEPATATION + resource_id) != null) {
+                outProject.get("meta_topic_object_info").add(map.get("resource_id"));
+            }
+            if (TableDataCodeCacheManager.idToCode.get(next).get("meta_model_object_info" + TableConstants.CODE_SEPATATION + resource_id) != null) {
+                outProject.get("meta_model_object_info").add(map.get("resource_id"));
+            }
+            if (TableDataCodeCacheManager.idToCode.get(next).get("meta_data_object_info" + TableConstants.CODE_SEPATATION + resource_id) != null) {
+                outProject.get("meta_data_object_info").add(map.get("resource_id"));
+            }
+        }
+        outProject.forEach((s, objects) -> {
+            tableDataExpOrImpService.listAllRelationData(s, objects, null, dataMap, null);
+        });
     }
 
 

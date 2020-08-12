@@ -26,4 +26,8 @@ public class CodeCheck {
      * 错误数据数量
      */
     private Integer num;
+    /**
+     * code的查询sql
+     */
+    private String codeSql;
 }

@@ -1,9 +1,7 @@
 package jrx.anyest.table.jpa.dao;
 
-import com.google.common.collect.Maps;
 import jrx.anyest.table.TableApplicationStart;
 import jrx.anyest.table.jpa.entity.TableCodeConfig;
-import jrx.anyest.table.service.TableDataCodeCacheManager;
 import jrx.anyest.table.service.TableDataHandler;
 import jrx.anyest.table.utils.TableSpringUtil;
 import org.junit.Test;
@@ -11,11 +9,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Map;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -37,21 +33,6 @@ public class TableCodeConfigRepositoryTest {
     }
 
 
-    /**
-     * res_strategy_node_link  存的是个版本id
-     */
-    @Test
-    public void initOrgTableCode() {
-        String orgId = "15029";
-        Map<String, String> idToCode = TableDataCodeCacheManager.idToCode.get(orgId);
-        Map<String, String> codeToId = TableDataCodeCacheManager.codeToId.get(orgId);
-        if (CollectionUtils.isEmpty(idToCode)) {
-            TableDataCodeCacheManager.idToCode.put(orgId, Maps.newConcurrentMap());
-        }
-        if (CollectionUtils.isEmpty(codeToId)) {
-            TableDataCodeCacheManager.codeToId.put(orgId, Maps.newConcurrentMap());
-        }
-    }
 
     /**
      * est 不包含的code表

@@ -18,14 +18,14 @@ public class TableMarkInitRepositoryTest {
 
     @Test
     public void inert() {
-        TableMarkInit tableMarkInit = new TableMarkInit();
-        tableMarkInit.setTableName("ins_board_template");
-        tableMarkInit.setTableChinaName("看板表");
-        tableMarkInit.setCreateTime(new Date());
-        TableMarkInit byTableName = tableMarkInitRepository.findByTableName(tableMarkInit.getTableName());
-        if(null== byTableName){
-            tableMarkInitRepository.save(tableMarkInit);
-        }
+//        TableMarkInit tableMarkInit = new TableMarkInit();
+//        tableMarkInit.setTableName("ins_board_template");
+//        tableMarkInit.setTableChinaName("看板表");
+//        tableMarkInit.setCreateTime(new Date());
+//        TableMarkInit byTableName = tableMarkInitRepository.findByTableName(tableMarkInit.getTableName());
+//        if(null== byTableName){
+//            tableMarkInitRepository.save(tableMarkInit);
+//        }
 
     }
 }

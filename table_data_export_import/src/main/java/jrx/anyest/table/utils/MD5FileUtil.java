@@ -1,4 +1,4 @@
-package jrx.anyest.table.service;
+package jrx.anyest.table.utils;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;

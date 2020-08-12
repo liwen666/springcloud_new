@@ -3,12 +3,8 @@ package jrx.anyest.table.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
-import jrx.anyest.table.jpa.dao.TableCodeConfigRepository;
-import jrx.anyest.table.jpa.dao.TableConversionKeyRepository;
-import jrx.anyest.table.jpa.dao.TableParamConfigRepository;
-import jrx.anyest.table.jpa.entity.TableCodeConfig;
-import jrx.anyest.table.jpa.entity.TableConversionKey;
-import jrx.anyest.table.jpa.entity.TableParamConfig;
+import jrx.anyest.table.jpa.dao.*;
+import jrx.anyest.table.jpa.entity.*;
 import jrx.anyest.table.jpa.enums.TableDataTypeEnum;
 import jrx.anyest.table.listener.ITableExportListener;
 import jrx.anyest.table.listener.ITableImportListener;
@@ -31,9 +27,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCountCallbackHandler;
+import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 import javax.sql.DataSource;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -70,7 +68,12 @@ public class TableEnvironmentConfig implements EnvironmentAware, BeanDefinitionR
 
     @Override
     public void run(ApplicationArguments args) {
-        DataSource bean = TableSpringUtil.getBean(DataSource.class);
+        AbstractRoutingDataSource bean = null;
+        try {
+            bean = TableSpringUtil.getBean(AbstractRoutingDataSource.class);
+        } catch (Exception e) {
+        }
+        if (bean == null) TableSpringUtil.getBean(DataSource.class);
         if (bean != null) {
             JdbcTemplateService.jdbcTemplate = new JdbcTemplate(bean);
         } else {
@@ -121,13 +124,21 @@ public class TableEnvironmentConfig implements EnvironmentAware, BeanDefinitionR
         logger.info("-----------装配数据处理监听器已完成: size:{}------------", values.size());
         TableCodeConfigRepository tableCodeConfigRepository = TableSpringUtil.getBean(TableCodeConfigRepository.class);
         TableDataCodeCacheManager.tableCodeConfigs = tableCodeConfigRepository.findAll().stream().filter(TableCodeConfig::isUsed).collect(Collectors.toMap(TableCodeConfig::getTableCodeName, Function.identity()));
-        logger.info("-----------初始化code系统配置已完成:size:{} name:{}------------",TableDataCodeCacheManager.tableCodeConfigs.size(), JSON.toJSONString(TableDataCodeCacheManager.tableCodeConfigs.keySet()));
+        logger.info("-----------初始化code系统配置已完成:size:{} name:{}------------", TableDataCodeCacheManager.tableCodeConfigs.size(), JSON.toJSONString(TableDataCodeCacheManager.tableCodeConfigs.keySet()));
         TableConversionKeyRepository tableConversionKeyRepository = TableSpringUtil.getBean(TableConversionKeyRepository.class);
         TableDataCodeCacheManager.tableConversionKeys = tableConversionKeyRepository.findAll().stream().filter(TableConversionKey::isUsed).collect(Collectors.groupingBy(TableConversionKey::getTableCodeName));
-        logger.info("-----------初始化数据转换key:size:{} name:{}------------",TableDataCodeCacheManager.tableConversionKeys.size(), JSON.toJSONString(TableDataCodeCacheManager.tableConversionKeys.keySet()));
+        logger.info("-----------初始化数据转换key:size:{} name:{}------------", TableDataCodeCacheManager.tableConversionKeys.size(), JSON.toJSONString(TableDataCodeCacheManager.tableConversionKeys.keySet()));
         TableParamConfigRepository tableParamConfigRepository = TableSpringUtil.getBean(TableParamConfigRepository.class);
-        TableDataCodeCacheManager.tableParamConfigs = tableParamConfigRepository.findAll().stream().filter(TableParamConfig::isUsed).collect(Collectors.toMap(TableParamConfig::getTableCodeName,Function.identity()));
-        logger.info("-----------初始化版本对象信息key:size:{} name:{}------------",TableDataCodeCacheManager.tableParamConfigs.size(), JSON.toJSONString(TableDataCodeCacheManager.tableParamConfigs.keySet()));
+        TableDataCodeCacheManager.tableParamConfigs = tableParamConfigRepository.findAll().stream().filter(TableParamConfig::isUsed).collect(Collectors.toMap(TableParamConfig::getTableCodeName, Function.identity()));
+        logger.info("-----------初始化版本对象信息key:size:{} name:{}------------", TableDataCodeCacheManager.tableParamConfigs.size(), JSON.toJSONString(TableDataCodeCacheManager.tableParamConfigs.keySet()));
+        TableCodeRelationRepository tableCodeRelationRepository = TableSpringUtil.getBean(TableCodeRelationRepository.class);
+        TableDataCodeCacheManager.relations = tableCodeRelationRepository.findAll().stream().filter(e -> e.isUsed()).collect(Collectors.groupingBy(TableCodeRelation::getPrimaryTableName));
+        logger.info("-----------初始化级联关系:size:{} name:{}------------", TableDataCodeCacheManager.relations.size(), JSON.toJSONString(TableDataCodeCacheManager.relations.keySet()));
+        TableImportSortRepository tableImportSortRepository = TableSpringUtil.getBean(TableImportSortRepository.class);
+        TableDataCodeCacheManager.tableImportSorts = tableImportSortRepository.findAll().stream().sorted(Comparator.comparing(TableImportSort::getOrderId)).collect(Collectors.toList());
+        logger.info("-----------初始化表排序:size:{} name:{}------------",  TableDataCodeCacheManager.tableImportSorts.size(), JSON.toJSONString( TableDataCodeCacheManager.tableImportSorts));
+
+
 
 
     }

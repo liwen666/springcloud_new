@@ -8,6 +8,7 @@ import jrx.anyest.table.constant.TableConstants;
 import jrx.anyest.table.exception.TableDataImportException;
 import jrx.anyest.table.jpa.dto.*;
 import jrx.anyest.table.utils.DownUploadUtils;
+import jrx.anyest.table.utils.MD5FileUtil;
 import jrx.anyest.table.utils.TableIdGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
