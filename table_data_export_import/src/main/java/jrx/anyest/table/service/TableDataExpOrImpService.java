@@ -56,7 +56,12 @@ public class TableDataExpOrImpService {
      * 导出监听器
      */
     private Collection<ITableExportListener> tableExportListeners;
+    /**
+     * 导入数据缓存
+     */
     public static TableTimeMap<String, DataCheckResult> tableDataCache = new TableTimeMap<>();
+//    导出数据缓存
+    public static TableTimeMap<String,  Map<String, Map<String, Map<String, Object>>>> tableDataExportCache = new TableTimeMap<>();
 
 
     public void setTableImportListeners(Collection<ITableImportListener> tableImportListeners) {

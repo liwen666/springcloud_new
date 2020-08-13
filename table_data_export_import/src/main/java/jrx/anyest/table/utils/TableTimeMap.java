@@ -15,7 +15,7 @@ public class TableTimeMap<K,V> extends HashMap<K,V> {
     /**
      *  默认期限 10分钟
      */
-    private long TIMEOUT = 1000 * 60 * 10;
+    private long TIMEOUT = 1000 * 60 * 20;
 
     private HashMap<K, Long> timeMap = new HashMap<>();
 
