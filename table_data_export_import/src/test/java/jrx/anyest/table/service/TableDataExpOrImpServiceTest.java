@@ -161,7 +161,7 @@ public class TableDataExpOrImpServiceTest {
             }
 //        tableDataExpOrImpService.listAllRelationData(tableName, objects, null, dataMap, null);
             String tableName = "res_rule_info";
-            Integer dataId = 896;
+            Integer dataId = 1348;
             Set<Object> objects = Sets.newHashSet();
             objects.add(dataId);
 //        初始化code缓存信息

@@ -3,11 +3,9 @@ package jrx.anyest.table.utils;
 import com.google.common.base.CaseFormat;
 import jrx.anyest.table.exception.TableDataConversionException;
 import jrx.anyest.table.jpa.entity.TableCodeConfig;
-import jrx.anyest.table.service.JdbcTemplateService;
-import jrx.anyest.table.service.TableDataExpOrImpService;
+import jrx.anyest.table.listener.ISqlColumnBuilderListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.RowCountCallbackHandler;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -15,7 +13,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -25,9 +22,11 @@ import java.util.stream.Collectors;
  * @author lw
  * @since 2019/5/26 23:40
  */
-public class TableSqlBulider {
+public class TableSqlBuilder {
 
-    public static Logger logger = LoggerFactory.getLogger(TableSqlBulider.class);
+    public   static ISqlColumnBuilderListener iSqlColumnBuilderListener;
+
+    public static Logger logger = LoggerFactory.getLogger(TableSqlBuilder.class);
 
     public static String getSql(Collection collection){
         if(CollectionUtils.isEmpty(collection)){
@@ -86,19 +85,22 @@ public class TableSqlBulider {
             }
         }
         if(!StringUtils.isEmpty(ignoreColumnName)){
-            stringBuffer.append(" and "+ignoreColumnName+" not in ("+TableSqlBulider.getIgnore(Arrays.asList(tableCodeConfig.getIgnoreColumnValue().split(",")))+")");
+            stringBuffer.append(" and "+ignoreColumnName+" not in ("+ TableSqlBuilder.getIgnore(Arrays.asList(tableCodeConfig.getIgnoreColumnValue().split(",")))+")");
         }
         return stringBuffer.toString();
     }
 
 
-    public static Object getColumnVaule(String s, Object v) {
+    public static Object getColumnVale(String s, Object v) {
         if(s.startsWith("datetime")||s.startsWith("date")||s.startsWith("timestamp")){
             if(v instanceof Long) return new Date((Long)v);
             return v;
         }
         if(s.startsWith("longtext")){
             return v;
+        }
+        if(null!=iSqlColumnBuilderListener){
+            return iSqlColumnBuilderListener.listener(s,v);
         }
         return v;
     }

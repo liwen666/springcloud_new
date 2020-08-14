@@ -114,7 +114,7 @@ public class TableDataExpOrImpServiceTest2 {
      */
     @Test
     public void exportAllRelationData() {
-        boolean enableOutProject = true;
+        boolean enableOutProject = false;
         Integer projectId = 335;
            //tableName   key        data
         Map<String, Map<String, Map<String, Object>>> dataMap = new ConcurrentHashMap<>();
@@ -280,6 +280,8 @@ public class TableDataExpOrImpServiceTest2 {
     }
 
 
-
-
+    @Test
+    public void rollback() {
+        tableDataExpOrImpService.rollback("4216922926018007040");
+    }
 }

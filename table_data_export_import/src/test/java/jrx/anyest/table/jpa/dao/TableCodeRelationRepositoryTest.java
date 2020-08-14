@@ -58,6 +58,39 @@ public class TableCodeRelationRepositoryTest {
             tableCodeRelationRepository.save(tableCodeRelation);
         }
 
+
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("category_id");
+        tableCodeRelation.setPrimaryTableChinaName("规则集信息表");
+        tableCodeRelation.setPrimaryTableName("res_rule_set_info");
+        tableCodeRelation.setSlaveTableChinaName("分类表");
+        tableCodeRelation.setSlaveTableName("meta_category");
+        tableCodeRelation.setSlaveCodeKey("category_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("resource_id");
+        tableCodeRelation.setPrimaryTableChinaName("规则集信息表");
+        tableCodeRelation.setPrimaryTableName("res_rule_set_info");
+        tableCodeRelation.setSlaveTableChinaName("规则集版本表");
+        tableCodeRelation.setSlaveTableName("res_rule_set");
+        tableCodeRelation.setSlaveCodeKey("resource_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+
+
+
+
+
         /**
          * 模型对象导出
          */

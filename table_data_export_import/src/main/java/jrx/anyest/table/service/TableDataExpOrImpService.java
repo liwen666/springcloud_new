@@ -9,16 +9,14 @@ import jrx.anyest.table.exception.TableDataConversionException;
 import jrx.anyest.table.exception.TableDataImportException;
 import jrx.anyest.table.jpa.dao.*;
 import jrx.anyest.table.jpa.dto.*;
-import jrx.anyest.table.jpa.entity.TableCodeConfig;
-import jrx.anyest.table.jpa.entity.TableCodeRelation;
-import jrx.anyest.table.jpa.entity.TableConversionKey;
-import jrx.anyest.table.jpa.entity.TableImportSort;
+import jrx.anyest.table.jpa.entity.*;
 import jrx.anyest.table.jpa.enums.FieldType;
+import jrx.anyest.table.jpa.enums.HistoryDataType;
 import jrx.anyest.table.listener.ITableExportListener;
 import jrx.anyest.table.listener.ITableImportListener;
 import jrx.anyest.table.utils.DataConverRuleEngineUtils;
 import jrx.anyest.table.utils.TableSpringUtil;
-import jrx.anyest.table.utils.TableSqlBulider;
+import jrx.anyest.table.utils.TableSqlBuilder;
 import jrx.anyest.table.utils.TableTimeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,8 +58,8 @@ public class TableDataExpOrImpService {
      * 导入数据缓存
      */
     public static TableTimeMap<String, DataCheckResult> tableDataCache = new TableTimeMap<>();
-//    导出数据缓存
-    public static TableTimeMap<String,  Map<String, Map<String, Map<String, Object>>>> tableDataExportCache = new TableTimeMap<>();
+    //    导出数据缓存
+    public static TableTimeMap<String, Map<String, Map<String, Map<String, Object>>>> tableDataExportCache = new TableTimeMap<>();
 
 
     public void setTableImportListeners(Collection<ITableImportListener> tableImportListeners) {
@@ -80,6 +78,8 @@ public class TableDataExpOrImpService {
     @Autowired
     private TableMarkInitRepository tableMarkInitRepository;
 
+    @Autowired
+    private TableHistoryDataRepository tableHistoryDataRepository;
     public static Logger logger = LoggerFactory.getLogger(TableDataExpOrImpService.class);
 
     /**
@@ -242,7 +242,7 @@ public class TableDataExpOrImpService {
      * @return
      */
     public String getCodeDataSql(TableCodeConfig tableCodeConfig, Map<String, Object> whereParam, String condition) {
-        String where = TableSqlBulider.getWhereSql(tableCodeConfig, Arrays.asList(getWhere(tableCodeConfig)), whereParam);
+        String where = TableSqlBuilder.getWhereSql(tableCodeConfig, Arrays.asList(getWhere(tableCodeConfig)), whereParam);
         StringBuffer dataSql = new StringBuffer("SELECT *  FROM " + tableCodeConfig.getTableCodeName() + " " + where);
         if (!StringUtils.isEmpty(condition)) {
             dataSql.append("  " + condition);
@@ -274,7 +274,7 @@ public class TableDataExpOrImpService {
         String[] whereSqls = getWhere(tableCodeConfig);
         objects.addAll(Arrays.asList(whereSqls));
         objects.addAll(Arrays.asList(split));
-        String wheresql = TableSqlBulider.getWhereSql(tableCodeConfig, objects, param);
+        String wheresql = TableSqlBuilder.getWhereSql(tableCodeConfig, objects, param);
         StringBuffer checkSql = new StringBuffer("SELECT *  FROM " + tableCodeConfig.getTableCodeName() + " " + wheresql);
         return checkSql.toString();
     }
@@ -289,8 +289,8 @@ public class TableDataExpOrImpService {
     private String getCheckSql(TableCodeConfig tableCodeConfig, Map<String, Object> whereParam, String condition) {
         String[] split = tableCodeConfig.getColumns().split(",");
         String[] whereSqls = getWhere(tableCodeConfig);
-        String sql = TableSqlBulider.getSql(Arrays.asList(split));
-        String where = TableSqlBulider.getWhereSql(tableCodeConfig, Arrays.asList(whereSqls), whereParam);
+        String sql = TableSqlBuilder.getSql(Arrays.asList(split));
+        String where = TableSqlBuilder.getWhereSql(tableCodeConfig, Arrays.asList(whereSqls), whereParam);
         if (!StringUtils.isEmpty(condition)) {
             where = where + condition;
         }
@@ -320,19 +320,19 @@ public class TableDataExpOrImpService {
         return "ALTER table " + tableName + " add mark_id varchar(32);";
     }
 
-    public void listAllRelationData(String tableName, Set<Object> dataIds, Map<String, Map<String,Object>> extraParam, Map<String, Map<String, Map<String, Object>>> dataMap, String handlerBeanName) {
+    public void listAllRelationData(String tableName, Set<Object> dataIds, Map<String, Map<String, Object>> extraParam, Map<String, Map<String, Map<String, Object>>> dataMap, String handlerBeanName) {
         String key = TableDataCodeCacheManager.tableKey.get(tableName);
         listAllRelationData(tableName, key, dataIds, extraParam, dataMap, handlerBeanName);
     }
 
 
-    public void listAllRelationData(String tableName, String keyName, Set<Object> dataIds, Map<String, Map<String,Object>> extraParam, Map<String, Map<String, Map<String, Object>>> dataMap, String handlerBeanName) {
+    public void listAllRelationData(String tableName, String keyName, Set<Object> dataIds, Map<String, Map<String, Object>> extraParam, Map<String, Map<String, Map<String, Object>>> dataMap, String handlerBeanName) {
         /**
          * 查询此表关联数据表
          */
         String key = TableDataCodeCacheManager.tableKey.get(tableName);
         List<TableCodeRelation> tableCodeRelations = TableDataCodeCacheManager.relations.get(tableName);
-        String sql = TableSqlBulider.getSql(dataIds);
+        String sql = TableSqlBuilder.getSql(dataIds);
         List<Map<String, Object>> maps = jdbcTemplate.queryForList("select * from   " + tableName + " where " + keyName + " in (" + sql + ")");
         if (!StringUtils.isEmpty(handlerBeanName)) {
             TableDataHandler bean = TableSpringUtil.getBean(handlerBeanName, TableDataHandler.class);
@@ -411,7 +411,7 @@ public class TableDataExpOrImpService {
     public void importData(String dataKey, ImportDataResult importDataResult) {
         DataCheckResult dataCheckResult = tableDataCache.get(dataKey);
         logger.info("--------准备导入数据----------");
-        if (null==dataCheckResult) {
+        if (null == dataCheckResult) {
             throw new TableDataImportException("数据不存在，或者导入超时，请重新导入！");
         }
         Map<String, List<JSONObject>> importDataMap = dataCheckResult.getImportDataMap();
@@ -484,7 +484,7 @@ public class TableDataExpOrImpService {
         /**
          * 排除掉成功或者失败的对象
          */
-        tableDatas.stream().filter(e->!(successObj.contains(e)||errorObj.contains(e))).forEach(x -> {
+        tableDatas.stream().filter(e -> !(successObj.contains(e) || errorObj.contains(e))).forEach(x -> {
             String key = TableDataCodeCacheManager.tableKey.get(tableName);
             /**
              * 递归查找满足条件的数据然后入库，直到所有数据全部入库或失败为止
@@ -496,7 +496,7 @@ public class TableDataExpOrImpService {
                      * 数据导入前置处理
                      */
 
-                    tableImportListeners.stream().sorted(Comparator.comparing(ITableImportListener::order)).forEach(e1 -> e1.before(tableName, x, dataCheckResult,jdbcTemplate));
+                    tableImportListeners.stream().sorted(Comparator.comparing(ITableImportListener::order)).forEach(e1 -> e1.before(tableName, x, dataCheckResult, jdbcTemplate));
                     JdbcTemplateService.saveByMap(tableName, x);
                     /**
                      * 更新code转换缓存信息
@@ -527,8 +527,8 @@ public class TableDataExpOrImpService {
 
         for (TableConversionKey conversionKey : tableConversionKeys) {
             String conversion = conversionKey.getConversionKey();
-            String code = (String) DataConverRuleEngineUtils.getTableProperty(data, conversion.substring(conversion.indexOf(TableConstants.CODE_SEPATATION)+1));
-            if (!StringUtils.isEmpty(code)&&!code.contains(TableConstants.ID_SEPATATION)&&null == TableDataCodeCacheManager.codeToId.get(properties).get(code)) {
+            String code = (String) DataConverRuleEngineUtils.getTableProperty(data, conversion.substring(conversion.indexOf(TableConstants.CODE_SEPATATION) + 1));
+            if (!StringUtils.isEmpty(code) && !code.contains(TableConstants.ID_SEPATATION) && null == TableDataCodeCacheManager.codeToId.get(properties).get(code)) {
                 return false;
             }
         }
@@ -606,5 +606,27 @@ public class TableDataExpOrImpService {
 
     public void setTableExportListeners(Collection<ITableExportListener> tableExportListeners) {
         this.tableExportListeners = tableExportListeners;
+    }
+
+    /**
+     * 数据回滚
+     */
+    @Transactional
+    public void rollback(String dataKey) {
+        logger.info("----开始数据回滚---dataKey:{}",dataKey);
+        Map<String, List<TableHistoryData>> collect = tableHistoryDataRepository.findByDataKey(dataKey).stream().collect(Collectors.groupingBy(TableHistoryData::getTableName));
+        collect.forEach((k, v) -> {
+            v.forEach(x -> {
+                /**
+                 * 全量删除，更新数据插入操作
+                 */
+                HistoryDataType historyDataType = x.getHistoryDataType();
+                jdbcTemplate.update(" delete from " + k + " where " + x.getPrimaryKeyName() + "=?", x.getDataId());
+                if (historyDataType == HistoryDataType.UPDATE) {
+                    Map<String, Object> map = JSON.parseObject(x.getData(), Map.class);
+                    JdbcTemplateService.saveByMap(k, map);
+                }
+            });
+        });
     }
 }

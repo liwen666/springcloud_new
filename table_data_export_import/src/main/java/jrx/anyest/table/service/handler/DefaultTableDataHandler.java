@@ -9,7 +9,7 @@ import jrx.anyest.table.jpa.enums.HandlerParam;
 import jrx.anyest.table.service.TableDataCodeCacheManager;
 import jrx.anyest.table.service.TableDataHandler;
 import jrx.anyest.table.service.TablePropertiesThreadLocalHolder;
-import jrx.anyest.table.utils.TableSqlBulider;
+import jrx.anyest.table.utils.TableSqlBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -46,7 +46,7 @@ public class DefaultTableDataHandler implements TableDataHandler {
                     return false;
                 }
                 for (Map.Entry<String, Object> map : param.entrySet()) {
-                    Object o = data.get(TableSqlBulider.toUnderScore(map.getKey()));
+                    Object o = data.get(TableSqlBuilder.toUnderScore(map.getKey()));
                     if (o != null && !o.toString().equals(map.getValue().toString())) {
                         return false;
                     }
@@ -188,7 +188,7 @@ public class DefaultTableDataHandler implements TableDataHandler {
          * 如果参数中没有code需要的筛选条件就过滤掉code
          */
         if (!StringUtils.isEmpty(tableCodeConfig.getWhereSqlColumns())) {
-            Object o = whereParam.get(tableCodeConfig.getWhereSqlColumns()) == null ? whereParam.get(TableSqlBulider.toLowerCamel(tableCodeConfig.getWhereSqlColumns())) : whereParam.get(tableCodeConfig.getWhereSqlColumns());
+            Object o = whereParam.get(tableCodeConfig.getWhereSqlColumns()) == null ? whereParam.get(TableSqlBuilder.toLowerCamel(tableCodeConfig.getWhereSqlColumns())) : whereParam.get(tableCodeConfig.getWhereSqlColumns());
             if (null == o) {
                 log.info("code 配置缺少必要的列查询条件，,column:{}  tablename:{}", tableCodeConfig.getWhereSqlColumns(), tableCodeConfig.getTableCodeName());
                 return false;

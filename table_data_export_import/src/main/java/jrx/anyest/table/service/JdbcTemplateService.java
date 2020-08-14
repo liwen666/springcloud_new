@@ -3,7 +3,7 @@ package jrx.anyest.table.service;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.Lists;
 import jrx.anyest.table.jpa.sql.PackageScanUtil;
-import jrx.anyest.table.utils.TableSqlBulider;
+import jrx.anyest.table.utils.TableSqlBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,7 +70,7 @@ public class JdbcTemplateService {
              * 根据表结构构建数据对象
              */
             String s = stringIntegerMap.get(k);
-           Object value = TableSqlBulider.getColumnVaule(s,v);
+           Object value = TableSqlBuilder.getColumnVale(s,v);
             values.add(value);
             });
         String insertSql = getInsertSql(columns, tableName);

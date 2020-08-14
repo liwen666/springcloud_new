@@ -3,10 +3,13 @@ package jrx.anyest.table.listener;
 import com.alibaba.fastjson.JSON;
 import jrx.anyest.table.constant.TableConstants;
 import jrx.anyest.table.exception.TableDataImportException;
+import jrx.anyest.table.jpa.dao.TableHistoryDataRepository;
 import jrx.anyest.table.jpa.dto.DataCheckResult;
 import jrx.anyest.table.jpa.entity.TableCodeConfig;
 import jrx.anyest.table.jpa.entity.TableConversionKey;
+import jrx.anyest.table.jpa.entity.TableHistoryData;
 import jrx.anyest.table.jpa.entity.TableParamConfig;
+import jrx.anyest.table.jpa.enums.HistoryDataType;
 import jrx.anyest.table.service.*;
 import jrx.anyest.table.utils.DataConverRuleEngineUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +36,8 @@ import java.util.Map;
 public class DefaultTableImportListener implements ITableImportListener {
     @Autowired
     private TableKeyService tableKeyService;
+    @Autowired
+    private TableHistoryDataRepository  tableHistoryDataRepository;
     private int order = 0;
 
     @Override
@@ -43,14 +49,10 @@ public class DefaultTableImportListener implements ITableImportListener {
         boolean insert = dataCheckResult.getInsertDataMap().get(tableName).contains(data);
         boolean version = dataCheckResult.getVersionDataMap().get(tableName).contains(data);
         boolean update = dataCheckResult.getUpdateDataMap().get(tableName).contains(data);
+//        历史数据转存
+        TableHistoryData tableHistoryData = new TableHistoryData();
         if (insert) {
-            Integer newKey = tableKeyService.getNewKey(jdbcTemplate);
-            /**
-             * 做数据转换处理
-             */
-            String keyName = TableDataCodeCacheManager.tableKey.get(tableName);
-            data.put(keyName,newKey);
-            conversionKey(tableName, data, codeToId);
+            getHistoryData(tableName, data, jdbcTemplate, tableCodeUuid, codeToId, tableHistoryData);
         } else if (version) {
             /**
              * 获取到infoCode 根据infoCode找到version
@@ -64,11 +66,8 @@ public class DefaultTableImportListener implements ITableImportListener {
             } catch (DataAccessException e) {
                 oldVersion=1;
             }
-            Integer newKey = tableKeyService.getNewKey(jdbcTemplate);
-            String key = TableDataCodeCacheManager.tableKey.get(tableName);
             data.put("version",++oldVersion);
-            data.put(key,newKey);
-            conversionKey(tableName, data, codeToId);
+            getHistoryData(tableName, data, jdbcTemplate, tableCodeUuid, codeToId, tableHistoryData);
         } else if (update) {
             /**
              * 拿到之前的数据ID做更新操作
@@ -87,6 +86,17 @@ public class DefaultTableImportListener implements ITableImportListener {
              */
             String keyName = TableDataCodeCacheManager.tableKey.get(tableName);
             Integer oldDataId = Integer.parseInt(codeToId.get(code));
+            /**
+             * 查询历史数据
+             */
+            Map<String, Object> oldData = JdbcTemplateService.jdbcTemplate.queryForMap("select * from " + tableName + " where  " + keyName + " =?", oldDataId);
+            tableHistoryData.setCreateTime(new Date());
+            tableHistoryData.setTableName(tableName);
+            tableHistoryData.setPrimaryKeyName(keyName);
+            tableHistoryData.setHistoryDataType(HistoryDataType.UPDATE);
+            tableHistoryData.setDataKey(tableCodeUuid);
+            tableHistoryData.setDataId(oldDataId.toString());
+            tableHistoryData.setData(JSON.toJSONString(oldData));
             JdbcTemplateService.jdbcTemplate.update("delete from " + tableName + " where " + keyName + "=" + oldDataId);
             /**
              * 做数据转换处理
@@ -94,9 +104,26 @@ public class DefaultTableImportListener implements ITableImportListener {
             data.put(keyName,oldDataId);
             conversionKey(tableName, data, codeToId);
 
+
+
         } else {
             throw new TableDataImportException("数据导入异常，DataCheckResult 不存在该数据类型 tableName:" + tableName + " data:" + JSON.toJSONString(data));
         }
+        tableHistoryDataRepository.save(tableHistoryData);
+    }
+
+    private void getHistoryData(String tableName, Map<String, Object> data, JdbcTemplate jdbcTemplate, String tableCodeUuid, Map<String, String> codeToId, TableHistoryData tableHistoryData) {
+        Integer newKey = tableKeyService.getNewKey(jdbcTemplate);
+        String key = TableDataCodeCacheManager.tableKey.get(tableName);
+        data.put(key, newKey);
+        conversionKey(tableName, data, codeToId);
+        tableHistoryData.setCreateTime(new Date());
+        tableHistoryData.setTableName(tableName);
+        tableHistoryData.setPrimaryKeyName(key);
+        tableHistoryData.setHistoryDataType(HistoryDataType.DELETE);
+        tableHistoryData.setDataKey(tableCodeUuid);
+        tableHistoryData.setDataId(newKey.toString());
+        tableHistoryData.setData(null);
     }
 
 
