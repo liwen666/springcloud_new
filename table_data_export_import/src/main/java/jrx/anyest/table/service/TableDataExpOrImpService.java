@@ -444,7 +444,7 @@ public class TableDataExpOrImpService {
                 Map<String, String> errorMsgs = Maps.newConcurrentMap();
                 List<JSONObject> successObj = Lists.newArrayList();
                 List<JSONObject> errorObj = Lists.newArrayList();
-                circleSaveDatas(e.getTableCodeName(), tableDatas, successObj, errorObj, errorMsgs, dataCheckResult);
+                circleSaveData(e.getTableCodeName(), tableDatas, successObj, errorObj, errorMsgs, dataCheckResult);
                 importData.setTableName(e.getTableCodeName());
                 importData.setSuccessNum(successObj.size());
                 importData.setErrorNum(errorObj.size());
@@ -468,23 +468,23 @@ public class TableDataExpOrImpService {
      * 此方法正对一张表数据互相引用
      *
      * @param tableName
-     * @param tableDatas
+     * @param tableData
      * @param successObj
      * @param errorObj
      * @param errorMsgs
      * @param dataCheckResult
      */
-    private void circleSaveDatas(String
-                                         tableName, List<JSONObject> tableDatas, List<JSONObject> successObj, List<JSONObject> errorObj, Map<String, String> errorMsgs, DataCheckResult
+    private void circleSaveData(String
+                                         tableName, List<JSONObject> tableData, List<JSONObject> successObj, List<JSONObject> errorObj, Map<String, String> errorMsgs, DataCheckResult
                                          dataCheckResult) {
-        if (tableDatas.size() == successObj.size() + errorObj.size()) {
+        if (tableData.size() == successObj.size() + errorObj.size()) {
             logger.info("[-------表数据保存结束--------]tableName:{},successNum:{},errorNum:{},errorMsg:{}", tableName, successObj.size(), errorObj.size(), JSON.toJSONString(errorMsgs));
             return;
         }
         /**
          * 排除掉成功或者失败的对象
          */
-        tableDatas.stream().filter(e -> !(successObj.contains(e) || errorObj.contains(e))).forEach(x -> {
+        tableData.stream().filter(e -> !(successObj.contains(e) || errorObj.contains(e))).forEach(x -> {
             String key = TableDataCodeCacheManager.tableKey.get(tableName);
             /**
              * 递归查找满足条件的数据然后入库，直到所有数据全部入库或失败为止
@@ -514,7 +514,7 @@ public class TableDataExpOrImpService {
                 errorObj.add(x);
                 errorMsgs.put(x.get(key).toString(), e.getMessage());
             }
-            circleSaveDatas(tableName, tableDatas, successObj, errorObj, errorMsgs, dataCheckResult);
+            circleSaveData(tableName, tableData, successObj, errorObj, errorMsgs, dataCheckResult);
         });
     }
 

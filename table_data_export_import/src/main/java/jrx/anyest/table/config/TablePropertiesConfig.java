@@ -22,4 +22,5 @@ import org.springframework.context.annotation.Configuration;
 public class TablePropertiesConfig {
 
     private String datasource;
+    private String fileSign;
 }
