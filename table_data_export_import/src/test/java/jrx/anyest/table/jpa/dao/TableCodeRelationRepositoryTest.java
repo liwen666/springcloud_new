@@ -88,6 +88,147 @@ public class TableCodeRelationRepositoryTest {
 
 
 
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("category_id");
+        tableCodeRelation.setPrimaryTableChinaName("规则树信息表");
+        tableCodeRelation.setPrimaryTableName("res_rule_tree_info");
+        tableCodeRelation.setSlaveTableChinaName("分类表");
+        tableCodeRelation.setSlaveTableName("meta_category");
+        tableCodeRelation.setSlaveCodeKey("category_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("resource_id");
+        tableCodeRelation.setPrimaryTableChinaName("规则树信息表");
+        tableCodeRelation.setPrimaryTableName("res_rule_tree_info");
+        tableCodeRelation.setSlaveTableChinaName("规则树版本表");
+        tableCodeRelation.setSlaveTableName("res_rule_tree");
+        tableCodeRelation.setSlaveCodeKey("resource_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("category_id");
+        tableCodeRelation.setPrimaryTableChinaName("评分卡信息表");
+        tableCodeRelation.setPrimaryTableName("res_score_card_info");
+        tableCodeRelation.setSlaveTableChinaName("分类表");
+        tableCodeRelation.setSlaveTableName("meta_category");
+        tableCodeRelation.setSlaveCodeKey("category_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("resource_id");
+        tableCodeRelation.setPrimaryTableChinaName("评分卡信息表");
+        tableCodeRelation.setPrimaryTableName("res_score_card_info");
+        tableCodeRelation.setSlaveTableChinaName("评分卡版本表");
+        tableCodeRelation.setSlaveTableName("res_score_card");
+        tableCodeRelation.setSlaveCodeKey("resource_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("category_id");
+        tableCodeRelation.setPrimaryTableChinaName("脚本信息表");
+        tableCodeRelation.setPrimaryTableName("res_script_info");
+        tableCodeRelation.setSlaveTableChinaName("分类表");
+        tableCodeRelation.setSlaveTableName("meta_category");
+        tableCodeRelation.setSlaveCodeKey("category_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("resource_id");
+        tableCodeRelation.setPrimaryTableChinaName("脚本信息表");
+        tableCodeRelation.setPrimaryTableName("res_script_info");
+        tableCodeRelation.setSlaveTableChinaName("脚本版本表");
+        tableCodeRelation.setSlaveTableName("res_script");
+        tableCodeRelation.setSlaveCodeKey("resource_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("category_id");
+        tableCodeRelation.setPrimaryTableChinaName("策略信息表");
+        tableCodeRelation.setPrimaryTableName("res_strategy_info");
+        tableCodeRelation.setSlaveTableChinaName("分类表");
+        tableCodeRelation.setSlaveTableName("meta_category");
+        tableCodeRelation.setSlaveCodeKey("category_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("resource_id");
+        tableCodeRelation.setPrimaryTableChinaName("策略信息表");
+        tableCodeRelation.setPrimaryTableName("res_strategy_info");
+        tableCodeRelation.setSlaveTableChinaName("策略版本表");
+        tableCodeRelation.setSlaveTableName("res_strategy");
+        tableCodeRelation.setSlaveCodeKey("resource_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("category_id");
+        tableCodeRelation.setPrimaryTableChinaName("矩阵信息表");
+        tableCodeRelation.setPrimaryTableName("res_matrix_info");
+        tableCodeRelation.setSlaveTableChinaName("分类表");
+        tableCodeRelation.setSlaveTableName("meta_category");
+        tableCodeRelation.setSlaveCodeKey("category_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("resource_id");
+        tableCodeRelation.setPrimaryTableChinaName("规则集信息表");
+        tableCodeRelation.setPrimaryTableName("res_matrix_info");
+        tableCodeRelation.setSlaveTableChinaName("矩阵版本表");
+        tableCodeRelation.setSlaveTableName("res_matrix");
+        tableCodeRelation.setSlaveCodeKey("resource_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+
+
 
 
 

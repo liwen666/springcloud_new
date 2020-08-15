@@ -28,6 +28,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -475,8 +476,8 @@ public class TableDataExpOrImpService {
      * @param dataCheckResult
      */
     private void circleSaveData(String
-                                         tableName, List<JSONObject> tableData, List<JSONObject> successObj, List<JSONObject> errorObj, Map<String, String> errorMsgs, DataCheckResult
-                                         dataCheckResult) {
+                                        tableName, List<JSONObject> tableData, List<JSONObject> successObj, List<JSONObject> errorObj, Map<String, String> errorMsgs, DataCheckResult
+                                        dataCheckResult) {
         if (tableData.size() == successObj.size() + errorObj.size()) {
             logger.info("[-------表数据保存结束--------]tableName:{},successNum:{},errorNum:{},errorMsg:{}", tableName, successObj.size(), errorObj.size(), JSON.toJSONString(errorMsgs));
             return;
@@ -488,14 +489,22 @@ public class TableDataExpOrImpService {
             String key = TableDataCodeCacheManager.tableKey.get(tableName);
             /**
              * 递归查找满足条件的数据然后入库，直到所有数据全部入库或失败为止
+             * 判断数据是否允许导入
              */
+            AtomicInteger atomicInteger = new AtomicInteger(0);
+            tableImportListeners.stream().sorted(Comparator.comparing(ITableImportListener::order)).forEach(e1 -> {
+                atomicInteger.addAndGet(e1.filter(tableName, x, dataCheckResult, jdbcTemplate));
+            });
+            if (atomicInteger.get() != tableImportListeners.size()) {
+                logger.info("--------数据不允许导入 tableName:{}----------",tableName);
+                return;
+            }
             try {
                 boolean flag = checkDataConversionKeys(tableName, x);
                 if (flag) {
                     /**
                      * 数据导入前置处理
                      */
-
                     tableImportListeners.stream().sorted(Comparator.comparing(ITableImportListener::order)).forEach(e1 -> e1.before(tableName, x, dataCheckResult, jdbcTemplate));
                     JdbcTemplateService.saveByMap(tableName, x);
                     /**
@@ -613,7 +622,7 @@ public class TableDataExpOrImpService {
      */
     @Transactional
     public void rollback(String dataKey) {
-        logger.info("----开始数据回滚---dataKey:{}",dataKey);
+        logger.info("----开始数据回滚---dataKey:{}", dataKey);
         Map<String, List<TableHistoryData>> collect = tableHistoryDataRepository.findByDataKey(dataKey).stream().collect(Collectors.groupingBy(TableHistoryData::getTableName));
         collect.forEach((k, v) -> {
             v.forEach(x -> {

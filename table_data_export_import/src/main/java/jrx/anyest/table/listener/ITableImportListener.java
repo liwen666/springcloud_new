@@ -1,5 +1,6 @@
 package jrx.anyest.table.listener;
 
+import com.alibaba.fastjson.JSONObject;
 import jrx.anyest.table.jpa.dto.DataCheckResult;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -38,4 +39,14 @@ public interface ITableImportListener {
      * @return
      */
     int order();
+
+    /**
+     * 如果返回 0 数据将不会被导入
+     * @param tableName
+     * @param x
+     * @param dataCheckResult
+     * @param jdbcTemplate
+     * @return
+     */
+    int filter(String tableName, JSONObject x, DataCheckResult dataCheckResult, JdbcTemplate jdbcTemplate);
 }

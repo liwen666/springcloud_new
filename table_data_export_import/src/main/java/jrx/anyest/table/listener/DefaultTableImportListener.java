@@ -1,6 +1,7 @@
 package jrx.anyest.table.listener;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import jrx.anyest.table.constant.TableConstants;
 import jrx.anyest.table.exception.TableDataImportException;
 import jrx.anyest.table.jpa.dao.TableHistoryDataRepository;
@@ -153,5 +154,10 @@ public class DefaultTableImportListener implements ITableImportListener {
     @Override
     public int order() {
         return order;
+    }
+
+    @Override
+    public int filter(String tableName, JSONObject x, DataCheckResult dataCheckResult, JdbcTemplate jdbcTemplate) {
+        return 1;
     }
 }
