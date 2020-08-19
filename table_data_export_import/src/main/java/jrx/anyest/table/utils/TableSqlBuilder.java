@@ -91,16 +91,20 @@ public class TableSqlBuilder {
     }
 
 
-    public static Object getColumnVale(String s, Object v) {
-        if(s.startsWith("datetime")||s.startsWith("date")||s.startsWith("timestamp")){
-            if(v instanceof Long) return new Date((Long)v);
-            return v;
-        }
-        if(s.startsWith("longtext")){
-            return v;
-        }
-        if(null!=iSqlColumnBuilderListener){
-            return iSqlColumnBuilderListener.listener(s,v);
+    public static Object getColumnVale(String tableName, String field, String s, Object v) {
+        try {
+            if(s.startsWith("datetime")||s.startsWith("date")||s.startsWith("timestamp")){
+                if(v instanceof Long) return new Date((Long)v);
+                return v;
+            }
+            if(s.startsWith("longtext")){
+                return v;
+            }
+            if(null!=iSqlColumnBuilderListener){
+                return iSqlColumnBuilderListener.listener(s,v);
+            }
+        } catch (Exception e) {
+            logger.error("表少字段 tableName:{},field:{}",tableName,field);
         }
         return v;
     }

@@ -12,6 +12,7 @@ import jrx.anyest.table.jpa.dto.*;
 import jrx.anyest.table.jpa.entity.*;
 import jrx.anyest.table.jpa.enums.FieldType;
 import jrx.anyest.table.jpa.enums.HistoryDataType;
+import jrx.anyest.table.listener.IImportDataListener;
 import jrx.anyest.table.listener.ITableExportListener;
 import jrx.anyest.table.listener.ITableImportListener;
 import jrx.anyest.table.utils.DataConverRuleEngineUtils;
@@ -28,7 +29,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -55,6 +55,14 @@ public class TableDataExpOrImpService {
      * 导出监听器
      */
     private Collection<ITableExportListener> tableExportListeners;
+
+
+
+    /**
+     * 导入数据过滤器
+     */
+    @Autowired(required = false)
+    private IImportDataListener importDataListener;
     /**
      * 导入数据缓存
      */
@@ -440,6 +448,10 @@ public class TableDataExpOrImpService {
 
         collect.forEach(e -> {
             List<JSONObject> tableDatas = importDataMap.get(e.getTableCodeName());
+            if (null != importDataListener) {
+                tableDatas = importDataListener.filterData(tableDatas, e);
+            }
+
             if (!CollectionUtils.isEmpty(tableDatas)) {
                 ImportData importData = new ImportData();
                 Map<String, String> errorMsgs = Maps.newConcurrentMap();
@@ -485,7 +497,9 @@ public class TableDataExpOrImpService {
         /**
          * 排除掉成功或者失败的对象
          */
-        tableData.stream().filter(e -> !(successObj.contains(e) || errorObj.contains(e))).forEach(x -> {
+//        Set<JSONObject> collect = tableData.stream().filter(e -> !(successObj.contains(e) || errorObj.contains(e))).collect(Collectors.toSet());
+       tableData.stream().filter(e -> !(successObj.contains(e) || errorObj.contains(e))).forEach(x -> {
+
             String key = TableDataCodeCacheManager.tableKey.get(tableName);
             /**
              * 递归查找满足条件的数据然后入库，直到所有数据全部入库或失败为止
@@ -496,11 +510,11 @@ public class TableDataExpOrImpService {
                 atomicInteger.addAndGet(e1.filter(tableName, x, dataCheckResult, jdbcTemplate));
             });
             if (atomicInteger.get() != tableImportListeners.size()) {
-                logger.info("--------数据不允许导入 tableName:{}----------",tableName);
+                logger.info("--------数据不允许导入 tableName:{}----------", tableName,successObj.add(x));
                 return;
             }
             try {
-                boolean flag = checkDataConversionKeys(tableName, x);
+                boolean flag = checkDataConversionKeys(tableName, x,errorObj);
                 if (flag) {
                     /**
                      * 数据导入前置处理
@@ -519,28 +533,28 @@ public class TableDataExpOrImpService {
                     tableImportListeners.stream().sorted(Comparator.comparing(ITableImportListener::order)).forEach(e1 -> e1.after(tableName, x));
                 }
             } catch (Exception e) {
-                logger.error("保存数据异常，tableName:{},key,{} errorMsg,{}", tableName, x.get(key), e.getMessage());
+                logger.error("保存数据异常，tableName:{},key,{} errorMsg,{}", tableName, x.get(key), e);
                 errorObj.add(x);
                 errorMsgs.put(x.get(key).toString(), e.getMessage());
             }
-            circleSaveData(tableName, tableData, successObj, errorObj, errorMsgs, dataCheckResult);
         });
+            circleSaveData(tableName, tableData, successObj, errorObj, errorMsgs, dataCheckResult);
     }
 
-    private boolean checkDataConversionKeys(String tableName, JSONObject data) {
-        String properties = TablePropertiesThreadLocalHolder.getProperties(TableConstants.TABLE_CODE_UUID);
-        /**
-         * 检查code缓存是否存在所有要转化的key
-         */
-        List<TableConversionKey> tableConversionKeys = TableDataCodeCacheManager.tableConversionKeys.get(tableName);
+    private boolean checkDataConversionKeys(String tableName, JSONObject data, List<JSONObject> errorObj) {
+            String properties = TablePropertiesThreadLocalHolder.getProperties(TableConstants.TABLE_CODE_UUID);
+            /**
+             * 检查code缓存是否存在所有要转化的key
+             */
+            List<TableConversionKey> tableConversionKeys = TableDataCodeCacheManager.tableConversionKeys.get(tableName);
 
-        for (TableConversionKey conversionKey : tableConversionKeys) {
-            String conversion = conversionKey.getConversionKey();
-            String code = (String) DataConverRuleEngineUtils.getTableProperty(data, conversion.substring(conversion.indexOf(TableConstants.CODE_SEPATATION) + 1));
-            if (!StringUtils.isEmpty(code) && !code.contains(TableConstants.ID_SEPATATION) && null == TableDataCodeCacheManager.codeToId.get(properties).get(code)) {
-                return false;
+            for (TableConversionKey conversionKey : tableConversionKeys) {
+                String conversion = conversionKey.getConversionKey();
+                String code = (String) DataConverRuleEngineUtils.getTableProperty(data, conversion.substring(conversion.indexOf(TableConstants.CODE_SEPATATION) + 1));
+                if (!StringUtils.isEmpty(code) && !code.contains(TableConstants.ID_SEPATATION) && null == TableDataCodeCacheManager.codeToId.get(properties).get(code)) {
+                    return false;
+                }
             }
-        }
         return true;
     }
 

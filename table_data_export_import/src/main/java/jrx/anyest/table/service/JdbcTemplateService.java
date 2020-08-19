@@ -70,7 +70,7 @@ public class JdbcTemplateService {
              * 根据表结构构建数据对象
              */
             String s = stringIntegerMap.get(k);
-           Object value = TableSqlBuilder.getColumnVale(s,v);
+           Object value = TableSqlBuilder.getColumnVale(tableName,k,s,v);
             values.add(value);
             });
         String insertSql = getInsertSql(columns, tableName);

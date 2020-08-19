@@ -200,6 +200,20 @@ public class TableCodeRelationRepositoryTest {
         }
 
 
+//        tableCodeRelation.setId(null);
+//        tableCodeRelation.setPrimaryCodeKey("resource_id");
+//        tableCodeRelation.setPrimaryTableChinaName("策略信息表");
+//        tableCodeRelation.setPrimaryTableName("res_strategy_info");
+//        tableCodeRelation.setSlaveTableChinaName("策略节点表");
+//        tableCodeRelation.setSlaveTableName("res_strategy");
+//        tableCodeRelation.setSlaveCodeKey("strategy_id");
+//        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+//        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+//        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+//            tableCodeRelationRepository.save(tableCodeRelation);
+//        }
+
+
         tableCodeRelation.setId(null);
         tableCodeRelation.setPrimaryCodeKey("category_id");
         tableCodeRelation.setPrimaryTableChinaName("矩阵信息表");
@@ -227,6 +241,23 @@ public class TableCodeRelationRepositoryTest {
             tableCodeRelationRepository.save(tableCodeRelation);
         }
 
+
+
+
+
+
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("resource_object_category_id");
+        tableCodeRelation.setPrimaryTableChinaName("字段表");
+        tableCodeRelation.setPrimaryTableName("meta_object_field");
+        tableCodeRelation.setSlaveTableChinaName("数据集版本表");
+        tableCodeRelation.setSlaveTableName("meta_category");
+        tableCodeRelation.setSlaveCodeKey("category_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
 
 
 

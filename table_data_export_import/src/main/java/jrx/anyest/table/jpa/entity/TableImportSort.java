@@ -33,6 +33,13 @@ public class TableImportSort extends TableBaseEntity
     @Column
     protected Integer orderId;
 
+    /**
+     *  如果标记
+     *  主要正对字段筛选入库
+     */
+    @Column
+    protected Integer flag;
+
 
 
 

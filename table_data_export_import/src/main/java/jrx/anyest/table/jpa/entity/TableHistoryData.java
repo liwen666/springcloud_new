@@ -45,6 +45,7 @@ public class TableHistoryData extends TableBaseEntity
      * 数据内容
      */
     @Column
+    @Lob
     private String data;
 
     /**
