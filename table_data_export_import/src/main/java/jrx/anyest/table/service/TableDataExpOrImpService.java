@@ -593,7 +593,12 @@ public class TableDataExpOrImpService {
                     insertDataMap.get(tableName).add(JSON.parseObject(v));
                 }
             } else {
-                versionDataMap.get(tableName).add(JSON.parseObject(v));
+                TableParamConfig tableParamConfig = TableDataCodeCacheManager.tableParamConfigs.get(tableName);
+                if(null==tableParamConfig){
+                    insertDataMap.get(tableName).add(JSON.parseObject(v));
+                }else{
+                    versionDataMap.get(tableName).add(JSON.parseObject(v));
+                }
             }
             importDataMap.get(tableName).add(JSON.parseObject(v));
         });

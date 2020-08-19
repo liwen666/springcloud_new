@@ -200,18 +200,33 @@ public class TableCodeRelationRepositoryTest {
         }
 
 
-//        tableCodeRelation.setId(null);
-//        tableCodeRelation.setPrimaryCodeKey("resource_id");
-//        tableCodeRelation.setPrimaryTableChinaName("策略信息表");
-//        tableCodeRelation.setPrimaryTableName("res_strategy_info");
-//        tableCodeRelation.setSlaveTableChinaName("策略节点表");
-//        tableCodeRelation.setSlaveTableName("res_strategy");
-//        tableCodeRelation.setSlaveCodeKey("strategy_id");
-//        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
-//        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
-//        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
-//            tableCodeRelationRepository.save(tableCodeRelation);
-//        }
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("strategy_id");
+        tableCodeRelation.setPrimaryTableChinaName("策略版本表");
+        tableCodeRelation.setPrimaryTableName("res_strategy");
+        tableCodeRelation.setSlaveTableChinaName("策略节点表");
+        tableCodeRelation.setSlaveTableName("res_strategy_node");
+        tableCodeRelation.setSlaveCodeKey("strategy_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("strategy_id");
+        tableCodeRelation.setPrimaryTableChinaName("策略版本表");
+        tableCodeRelation.setPrimaryTableName("res_strategy");
+        tableCodeRelation.setSlaveTableChinaName("节点连线表");
+        tableCodeRelation.setSlaveTableName("res_strategy_node_link");
+        tableCodeRelation.setSlaveCodeKey("strategy_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+
 
 
         tableCodeRelation.setId(null);

@@ -257,20 +257,23 @@ public class TableCodeConfigRepositoryTest {
         tableCodeConfigRepository.save(tableCodeConfig);
 
 
-        tableCodeConfig.setId(null);
-        tableCodeConfig.setCreateTime(new Date());
-        tableCodeConfig.setTableCodeName("res_strategy");
-        tableCodeConfig.setTableCodeChinaName("策略表");
-        tableCodeConfig.setColumns("resource_id,version");
-        tableCodeConfig.setWhereSqlColumns(null);
-        tableCodeConfig.setHandleBeanName("defaultTableDataHandler");
-        tableCodeConfig.setIgnoreColumnName(null);
-        tableCodeConfig.setIgnoreColumnValue(null);
-        tableCodeConfigByTableCodeName = tableCodeConfigRepository.findTableCodeConfigByTableCodeName(tableCodeConfig.getTableCodeName());
-        if (null != tableCodeConfigByTableCodeName) {
-            tableCodeConfig.setId(tableCodeConfigByTableCodeName.getId());
-        }
-        tableCodeConfigRepository.save(tableCodeConfig);
+
+
+
+//        tableCodeConfig.setId(null);
+//        tableCodeConfig.setCreateTime(new Date());
+//        tableCodeConfig.setTableCodeName("res_strategy");
+//        tableCodeConfig.setTableCodeChinaName("策略表");
+//        tableCodeConfig.setColumns("resource_id,version");
+//        tableCodeConfig.setWhereSqlColumns(null);
+//        tableCodeConfig.setHandleBeanName("defaultTableDataHandler");
+//        tableCodeConfig.setIgnoreColumnName(null);
+//        tableCodeConfig.setIgnoreColumnValue(null);
+//        tableCodeConfigByTableCodeName = tableCodeConfigRepository.findTableCodeConfigByTableCodeName(tableCodeConfig.getTableCodeName());
+//        if (null != tableCodeConfigByTableCodeName) {
+//            tableCodeConfig.setId(tableCodeConfigByTableCodeName.getId());
+//        }
+//        tableCodeConfigRepository.save(tableCodeConfig);
 
 
 
