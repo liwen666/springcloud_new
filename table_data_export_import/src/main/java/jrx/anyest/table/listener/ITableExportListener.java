@@ -26,11 +26,12 @@ public interface ITableExportListener {
      */
     int before(String tableName,Map<String, Map<String, Object>> data, Map<String, String> idToCode, JdbcTemplate jdbcTemplate, Map<String, List<TableConversionKey>> tableConversionKeys);
 
-    void after(String tableName, Map<String, Object> data);
 
     /**
      * 监听器执行排序  数值小的优先执行
      * @return
      */
     int order();
+
+    void after(String k, Map<String, Map<String, Object>> data, JdbcTemplate jdbcTemplate);
 }

@@ -125,13 +125,14 @@ public class DefaultTableExportListener implements ITableExportListener {
     }
 
 
-    @Override
-    public void after(String tableName, Map<String, Object> data) {
-
-    }
 
     @Override
     public int order() {
         return order;
+    }
+
+    @Override
+    public void after(String k, Map<String, Map<String, Object>> v, JdbcTemplate jdbcTemplate) {
+
     }
 }

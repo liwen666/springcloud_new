@@ -625,6 +625,8 @@ public class TableDataExpOrImpService {
         dataMap.forEach((k, v) -> tableExportListeners.stream().sorted(Comparator.comparing(ITableExportListener::order)).forEach(e -> {
             conversion.addAndGet(v.size());
             success.addAndGet(e.before(k, v, idToCode, jdbcTemplate, collect));
+            e.after(k,v,jdbcTemplate);
+
         }));
         if (success.get() != conversion.get()) {
             throw new TableDataConversionException("数据导出失败，有数据id-code转换失败");
