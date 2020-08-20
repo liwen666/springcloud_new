@@ -63,6 +63,13 @@ public class TableHistoryData extends TableBaseEntity
 
 
     /**
+     * 数据的code
+     */
+    @Column
+    private String resourceId;
+
+
+    /**
      * 对数据的操作类型
      */
     @Column

@@ -110,6 +110,7 @@ public class DefaultTableImportListener implements ITableImportListener {
         } else {
             throw new TableDataImportException("数据导入异常，DataCheckResult 不存在该数据类型 tableName:" + tableName + " data:" + JSON.toJSONString(data));
         }
+        tableHistoryData.setResourceId(data.get("resource_id").toString());
         tableHistoryDataRepository.save(tableHistoryData);
     }
 

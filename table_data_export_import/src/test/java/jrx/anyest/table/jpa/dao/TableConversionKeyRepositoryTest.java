@@ -882,7 +882,233 @@ public class TableConversionKeyRepositoryTest {
         }
         tableConversionKeyRepository.save(tableConversionKey);
 
+        tableConversionKey.setId(null);
+        tableConversionKey.setTableCodeName("res_strategy_node");
+        tableConversionKey.setTableCodeChinaName("节点表");
+        tableConversionKey.setConversionKey("meta_category@node_content.ruleItemList.category.categoryId");
+        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+        tableConversionKey.setJsonObject(false);
+        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+        }
+        tableConversionKeyRepository.save(tableConversionKey);
 
+
+        tableConversionKey.setId(null);
+        tableConversionKey.setTableCodeName("res_strategy_node");
+        tableConversionKey.setTableCodeChinaName("节点表");
+        tableConversionKey.setConversionKey("meta_data_object_info|meta_model_object_info|meta_topic_object_info@node_content.eventStatObjectInfoId");
+        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+        tableConversionKey.setJsonObject(false);
+        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+        }
+        tableConversionKeyRepository.save(tableConversionKey);
+
+        tableConversionKey.setId(null);
+        tableConversionKey.setTableCodeName("res_strategy_node");
+        tableConversionKey.setTableCodeChinaName("节点表");
+        tableConversionKey.setConversionKey("meta_data_object_info|meta_model_object_info|meta_topic_object_info@node_content.ruleItemList.resourceId");
+        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+        tableConversionKey.setJsonObject(false);
+        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+        }
+        tableConversionKeyRepository.save(tableConversionKey);
+
+        tableConversionKey.setId(null);
+        tableConversionKey.setTableCodeName("res_strategy_node");
+        tableConversionKey.setTableCodeChinaName("节点表");
+        tableConversionKey.setConversionKey("meta_object_field@node_content.statTimeFieldMapperBid");
+        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+        tableConversionKey.setJsonObject(false);
+        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+        }
+        tableConversionKeyRepository.save(tableConversionKey);
+
+        tableConversionKey.setId(null);
+        tableConversionKey.setTableCodeName("res_strategy_node");
+        tableConversionKey.setTableCodeChinaName("节点表");
+        tableConversionKey.setConversionKey("meta_object_field@node_content.statParams.paramBids");
+        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+        tableConversionKey.setJsonObject(false);
+        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+        }
+        tableConversionKeyRepository.save(tableConversionKey);
+
+        tableConversionKey.setId(null);
+        tableConversionKey.setTableCodeName("res_strategy_node");
+        tableConversionKey.setTableCodeChinaName("节点表");
+        tableConversionKey.setConversionKey("meta_object_field@node_content.statParams.outBid");
+        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+        tableConversionKey.setJsonObject(false);
+        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+        }
+        tableConversionKeyRepository.save(tableConversionKey);
+
+
+        tableConversionKey.setId(null);
+        tableConversionKey.setTableCodeName("res_strategy_node");
+        tableConversionKey.setTableCodeChinaName("节点表");
+        tableConversionKey.setConversionKey("meta_object_field@node_content.primaryFieldMapperBid");
+        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+        tableConversionKey.setJsonObject(false);
+        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+        }
+        tableConversionKeyRepository.save(tableConversionKey);
+
+
+
+//        tableConversionKey.setId(null);
+//        tableConversionKey.setTableCodeName("res_rule");
+//        tableConversionKey.setTableCodeChinaName("规则版本");
+//        tableConversionKey.setConversionKey("meta_object_field@hit_output.expField");
+//        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+//        tableConversionKey.setJsonObject(false);
+//        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+//        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+//            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+//        }
+//        tableConversionKeyRepository.save(tableConversionKey);
+//        tableConversionKey.setId(null);
+//        tableConversionKey.setTableCodeName("res_rule");
+//        tableConversionKey.setTableCodeChinaName("规则版本");
+//        tableConversionKey.setConversionKey("meta_object_field@hit_output.outField.bid");
+//        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+//        tableConversionKey.setJsonObject(false);
+//        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+//        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+//            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+//        }
+//        tableConversionKeyRepository.save(tableConversionKey);
+//
+//
+//        tableConversionKey.setId(null);
+//        tableConversionKey.setTableCodeName("res_rule");
+//        tableConversionKey.setTableCodeChinaName("规则版本");
+//        tableConversionKey.setConversionKey("meta_object_field@hit_output.outField.resourceObjectId");
+//        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+//        tableConversionKey.setJsonObject(false);
+//        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+//        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+//            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+//        }
+//        tableConversionKeyRepository.save(tableConversionKey);
+
+
+        tableConversionKey.setId(null);
+        tableConversionKey.setTableCodeName("res_rule");
+        tableConversionKey.setTableCodeChinaName("规则版本");
+        tableConversionKey.setConversionKey("meta_object_field@conditions.children.fieldBid");
+        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+        tableConversionKey.setJsonObject(false);
+        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+        }
+        tableConversionKeyRepository.save(tableConversionKey);
+
+        tableConversionKey.setId(null);
+        tableConversionKey.setTableCodeName("res_rule");
+        tableConversionKey.setTableCodeChinaName("规则版本");
+        tableConversionKey.setConversionKey("meta_object_field@conditions.children.fieldBid");
+        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+        tableConversionKey.setJsonObject(false);
+        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+        }
+        tableConversionKeyRepository.save(tableConversionKey);
+
+//        tableConversionKey.setId(null);
+//        tableConversionKey.setTableCodeName("res_rule");
+//        tableConversionKey.setTableCodeChinaName("规则版本");
+//        tableConversionKey.setConversionKey("meta_object_field@miss_output.outField.bid");
+//        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+//        tableConversionKey.setJsonObject(false);
+//        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+//        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+//            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+//        }
+//        tableConversionKeyRepository.save(tableConversionKey);
+//
+//
+//        tableConversionKey.setId(null);
+//        tableConversionKey.setTableCodeName("res_rule");
+//        tableConversionKey.setTableCodeChinaName("规则版本");
+//        tableConversionKey.setConversionKey("meta_data_object_info|meta_model_object_info|meta_topic_object_info@miss_output.outField.resourceObjectId");
+//        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+//        tableConversionKey.setJsonObject(false);
+//        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+//        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+//            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+//        }
+//        tableConversionKeyRepository.save(tableConversionKey);
+
+
+//        tableConversionKey.setId(null);
+//        tableConversionKey.setTableCodeName("res_score_card");
+//        tableConversionKey.setTableCodeChinaName("评分卡");
+//        tableConversionKey.setConversionKey("meta_data_object_info|meta_model_object_info|meta_topic_object_info@items.conditionField.resourceObjectId");
+//        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+//        tableConversionKey.setJsonObject(false);
+//        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+//        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+//            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+//        }
+//        tableConversionKeyRepository.save(tableConversionKey);
+
+//        tableConversionKey.setId(null);
+//        tableConversionKey.setTableCodeName("res_score_card");
+//        tableConversionKey.setTableCodeChinaName("评分卡");
+//        tableConversionKey.setConversionKey("meta_object_field@items.conditionField.bid");
+//        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+//        tableConversionKey.setJsonObject(false);
+//        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+//        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+//            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+//        }
+//        tableConversionKeyRepository.save(tableConversionKey);
+//
+//        tableConversionKey.setId(null);
+//        tableConversionKey.setTableCodeName("res_score_card");
+//        tableConversionKey.setTableCodeChinaName("评分卡");
+//        tableConversionKey.setConversionKey("meta_object_field@items.conditionField.fieldId");
+//        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+//        tableConversionKey.setJsonObject(false);
+//        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+//        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+//            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+//        }
+//        tableConversionKeyRepository.save(tableConversionKey);
+//
+//        tableConversionKey.setId(null);
+//        tableConversionKey.setTableCodeName("res_score_card");
+//        tableConversionKey.setTableCodeChinaName("评分卡");
+//        tableConversionKey.setConversionKey("meta_object_field@items.conditionField.referFields.bid");
+//        tableConversionKey.setHandleBeanName("defaultTableDataHandler");
+//        tableConversionKey.setJsonObject(false);
+//        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+//        if (null != tableConversionKeyByTableCodeNameAndConversionKey) {
+//            tableConversionKey.setId(tableConversionKeyByTableCodeNameAndConversionKey.getId());
+//        }
+//        tableConversionKeyRepository.save(tableConversionKey);
+
+
+        /**
+         *
+         */
     }
 
 

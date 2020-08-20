@@ -41,6 +41,7 @@ public class TableHistoryRepositoryTest {
         tableHistoryData.setPrimaryKeyName("id");
         tableHistoryData.setTableName("table_code_config");
         tableHistoryData.setCreateTime(new Date());
+        tableHistoryData.setResourceId("111");
         tableHistoryDataRepository.save(tableHistoryData);
     }
 
