@@ -199,6 +199,19 @@ public class TableCodeRelationRepositoryTest {
             tableCodeRelationRepository.save(tableCodeRelation);
         }
 
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("resource_id");
+        tableCodeRelation.setPrimaryTableChinaName("策略信息表");
+        tableCodeRelation.setPrimaryTableName("res_strategy_info");
+        tableCodeRelation.setSlaveTableChinaName("字段表");
+        tableCodeRelation.setSlaveTableName("meta_object_field");
+        tableCodeRelation.setSlaveCodeKey("resource_object_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
 
         tableCodeRelation.setId(null);
         tableCodeRelation.setPrimaryCodeKey("strategy_id");

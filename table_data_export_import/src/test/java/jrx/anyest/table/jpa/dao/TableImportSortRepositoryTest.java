@@ -64,6 +64,17 @@ public class TableImportSortRepositoryTest {
         }
         tableImportSortRepository.save(tableImportSort);
 
+
+        tableImportSort.setId(null);
+        tableImportSort.setOrderId(orderId++);
+        tableImportSort.setTableCodeName("res_strategy_info");
+        byTableCodeName = tableImportSortRepository.findByTableCodeName(tableImportSort.getTableCodeName());
+        if (null != byTableCodeName) {
+            tableImportSort.setId(byTableCodeName.getId());
+        }
+        tableImportSortRepository.save(tableImportSort);
+
+
         tableImportSort.setId(null);
         tableImportSort.setOrderId(orderId++);
         tableImportSort.setTableCodeName("meta_object_field");
@@ -234,14 +245,6 @@ public class TableImportSortRepositoryTest {
         tableImportSortRepository.save(tableImportSort);
 
 
-        tableImportSort.setId(null);
-        tableImportSort.setOrderId(orderId++);
-        tableImportSort.setTableCodeName("res_strategy_info");
-        byTableCodeName = tableImportSortRepository.findByTableCodeName(tableImportSort.getTableCodeName());
-        if (null != byTableCodeName) {
-            tableImportSort.setId(byTableCodeName.getId());
-        }
-        tableImportSortRepository.save(tableImportSort);
 
         tableImportSort.setId(null);
         tableImportSort.setOrderId(orderId++);

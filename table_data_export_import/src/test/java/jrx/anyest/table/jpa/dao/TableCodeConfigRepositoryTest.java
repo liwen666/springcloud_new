@@ -112,6 +112,23 @@ public class TableCodeConfigRepositoryTest {
         }
         tableCodeConfigRepository.save(tableCodeConfig);
 
+        tableCodeConfig.setId(null);
+        tableCodeConfig.setCreateTime(new Date());
+        tableCodeConfig.setTableCodeName("res_strategy_info");
+        tableCodeConfig.setTableCodeChinaName("策略信息表");
+        tableCodeConfig.setColumns("name");
+        tableCodeConfig.setWhereSqlColumns("project_id");
+        tableCodeConfig.setHandleBeanName("defaultTableDataHandler");
+        tableCodeConfig.setIgnoreColumnName(null);
+        tableCodeConfig.setIgnoreColumnValue(null);
+        tableCodeConfigByTableCodeName = tableCodeConfigRepository.findTableCodeConfigByTableCodeName(tableCodeConfig.getTableCodeName());
+        if (null != tableCodeConfigByTableCodeName) {
+            tableCodeConfig.setId(tableCodeConfigByTableCodeName.getId());
+        }
+        tableCodeConfigRepository.save(tableCodeConfig);
+
+
+
         //排除策略字段通过其他方式存取
         tableCodeConfig.setId(null);
         tableCodeConfig.setCreateTime(new Date());
@@ -230,21 +247,6 @@ public class TableCodeConfigRepositoryTest {
         tableCodeConfig.setCreateTime(new Date());
         tableCodeConfig.setTableCodeName("res_matrix_info");
         tableCodeConfig.setTableCodeChinaName("决策矩阵信息表");
-        tableCodeConfig.setColumns("name");
-        tableCodeConfig.setWhereSqlColumns("project_id");
-        tableCodeConfig.setHandleBeanName("defaultTableDataHandler");
-        tableCodeConfig.setIgnoreColumnName(null);
-        tableCodeConfig.setIgnoreColumnValue(null);
-        tableCodeConfigByTableCodeName = tableCodeConfigRepository.findTableCodeConfigByTableCodeName(tableCodeConfig.getTableCodeName());
-        if (null != tableCodeConfigByTableCodeName) {
-            tableCodeConfig.setId(tableCodeConfigByTableCodeName.getId());
-        }
-        tableCodeConfigRepository.save(tableCodeConfig);
-
-        tableCodeConfig.setId(null);
-        tableCodeConfig.setCreateTime(new Date());
-        tableCodeConfig.setTableCodeName("res_strategy_info");
-        tableCodeConfig.setTableCodeChinaName("策略信息表");
         tableCodeConfig.setColumns("name");
         tableCodeConfig.setWhereSqlColumns("project_id");
         tableCodeConfig.setHandleBeanName("defaultTableDataHandler");
