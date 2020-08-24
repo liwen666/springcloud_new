@@ -23,4 +23,9 @@ public class TablePropertiesConfig {
 
     private String datasource;
     private String fileSign;
+
+    /**
+     * 允许失败次数
+     */
+    private Integer failsNums;
 }

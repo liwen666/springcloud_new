@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import jrx.anyest.table.config.TablePropertiesConfig;
 import jrx.anyest.table.constant.TableConstants;
 import jrx.anyest.table.exception.TableDataConversionException;
 import jrx.anyest.table.exception.TableDataImportException;
@@ -57,12 +58,16 @@ public class TableDataExpOrImpService {
     private Collection<ITableExportListener> tableExportListeners;
 
 
-
     /**
      * 导入数据过滤器
      */
     @Autowired(required = false)
     private IImportDataListener importDataListener;
+    /**
+     * 导入数据过滤器
+     */
+    @Autowired(required = false)
+    private TablePropertiesConfig tablePropertiesConfig;
     /**
      * 导入数据缓存
      */
@@ -457,7 +462,9 @@ public class TableDataExpOrImpService {
                 Map<String, String> errorMsgs = Maps.newConcurrentMap();
                 List<JSONObject> successObj = Lists.newArrayList();
                 List<JSONObject> errorObj = Lists.newArrayList();
-                circleSaveData(e.getTableCodeName(), tableDatas, successObj, errorObj, errorMsgs, dataCheckResult);
+                logger.info("---------开始导入表：{}",e.getTableCodeName());
+                Map<String,AtomicInteger> flag = Maps.newConcurrentMap();
+                circleSaveData(e.getTableCodeName(), tableDatas, successObj, errorObj, errorMsgs, dataCheckResult,flag);
                 importData.setTableName(e.getTableCodeName());
                 importData.setSuccessNum(successObj.size());
                 importData.setErrorNum(errorObj.size());
@@ -489,7 +496,7 @@ public class TableDataExpOrImpService {
      */
     private void circleSaveData(String
                                         tableName, List<JSONObject> tableData, List<JSONObject> successObj, List<JSONObject> errorObj, Map<String, String> errorMsgs, DataCheckResult
-                                        dataCheckResult) {
+                                        dataCheckResult,Map<String ,AtomicInteger> errorFlag) {
         if (tableData.size() == successObj.size() + errorObj.size()) {
             logger.info("[-------表数据保存结束--------]tableName:{},successNum:{},errorNum:{},errorMsg:{}", tableName, successObj.size(), errorObj.size(), JSON.toJSONString(errorMsgs));
             return;
@@ -498,9 +505,11 @@ public class TableDataExpOrImpService {
          * 排除掉成功或者失败的对象
          */
 //        Set<JSONObject> collect = tableData.stream().filter(e -> !(successObj.contains(e) || errorObj.contains(e))).collect(Collectors.toSet());
-       tableData.stream().filter(e -> !(successObj.contains(e) || errorObj.contains(e))).forEach(x -> {
+        tableData.stream().filter(e -> !(successObj.contains(e) || errorObj.contains(e))).forEach(x -> {
 
             String key = TableDataCodeCacheManager.tableKey.get(tableName);
+            Object oldKey = x.get(key);
+
             /**
              * 递归查找满足条件的数据然后入库，直到所有数据全部入库或失败为止
              * 判断数据是否允许导入
@@ -510,11 +519,11 @@ public class TableDataExpOrImpService {
                 atomicInteger.addAndGet(e1.filter(tableName, x, dataCheckResult, jdbcTemplate));
             });
             if (atomicInteger.get() != tableImportListeners.size()) {
-                logger.info("--------数据不允许导入 tableName:{}----------", tableName,successObj.add(x));
+                logger.info("--------数据不允许导入 tableName:{}----------", tableName, successObj.add(x));
                 return;
             }
             try {
-                boolean flag = checkDataConversionKeys(tableName, x,errorObj);
+                boolean flag = checkDataConversionKeys(tableName, x, errorObj);
                 if (flag) {
                     /**
                      * 数据导入前置处理
@@ -531,30 +540,59 @@ public class TableDataExpOrImpService {
                      */
 
                     tableImportListeners.stream().sorted(Comparator.comparing(ITableImportListener::order)).forEach(e1 -> e1.after(tableName, x));
+                }else {
+                    if(errorFlag.get(x.get(TableDataCodeCacheManager.tableKey.get(tableName)).toString())==null){
+                        errorFlag.put(x.get(TableDataCodeCacheManager.tableKey.get(tableName)).toString(),new AtomicInteger(0));
+                    }
+                    int i = errorFlag.get(x.get(TableDataCodeCacheManager.tableKey.get(tableName)).toString()).incrementAndGet();
+                    if(tablePropertiesConfig.getFailsNums()==i){
+                        logger.error("保存数据异常，tableName:{},key,{} errorMsg,{}", tableName, oldKey, tableName+ TableConstants.CODE_SEPATATION+"数据重拾次数超过:"+"tablePropertiesConfig.getFailsNums()");
+                        errorObj.add(x);
+                        errorMsgs.put(oldKey.toString(), tableName+ TableConstants.CODE_SEPATATION+"数据重试数超过:"+tablePropertiesConfig.getFailsNums());
+                    }
                 }
             } catch (Exception e) {
-                logger.error("保存数据异常，tableName:{},key,{} errorMsg,{}", tableName, x.get(key), e);
+                logger.error("保存数据异常，tableName:{},key,{} errorMsg,{}", tableName, oldKey, e);
                 errorObj.add(x);
-                errorMsgs.put(x.get(key).toString(), e.getMessage());
+                errorMsgs.put(oldKey.toString(), tableName+ TableConstants.CODE_SEPATATION+e.getMessage());
             }
         });
-            circleSaveData(tableName, tableData, successObj, errorObj, errorMsgs, dataCheckResult);
+        circleSaveData(tableName, tableData, successObj, errorObj, errorMsgs, dataCheckResult,errorFlag);
     }
 
     private boolean checkDataConversionKeys(String tableName, JSONObject data, List<JSONObject> errorObj) {
-            String properties = TablePropertiesThreadLocalHolder.getProperties(TableConstants.TABLE_CODE_UUID);
-            /**
-             * 检查code缓存是否存在所有要转化的key
-             */
-            List<TableConversionKey> tableConversionKeys = TableDataCodeCacheManager.tableConversionKeys.get(tableName);
+        String properties = TablePropertiesThreadLocalHolder.getProperties(TableConstants.TABLE_CODE_UUID);
+        /**
+         * 检查code缓存是否存在所有要转化的key
+         */
+        List<TableConversionKey> tableConversionKeys = TableDataCodeCacheManager.tableConversionKeys.get(tableName);
+        if (CollectionUtils.isEmpty(tableConversionKeys)) {
+            return true;
+        }
+        for (TableConversionKey conversionKey : tableConversionKeys) {
+            String conversion = conversionKey.getConversionKey();
+            Object code =  DataConverRuleEngineUtils.getTableProperty(data, conversion.substring(conversion.indexOf(TableConstants.CODE_SEPATATION) + 1));
+            if(code instanceof List){
+                List<String> code1= (List<String>) code;
+                    return checkArray(code1,properties);
+            }
+            if (!StringUtils.isEmpty(code) && !code.toString().contains(TableConstants.ID_SEPATATION) && null == TableDataCodeCacheManager.codeToId.get(properties).get(code)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-            for (TableConversionKey conversionKey : tableConversionKeys) {
-                String conversion = conversionKey.getConversionKey();
-                String code = (String) DataConverRuleEngineUtils.getTableProperty(data, conversion.substring(conversion.indexOf(TableConstants.CODE_SEPATATION) + 1));
-                if (!StringUtils.isEmpty(code) && !code.contains(TableConstants.ID_SEPATATION) && null == TableDataCodeCacheManager.codeToId.get(properties).get(code)) {
+    private boolean checkArray(List<String> code1, String properties) {
+        for(Object cd:code1){
+            if(cd instanceof String ){
+                if (!StringUtils.isEmpty(cd) && !cd.toString().contains(TableConstants.ID_SEPATATION) && null == TableDataCodeCacheManager.codeToId.get(properties).get(cd)) {
                     return false;
                 }
+            }else{
+                checkArray((List)cd,properties);
             }
+        }
         return true;
     }
 
@@ -594,9 +632,9 @@ public class TableDataExpOrImpService {
                 }
             } else {
                 TableParamConfig tableParamConfig = TableDataCodeCacheManager.tableParamConfigs.get(tableName);
-                if(null==tableParamConfig){
+                if (null == tableParamConfig) {
                     insertDataMap.get(tableName).add(JSON.parseObject(v));
-                }else{
+                } else {
                     versionDataMap.get(tableName).add(JSON.parseObject(v));
                 }
             }
@@ -625,8 +663,7 @@ public class TableDataExpOrImpService {
         dataMap.forEach((k, v) -> tableExportListeners.stream().sorted(Comparator.comparing(ITableExportListener::order)).forEach(e -> {
             conversion.addAndGet(v.size());
             success.addAndGet(e.before(k, v, idToCode, jdbcTemplate, collect));
-            e.after(k,v,jdbcTemplate);
-
+            e.after(k, v, jdbcTemplate);
         }));
         if (success.get() != conversion.get()) {
             throw new TableDataConversionException("数据导出失败，有数据id-code转换失败");

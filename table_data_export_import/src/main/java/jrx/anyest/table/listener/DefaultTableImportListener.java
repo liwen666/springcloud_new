@@ -17,8 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
@@ -27,18 +26,18 @@ import java.util.Map;
 
 /**
  * <p>
- *  描述
+ * 描述
  * </p>
  *
  * @author lw
- * @since  2020/8/11 17:42
+ * @since 2020/8/11 17:42
  */
 @Service
 public class DefaultTableImportListener implements ITableImportListener {
     @Autowired
     private TableKeyService tableKeyService;
     @Autowired
-    private TableHistoryDataRepository  tableHistoryDataRepository;
+    private TableHistoryDataRepository tableHistoryDataRepository;
     private int order = 0;
 
     @Override
@@ -63,11 +62,11 @@ public class DefaultTableImportListener implements ITableImportListener {
             Integer resource = Integer.parseInt(TableDataCodeCacheManager.codeToId.get(tableCodeUuid).get(data.get(tableParamConfig.getResourceIdColumn())));
             Integer oldVersion;
             try {
-                oldVersion = jdbcTemplate.queryForObject("select "+tableParamConfig.getVersionColumn()+" from " + tableName + " where  "+tableParamConfig.getResourceIdColumn()+"=" + resource + " order by "+tableParamConfig.getVersionColumn()+" desc limit 1", Integer.class);
+                oldVersion = jdbcTemplate.queryForObject("select " + tableParamConfig.getVersionColumn() + " from " + tableName + " where  " + tableParamConfig.getResourceIdColumn() + "=" + resource + " order by " + tableParamConfig.getVersionColumn() + " desc limit 1", Integer.class);
             } catch (DataAccessException e) {
-                oldVersion=1;
+                oldVersion = 0;
             }
-            data.put("version",++oldVersion);
+            data.put("version", ++oldVersion);
             getHistoryData(tableName, data, jdbcTemplate, tableCodeUuid, codeToId, tableHistoryData);
         } else if (update) {
             /**
@@ -77,7 +76,12 @@ public class DefaultTableImportListener implements ITableImportListener {
                 String[] split = codeColumns.split(TableConstants.ID_SEPATATION);
                 StringBuffer codeBuffer = new StringBuffer(tableName + TableConstants.CODE_SEPATATION);
                 for (String str : split) {
-                    String o = data.get(str).toString();
+                    String o = null;
+                    try {
+                        o = data.get(str).toString();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     codeBuffer.append(o + TableConstants.CODE_SEPATATION);
                 }
                 code = codeBuffer.toString().substring(0, codeBuffer.length() - 1);
@@ -86,7 +90,12 @@ public class DefaultTableImportListener implements ITableImportListener {
              * 删除以前的数据
              */
             String keyName = TableDataCodeCacheManager.tableKey.get(tableName);
-            Integer oldDataId = Integer.parseInt(codeToId.get(code));
+            Integer oldDataId = null;
+            try {
+                oldDataId = Integer.parseInt(codeToId.get(code));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
             /**
              * 查询历史数据
              */
@@ -102,15 +111,13 @@ public class DefaultTableImportListener implements ITableImportListener {
             /**
              * 做数据转换处理
              */
-            data.put(keyName,oldDataId);
+            data.put(keyName, oldDataId);
             conversionKey(tableName, data, codeToId);
-
-
 
         } else {
             throw new TableDataImportException("数据导入异常，DataCheckResult 不存在该数据类型 tableName:" + tableName + " data:" + JSON.toJSONString(data));
         }
-        tableHistoryData.setResourceId(data.get("resource_id").toString());
+        tableHistoryData.setResourceId(data.get("resource_id")==null?null:data.get("resource_id").toString());
         tableHistoryDataRepository.save(tableHistoryData);
     }
 
@@ -130,7 +137,11 @@ public class DefaultTableImportListener implements ITableImportListener {
 
 
     private void conversionKey(String tableName, Map<String, Object> data, Map<String, String> codeToId) {
+
         List<TableConversionKey> tableConversionKeys = TableDataCodeCacheManager.tableConversionKeys.get(tableName);
+        if (CollectionUtils.isEmpty(tableConversionKeys)) {
+            return;
+        }
         tableConversionKeys.forEach(x -> {
             String conversionKey = x.getConversionKey().split(TableConstants.CODE_SEPATATION)[1];
             /**
@@ -139,7 +150,8 @@ public class DefaultTableImportListener implements ITableImportListener {
             if (x.isJsonObject()) {
                 return;
             }
-            DataConverRuleEngineUtils.setPropertyTable(data,conversionKey,null,codeToId,null);
+//            对于策略版本数据做特殊处理
+            DataConverRuleEngineUtils.setPropertyTable(data, conversionKey, null, codeToId, null);
         });
     }
 
@@ -147,9 +159,9 @@ public class DefaultTableImportListener implements ITableImportListener {
     public void after(String tableName, Map<String, Object> data) {
         String uuid = TablePropertiesThreadLocalHolder.getProperties(TableConstants.TABLE_CODE_UUID);
         TableCodeConfig tableCodeConfig = TableDataCodeCacheManager.tableCodeConfigs.get(tableName);
-        if(null==tableCodeConfig)return;
+        if (null == tableCodeConfig) return;
         String key = TableDataCodeCacheManager.tableKey.get(tableName);
-        TableDataExpOrImpService.addCache(uuid,tableCodeConfig,key,tableCodeConfig.getColumns(),data);
+        TableDataExpOrImpService.addCache(uuid, tableCodeConfig, key, tableCodeConfig.getColumns(), data);
     }
 
     @Override

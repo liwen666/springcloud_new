@@ -16,11 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TableKeyService {
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+//    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Integer getNewKey(JdbcTemplate jdbcTemplate) {
         TableParamConfig tableParamConfig = TableDataCodeCacheManager.tableParamConfigs.get(TableConstants.KEY_SEQUENCE);
         Integer key;
         while (true){
+//            Integer integer = jdbcTemplate.queryForObject("select  " + tableParamConfig.getKeyColumn() + " from " + tableParamConfig.getTableDescribe() + " limit 1", Integer.class);
+             jdbcTemplate.execute("lock tables  hibernate_sequence  write ");
             Integer integer = jdbcTemplate.queryForObject("select  " + tableParamConfig.getKeyColumn() + " from " + tableParamConfig.getTableDescribe() + " limit 1", Integer.class);
             Integer old = integer;
             int update = jdbcTemplate.update("update " + tableParamConfig.getTableDescribe() + " set " + tableParamConfig.getKeyColumn() + "=" + ++integer + "   where " + tableParamConfig.getKeyColumn() + "=" + old);
@@ -29,6 +32,7 @@ public class TableKeyService {
                 break;
             }
         }
+        jdbcTemplate.execute("unlock tables   ");
         return key;
     }
 
