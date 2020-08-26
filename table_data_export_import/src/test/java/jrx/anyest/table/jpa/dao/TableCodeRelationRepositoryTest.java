@@ -509,5 +509,20 @@ public class TableCodeRelationRepositoryTest {
             tableCodeRelationRepository.save(tableCodeRelation);
         }
 
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("resource_id");
+        tableCodeRelation.setPrimaryTableChinaName("函数信息表");
+        tableCodeRelation.setPrimaryTableName("meta_function_info");
+        tableCodeRelation.setSlaveTableChinaName("对象信息表");
+//        tableCodeRelation.setSlaveTableName("meta_data_object_info|meta_model_object_info|meta_topic_object_info");
+        tableCodeRelation.setSlaveTableName("meta_function");
+        tableCodeRelation.setSlaveCodeKey("resource_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+
     }
 }

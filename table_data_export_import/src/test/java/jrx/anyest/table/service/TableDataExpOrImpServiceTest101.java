@@ -282,6 +282,6 @@ public class TableDataExpOrImpServiceTest101 {
 
     @Test
     public void rollback() {
-        tableDataExpOrImpService.rollback("4216922926018007040");
+        tableDataExpOrImpService.rollback("4220674389571657728a");
     }
 }

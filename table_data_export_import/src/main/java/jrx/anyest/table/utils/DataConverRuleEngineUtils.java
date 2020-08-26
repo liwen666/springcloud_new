@@ -3,6 +3,7 @@ package jrx.anyest.table.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,19 +32,21 @@ public class DataConverRuleEngineUtils {
     public static Object getTableProperty(Map<?, ?> map, Object qualifiedKey) {
         if (String.valueOf(qualifiedKey).contains(".")) {
             String json = (String) map.get(String.valueOf(qualifiedKey).substring(0, String.valueOf(qualifiedKey).indexOf(".")));
-            if(json.startsWith("[")){
+            if (json != null && json.startsWith("[")) {
                 List<Object> objects = new ArrayList<>();
                 JSONArray jsonArray = JSON.parseArray(json);
-                jsonArray.forEach(e->{
+                jsonArray.forEach(e -> {
                     Object property = getProperty((Map<?, ?>) e, String.valueOf(qualifiedKey).substring(String.valueOf(qualifiedKey).indexOf(".") + 1));
-                    if (null==property){return;}
-                    if(property instanceof  List){
+                    if (null == property) {
+                        return;
+                    }
+                    if (property instanceof List) {
                         objects.addAll((Collection<?>) property);
-                    }else{
+                    } else {
                         objects.add(property);
                     }
                 });
-                if(CollectionUtils.isEmpty(objects)){
+                if (CollectionUtils.isEmpty(objects)) {
                     return null;
                 }
                 return objects;
@@ -116,25 +119,7 @@ public class DataConverRuleEngineUtils {
             return;
         }
         if (property instanceof List) {
-            JSONArray jsonArray;
-            Object property2 = getProperty(map, String.valueOf(qualifiedKey).substring(0, String.valueOf(qualifiedKey).lastIndexOf(".")));
-            if (property2 instanceof ArrayList) {
-                jsonArray = (JSONArray) (((List) property2).get(0));
-            } else {
-                jsonArray = (JSONArray) property2;
-            }
-            for (Object jsonObject : jsonArray) {
-                String subCode = String.valueOf(qualifiedKey).substring(String.valueOf(qualifiedKey).lastIndexOf(".") + 1);
-                Object property1 = getProperty((Map<?, ?>) jsonObject, subCode);
-                if (null != property1) {
-                    if (!StringUtils.isEmpty(replacePre)) {
-                        value = keyVaule.get(replacePre + property1);
-                    } else {
-                        value = keyVaule.get(property1);
-                    }
-                    setProperty((Map) jsonObject, subCode, value);
-                }
-            }
+            setArrayValue(map, qualifiedKey, keyVaule, replacePre);
         } else {
             boolean listFlag = false;
             if (String.valueOf(property).contains("]")) {
@@ -168,6 +153,42 @@ public class DataConverRuleEngineUtils {
         }
     }
 
+    private static void setArrayValue(Map map, Object qualifiedKey, Map<String, String> keyVaule, String replacePre) {
+        Object value;
+        JSONArray jsonArray = new JSONArray();
+        Object property2 = getProperty(map, String.valueOf(qualifiedKey).substring(0, String.valueOf(qualifiedKey).lastIndexOf(".")));
+        if (property2 instanceof ArrayList) {
+            List list = (List) property2;
+            if(!CollectionUtils.isEmpty(list)&&list.get(0) instanceof JSONObject){
+                for(Object o:list){
+                    jsonArray.add(o);
+                }
+            }else {
+                setArrayValue(map, String.valueOf(qualifiedKey).substring(0, String.valueOf(qualifiedKey).lastIndexOf(".")), keyVaule, replacePre);
+            }
+        } else {
+            jsonArray = (JSONArray) property2;
+        }
+        for (Object jsonObject : jsonArray) {
+            String subCode = String.valueOf(qualifiedKey).substring(String.valueOf(qualifiedKey).lastIndexOf(".") + 1);
+            Object property1 = getProperty((Map<?, ?>) jsonObject, subCode);
+            if (null != property1) {
+                if (!StringUtils.isEmpty(replacePre)) {
+                    value = keyVaule.get(replacePre + property1);
+                } else {
+                    value = keyVaule.get(property1);
+                }
+                if (null ==value) {
+                    /**
+                     * 支持相同的转换key不同的值
+                     */
+                    continue;
+                }
+                setProperty((Map) jsonObject, subCode, value);
+            }
+        }
+    }
+
     public static void setPropertyTable(Map map, Object qualifiedKey, Object value, Map<String, String> keyVaule, String replacePre) {
         if (String.valueOf(qualifiedKey).contains(".")) {
             String left = String.valueOf(qualifiedKey).substring(0, String.valueOf(qualifiedKey).indexOf("."));
@@ -179,7 +200,7 @@ public class DataConverRuleEngineUtils {
             if (json.startsWith("[")) {
                 JSONArray jsonArray = JSON.parseArray(json);
                 jsonArray.forEach(e -> {
-                    setProperty((JSONObject)e, right, value, keyVaule, replacePre);
+                    setProperty((JSONObject) e, right, value, keyVaule, replacePre);
                 });
                 map.put(left, JSONObject.toJSONString(jsonArray));
                 return;
@@ -215,23 +236,7 @@ public class DataConverRuleEngineUtils {
         boolean matches = matcher.matches();
         Assert.state(matches, "key不符合规则" + name);
         return matcher.group(index);
-    }
-
-    public static void main(String[] args) {
-        String data = "{\"node_id\":16433,\"content_code\":\"3\",\"create_time\":1597825951000,\"update_person\":\"xhp33\",\"update_time\":1597825951000,\"execute_mode\":\"ALWAYS\",\"height\":50,\"icon\":\"calc\",\"name\":\"衍生变量\",\"node_content\":\"[{\\\"bid\\\":\\\"f12176\\\",\\\"columnCode\\\":\\\"NODE_test_model\\\",\\\"description\\\":\\\"\\\",\\\"expressionUnits\\\":[{\\\"type\\\":\\\"input\\\",\\\"value\\\":\\\"4\\\"},{\\\"term\\\":\\\"+\\\",\\\"type\\\":\\\"term\\\"},{\\\"type\\\":\\\"input\\\",\\\"value\\\":\\\"3\\\"}],\\\"fieldCode\\\":\\\"NODE_test_model\\\",\\\"fieldId\\\":12176,\\\"fieldName\\\":\\\"test_模型字段\\\",\\\"fieldState\\\":\\\"ACTIVE\\\",\\\"fieldType\\\":\\\"FORMULA_FIELD\\\",\\\"functionParams\\\":{},\\\"functions\\\":{},\\\"import\\\":false,\\\"isKey\\\":false,\\\"objectType\\\":\\\"NODE_FEATURE\\\",\\\"position\\\":0,\\\"priority\\\":0,\\\"recorded\\\":false,\\\"referFieldBids\\\":\\\"\\\",\\\"referFunctionCodes\\\":\\\"\\\",\\\"relColumnCode\\\":\\\"NODE_test_model\\\",\\\"resourceObjectId\\\":11155,\\\"resourceObjectVersionId\\\":11156,\\\"valueType\\\":\\\"INTEGER\\\"}]\",\"node_key\":\"12190_20395\",\"node_type\":\"DERIVE_FIELD\",\"strategy_id\":16431,\"text\":\"衍生变量\",\"width\":150,\"x\":75,\"y\":125}";
-
-        String congerKey = "node_content.ruleItemList.category.categoryId";
-        JSONObject jsonObject = JSON.parseObject(data);
-        setPropertyTable(jsonObject, congerKey, 1, null, null);
 
     }
-}
 
-class test {
-    public static void main(String[] args) {
-        String value ="{\"node_id\":16433,\"content_code\":\"3\",\"create_time\":1597825951000,\"update_person\":\"xhp33\",\"update_time\":1597825951000,\"execute_mode\":\"ALWAYS\",\"height\":50,\"icon\":\"calc\",\"name\":\"衍生变量\",\"node_content\":\"[{\\\"functionParams\\\":{},\\\"fieldName\\\":\\\"test_模型字段\\\",\\\"functions\\\":{},\\\"import\\\":false,\\\"expressionUnits\\\":[{\\\"type\\\":\\\"input\\\",\\\"value\\\":\\\"4\\\"},{\\\"term\\\":\\\"+\\\",\\\"type\\\":\\\"term\\\"},{\\\"type\\\":\\\"input\\\",\\\"value\\\":\\\"3\\\"}],\\\"fieldCode\\\":\\\"NODE_test_model\\\",\\\"referFunctionCodes\\\":\\\"\\\",\\\"isKey\\\":false,\\\"description\\\":\\\"\\\",\\\"relColumnCode\\\":\\\"NODE_test_model\\\",\\\"resourceObjectVersionId\\\":11156,\\\"priority\\\":0,\\\"recorded\\\":false,\\\"resourceObjectId\\\":11155,\\\"fieldState\\\":\\\"ACTIVE\\\",\\\"objectType\\\":\\\"NODE_FEATURE\\\",\\\"referFieldBids\\\":\\\"\\\",\\\"valueType\\\":\\\"INTEGER\\\",\\\"columnCode\\\":\\\"NODE_test_model\\\",\\\"position\\\":0,\\\"bid\\\":\\\"f12176\\\",\\\"fieldType\\\":\\\"FORMULA_FIELD\\\",\\\"fieldId\\\":12176}]\",\"node_key\":\"12190_20395\",\"node_type\":\"DERIVE_FIELD\",\"strategy_id\":16431,\"text\":\"衍生变量\",\"width\":150,\"x\":75,\"y\":125}";
-        JSONObject jsonObject = JSON.parseObject(value);
-        Object tableProperty = DataConverRuleEngineUtils.getTableProperty(jsonObject, "node_content.eventStatObjectInfoId");
-        System.out.println(tableProperty);
-    }
 }
