@@ -14,7 +14,7 @@ import java.io.FileOutputStream;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ApplicationStart.class)
+@SpringBootTest(classes = TableApplicationStart.class)
 public class TableDataExpOrImpServiceTest
 {
     @Autowired

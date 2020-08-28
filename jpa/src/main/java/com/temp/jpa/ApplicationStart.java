@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class ApplicationStart {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApplicationStart.class, args);
+		SpringApplication.run(TableApplicationStart.class, args);
 	}
 
 }

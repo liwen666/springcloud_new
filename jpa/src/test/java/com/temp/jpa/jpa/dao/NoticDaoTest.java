@@ -12,7 +12,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ApplicationStart.class)
+@SpringBootTest(classes = TableApplicationStart.class)
 @WebAppConfiguration
 public class NoticDaoTest {
     @Autowired

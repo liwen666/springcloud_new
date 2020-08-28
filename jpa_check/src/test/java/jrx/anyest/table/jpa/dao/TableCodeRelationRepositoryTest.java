@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ApplicationStart.class)
+@SpringBootTest(classes = TableApplicationStart.class)
 public class TableCodeRelationRepositoryTest {
     @Autowired
     private TableCodeRelationRepository tableCodeRelationRepository;

@@ -24,7 +24,7 @@ import java.util.List;
  * @since 2019/5/26 23:40
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ApplicationStart.class)
+@SpringBootTest(classes = TableApplicationStart.class)
 @WebAppConfiguration
 public class DataViewTest {
     @Test

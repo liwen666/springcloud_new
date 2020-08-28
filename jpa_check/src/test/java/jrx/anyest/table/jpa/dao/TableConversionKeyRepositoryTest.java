@@ -12,7 +12,7 @@ import java.util.Date;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ApplicationStart.class)
+@SpringBootTest(classes = TableApplicationStart.class)
 public class TableConversionKeyRepositoryTest
 {
     @Autowired

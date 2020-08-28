@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ApplicationStart.class)
+@SpringBootTest(classes = TableApplicationStart.class)
 @WebAppConfiguration
 public class ReportFieldDaoTest {
 

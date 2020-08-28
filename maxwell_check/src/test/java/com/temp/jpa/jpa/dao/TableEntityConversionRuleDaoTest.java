@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ApplicationStart.class)
+@SpringBootTest(classes = TableApplicationStart.class)
 @WebAppConfiguration
 public class TableEntityConversionRuleDaoTest {
     @Autowired
