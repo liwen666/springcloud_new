@@ -158,14 +158,8 @@ public class DataConverRuleEngineUtils {
         JSONArray jsonArray = new JSONArray();
         Object property2 = getProperty(map, String.valueOf(qualifiedKey).substring(0, String.valueOf(qualifiedKey).lastIndexOf(".")));
         if (property2 instanceof ArrayList) {
-            List list = (List) property2;
-            if(!CollectionUtils.isEmpty(list)&&list.get(0) instanceof JSONObject){
-                for(Object o:list){
-                    jsonArray.add(o);
-                }
-            }else {
-                setArrayValue(map, String.valueOf(qualifiedKey).substring(0, String.valueOf(qualifiedKey).lastIndexOf(".")), keyVaule, replacePre);
-            }
+            addArray(jsonArray, (List) property2);
+
         } else {
             jsonArray = (JSONArray) property2;
         }
@@ -187,6 +181,16 @@ public class DataConverRuleEngineUtils {
                 setProperty((Map) jsonObject, subCode, value);
             }
         }
+    }
+
+    private static void addArray(JSONArray jsonArray, List property2) {
+            for(Object o:property2){
+                if(o instanceof  JSONObject){
+                   jsonArray.add(o);
+                }else{
+                    addArray(jsonArray,(List) o);
+                }
+            }
     }
 
     public static void setPropertyTable(Map map, Object qualifiedKey, Object value, Map<String, String> keyVaule, String replacePre) {

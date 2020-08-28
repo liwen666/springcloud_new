@@ -74,6 +74,14 @@ public class TableImportSortRepositoryTest {
         }
         tableImportSortRepository.save(tableImportSort);
 
+        tableImportSort.setId(null);
+        tableImportSort.setOrderId(orderId++);
+        tableImportSort.setTableCodeName("res_strategy");
+        byTableCodeName = tableImportSortRepository.findByTableCodeName(tableImportSort.getTableCodeName());
+        if (null != byTableCodeName) {
+            tableImportSort.setId(byTableCodeName.getId());
+        }
+        tableImportSortRepository.save(tableImportSort);
 
         tableImportSort.setId(null);
         tableImportSort.setOrderId(orderId++);
@@ -246,14 +254,7 @@ public class TableImportSortRepositoryTest {
 
 
 
-        tableImportSort.setId(null);
-        tableImportSort.setOrderId(orderId++);
-        tableImportSort.setTableCodeName("res_strategy");
-        byTableCodeName = tableImportSortRepository.findByTableCodeName(tableImportSort.getTableCodeName());
-        if (null != byTableCodeName) {
-            tableImportSort.setId(byTableCodeName.getId());
-        }
-        tableImportSortRepository.save(tableImportSort);
+
 
         tableImportSort.setId(null);
         tableImportSort.setOrderId(orderId++);
