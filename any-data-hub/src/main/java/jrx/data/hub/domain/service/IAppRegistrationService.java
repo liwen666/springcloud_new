@@ -9,7 +9,7 @@ import jrx.data.hub.infrastructure.model.AppRegistration;
  * </p>
  *
  * @author lw
- * @since  2020/10/22 16:26
+ * @since  2020/10/22 16:35
  */
 public interface IAppRegistrationService extends IService<AppRegistration> {
 

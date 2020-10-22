@@ -1,4 +1,4 @@
 #Swagger
-   http://localhost:9001/data_flow_server_node/swagger-ui.html#/
+   http://localhost:9001/any-data-hub/swagger-ui.html#/
    
  

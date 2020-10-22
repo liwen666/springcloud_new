@@ -18,7 +18,7 @@ import java.util.Properties;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ConfigurationProperties(
-        prefix = "jrx.batch.job.server"
+        prefix = "jrx.data.hub.server"
 )
 public class NodeServerConfigProperties {
 

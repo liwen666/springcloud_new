@@ -1,24 +1,12 @@
-
 server:
   port: 9001
-#  指定tomcat的启动文件默认路径，jar拉起任务有冲突
-#  tomcat:
-#    basedir:
+  servlet:
+    context-path: /any-data-hub
 spring:
-  boot:
-    admin:
-      client:
-        url: http://172.16.102.24:8889    #server端地址
-        #url: http://127.0.0.1:8889    #server端地址
-        username: SBA_admin    #对应server端的账号密码，不配置就监控不到这个client。
-        password: SBA_password
-        instance:
-          service-base-url: http://172.16.102.23:${server.port}   #client地址，
   application:
-    name: data_flow_server_node
+    name: any-data-hub
   profiles:
     active: dev
-#    active: local
   cloud:
     config:
       enabled: false
@@ -43,8 +31,7 @@ management:
 # info信息会显示到SBA的server端，这里取的是maven中的数据
 info:
   version: 2.1.4
-  groupId: jrx.batch.node
-  artifactId: data_flow_server_node
+  artifactId: any-data-hub
 
 
 jrx:
@@ -67,9 +54,9 @@ spring:
     nacos:
       config:
         enabled: true
-        server-addr: 172.16.101.29:8848,172.16.101.30:8848,172.16.101.31:8848
+        server-addr: 192.168.60.220:8848
         # 命名空间ID
-        namespace: 09ef3f23-52e0-4d51-b9aa-3364a47619f1
+        namespace: temp
         file-extension: yaml
         group: DEFAULT_GROUP #默认组
       #      #配置多个共享配置, 多个的时候用用逗号分隔
@@ -78,31 +65,7 @@ spring:
       #      refreshable-dataids: application_dev
       #服务的发现
       discovery:
-        server-addr: 172.16.101.29:8848,172.16.101.30:8848,172.16.101.31:8848
+        server-addr: 192.168.60.220:8848
         # 命名空间ID
-        namespace: 09ef3f23-52e0-4d51-b9aa-3364a47619f1
-        service: local_test
-
-#演示环境
-#spring:
-#  main:
-#    allow-bean-definition-overriding: true
-#  cloud:
-#    nacos:
-#      config:
-#        enabled: true
-#        server-addr: 172.16.101.23:8848,172.16.101.37:8848,172.16.101.38:8848
-#        # 命名空间ID
-#        namespace: df09f227-c5a5-47de-b915-8858c9c43651
-#        file-extension: yaml
-#        group: DEFAULT_GROUP #默认组
-#      #      #配置多个共享配置, 多个的时候用用逗号分隔
-#      #      shared-dataids: application_dev
-#      #      #配置可以刷新文件,需要配合@RefreshScope使用见上文.
-#      #      refreshable-dataids: application_dev
-#      #服务的发现
-#      discovery:
-#        server-addr: 172.16.101.23:8848,172.16.101.37:8848,172.16.101.38:8848
-#        # 命名空间ID
-#        namespace: df09f227-c5a5-47de-b915-8858c9c43651
-#        service: local_test
+        namespace: temp
+        service: temp

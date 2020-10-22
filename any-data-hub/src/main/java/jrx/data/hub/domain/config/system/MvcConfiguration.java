@@ -33,6 +33,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
             registry.addResourceHandler("/public/dashboard/**").
                     addResourceLocations("classpath:/public/dashboard/");
         }
+
         super.addResourceHandlers(registry);
     }
 

@@ -6,7 +6,7 @@ package jrx.data.hub.util;
  * </p>
  *
  * @author lw
- * @since  2020/10/22 16:27
+ * @since  2020/10/22 17:05
  */
 public class SystemUtils {
     public static boolean isWin() {
