@@ -16,7 +16,7 @@ import java.util.List;
  * </p>
  *
  * @author lw
- * @since  2019/11/12 16:16
+ * @since  2020/10/22 16:24
  */
 @Configuration
 public class MvcConfiguration extends WebMvcConfigurerAdapter {

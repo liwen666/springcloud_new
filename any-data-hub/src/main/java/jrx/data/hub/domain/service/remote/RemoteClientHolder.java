@@ -7,14 +7,13 @@ import feign.jackson.JacksonDecoder;
 import jrx.data.hub.domain.nacos.HttpJobServiceNameSpace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 /**
  * <p>
- * 描述
+ *  描述
  * </p>
  *
- * @author tx
- * @since 2019/11/11 16:57
+ * @author lw
+ * @since  2020/10/22 16:26
  */
 @Component
 public class RemoteClientHolder {

@@ -22,7 +22,14 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-
+/**
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/10/22 16:24
+ */
 public class DefaultEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
     private static Log logger = LogFactory.getLog(DefaultEnvironmentPostProcessor.class);
     private final Resource serverResource = new ClassPathResource("/dataflow-server.yml");

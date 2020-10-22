@@ -6,7 +6,7 @@ package jrx.data.hub.domain.enums;
  * </p>
  *
  * @author lw
- * @since  2020/3/6 21:09
+ * @since  2020/10/22 16:26
  */
 public enum RerunMode implements IBaseEnum {
 

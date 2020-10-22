@@ -5,7 +5,7 @@ package jrx.data.hub.domain.enums;
  * </p>
  *
  * @author lw
- * @since  2020/3/6 21:07
+ * @since  2020/10/22 16:25
  */
 public enum CodeEnums implements IBaseEnum{
     /**

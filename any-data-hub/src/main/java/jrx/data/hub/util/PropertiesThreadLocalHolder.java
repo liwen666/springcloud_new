@@ -5,11 +5,11 @@ import java.util.Map;
 
 /**
  * <p>
- * 描述
+ *  描述
  * </p>
  *
  * @author lw
- * @since 2019/5/26 23:40
+ * @since  2020/10/22 16:27
  */
 public class PropertiesThreadLocalHolder {
     private final static ThreadLocal<Map<String, String>> localProperties = new ThreadLocal<>();

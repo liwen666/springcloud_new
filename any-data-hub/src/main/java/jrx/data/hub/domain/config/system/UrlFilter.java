@@ -8,11 +8,10 @@ import java.io.IOException;
 /**
  * <p>
  *  描述
- *
  * </p>
  *
  * @author lw
- * @since  2019/11/12 16:12
+ * @since  2020/10/22 16:24
  */
 @WebFilter(filterName = "data_hub_filter", urlPatterns = "/*")
 public class UrlFilter implements Filter {

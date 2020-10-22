@@ -16,9 +16,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 注解开启 swagger2 功能
+ * <p>
+ *  描述
+ * </p>
  *
- * @author
+ * @author lw
+ * @since  2020/10/22 16:24
  */
 @EnableSwagger2
 @Configuration

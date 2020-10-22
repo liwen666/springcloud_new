@@ -5,11 +5,11 @@ import jrx.data.hub.infrastructure.model.AppRegistration;
 
 /**
  * <p>
- *  服务类
+ *  描述
  * </p>
  *
- * @author schedule
- * @since 2019-11-11
+ * @author lw
+ * @since  2020/10/22 16:26
  */
 public interface IAppRegistrationService extends IService<AppRegistration> {
 

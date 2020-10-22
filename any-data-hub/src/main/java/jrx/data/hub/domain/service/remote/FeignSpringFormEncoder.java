@@ -26,10 +26,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * A custom {@link Encoder} that supports Multipart requests. It uses
- * {@link HttpMessageConverter}s like {@link RestTemplate} does.
+ * <p>
+ *  描述
+ * </p>
  *
- * @author Pierantonio Cangianiello
+ * @author lw
+ * @since  2020/10/22 16:27
  */
 public class FeignSpringFormEncoder implements Encoder {
     private final List<HttpMessageConverter<?>> converters = new RestTemplate().getMessageConverters();

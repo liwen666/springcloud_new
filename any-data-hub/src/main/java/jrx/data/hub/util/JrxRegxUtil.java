@@ -5,11 +5,11 @@ import java.util.regex.Pattern;
 
 /**
  * <p>
- * 描述
+ *  描述
  * </p>
  *
- * @author tx
- * @since 2019/5/26 23:40
+ * @author lw
+ * @since  2020/10/22 16:27
  */
 public class JrxRegxUtil {
     /**

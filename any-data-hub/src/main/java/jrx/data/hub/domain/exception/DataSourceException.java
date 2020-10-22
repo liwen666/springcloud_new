@@ -1,9 +1,12 @@
 package jrx.data.hub.domain.exception;
 
 /**
- * 数据连接池初始化异常
- * @author
- * @date 2018/6/16
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/10/22 16:26
  */
 public class DataSourceException extends RuntimeException {
 

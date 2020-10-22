@@ -13,11 +13,12 @@ import org.springframework.core.env.*;
 import java.util.HashMap;
 
 /**
- * 注册动态数据源bean
+ * <p>
+ *  描述
+ * </p>
  *
- * @author: looyii
- * @Date: 2019/7/25 16:12
- * @Description:
+ * @author lw
+ * @since  2020/10/22 16:24
  */
 @Configuration
 public class EnvironmentConfig implements EnvironmentAware, BeanDefinitionRegistryPostProcessor {

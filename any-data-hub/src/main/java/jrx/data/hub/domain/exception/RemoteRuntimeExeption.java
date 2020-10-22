@@ -1,9 +1,12 @@
 package jrx.data.hub.domain.exception;
 
 /**
- * job执行状态异常
- * @author
- * @date 2018/5/23
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/10/22 16:26
  */
 public class RemoteRuntimeExeption extends RuntimeException{
 

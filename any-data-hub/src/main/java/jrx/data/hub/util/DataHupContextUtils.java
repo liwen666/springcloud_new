@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component;
 
 /**
  * <p>
- * 描述
+ *  描述
  * </p>
  *
  * @author lw
- * @since 2019/11/12 14:22
+ * @since  2020/10/22 16:26
  */
 @Component
 public class DataHupContextUtils implements ApplicationContextAware {

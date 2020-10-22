@@ -5,27 +5,13 @@ import java.io.*;
 
 /**
  * <p>
- * 描述
+ *  描述
  * </p>
  *
  * @author lw
- * @since 2019/11/16 15:53
+ * @since  2020/10/22 16:27
  */
 public class FileRecursionScan {
-    public static void main(String[] args) {
-        List<String> paths = new ArrayList<String>();
-        paths = getAllFilePaths(new File("C:/Users/liwen/Desktop/jrx/worktask"), paths);
-        for (String path : paths) {
-            System.out.println(path);
-        }
-        File f = new File("C:/Users/liwen/Desktop/jrx/worktask");
-        File fileByName = getFileByName(f, "test_node-aafe7419-8f28-49a5-b0a3-18ad3d43aa9c", "stdout.log");
-        if (fileByName != null) {
-            System.out.println("******************************************************");
-            System.out.println(fileByName.getName());
-
-        }
-    }
 
     /**
      * 查找路径下所有文件名

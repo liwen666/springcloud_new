@@ -14,10 +14,12 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /**
- * Description:    java类作用描述
- * author:     lw
- * date:     2019/5/26 12:22
- * Version:        1.0
+ * <p>
+ *  描述
+ * </p>
+ *
+ * @author lw
+ * @since  2020/10/22 16:24
  */
 @Component
 @Aspect

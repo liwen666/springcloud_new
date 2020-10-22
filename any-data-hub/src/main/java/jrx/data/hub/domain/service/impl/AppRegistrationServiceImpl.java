@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  服务实现类
+ *  描述
  * </p>
  *
- * @author schedule
- * @since 2019-11-11
+ * @author lw
+ * @since  2020/10/22 16:27
  */
 @Service
 public class AppRegistrationServiceImpl extends ServiceImpl<AppRegistrationMapper, AppRegistration> implements IAppRegistrationService {

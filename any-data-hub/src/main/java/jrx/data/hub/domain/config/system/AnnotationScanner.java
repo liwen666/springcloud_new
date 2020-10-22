@@ -15,8 +15,8 @@ import java.util.Set;
  *  描述
  * </p>
  *
- * @author tx
- * @since  2019/11/9 10:50
+ * @author lw
+ * @since  2020/10/22 16:24
  */
 public class AnnotationScanner extends ClassPathBeanDefinitionScanner {
     /**
