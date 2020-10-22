@@ -4,6 +4,9 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 /**
  * <p>
  * 描述
@@ -22,5 +25,13 @@ import lombok.extern.slf4j.Slf4j;
 @Accessors(chain = true)
 public class Message {
     private String id;
+    private long account_id;
+    private long amount;
+    private Date transaction_time;
+
+//    account_id  BIGINT,\n" +
+//            "    amount      BIGINT,\n" +
+//            "    transaction_time TIMESTAMP(3),\n" +
+
 
 }

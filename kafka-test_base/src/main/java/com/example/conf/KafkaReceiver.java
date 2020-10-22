@@ -43,6 +43,14 @@ public class KafkaReceiver {
             logger.info("---------hello--------- message =" + message);
         }
 
+    }  @KafkaListener(topics = {"transactions"})
+    public void transactions(ConsumerRecord<?, ?> record)   {
+        Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+        if (kafkaMessage.isPresent()) {
+            Object message = kafkaMessage.get();
+            logger.info("---------transactions--------- message =" + message);
+        }
+
     }
 
 }

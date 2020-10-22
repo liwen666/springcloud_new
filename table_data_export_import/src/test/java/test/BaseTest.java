@@ -19,6 +19,18 @@ public class BaseTest {
 		System.out.println("hello word");
 	}
 
+
+	@Test
+	public void jjjj() {
+		Boolean b = true;
+		ch(b);
+		System.out.println(b);
+	}
+
+	private void ch(Boolean b) {
+		b=false;
+	}
+
 	@Test
 	public void name() {
 		TableCodeRelation tableCodeRelation = new TableCodeRelation();
@@ -52,5 +64,11 @@ public class BaseTest {
 			break;
 		}
 
+	}
+
+	@Test
+	public void rep() {
+		String s = "jfldsjlk1232".replaceAll("[0-9]", "");
+		System.out.println(s);
 	}
 }

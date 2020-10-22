@@ -199,6 +199,23 @@ public class TableCodeRelationRepositoryTest {
             tableCodeRelationRepository.save(tableCodeRelation);
         }
 
+
+        /**
+         * 策略指标
+         */
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("resource_id");
+        tableCodeRelation.setPrimaryTableChinaName("策略信息表");
+        tableCodeRelation.setPrimaryTableName("res_strategy_info");
+        tableCodeRelation.setSlaveTableChinaName("策略版本表");
+        tableCodeRelation.setSlaveTableName("meta_topic_object_info");
+        tableCodeRelation.setSlaveCodeKey("category_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
         tableCodeRelation.setId(null);
         tableCodeRelation.setPrimaryCodeKey("strategy_id");
         tableCodeRelation.setPrimaryTableChinaName("策略信息表");
@@ -522,6 +539,23 @@ public class TableCodeRelationRepositoryTest {
         if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
             tableCodeRelationRepository.save(tableCodeRelation);
         }
+
+
+        tableCodeRelation.setId(null);
+        tableCodeRelation.setPrimaryCodeKey("node_content.ruleItemList.resourceId");
+        tableCodeRelation.setPrimaryTableChinaName("函数信息表");
+        tableCodeRelation.setPrimaryTableName("res_strategy_node");
+        tableCodeRelation.setSlaveTableChinaName("对象信息表");
+//        tableCodeRelation.setSlaveTableName("meta_data_object_info|meta_model_object_info|meta_topic_object_info");
+        tableCodeRelation.setSlaveTableName("res_rule_info");
+        tableCodeRelation.setSlaveCodeKey("resource_id");
+        tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+        byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+        if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+            tableCodeRelationRepository.save(tableCodeRelation);
+        }
+
+
 
 
     }

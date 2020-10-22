@@ -360,8 +360,19 @@ public class TableDataExpOrImpService {
         for (Map map : maps) {
             if (!CollectionUtils.isEmpty(tableCodeRelations)) {
                 for (TableCodeRelation tableCodeRelation : tableCodeRelations) {
-                    if (map.get(tableCodeRelation.getPrimaryCodeKey()) != null) {
+                    if (DataConverRuleEngineUtils.getTableProperty(map, tableCodeRelation.getPrimaryCodeKey()) != null) {
                         String tableProperty = DataConverRuleEngineUtils.getTableProperty(map, tableCodeRelation.getPrimaryCodeKey()).toString();
+                        String[] split = new String[0];
+                        if(tableProperty.contains(",")){
+                            split = tableProperty.replaceAll("\\[", "").replaceAll("\\]", "").split(",");
+                        }
+                        if(split.length!=0){
+                            for(String key1:split){
+                                relationDatas.add(RelationData.builder().key(key1)
+                                        .slaveTableName(tableCodeRelation.getSlaveTableName()).handlerBean(tableCodeRelation.getFilterHandleBean()).keyCode(tableCodeRelation.getSlaveCodeKey()).build());
+                            }
+                            continue;
+                        }
                         /**
                          * 有些关联数据在json字符串中
                          */

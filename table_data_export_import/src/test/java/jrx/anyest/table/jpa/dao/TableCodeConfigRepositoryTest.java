@@ -178,8 +178,8 @@ public class TableCodeConfigRepositoryTest {
         tableCodeConfig.setTableCodeName("meta_object_field");
         tableCodeConfig.setTableCodeChinaName("字段表");
         tableCodeConfig.setColumns("field_code,resource_object_id");
-        tableCodeConfig.setIgnoreColumnName("resource_object_id");
-        tableCodeConfig.setIgnoreColumnValue("1");
+//        tableCodeConfig.setIgnoreColumnName("resource_object_id");
+//        tableCodeConfig.setIgnoreColumnValue("1");
         tableCodeConfig.setWhereSqlColumns(null);
         tableCodeConfig.setHandleBeanName("defaultTableDataHandler");
         tableCodeConfigByTableCodeName = tableCodeConfigRepository.findTableCodeConfigByTableCodeName(tableCodeConfig.getTableCodeName());
