@@ -10,11 +10,12 @@
     </parent>
     <groupId>jrx.batch</groupId>
     <artifactId>any-data-hub</artifactId>
-    <version>2.1.5.1_http-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>数据管理平台</name>
 
     <properties>
         <java.version>1.8</java.version>
+        <nacos.version>2.1.1.RELEASE</nacos.version>
         <mybatis-generator.version>1.3.2</mybatis-generator.version>
         <mybatis-plus-boot-starter>3.2.0</mybatis-plus-boot-starter>
         <mybatis-spring-boot-starter>2.0.1</mybatis-spring-boot-starter>
@@ -22,6 +23,8 @@
         <druid>1.1.14</druid>
         <lombok>1.18.8</lombok>
         <fastjson>1.2.58</fastjson>
+        <swagger2.version>2.9.2</swagger2.version>
+        <feign>10.6.0</feign>
     </properties>
 
     <dependencies>
@@ -36,17 +39,16 @@
             <scope>test</scope>
         </dependency>
         <!--nacos***********************************开始*************************-->
-        <!-- https://mvnrepository.com/artifact/com.alibaba.boot/nacos-config-spring-boot-starter -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-            <version>0.9.0.RELEASE</version>
-        </dependency>
-        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-alibaba-nacos-discovery &ndash;&gt;-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
+            <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-            <version>0.9.0.RELEASE</version>
+            <version>${nacos.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            <version>${nacos.version}</version>
         </dependency>
         <!--nacos***********************************结束*************************-->
         <!--数据库操作***********************************开始*************************-->
@@ -89,46 +91,41 @@
         <!--数据库操作****************************结束*************************-->
 
 
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-server</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-server-ui</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
-            <version>2.1.1</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>de.codecentric</groupId>-->
+            <!--<artifactId>spring-boot-admin-server</artifactId>-->
+            <!--<version>2.1.1</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>de.codecentric</groupId>-->
+            <!--<artifactId>spring-boot-admin-server-ui</artifactId>-->
+            <!--<version>2.1.1</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>de.codecentric</groupId>-->
+            <!--<artifactId>spring-boot-admin-starter-client</artifactId>-->
+            <!--<version>2.1.1</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger2.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger2.version}</version>
         </dependency>
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-core</artifactId>
-            <version>10.6.0</version>
+            <version>${feign}</version>
         </dependency>
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-jackson</artifactId>
-            <version>10.6.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.rocketmq</groupId>
-            <artifactId>rocketmq-spring-boot</artifactId>
-            <version>2.0.2</version>
+            <version>${feign}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
