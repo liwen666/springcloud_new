@@ -10,6 +10,7 @@ import jrx.data.hub.infrastructure.model.AppRegistration;
  * @author lw
  * @since  2020/10/22 16:05
  */
+
 public interface AppRegistrationMapper extends BaseMapper<AppRegistration> {
 
 }

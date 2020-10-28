@@ -21,14 +21,9 @@ public class TestControllerDemo {
     @Value("${test.demo.value:123}")
     private String testProperties;
 
-
     @GetMapping("/test")
     public String test() {
         return testProperties;
     }
-
-
-
-
 
 }

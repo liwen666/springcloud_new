@@ -1,13 +1,15 @@
 package jrx.data.hub.domain.enums;
+
 /**
  * <p>
- *  描述
+ * 描述
  * </p>
  *
  * @author lw
- * @since  2020/10/22 16:25
+ * @since 2020/10/22 16:25
  */
-public enum CodeEnums implements IBaseEnum{
+
+public enum CodeEnums implements IBaseEnum {
     /**
      * 1-1000
      * 通用
@@ -15,12 +17,12 @@ public enum CodeEnums implements IBaseEnum{
      * 1001-2000
      * 文件相关
      * 2001-3000
-     *  用户权限相关
-     *  3001-5000
+     * 用户权限相关
+     * 3001-5000
      */
-    SUCCESS (1,"success","成功"),
-    EROOR (0,"error","错误"),
-    EXIST_DATA (2,"exist_data","数据不能重复"),
+    SUCCESS(1, "success", "成功"),
+    EROOR(0, "error", "错误"),
+    EXIST_DATA(2, "exist_data", "数据不能重复"),
     EXCEPTION(999, "exception", "异常"),
     PAGE_NOT_FOUND(404, "page_not_found", "页面不存在"),
     ILLEGALARGUMENT(400, "illegalargument", "参数校验异常"),
@@ -39,6 +41,7 @@ public enum CodeEnums implements IBaseEnum{
         this.desc = desc;
         this.cnDesc = cnDesc;
     }
+
     @Override
     public int code() {
         return this.code;
@@ -48,7 +51,6 @@ public enum CodeEnums implements IBaseEnum{
     public String getDesc() {
         return this.desc;
     }
-
 
     @Override
     public String getDesc(Integer code) {
@@ -68,7 +70,6 @@ public enum CodeEnums implements IBaseEnum{
         return this.cnDesc;
     }
 
-
     public static CodeEnums getEnum(Integer code) {
         if (null == code) {
             return null;
@@ -81,6 +82,5 @@ public enum CodeEnums implements IBaseEnum{
         }
         return null;
     }
-
 
 }

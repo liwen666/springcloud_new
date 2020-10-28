@@ -10,6 +10,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.Objects;
 import java.util.Properties;
 
+/**
+ *
+ */
+
 @Data
 @Slf4j
 @Builder
@@ -39,7 +43,7 @@ public class NodeServerConfigProperties {
     private String sharedDataids;
     private String refreshableDataids;
     private NamingService namingService;
-    private String batch_datasource;
+    private String batchDatasource;
 
     public NamingService namingServiceInstance() {
         if (null != this.namingService) {

@@ -10,8 +10,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
@@ -22,14 +21,19 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
+
 /**
  * <p>
- *  描述
+ * 描述
  * </p>
  *
  * @author lw
- * @since  2020/10/22 16:24
+ * @since 2020/10/22 16:24
  */
+
 public class DefaultEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
     private static Log logger = LogFactory.getLog(DefaultEnvironmentPostProcessor.class);
     private final Resource serverResource = new ClassPathResource("/dataflow-server.yml");
@@ -46,7 +50,7 @@ public class DefaultEnvironmentPostProcessor implements EnvironmentPostProcessor
             Properties p = yamlPropertiesFactoryBean.getObject();
             Iterator var4 = p.keySet().iterator();
 
-            while(var4.hasNext()) {
+            while (var4.hasNext()) {
                 Object k = var4.next();
                 String key = k.toString();
                 defaults.put(key, p.get(key));
@@ -64,13 +68,13 @@ public class DefaultEnvironmentPostProcessor implements EnvironmentPostProcessor
         String defaultPropertiesKey = "defaultProperties";
         if (existingPropertySources.contains(defaultPropertiesKey) && existingPropertySources.get(defaultPropertiesKey) != null) {
             PropertySource<?> propertySource = existingPropertySources.get(defaultPropertiesKey);
-            Map<String, Object> mapOfProperties = (Map)Map.class.cast(propertySource.getSource());
+            Map<String, Object> mapOfProperties = (Map) Map.class.cast(propertySource.getSource());
             Iterator var9 = internalDefaults.keySet().iterator();
 
             String k;
             Set setOfPropertyKeys;
-            while(var9.hasNext()) {
-                k = (String)var9.next();
+            while (var9.hasNext()) {
+                k = (String) var9.next();
                 setOfPropertyKeys = mapOfProperties.keySet();
                 if (!setOfPropertyKeys.contains(k)) {
                     mapOfProperties.put(k, internalDefaults.get(k));
@@ -80,8 +84,8 @@ public class DefaultEnvironmentPostProcessor implements EnvironmentPostProcessor
 
             var9 = defaults.keySet().iterator();
 
-            while(var9.hasNext()) {
-                k = (String)var9.next();
+            while (var9.hasNext()) {
+                k = (String) var9.next();
                 setOfPropertyKeys = mapOfProperties.keySet();
                 if (!setOfPropertyKeys.contains(k)) {
                     mapOfProperties.put(k, defaults.get(k));

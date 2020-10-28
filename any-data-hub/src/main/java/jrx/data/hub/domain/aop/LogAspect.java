@@ -15,11 +15,11 @@ import java.lang.reflect.Method;
 
 /**
  * <p>
- *  描述
+ * 描述
  * </p>
  *
  * @author lw
- * @since  2020/10/22 16:24
+ * @since 2020/10/22 16:24
  */
 @Component
 @Aspect
@@ -46,7 +46,7 @@ public class LogAspect {
         Method method = signature.getMethod();
         Annotation annotation = method.getAnnotation(ApplicationLog.class);
         String description = null;
-        if (null!=annotation) {
+        if (null != annotation) {
             description = ((ApplicationLog) annotation).description();
         }
         Object result = null;
@@ -55,9 +55,9 @@ public class LogAspect {
             result = joinPoint.proceed();
         } catch (Throwable e) {
             e.printStackTrace();
-            log.error("["+description  +"]:  "+ e.getMessage(), e);
+            log.error("[" + description + "]:  " + e.getMessage(), e);
 //            AlertUtil.sendAlertMsg("["+description  +"]:  ",  e.getMessage(), AlertLevelEnum.ERROR);
-            return JsonResult.error(description+" 异常");
+            return JsonResult.error(description + " 异常");
         }
         return result;
     }

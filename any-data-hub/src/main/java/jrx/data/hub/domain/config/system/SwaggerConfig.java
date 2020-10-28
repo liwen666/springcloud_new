@@ -1,6 +1,5 @@
 package jrx.data.hub.domain.config.system;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -23,6 +22,7 @@ import java.util.Set;
  * @author lw
  * @since  2020/10/22 16:24
  */
+
 @EnableSwagger2
 @Configuration
 @Profile({"dev", "test", "local", "sit"})

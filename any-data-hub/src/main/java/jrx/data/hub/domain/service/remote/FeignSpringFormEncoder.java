@@ -27,12 +27,13 @@ import java.util.Map.Entry;
 
 /**
  * <p>
- *  描述
+ * 描述
  * </p>
  *
  * @author lw
- * @since  2020/10/22 16:27
+ * @since 2020/10/22 16:27
  */
+
 public class FeignSpringFormEncoder implements Encoder {
     private final List<HttpMessageConverter<?>> converters = new RestTemplate().getMessageConverters();
 
@@ -113,8 +114,8 @@ public class FeignSpringFormEncoder implements Encoder {
      * Fills the request map with {@link HttpEntity}s containing the given {@link MultipartFile}s.
      * Sets the {@code Content-type} header to {@code application/octet-stream} for each file.
      *
-     * @param the current request map.
-     * @param name the name of the array field in the multipart form.
+     * @param the   current request map.
+     * @param name  the name of the array field in the multipart form.
      * @param files
      */
     private void encodeMultipartFiles(LinkedMultiValueMap<String, Object> map, String name, List<? extends MultipartFile> files) {
@@ -214,7 +215,6 @@ public class FeignSpringFormEncoder implements Encoder {
      *
      * @param type
      * @return
-     * @see feign.Types#MAP_STRING_WILDCARD
      */
     static boolean isFormRequest(Type type) {
         return MAP_STRING_WILDCARD.equals(type);

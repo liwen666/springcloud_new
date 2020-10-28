@@ -8,8 +8,8 @@ package jrx.data.hub.domain.exception;
  * @author lw
  * @since  2020/10/22 16:26
  */
-public class DataSourceException extends RuntimeException {
 
+public class DataSourceException extends RuntimeException {
 
     public DataSourceException(String msg){
         super(msg);

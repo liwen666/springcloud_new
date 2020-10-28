@@ -2,16 +2,16 @@ package jrx.data.hub.domain.enums;
 
 /**
  * <p>
- *  描述
+ * 描述
  * </p>
  *
  * @author lw
- * @since  2020/10/22 16:26
+ * @since 2020/10/22 16:26
  */
 public enum RerunMode implements IBaseEnum {
 
-    AGAIN(0,"重新执行"),
-    CONTINET(1,"继续执行");
+    AGAIN(0, "重新执行"),
+    CONTINET(1, "继续执行");
 
     private int code;
     private String desc;
@@ -25,7 +25,6 @@ public enum RerunMode implements IBaseEnum {
     public int code() {
         return code;
     }
-
 
     @Override
     public String getDesc() {

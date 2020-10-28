@@ -12,6 +12,7 @@ import java.lang.annotation.Target;
  * @author lw
  * @since  2020/10/22 16:24
  */
+
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ApplicationLog {

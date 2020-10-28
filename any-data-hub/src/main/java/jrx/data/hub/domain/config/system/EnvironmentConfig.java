@@ -14,11 +14,11 @@ import java.util.HashMap;
 
 /**
  * <p>
- *  描述
+ * 描述
  * </p>
  *
  * @author lw
- * @since  2020/10/22 16:24
+ * @since 2020/10/22 16:24
  */
 @Configuration
 public class EnvironmentConfig implements EnvironmentAware, BeanDefinitionRegistryPostProcessor {
@@ -27,13 +27,12 @@ public class EnvironmentConfig implements EnvironmentAware, BeanDefinitionRegist
     @Override
     public void setEnvironment(Environment env) {
         MutablePropertySources propertySources;
-       if (env instanceof StandardEnvironment) {
+        if (env instanceof StandardEnvironment) {
             propertySources = ((StandardEnvironment) env).getPropertySources();
             PropertySource backupSource = new MapPropertySource("taskInitProperties", new HashMap() {{
             }});
             propertySources.addFirst(backupSource);
         }
-
 
     }
 

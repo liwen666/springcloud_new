@@ -9,18 +9,18 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  描述
+ * 描述
  * </p>
  *
  * @author lw
- * @since  2020/10/22 16:26
+ * @since 2020/10/22 16:26
  */
+
 @Slf4j
 @Service
 public class HttpJobServiceNameSpace {
     @Autowired
     private NodeServerConfigProperties nodeServerConfigProperties;
-
 
     /**
      * 查询服务节点
@@ -32,7 +32,7 @@ public class HttpJobServiceNameSpace {
             instance = namingService.selectOneHealthyInstance(jobServer);
         } catch (Exception e) {
             e.printStackTrace();
-             throw new RemoteRuntimeExeption("获取服务地址异常：服务名称 jobServer:"+jobServer+"  异常消息 error:"+e.getMessage());
+            throw new RemoteRuntimeExeption("获取服务地址异常：服务名称 jobServer:" + jobServer + "  异常消息 error:" + e.getMessage());
         }
         return "http://" + instance.getIp() + ":" + instance.getPort();
     }

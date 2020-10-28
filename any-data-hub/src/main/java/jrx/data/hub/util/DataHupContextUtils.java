@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component;
 
 /**
  * <p>
- *  描述
+ * 描述
  * </p>
  *
  * @author lw
- * @since  2020/10/22 16:42
+ * @since 2020/10/22 16:42
  */
 @Component
 public class DataHupContextUtils implements ApplicationContextAware {
@@ -19,7 +19,6 @@ public class DataHupContextUtils implements ApplicationContextAware {
      * Spring应用上下文环境
      */
     private static ApplicationContext applicationContext;
-
 
     /**
      * 实现ApplicationContextAware接口的回调方法，设置上下文环境
@@ -46,7 +45,5 @@ public class DataHupContextUtils implements ApplicationContextAware {
     public static <T> T getBean(String beanId, Class<T> t) {
         return applicationContext.getBean(beanId, t);
     }
-
-
 
 }
