@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jrx.data.hub.infrastructure.dao.McUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="jrx.data.hub.infrastructure.model.McUser">
+        <id column="id" property="id" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="modified_by" property="modifiedBy" />
+        <result column="modified_time" property="modifiedTime" />
+        <result column="doman_type" property="domanType" />
+        <result column="email" property="email" />
+        <result column="enabled" property="enabled" />
+        <result column="forbidden_date" property="forbiddenDate" />
+        <result column="last_password_rest_date" property="lastPasswordRestDate" />
+        <result column="last_password_reset_type" property="lastPasswordResetType" />
+        <result column="mobile" property="mobile" />
+        <result column="nick_name" property="nickName" />
+        <result column="org_name" property="orgName" />
+        <result column="password" property="password" />
+        <result column="user_name" property="userName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_by, create_time, modified_by, modified_time, doman_type, email, enabled, forbidden_date, last_password_rest_date, last_password_reset_type, mobile, nick_name, org_name, password, user_name
+    </sql>
+
+</mapper>

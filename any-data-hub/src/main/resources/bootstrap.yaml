@@ -1,12 +1,12 @@
 server:
-  port: 9001
+  port: 9088
   servlet:
     context-path: /any-data-hub
 spring:
   application:
     name: any-data-hub
   profiles:
-    active: dev
+    active: local
   cloud:
     config:
       enabled: false
@@ -48,6 +48,7 @@ jrx:
 ---
 
 spring:
+  profiles: local
   main:
     allow-bean-definition-overriding: true
   cloud:
@@ -69,3 +70,29 @@ spring:
         # 命名空间ID
         namespace: temp
         service: temp
+
+---
+
+spring:
+  profiles: dev
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      config:
+        enabled: true
+        server-addr: 172.16.101.23:8848
+        # 命名空间ID
+        namespace: ea758bd7-1ca1-465f-bb08-35df49689a68
+        file-extension: yaml
+        group: DEFAULT_GROUP #默认组
+      #      #配置多个共享配置, 多个的时候用用逗号分隔
+      #      shared-dataids: application_dev
+      #      #配置可以刷新文件,需要配合@RefreshScope使用见上文.
+      #      refreshable-dataids: application_dev
+      #服务的发现
+      discovery:
+        server-addr: 172.16.101.23:8848
+        # 命名空间ID
+        namespace: ea758bd7-1ca1-465f-bb08-35df49689a68
+        service: any-data-hub

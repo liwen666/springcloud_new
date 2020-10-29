@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jrx.data.hub.infrastructure.dao.MetaFunctionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="jrx.data.hub.infrastructure.model.MetaFunction">
+        <id column="function_id" property="functionId" />
+        <result column="content_code" property="contentCode" />
+        <result column="create_time" property="createTime" />
+        <result column="resource_id" property="resourceId" />
+        <result column="update_person" property="updatePerson" />
+        <result column="update_time" property="updateTime" />
+        <result column="version_code" property="versionCode" />
+        <result column="version_state" property="versionState" />
+        <result column="function_content" property="functionContent" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        function_id, content_code, create_time, resource_id, update_person, update_time, version_code, version_state, function_content
+    </sql>
+
+</mapper>

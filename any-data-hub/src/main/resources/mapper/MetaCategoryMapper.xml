@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jrx.data.hub.infrastructure.dao.MetaCategoryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="jrx.data.hub.infrastructure.model.MetaCategory">
+        <id column="category_id" property="categoryId" />
+        <result column="content_code" property="contentCode" />
+        <result column="create_person" property="createPerson" />
+        <result column="create_time" property="createTime" />
+        <result column="update_person" property="updatePerson" />
+        <result column="update_time" property="updateTime" />
+        <result column="category_type" property="categoryType" />
+        <result column="name" property="name" />
+        <result column="parent_id" property="parentId" />
+        <result column="used" property="used" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        category_id, content_code, create_person, create_time, update_person, update_time, category_type, name, parent_id, used
+    </sql>
+
+</mapper>

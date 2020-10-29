@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jrx.data.hub.infrastructure.dao.MetaJobObjectMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="jrx.data.hub.infrastructure.model.MetaJobObject">
+        <id column="data_object_id" property="dataObjectId" />
+        <result column="content_code" property="contentCode" />
+        <result column="create_time" property="createTime" />
+        <result column="resource_id" property="resourceId" />
+        <result column="update_person" property="updatePerson" />
+        <result column="update_time" property="updateTime" />
+        <result column="version_code" property="versionCode" />
+        <result column="version_state" property="versionState" />
+        <result column="sql_content" property="sqlContent" />
+        <result column="param_json" property="paramJson" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        data_object_id, content_code, create_time, resource_id, update_person, update_time, version_code, version_state, sql_content, param_json
+    </sql>
+
+</mapper>

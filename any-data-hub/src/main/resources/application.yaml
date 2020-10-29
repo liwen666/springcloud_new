@@ -2,7 +2,7 @@ spring:
   datasource:
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.60.136:3306/data_flow_test3?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
+    url: jdbc:mysql://192.168.60.136:3306/any_data_hub?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
     hikari:
       connection-timeout: 60000
       max-lifetime: 60000
@@ -48,7 +48,7 @@ jrx:
       JAR_HOME_DEFAULT: C:/Users/liwen/Desktop/jrx/taskjar/
 
 server:
-  port: 9001
+  port: 9088
   tomcat:
     basedir: /home/jrxany/batch_schedule/tomcat_dir
 mybatis:

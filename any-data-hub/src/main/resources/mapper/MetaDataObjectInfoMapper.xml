@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jrx.data.hub.infrastructure.dao.MetaDataObjectInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="jrx.data.hub.infrastructure.model.MetaDataObjectInfo">
+        <id column="resource_id" property="resourceId" />
+        <result column="code" property="code" />
+        <result column="content_code" property="contentCode" />
+        <result column="create_time" property="createTime" />
+        <result column="description" property="description" />
+        <result column="name" property="name" />
+        <result column="resource_state" property="resourceState" />
+        <result column="resource_type" property="resourceType" />
+        <result column="update_person" property="updatePerson" />
+        <result column="update_time" property="updateTime" />
+        <result column="data_source_id" property="dataSourceId" />
+        <result column="config_props" property="configProps" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        resource_id, code, content_code, create_time, description, name, resource_state, resource_type, update_person, update_time, data_source_id, config_props
+    </sql>
+
+</mapper>
