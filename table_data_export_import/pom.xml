@@ -6,7 +6,7 @@
 
     <groupId>jrx.anyest.table</groupId>
     <artifactId>table_data_export_import</artifactId>
-    <version>fc_1.3.0-SNAPSHOT</version>
+    <version>1.0.0-RELEASE</version>
     <packaging>jar</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -180,15 +180,15 @@
     </dependencies>
 
     <build>
-        <!--<resources>-->
-            <!--<resource>-->
-                <!--<filtering>true</filtering>-->
-                <!--<directory>src/main/resources</directory>-->
-                <!--<excludes>-->
-                    <!--<exclude>**</exclude>-->
-                <!--</excludes>-->
-            <!--</resource>-->
-        <!--</resources>-->
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>**</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

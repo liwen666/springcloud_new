@@ -114,7 +114,7 @@ create table meta_data_object_info
    update_person        varchar(50) default NULL,
    update_time          datetime default NULL,
    data_source_id       int(11) default NULL,
-   config_props         varchar(2000) comment '´æ´¢±íµÄ¶îÍâÐÅÏ¢£¬±ÈÈçkafkaµÄtopic¡¢groupId¡¢¶ÁÈ¡Ä£Ê½;Èý·½½Ó¿ÚÈÏÎªÒ»ÕÅ±í£¬¿ÉÄÜÊÇ´«µÝ²ÎÊýÕâÐ©Êý¾Ý',
+   config_props         varchar(2000) comment 'ï¿½æ´¢ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½kafkaï¿½ï¿½topicï¿½ï¿½groupIdï¿½ï¿½ï¿½ï¿½È¡Ä£Ê½;ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ÎªÒ»ï¿½Å±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½Ð©ï¿½ï¿½ï¿½ï¿½',
    primary key (resource_id),
    key data_source_id (data_source_id),
    key meta_data_object_info_resource_id_IDX (resource_id, name),
@@ -178,7 +178,7 @@ create table meta_function_info
    update_time          datetime default NULL,
    language             varchar(20) default NULL,
    function_type        varchar(20) default NULL,
-   param_fields         longtext comment '°üº¬{ÐÎ²ÎºÍ²ÎÊýÀàÐÍ}µÄJSONÊý×é',
+   param_fields         longtext comment 'ï¿½ï¿½ï¿½ï¿½{ï¿½Î²ÎºÍ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}ï¿½ï¿½JSONï¿½ï¿½ï¿½ï¿½',
    return_value_type    varchar(20) default NULL,
    primary key (resource_id),
    key idx_meta_function_info_name (name),
@@ -270,7 +270,7 @@ create table meta_relation_info
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-alter table meta_relation_info comment '×Ö¶ÎºÍ×Ö¶ÎµÄ¹ØÏµ£¬Ã¿¸ö±íºÍ·ÖÀàµÄ¹ØÏµ£¬×Ö¶ÎºÍ±íµÄ¹ØÏµ';
+alter table meta_relation_info comment 'ï¿½Ö¶Îºï¿½ï¿½Ö¶ÎµÄ¹ï¿½Ïµï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½Ä¹ï¿½Ïµï¿½ï¿½ï¿½Ö¶ÎºÍ±ï¿½Ä¹ï¿½Ïµ';
 
 /*==============================================================*/
 /* Table: meta_work_info                                        */
@@ -287,4 +287,124 @@ create table meta_work_info
    primary key (resource_id)
 )
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+
+CREATE TABLE IF NOT EXISTS  `table_entity_conversion_rule` (
+  `id` int(11) NOT NULL,
+  `content_code` varchar(50) DEFAULT NULL,
+  `create_person` varchar(50) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_person` varchar(50) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `data_conversion_model` varchar(255) DEFAULT NULL,
+  `entity_key` varchar(255) DEFAULT NULL,
+  `entity_value` varchar(255) DEFAULT NULL,
+  `table_code` varchar(255) DEFAULT NULL,
+  `table_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_resource_id` (`table_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for table_code_relation
+-- ----------------------------
+CREATE TABLE IF NOT EXISTS `table_code_relation`  (
+  `id` int(11) NOT NULL,
+  `create_time` datetime(0) NULL DEFAULT NULL,
+  `used` bit(1) NULL DEFAULT NULL,
+  `filter_handle_bean` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `primary_code_key` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `primary_table_china_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `primary_table_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `slave_code_key` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `slave_table_china_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `slave_table_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+
+
+CREATE TABLE IF NOT EXISTS `table_mark_init`  (
+  `id` int(11) NOT NULL,
+  `create_time` datetime(0) NULL DEFAULT NULL,
+  `used` bit(1) NULL DEFAULT NULL,
+  `table_china_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `table_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+
+
+CREATE TABLE IF NOT EXISTS  `table_param_config`  (
+  `id` int(11) NOT NULL,
+  `create_time` datetime(0) NULL DEFAULT NULL,
+  `used` bit(1) NULL DEFAULT NULL,
+  `key_column` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `resource_id_column` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `table_code_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `table_describe` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `version_column` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+
+
+CREATE TABLE IF NOT EXISTS  `table_history_data`  (
+  `id` int(11) NOT NULL,
+  `create_time` datetime(0) NULL DEFAULT NULL,
+  `used` bit(1) NULL DEFAULT NULL,
+  `data` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `data_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `data_key` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `history_data_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `primary_key_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `primary_table_china_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `resource_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `table_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+
+CREATE TABLE  IF NOT EXISTS  `table_import_sort`  (
+  `id` int(11) NOT NULL,
+  `create_time` datetime(0) NULL DEFAULT NULL,
+  `used` bit(1) NULL DEFAULT NULL,
+  `flag` int(11) NULL DEFAULT NULL,
+  `order_id` int(11) NULL DEFAULT NULL,
+  `table_code_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+
+
+CREATE TABLE  IF NOT EXISTS `table_code_config`  (
+  `id` int(11) NOT NULL,
+  `create_time` datetime(0) NULL DEFAULT NULL,
+  `used` bit(1) NULL DEFAULT NULL,
+  `columns` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `handle_bean_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `ignore_column_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `ignore_column_value` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `table_code_china_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `table_code_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `where_sql_columns` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+
+CREATE TABLE IF NOT EXISTS `table_conversion_key`  (
+  `id` int(11) NOT NULL,
+  `create_time` datetime(0) NULL DEFAULT NULL,
+  `used` bit(1) NULL DEFAULT NULL,
+  `conversion_key` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `handle_bean_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `is_json_object` bit(1) NULL DEFAULT NULL,
+  `is_multiple_relation` bit(1) NULL DEFAULT NULL,
+  `table_code_china_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `table_code_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 

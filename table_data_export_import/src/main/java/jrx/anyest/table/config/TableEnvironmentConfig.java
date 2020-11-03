@@ -110,7 +110,7 @@ public class TableEnvironmentConfig implements EnvironmentAware, BeanDefinitionR
      */
     public void initCacheData() {
         String datasource = TableSpringUtil.getBean(TablePropertiesConfig.class).getDatasource();
-        List<Map<String, Object>> maps = JdbcTemplateService.jdbcTemplate.queryForList("select  table_name,column_name from  INFORMATION_SCHEMA.KEY_COLUMN_USAGE  t where t.table_schema='" + datasource + "'");
+        List<Map<String, Object>> maps = JdbcTemplateService.jdbcTemplate.queryForList("select  table_name,column_name from  INFORMATION_SCHEMA.KEY_COLUMN_USAGE  t where t.table_schema='" + datasource + "' and CONSTRAINT_NAME='PRIMARY'");
         Map<String, String> collect = maps.stream().collect(Collectors.toMap(e -> (String) e.get("table_name"), e -> (String) e.get("column_name")));
         TableDataCodeCacheManager.tableKey = collect;
         logger.info("----------初始化数据库主键缓存已完成 database:{}-------------", datasource);

@@ -1,0 +1,17 @@
+jrx.data.hub
+jrx.data.hub.application.controller
+jrx.data.hub.domain.aop
+jrx.data.hub.domain.aop.annotation
+jrx.data.hub.domain.config
+jrx.data.hub.domain.config.system
+jrx.data.hub.domain.constant
+jrx.data.hub.domain.enums
+jrx.data.hub.domain.exception
+jrx.data.hub.domain.nacos
+jrx.data.hub.domain.runner
+jrx.data.hub.domain.service
+jrx.data.hub.domain.service.impl
+jrx.data.hub.infrastructure.dao
+jrx.data.hub.infrastructure.model
+jrx.data.hub.infrastructure.remote
+jrx.data.hub.util

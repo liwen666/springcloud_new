@@ -25,7 +25,7 @@ import java.util.Set;
 
 @EnableSwagger2
 @Configuration
-@Profile({"dev", "test", "local", "sit"})
+@Profile({"dev", "test", "local", "sit", "local_zch"})
 public class SwaggerConfig {
 
     /**
@@ -37,7 +37,7 @@ public class SwaggerConfig {
 
         Set<String> contentTypes = new HashSet<>();
         contentTypes.add("application/json");
-        return new Docket(DocumentationType.SWAGGER_2).groupName("com-citiccard-batch")
+        return new Docket(DocumentationType.SWAGGER_2).groupName("any-data-hub")
                 .useDefaultResponseMessages(true)
                 .consumes(contentTypes)
                 .produces(contentTypes)

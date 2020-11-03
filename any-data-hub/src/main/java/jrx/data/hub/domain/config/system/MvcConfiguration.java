@@ -24,14 +24,10 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        if (!registry.hasMappingForPattern("/static/**")) {
-            registry.addResourceHandler("/static/**").
-                    addResourceLocations("classpath:/static/");
-        }
-        if (!registry.hasMappingForPattern("/public/dashboard/**")) {
-            registry.addResourceHandler("/public/dashboard/**").
-                    addResourceLocations("classpath:/public/dashboard/");
-        }
+//        if (!registry.hasMappingForPattern("/static/**")) {
+//            registry.addResourceHandler("/static/**").
+//                    addResourceLocations("classpath:/static/**");
+//        }
 
         super.addResourceHandlers(registry);
     }
@@ -44,6 +40,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
          * 如下面将/badRequest请求返回状态码为400，而没有返回其它内容
          */
         registry.addStatusController("/badRequest", HttpStatus.BAD_REQUEST);
+
         super.addViewControllers(registry);
     }
 

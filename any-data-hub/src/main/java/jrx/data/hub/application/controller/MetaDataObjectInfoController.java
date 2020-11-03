@@ -4,16 +4,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
-* <p>
-*  描述
-* </p>
-*
-* @author lw
-* @since 2020-10-29
-*/
+ * <p>
+ * 描述
+ * </p>
+ *
+ * @author lw
+ * @since 2020-10-29
+ */
 
 @Controller
 @RequestMapping("/data-hub/meta-data-object-info")
- public class MetaDataObjectInfoController {
+public class MetaDataObjectInfoController {
 
+    @Override
+    protected void finalize() throws Throwable {
+
+        String a = "111";
+
+    }
 }

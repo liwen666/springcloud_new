@@ -48,7 +48,6 @@ private LocalDateTime updateTime;
 private Integer dataSourceId;
 
   /**
-  * �洢��Ķ�����Ϣ������kafka��topic��groupId����ȡģʽ;�����ӿ���Ϊһ�ű������Ǵ��ݲ�����Щ����
   */
 private String configProps;
 

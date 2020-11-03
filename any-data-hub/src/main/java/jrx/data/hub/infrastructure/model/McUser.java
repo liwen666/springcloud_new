@@ -1,5 +1,6 @@
 package jrx.data.hub.infrastructure.model;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,7 +25,7 @@ import java.time.LocalDateTime;
 public class McUser implements Serializable {
 
 private static final long serialVersionUID = 1L;
-
+@TableId
 private Long id;
 
 private String createBy;

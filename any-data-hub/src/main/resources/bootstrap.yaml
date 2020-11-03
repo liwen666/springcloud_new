@@ -1,56 +1,20 @@
-server:
-  port: 9088
-  servlet:
-    context-path: /any-data-hub
+#初始化配置
 spring:
   application:
     name: any-data-hub
   profiles:
     active: local
-  cloud:
-    config:
-      enabled: false
-
-management:
-  endpoint:
-    health:
-      show-details: always
-  metrics:
-    tags:
-      application: ${spring.application.name}
-      region: mybase
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-        #监控所有端点，其中health和status是必须监控的
-        exclude: configprops	#排除对配置信息的监控，每次浏览这个节点的时候，
-          #数据库的链接就一直释放不掉，最后导致超时，因为配置信息的监控也不重要，
-        #就不再监控这个节点，以下为可监控的endpoint。可以根据需要有选择的进行监控。
-
-# info信息会显示到SBA的server端，这里取的是maven中的数据
-info:
-  version: 2.1.4
-  artifactId: any-data-hub
-
-
 jrx:
-  node:
-    rocketmq:
-      producer-group: anybatch_pro_group_job_server
-      # 消费者的组名
-      conumer-group: anybatch_customer_group_exec_node
-      # NameServer地址
-#      access-key: BatchTaskMQ
-#      secret-key:  batch123456
-      topic: ANY_BATCH_JOB_RESULT_STATUE_TOPIC
-
+  data:
+    hub:
+      server:
+        server-addr: ${spring.cloud.nacos.config.server-addr}
+        namespace: ${spring.cloud.nacos.config.namespace}
+        data-id: ${spring.application.name}-${spring.profiles.active}.yaml
 ---
 
 spring:
   profiles: local
-  main:
-    allow-bean-definition-overriding: true
   cloud:
     nacos:
       config:
@@ -74,9 +38,31 @@ spring:
 ---
 
 spring:
+  profiles: testname
+  cloud:
+    nacos:
+      config:
+        enabled: true
+        server-addr: 192.168.60.220:8848
+        # 命名空间ID
+        namespace: testname
+        file-extension: yaml
+        group: DEFAULT_GROUP #默认组
+      #      #配置多个共享配置, 多个的时候用用逗号分隔
+      #      shared-dataids: application_dev
+      #      #配置可以刷新文件,需要配合@RefreshScope使用见上文.
+      #      refreshable-dataids: application_dev
+      #服务的发现
+      discovery:
+        server-addr: 192.168.60.220:8848
+        # 命名空间ID
+        namespace: testname
+        service: temp
+
+---
+
+spring:
   profiles: dev
-  main:
-    allow-bean-definition-overriding: true
   cloud:
     nacos:
       config:
@@ -95,4 +81,27 @@ spring:
         server-addr: 172.16.101.23:8848
         # 命名空间ID
         namespace: ea758bd7-1ca1-465f-bb08-35df49689a68
+        service: any-data-hub
+---
+
+spring:
+  profiles: local_zch
+  cloud:
+    nacos:
+      config:
+        enabled: true
+        server-addr: 172.16.101.23:8848
+        # 命名空间ID
+        namespace: dcc79eac-47fd-436e-9377-78b0d145d47d
+        file-extension: yaml
+        group: DEFAULT_GROUP #默认组
+      #      #配置多个共享配置, 多个的时候用用逗号分隔
+      #      shared-dataids: application_dev
+      #      #配置可以刷新文件,需要配合@RefreshScope使用见上文.
+      #      refreshable-dataids: application_dev
+      #服务的发现
+      discovery:
+        server-addr: 172.16.101.23:8848
+        # 命名空间ID
+        namespace: dcc79eac-47fd-436e-9377-78b0d145d47d
         service: any-data-hub
