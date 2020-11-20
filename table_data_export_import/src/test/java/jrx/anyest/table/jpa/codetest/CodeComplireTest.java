@@ -44,5 +44,32 @@ public class CodeComplireTest {
         System.out.println(execute);
     }
 
+//    @Test
+//    public void testOnce(){
+//        long start = System.nanoTime();
+//        Object[] args = new Object[]{"jackson",new Integer(18),new Integer(95)};
+//        Object res = javaCodeExecutor.execute(args);
+//        System.out.println(res);
+//        long end = System.nanoTime();
+//        System.out.println("java ,consume: " + (end -start)/1000000d + " ms.");
+//
+//        start = System.nanoTime();
+//        res = groovyCodeExecutor.execute(args);
+//        System.out.println(res);
+//        end = System.nanoTime();
+//        System.out.println("groovy ,consume: " + (end -start)/1000000d + " ms.");
+//
+//        start = System.nanoTime();
+//        res = aviatorCodeExector.execute(args);
+//        System.out.println(res);
+//        end = System.nanoTime();
+//        System.out.println("aviator ,consume: " + (end -start)/1000000d + " ms.");
+//
+//        start = System.nanoTime();
+//        res = jPythonExector.execute(args);
+//        System.out.println(res);
+//        end = System.nanoTime();
+//        System.out.println("python ,consume: " + (end -start)/1000000d + " ms.");
+//    }
 
 }

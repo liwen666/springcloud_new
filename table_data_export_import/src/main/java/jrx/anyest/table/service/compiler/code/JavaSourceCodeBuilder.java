@@ -58,9 +58,9 @@ public class JavaSourceCodeBuilder {
                 .append(split)
                 .append("import java.util.stream.*;")
                 .append(split)
-                .append("import static com.temp.jpa.service.compiler.code.SDS.c;")
+                .append("import static jrx.anyest.table.service.compiler.code.SDS.c;")
                 .append(split)
-                .append("import static com.temp.jpa.service.compiler.code.SDS.r;")
+                .append("import static jrx.anyest.table.service.compiler.code.SDS.r;")
                 .append(split);
         return builder.toString();
     }

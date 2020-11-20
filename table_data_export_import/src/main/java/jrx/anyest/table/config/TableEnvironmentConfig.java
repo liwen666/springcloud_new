@@ -69,6 +69,7 @@ public class TableEnvironmentConfig implements EnvironmentAware, BeanDefinitionR
     @Override
     public void run(ApplicationArguments args) {
         AbstractRoutingDataSource bean = null;
+        DruidDataSource dataSource = new DruidDataSource();
         try {
             bean = TableSpringUtil.getBean(AbstractRoutingDataSource.class);
         } catch (Exception e) {
@@ -77,7 +78,6 @@ public class TableEnvironmentConfig implements EnvironmentAware, BeanDefinitionR
         if (bean != null) {
             JdbcTemplateService.jdbcTemplate = new JdbcTemplate(bean);
         } else {
-            DruidDataSource dataSource = new DruidDataSource();
             //设置连接参数
             dataSource.setDriverClassName(driverClassName);
             dataSource.setUrl(url);
@@ -100,7 +100,7 @@ public class TableEnvironmentConfig implements EnvironmentAware, BeanDefinitionR
             dataSource.setTestOnBorrow(true);
             JdbcTemplateService.jdbcTemplate = new JdbcTemplate(dataSource);
         }
-
+        JdbcTemplateService.interfaceAnalysisTemplate = new JdbcTemplate(dataSource);
         initCacheData();
 
     }
@@ -136,9 +136,7 @@ public class TableEnvironmentConfig implements EnvironmentAware, BeanDefinitionR
         logger.info("-----------初始化级联关系:size:{} name:{}------------", TableDataCodeCacheManager.relations.size(), JSON.toJSONString(TableDataCodeCacheManager.relations.keySet()));
         TableImportSortRepository tableImportSortRepository = TableSpringUtil.getBean(TableImportSortRepository.class);
         TableDataCodeCacheManager.tableImportSorts = tableImportSortRepository.findAll().stream().sorted(Comparator.comparing(TableImportSort::getOrderId)).collect(Collectors.toList());
-        logger.info("-----------初始化表排序:size:{} name:{}------------",  TableDataCodeCacheManager.tableImportSorts.size(), JSON.toJSONString( TableDataCodeCacheManager.tableImportSorts));
-
-
+        logger.info("-----------初始化表排序:size:{} name:{}------------", TableDataCodeCacheManager.tableImportSorts.size(), JSON.toJSONString(TableDataCodeCacheManager.tableImportSorts));
 
 
     }

@@ -12,7 +12,7 @@ public abstract class AbstractCodeExecutor implements ICodeExecutor {
     /**
      * 默认包名称
      */
-    protected static final String DEFAULT_PKG="com.temp.jpa.service.compiler.code";
+    protected static final String DEFAULT_PKG="jrx.anyest.table.service.compiler.code";
 
     /**
      * 方法

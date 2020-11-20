@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
 public class JdbcTemplateService {
     public static JdbcTemplate jdbcTemplate;
     private static final Logger logger = LoggerFactory.getLogger(JdbcTemplateService.class);
+    public static JdbcTemplate interfaceAnalysisTemplate;
+
 
     static {
 
@@ -43,7 +45,7 @@ public class JdbcTemplateService {
 
     }
 
-    public static void save(Object object,String tableName)  {
+    public static void save(Object object, String tableName) {
         Field[] fields = object.getClass().getDeclaredFields();
         List<String> cols = Arrays.asList(fields).stream().filter(e -> !e.getName().equals("log")).map(e -> e.getName()).collect(Collectors.toList());
         Object[] values = Arrays.asList(fields).stream().filter(e -> !e.getName().equals("log")).map(e -> {
@@ -60,19 +62,19 @@ public class JdbcTemplateService {
 
     }
 
-    public synchronized static void saveByMap(String tableName, Map<String,Object> data)  {
+    public synchronized static void saveByMap(String tableName, Map<String, Object> data) {
         Map<String, String> stringIntegerMap = TableDataCodeCacheManager.tableColumns.get(tableName);
         ArrayList<String> columns = Lists.newArrayList();
         ArrayList<Object> values = Lists.newArrayList();
-        data.forEach((k,v)->{
+        data.forEach((k, v) -> {
             columns.add(k);
             /**
              * 根据表结构构建数据对象
              */
             String s = stringIntegerMap.get(k);
-           Object value = TableSqlBuilder.getColumnVale(tableName,k,s,v);
+            Object value = TableSqlBuilder.getColumnVale(tableName, k, s, v);
             values.add(value);
-            });
+        });
         String insertSql = getInsertSql(columns, tableName);
         jdbcTemplate.update(insertSql, values.toArray());
         /**
@@ -82,7 +84,7 @@ public class JdbcTemplateService {
     }
 
 
-    public  static String getInsertSql(Collection<String> columnNames, String tableName) {
+    public static String getInsertSql(Collection<String> columnNames, String tableName) {
         StringBuffer insert = new StringBuffer(" INSERT INTO " + tableName + "(");
         StringBuffer value = new StringBuffer(" VALUES (");
 
@@ -98,7 +100,7 @@ public class JdbcTemplateService {
         return insert.toString();
     }
 
-    private static void executeSource(String sqlSource)  {
+    private static void executeSource(String sqlSource) {
         String[] split = sqlSource.split(";");
         for (String sql : split) {
             try {
@@ -107,7 +109,7 @@ public class JdbcTemplateService {
                 }
 
             } catch (Exception e) {
-                logger.error(e.getMessage()+"---------执行的错误sql是:{}-----------", sql);
+                logger.error(e.getMessage() + "---------执行的错误sql是:{}-----------", sql);
             }
         }
     }

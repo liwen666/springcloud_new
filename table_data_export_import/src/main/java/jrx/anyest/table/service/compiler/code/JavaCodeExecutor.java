@@ -163,7 +163,7 @@ public class JavaCodeExecutor extends AbstractCodeExecutor implements Externaliz
                 .append(" implements Serializable")
                 .append(" {")
                 .append(pretty ? "\n    " : "")
-                .append("private static final Logger logger = LoggerFactory.getLogger(\"com.temp.jpa.service.compiler.code\");")
+                .append("private static final Logger logger = LoggerFactory.getLogger(\"jrx.anyest.table.service.compiler.code\");")
                 .append(pretty ? "\n" : "");
         code.append(methodString(this, this.functionName, pretty));
         if (pretty) {
