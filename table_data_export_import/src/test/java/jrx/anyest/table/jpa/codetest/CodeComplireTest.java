@@ -4,6 +4,11 @@ import jrx.anyest.table.service.compiler.ScriptLanguage;
 import jrx.anyest.table.service.compiler.code.CodeExecutorBuilder;
 import jrx.anyest.table.service.compiler.code.ICodeExecutor;
 import org.junit.Test;
+import org.python.core.PyFunction;
+import org.python.core.PyInteger;
+import org.python.core.PyObject;
+import org.python.core.PyString;
+import org.python.util.PythonInterpreter;
 
 /**
  * <p>
@@ -42,6 +47,22 @@ public class CodeComplireTest {
 
         Object execute = build.execute(1,2);
         System.out.println(execute);
+    }
+
+    @Test
+    public void python() {
+        String str = "def run(name,age,score): return \"i am \" + name + \", age: \" + str(age) + \", score: \" + str(score)";
+        PythonInterpreter interpreter = new PythonInterpreter();
+        interpreter.exec(str);
+        PyFunction func = interpreter.get("run",
+                PyFunction.class);
+//        int a1 = 100, b1 = 100;
+        String name = "zhangsan";
+        Integer age = 18, score = 80;
+//        PyObject[] py = {new PyInteger(a1), new PyInteger(b1)};
+        PyObject[] py = {new PyString(name), new PyInteger(age), new PyInteger(score)};
+        PyObject pyobj = func.__call__(py);
+        System.out.println("anwser = " + pyobj.toString());
     }
 
 //    @Test
