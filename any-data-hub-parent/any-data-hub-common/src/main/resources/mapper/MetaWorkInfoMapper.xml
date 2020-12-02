@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jrx.data.hub.infrastructure.dao.MetaWorkInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="jrx.data.hub.infrastructure.entity.MetaWorkInfo">
+        <id column="resource_id" property="resourceId" />
+        <result column="content_code" property="contentCode" />
+        <result column="create_time" property="createTime" />
+        <result column="update_person" property="updatePerson" />
+        <result column="update_time" property="updateTime" />
+        <result column="work_state" property="workState" />
+        <result column="zpl_notebook_id" property="zplNotebookId" />
+        <result column="note_path" property="notePath" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        resource_id, content_code, create_time, update_person, update_time, work_state, zpl_notebook_id
+    </sql>
+
+</mapper>

@@ -1,0 +1,255 @@
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>any-data-hub-parent</artifactId>
+        <groupId>jrx.anyest</groupId>
+        <version>1.0.1</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <groupId>jrx.anyest</groupId>
+    <artifactId>any-data-hub-common</artifactId>
+    <version>1.0.1</version>
+    <name>any-data-hub-common</name>
+    <packaging>jar</packaging>
+    <dependencies>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.zeppelin</groupId>
+            <artifactId>zeppelin-client</artifactId>
+            <version>0.9.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- redis -->
+        <dependency>
+            <groupId>biz.paluch.redis</groupId>
+            <artifactId>lettuce</artifactId>
+            <version>4.5.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+        </dependency>
+
+    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.1.1.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Greenwich.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>2.1.1.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
+
+    <build>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <!--<excludes>-->
+                <!--<exclude>**</exclude>-->
+                <!--</excludes>-->
+                <includes>
+                    <include>mapper/**.xml</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+
+
+            <!--<plugin>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+            <!--</plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <!-- The semantics of this option are reversed, see MCOMPILER-209. -->
+                    <useIncrementalCompilation>false</useIncrementalCompilation>
+                    <compilerArgs>
+                        <!-- Prevents recompilation due to missing package-info.class, see MCOMPILER-205 -->
+                        <arg>-Xpkginfo:always</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
+            <!--                <version>2.17</version>-->
+            <!--                <dependencies>-->
+            <!--                    <dependency>-->
+            <!--                        <groupId>com.puppycrawl.tools</groupId>-->
+            <!--                        <artifactId>checkstyle</artifactId>-->
+            <!--                        &lt;!&ndash; Note: match version with docs/flinkDev/ide_setup.md &ndash;&gt;-->
+            <!--                        <version>8.14</version>-->
+            <!--                    </dependency>-->
+            <!--                </dependencies>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>validate</id>-->
+            <!--                        <phase>validate</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>check</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--                <configuration>-->
+            <!--                    <suppressionsLocation>/maven/suppressions.xml</suppressionsLocation>-->
+            <!--                    <includeTestSourceDirectory>true</includeTestSourceDirectory>-->
+            <!--                    <configLocation>/maven/checkstyle.xml</configLocation>-->
+            <!--                    <logViolationsToConsole>true</logViolationsToConsole>-->
+            <!--                    <failOnViolation>true</failOnViolation>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version><!--$NO-MVN-MAN-VER$-->
+                <configuration>
+                    <quiet>true</quiet>
+                    <detectOfflineLinks>false</detectOfflineLinks>
+                    <additionalJOptions combine.children="append">
+                        <additionalJOption>-Xdoclint:none</additionalJOption>
+                    </additionalJOptions>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <!-- Inherited from Apache parent, but not actually used. Disable to reduce noise. -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-descriptor</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- configure scala style -->
+            <plugin>
+                <groupId>org.scalastyle</groupId>
+                <artifactId>scalastyle-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <verbose>false</verbose>
+                    <failOnViolation>true</failOnViolation>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <failOnWarning>false</failOnWarning>
+                    <sourceDirectory>${basedir}/src/main/scala</sourceDirectory>
+                    <testSourceDirectory>${basedir}/src/test/scala</testSourceDirectory>
+                    <outputFile>${project.basedir}/target/scalastyle-output.xml</outputFile>
+                    <inputEncoding>UTF-8</inputEncoding>
+                    <outputEncoding>UTF-8</outputEncoding>
+                </configuration>
+            </plugin>
+
+            <!-- set scala maven plugin version -->
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <args>
+                        <arg>-nobootcp</arg>
+                        <arg>-target:jvm-${java.version}</arg>
+                    </args>
+                    <jvmArgs>
+                        <arg>-Xss2m</arg>
+                    </jvmArgs>
+                </configuration>
+            </plugin>
+
+            <!-- Configuration for the binary compatibility checker -->
+
+            <plugin>
+                <!-- run via "mvn org.owasp:dependency-check-maven:aggregate" -->
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>5.0.0-M2</version>
+                <configuration>
+                    <format>ALL</format>
+                    <skipSystemScope>true</skipSystemScope>
+                    <skipProvidedScope>true</skipProvidedScope>
+                    <excludes>
+                        <exclude>*-tests*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+
+
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <url>http://10.0.9.13:8081/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>http://10.0.9.13:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+
+</project>

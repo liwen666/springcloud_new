@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jrx.data.hub.infrastructure.dao.MetaFunctionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="jrx.data.hub.infrastructure.entity.MetaFunction">
+        <id column="function_id" property="functionId"/>
+        <result column="content_code" property="contentCode"/>
+        <result column="resource_id" property="resourceId"/>
+        <result column="version_code" property="versionCode"/>
+        <result column="version_state" property="versionState"/>
+        <result column="param_fields" property="paramFields"/>
+        <result column="param_field_types" property="paramFieldTypes"/>
+        <result column="return_value_type" property="returnValueType"/>
+        <result column="scripts" property="scripts"/>
+        <result column="language" property="language"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_person" property="createPerson"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="update_person" property="updatePerson"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        function_id, content_code, resource_id, version_code, version_state, param_fields, param_field_types, return_value_type, scripts, language, create_time, create_person, update_person, update_time
+    </sql>
+
+</mapper>

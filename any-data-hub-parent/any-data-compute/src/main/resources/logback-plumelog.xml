@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+说明：
+    1. 文件的命名和加载顺序有关
+       logback.xml早于application.yml加载，logback-spring.xml晚于application.yml加载
+       如果logback配置需要使用application.yml中的属性，需要命名为logback-spring.xml
+    2. logback使用application.yml中的属性
+       使用springProperty才可使用application.yml中的值 可以设置默认值
+    3. if标签依赖 org.codehaus.janino 包
+    4. 日志中输出行号，可能会带来性能问题
+
+-->
+<configuration scan="true" scanPeriod="60 seconds">
+    <!-- service env -->
+    <springProperty name="env" scope="context" source="spring.profiles.active" defaultValue="dev"/>
+    <springProperty name="redis_host" scope="context" source="anyest.redis.host" />
+    <springProperty name="redis_port" scope="context" source="anyest.redis.port" />
+    <springProperty name="logPath" scope="context" source="log.path" defaultValue="logs"/>
+    <!-- 日志级别 --> 
+    <springProperty name="logLevel" scope="context" source="log.level" defaultValue="debug"/>
+
+    <!-- 应用名称 --> 
+    <springProperty name="APP_NAME"  scope="context" source="spring.application.name" />
+    <!-- 端口 --> 
+    <springProperty name="ServerPort"  scope="context" source="server.port" />
+    <!-- 保存最长日期 -->
+    <springProperty name="LOG_FILEMAXDAY" scope="context" source="logback.filemaxday" defaultValue="7"/>
+    <!-- 日志最大 -->
+    <springProperty name="LOG_MAXFILESIZE" scope="context" source="logback.filesize" defaultValue="200MB"/> 
+
+    <conversionRule conversionWord="m" converterClass="com.jrx.anytxn.log.convert.DesensitizationMessageConverter"/>    
+    <conversionRule conversionWord="ip" converterClass="com.jrx.anytxn.log.convert.LogIpConfig"/> 
+
+
+    <property name="LOG_FILE" value="${logPath}/${APP_NAME}.log"/>
+
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoder 默认配置为PatternLayoutEncoder -->
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
+                <pattern>[${APP_NAME}] %ip ${ServerPort} %d{yyyy-MM-dd HH:mm:ss.SSS} %level ${PID} [%tid] [%thread] %logger{36}- [%method,%line] %m%n</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <!--%-5p(日志级别) | %d(日期) | bt-v1.0 | [%t(线程名称)-%T(线程号)] (%c{1.}(简化全类名):%L(行号))
+        | %m(日志信息)%n(换行) -->
+    <!--<property name="PATTERN">%-5p | %d | bt-v1.0 | [%t-%T] (%c{1.}:%L) |
+        %m%n</property> -->
+    <!-- 这一句至关重要如果没有，就无法输出sql语句 -->
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <File>${LOG_FILE}</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd_HH}.gz</fileNamePattern>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
+                <pattern>[${APP_NAME}] %ip ${ServerPort} %d{yyyy-MM-dd HH:mm:ss.SSS} %level ${PID} [%tid] [%thread] %logger{36} %m%n</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <!-- 异步输出 -->
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>512</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="FILE"/>
+        <IncludeCallerData>true</IncludeCallerData>
+    </appender>
+
+<!--    <appender name="plumelog" class="com.plumelog.logback.appender.RedisAppender">-->
+<!--        <appName>${APP_NAME}</appName>-->
+<!--        <redisHost>${redis_host}</redisHost>-->
+<!--        <redisPort>${redis_port}</redisPort>-->
+<!--    </appender>-->
+
+    <logger name="jrx.data" level="debug" />
+    <logger name="com.alibaba.nacos" level="error" />
+    <!-- 如果是生产环境不向控制台输出日志数据 isDefined() isNull() p() or property() equals() contains -->
+
+    <if condition='p("env").equals("prod")'>
+        <then>
+            <root level="info">
+                <!-- 输出到日志文件 -->
+                <appender-ref ref="ASYNC"/>
+            </root>
+        </then>
+        <else>
+            <root level="info">
+                <!-- 输出到日志文件 -->
+                <appender-ref ref="ASYNC"/>
+                <!-- 输出到控制台 -->
+                <appender-ref ref="STDOUT"/>
+<!--                <appender-ref ref="plumelog" />-->
+            </root>
+        </else>
+    </if>
+
+
+</configuration>

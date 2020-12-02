@@ -1,0 +1,55 @@
+spring:
+  datasource:
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/any_data_hub?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
+    hikari:
+      connection-timeout: 60000
+      max-lifetime: 60000
+      data-source-properties:
+        maintainTimeStats: false
+        prepStmtCacheSqlLimit: 2048
+        rewriteBatchedStatements: true
+        elideSetAutoCommits: true
+        cacheResultSetMetadata: true
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        useServerPrepStmts: true
+        useLocalSessionState: true
+        cacheServerConfiguration: true
+      validation-timeout: 3000
+      minimum-idle: 10
+      idle-timeout: 30000
+      maximum-pool-size: 200
+    username: root
+  servlet:
+    multipart:
+      max-request-size: 110MB
+      max-file-size: 100MB
+    main:
+      allow-bean-definition-overriding: true
+
+
+server:
+  port: 9001
+  tomcat:
+    basedir: /home/jrxany/batch_schedule/tomcat_dir
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: jrx.batch.dataflow
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+  type-aliases-super-type: java.lang.Object
+  type-aliases-package: jrx.batch.dataflow.infrastructure.model
+###############  日志配置 ###############
+#log:
+#  path: D:\workspace\webspace\data_flow\target
+logging:
+  config: classpath:logback-plumelog.xml
+  level:
+    jrx.batch.dataflow: error
+
+
+
+
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jrx.data.hub.infrastructure.dao.MetaRelationInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="jrx.data.hub.infrastructure.entity.MetaRelationInfo">
+        <id column="source_id" property="sourceId" />
+        <result column="source_type" property="sourceType" />
+        <result column="target_id" property="targetId" />
+        <result column="target_type" property="targetType" />
+        <result column="comment" property="comment" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        source_id, source_type, target_id, target_type, comment
+    </sql>
+
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jrx.data.hub.infrastructure.dao.MetaDataSourceInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="jrx.data.hub.infrastructure.entity.MetaDataSourceInfo">
+        <id column="data_source_id" property="dataSourceId" />
+        <result column="content_code" property="contentCode" />
+        <result column="create_person" property="createPerson" />
+        <result column="create_time" property="createTime" />
+        <result column="update_person" property="updatePerson" />
+        <result column="update_time" property="updateTime" />
+        <result column="db_config_json" property="dbConfigJson" />
+        <result column="db_type" property="dbType" />
+        <result column="description" property="description" />
+        <result column="source_code" property="sourceCode" />
+        <result column="source_name" property="sourceName" />
+        <result column="db_name" property="dbName" />
+        <result column="cron_expression" property="cronExpression" />
+        <result column="zpl_job_id" property="zplJobId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        data_source_id, content_code, create_person, create_time, update_person, update_time, db_config_json, db_type, description, source_code, source_name, db_name, cron_expression, zpl_job_id
+    </sql>
+
+</mapper>
