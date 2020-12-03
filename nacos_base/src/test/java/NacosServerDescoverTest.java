@@ -140,4 +140,17 @@ public class NacosServerDescoverTest {
         System.out.println(JSON.toJSONString(testnacos));
         System.out.println(JSON.toJSONString(testnacos1));
     }
+
+
+    @Test
+    public void metaData() throws NacosException {
+        String pro = "{\"secretKey\":\"\",\"contextPath\":\"\",\"accessKey\":\"\",\"namespace\":\"temp\",\"encode\":\"\",\"serverAddr\":\"192.168.137.111:8848\",\"clusterName\":\"\",\"endpoint\":\"\"}";
+        Properties properties = JSON.parseObject(pro, Properties.class);
+        NamingService namingService = NamingFactory.createNamingService(properties);
+        List<Instance> testnacos = namingService.getAllInstances("temp");
+        String serverStatus = namingService.getServerStatus();
+        Instance testnacos1 = namingService.selectOneHealthyInstance("temp");
+        System.out.println(JSON.toJSONString(testnacos));
+        System.out.println(JSON.toJSONString(testnacos1));
+    }
 }

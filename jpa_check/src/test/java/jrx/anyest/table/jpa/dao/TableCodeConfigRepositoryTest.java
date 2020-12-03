@@ -22,7 +22,7 @@ import java.util.Map;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = TableApplicationStart.class)
+//@SpringBootTest(classes = TableApplicationStart.class)
 public class TableCodeConfigRepositoryTest {
     @Autowired
     private TableCodeConfigRepository tableCodeConfigRepository;

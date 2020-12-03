@@ -29,7 +29,7 @@ public class LogAspect {
     /**
      * 配置切入点
      */
-    @Pointcut("@annotation(jrx.data.hub.domain.aop.annotation.ApplicationLog)")
+    @Pointcut("@annotation(jrx.anyest.table.aop.annotation.InterfaceAnalysisLog)")
     public void logPointcut() {
     }
 

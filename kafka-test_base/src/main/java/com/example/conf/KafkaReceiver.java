@@ -43,7 +43,27 @@ public class KafkaReceiver {
             logger.info("---------hello--------- message =" + message);
         }
 
-    }  @KafkaListener(topics = {"transactions"})
+    }
+    @KafkaListener(topics = {"2_dml_maxwell"})
+    public void dml_maxwell_2(ConsumerRecord<?, ?> record)   {
+        Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+        if (kafkaMessage.isPresent()) {
+            Object message = kafkaMessage.get();
+            logger.info("---------2_dml_maxwell--------- message =" + message);
+        }
+
+    }
+    @KafkaListener(topics = {"101_dml_maxwell"})
+    public void dml_maxwell_101(ConsumerRecord<?, ?> record)   {
+        Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+        if (kafkaMessage.isPresent()) {
+            Object message = kafkaMessage.get();
+            logger.info("---------101_dml_maxwell--------- message =" + message);
+        }
+
+    }
+
+    @KafkaListener(topics = {"transactions"})
     public void transactions(ConsumerRecord<?, ?> record)   {
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());
         if (kafkaMessage.isPresent()) {

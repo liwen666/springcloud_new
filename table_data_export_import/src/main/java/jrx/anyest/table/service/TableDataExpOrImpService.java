@@ -57,6 +57,16 @@ public class TableDataExpOrImpService {
      */
     private Collection<ITableExportListener> tableExportListeners;
 
+    /**
+     * 数据导入进程监控以及中断控制
+     */
+    public static Map<String, Boolean> monitor = Maps.newConcurrentMap();
+
+
+    /**
+     *
+     */
+
 
     /**
      * 导入数据过滤器
@@ -518,6 +528,10 @@ public class TableDataExpOrImpService {
 //        Set<JSONObject> collect = tableData.stream().filter(e -> !(successObj.contains(e) || errorObj.contains(e))).collect(Collectors.toSet());
         tableData.stream().filter(e -> !(successObj.contains(e) || errorObj.contains(e))).forEach(x -> {
 
+            Boolean aBoolean = monitor.get(TablePropertiesThreadLocalHolder.getProperties(TableConstants.TABLE_CODE_UUID));
+            if (aBoolean != null && !aBoolean) {
+                throw new TableDataImportException("数据导入被中断! dataKey:" + TablePropertiesThreadLocalHolder.getProperties(TableConstants.TABLE_CODE_UUID));
+            }
             String key = TableDataCodeCacheManager.tableKey.get(tableName);
             Object oldKey = x.get(key);
 

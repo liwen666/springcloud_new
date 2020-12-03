@@ -34,8 +34,11 @@ public class TableSqlBuilder {
         }
         StringBuffer stringBuffer = new StringBuffer();
         collection.stream().distinct().forEach(e -> {
+            if(!(e instanceof  String)){
                 stringBuffer.append(e + ",");
-
+            }else{
+                stringBuffer.append("'"+e + "',");
+            }
         });
         return stringBuffer.toString().substring(0, stringBuffer.length() - 1);
     }

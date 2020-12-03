@@ -42,7 +42,7 @@ public class DefaultTableExportListener implements ITableExportListener {
     public int before(String tableName, Map<String, Map<String, Object>> data, Map<String, String> idToCode, JdbcTemplate jdbcTemplate, Map<String, List<TableConversionKey>> tableConversionKeys) {
         //如果数据没有转换规则直接返回数据大小
         if (null == tableConversionKeys.get(tableName)) {
-            log.warn(" ----before id-code tableName:meta_category,datasize:1 没有转换规则！");
+            log.warn(" ----before id-code tableName:{} 没有转换规则！",tableName);
             return data.size();
         }
         //code转换成功数

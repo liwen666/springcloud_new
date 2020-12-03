@@ -1,7 +1,5 @@
 package jrx.anyest.table.jpa.sql;
 
-import com.temp.jpa.jpa.entity.TableEntityConversionRule;
-import com.temp.jpa.jpa.enums.DataConversionModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
