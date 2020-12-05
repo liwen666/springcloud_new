@@ -59,12 +59,12 @@ public class DefaultTableImportListener implements ITableImportListener {
              */
             //这里est系统的infoCode都是在版本对象的resource_id里面
             TableParamConfig tableParamConfig = TableDataCodeCacheManager.tableParamConfigs.get(tableName);
-            Integer resource = Integer.parseInt(TableDataCodeCacheManager.codeToId.get(tableCodeUuid).get(data.get(tableParamConfig.getResourceIdColumn())));
-            Integer oldVersion;
+            Long resource = Long.parseLong(TableDataCodeCacheManager.codeToId.get(tableCodeUuid).get(data.get(tableParamConfig.getResourceIdColumn())));
+            Long oldVersion;
             try {
-                oldVersion = jdbcTemplate.queryForObject("select " + tableParamConfig.getVersionColumn() + " from " + tableName + " where  " + tableParamConfig.getResourceIdColumn() + "=" + resource + " order by " + tableParamConfig.getVersionColumn() + " desc limit 1", Integer.class);
+                oldVersion = jdbcTemplate.queryForObject("select " + tableParamConfig.getVersionColumn() + " from " + tableName + " where  " + tableParamConfig.getResourceIdColumn() + "=" + resource + " order by " + tableParamConfig.getVersionColumn() + " desc limit 1", Long.class);
             } catch (DataAccessException e) {
-                oldVersion = 0;
+                oldVersion = 0l;
             }
             data.put("version", ++oldVersion);
             getHistoryData(tableName, data, jdbcTemplate, tableCodeUuid, codeToId, tableHistoryData);
@@ -90,9 +90,9 @@ public class DefaultTableImportListener implements ITableImportListener {
              * 删除以前的数据
              */
             String keyName = TableDataCodeCacheManager.tableKey.get(tableName);
-            Integer oldDataId = null;
+            Long oldDataId = null;
             try {
-                oldDataId = Integer.parseInt(codeToId.get(code));
+                oldDataId = Long.parseLong(codeToId.get(code));
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
@@ -122,7 +122,7 @@ public class DefaultTableImportListener implements ITableImportListener {
     }
 
     private void getHistoryData(String tableName, Map<String, Object> data, JdbcTemplate jdbcTemplate, String tableCodeUuid, Map<String, String> codeToId, TableHistoryData tableHistoryData) {
-        Integer newKey = tableKeyService.getNewKey(jdbcTemplate);
+        Long newKey = tableKeyService.getNewKey(jdbcTemplate);
         String key = TableDataCodeCacheManager.tableKey.get(tableName);
         data.put(key, newKey);
         conversionKey(tableName, data, codeToId);
