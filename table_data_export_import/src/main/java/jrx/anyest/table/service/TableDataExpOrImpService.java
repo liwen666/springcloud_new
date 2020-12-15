@@ -313,7 +313,7 @@ public class TableDataExpOrImpService {
     private String getCheckSql(TableCodeConfig tableCodeConfig, Map<String, Object> whereParam, String condition) {
         String[] split = tableCodeConfig.getColumns().split(",");
         String[] whereSqls = getWhere(tableCodeConfig);
-        String sql = TableSqlBuilder.getSql(Arrays.asList(split));
+        String sql = TableSqlBuilder.getCkeckSql(Arrays.asList(split));
         String where = TableSqlBuilder.getWhereSql(tableCodeConfig, Arrays.asList(whereSqls), whereParam);
         if (!StringUtils.isEmpty(condition)) {
             where = where + condition;
@@ -357,7 +357,11 @@ public class TableDataExpOrImpService {
         String key = TableDataCodeCacheManager.tableKey.get(tableName);
         List<TableCodeRelation> tableCodeRelations = TableDataCodeCacheManager.relations.get(tableName);
         String sql = TableSqlBuilder.getSql(dataIds);
-        List<Map<String, Object>> maps = jdbcTemplate.queryForList("select * from   " + tableName + " where " + keyName + " in (" + sql + ")");
+       String sqlQuery= "select * from   " + tableName + " where " + keyName + " in (" + sql + ")";
+       for(ITableExportListener iTableExportListener:tableExportListeners){
+           sqlQuery= iTableExportListener.getDataSql(tableName,sqlQuery);
+       }
+        List<Map<String, Object>> maps = jdbcTemplate.queryForList(sqlQuery);
         if (!StringUtils.isEmpty(handlerBeanName)) {
             TableDataHandler bean = TableSpringUtil.getBean(handlerBeanName, TableDataHandler.class);
             /**

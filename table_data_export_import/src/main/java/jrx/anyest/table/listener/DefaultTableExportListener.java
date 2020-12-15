@@ -135,4 +135,9 @@ public class DefaultTableExportListener implements ITableExportListener {
     public void after(String k, Map<String, Map<String, Object>> v, JdbcTemplate jdbcTemplate) {
 
     }
+
+    @Override
+    public String getDataSql(String tableName, String querySql) {
+        return querySql;
+    }
 }

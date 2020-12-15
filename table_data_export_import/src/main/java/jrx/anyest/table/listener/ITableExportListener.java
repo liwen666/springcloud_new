@@ -34,4 +34,6 @@ public interface ITableExportListener {
     int order();
 
     void after(String k, Map<String, Map<String, Object>> data, JdbcTemplate jdbcTemplate);
+
+    String getDataSql(String tableName,String querySql);
 }

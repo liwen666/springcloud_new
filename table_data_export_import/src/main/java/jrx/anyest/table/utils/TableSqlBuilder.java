@@ -42,6 +42,17 @@ public class TableSqlBuilder {
         });
         return stringBuffer.toString().substring(0, stringBuffer.length() - 1);
     }
+
+    public static String getCkeckSql(Collection collection){
+        if(CollectionUtils.isEmpty(collection)){
+            return "''";
+        }
+        StringBuffer stringBuffer = new StringBuffer();
+        collection.stream().distinct().forEach(e -> {
+                stringBuffer.append(e + ",");
+        });
+        return stringBuffer.toString().substring(0, stringBuffer.length() - 1);
+    }
     public static String getIgnore(Collection collection){
         StringBuffer stringBuffer = new StringBuffer();
         collection.stream().distinct().forEach(e -> {

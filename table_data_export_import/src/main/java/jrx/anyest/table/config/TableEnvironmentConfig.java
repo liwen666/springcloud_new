@@ -68,13 +68,15 @@ public class TableEnvironmentConfig implements EnvironmentAware, BeanDefinitionR
 
     @Override
     public void run(ApplicationArguments args) {
-        AbstractRoutingDataSource bean = null;
+        DataSource bean = null;
         DruidDataSource dataSource = new DruidDataSource();
         try {
             bean = TableSpringUtil.getBean(AbstractRoutingDataSource.class);
         } catch (Exception e) {
         }
-        if (bean == null) TableSpringUtil.getBean(DataSource.class);
+        if (bean == null) {
+            bean = TableSpringUtil.getBean(DataSource.class);
+        }
         if (bean != null) {
             JdbcTemplateService.jdbcTemplate = new JdbcTemplate(bean);
         } else {
