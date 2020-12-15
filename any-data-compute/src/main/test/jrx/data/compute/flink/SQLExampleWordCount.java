@@ -22,8 +22,8 @@ public class SQLExampleWordCount {
                 .build();
         StreamTableEnvironment blinkStreamTableEnv = StreamTableEnvironment.create(blinkStreamEnv, blinkStreamSettings);
 
-        String path = SQLExampleWordCount.class.getClassLoader().getResource("words.txt").getPath();
-//        String path = "D:\\workspace\\webspace\\any-data-hub\\any-data-compute\\src\\main\\test\\jrx\\data\\compute\\test.csv";
+//        String path = SQLExampleWordCount.class.getClassLoader().getResource("words.txt").getPath();
+        String path = "D:\\workspace\\springcloud_new\\any-data-compute\\src\\main\\test\\jrx\\data\\compute\\test.csv";
 
         CsvTableSource csvTableSource = CsvTableSource.builder()
                 .field("word", Types.STRING)
