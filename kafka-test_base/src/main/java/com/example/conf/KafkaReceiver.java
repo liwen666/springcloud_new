@@ -44,21 +44,29 @@ public class KafkaReceiver {
         }
 
     }
-    @KafkaListener(topics = {"2_dml_maxwell"})
+    @KafkaListener(topics = {"3_ddl_maxwell"})
     public void dml_maxwell_2(ConsumerRecord<?, ?> record)   {
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());
         if (kafkaMessage.isPresent()) {
             Object message = kafkaMessage.get();
-            logger.info("---------2_dml_maxwell--------- message =" + message);
+            logger.info("---------3_ddl_maxwell--------- message =" + message);
+        }
+
+    } @KafkaListener(topics = {"cm_user_info_kafka"})
+    public void cm_user_info_kafka(ConsumerRecord<?, ?> record)   {
+        Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+        if (kafkaMessage.isPresent()) {
+            Object message = kafkaMessage.get();
+            logger.info("---------cm_user_info_kafka--------- message =" + message);
         }
 
     }
-    @KafkaListener(topics = {"101_dml_maxwell"})
+    @KafkaListener(topics = {"3_dml_maxwell"})
     public void dml_maxwell_101(ConsumerRecord<?, ?> record)   {
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());
         if (kafkaMessage.isPresent()) {
             Object message = kafkaMessage.get();
-            logger.info("---------101_dml_maxwell--------- message =" + message);
+            logger.info("---------3_dml_maxwell--------- message =" + message);
         }
 
     }
@@ -69,6 +77,25 @@ public class KafkaReceiver {
         if (kafkaMessage.isPresent()) {
             Object message = kafkaMessage.get();
             logger.info("---------transactions--------- message =" + message);
+        }
+
+    }
+
+    @KafkaListener(topics = {"cm_user_infotest"})
+    public void cm_user_infotest(ConsumerRecord<?, ?> record)   {
+        Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+        if (kafkaMessage.isPresent()) {
+            Object message = kafkaMessage.get();
+            logger.info("---------cm_user_infotest--------- message =" + message);
+        }
+
+    }
+    @KafkaListener(topics = {"generated.events"})
+    public void generated_events(ConsumerRecord<?, ?> record)   {
+        Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+        if (kafkaMessage.isPresent()) {
+            Object message = kafkaMessage.get();
+            logger.info("---------generated.events--------- message =" + message);
         }
 
     }

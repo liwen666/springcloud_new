@@ -15,29 +15,20 @@ import java.util.Date;
 
 @Component
 public class KfkaProducer implements ApplicationRunner {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(KfkaProducer.class);
-	
+
 	@Autowired
 	private KafkaTemplate<String, String> kafkaTemplate;
-	
+
 	private Gson gson = new GsonBuilder().create();
-	
+
 	//发送消息方法
     public void send() {
     	for(int i=0;i<2;i++){
-    		Message message = new Message();
-    		message.setId("test");
-            logger.info("发送消息 ----->>>>>  message = {}", gson.toJson(message));
-            kafkaTemplate.send("hello", gson.toJson(message));
-//            kafkaTemplate.send("test", System.currentTimeMillis()+"");
-
-			Message message1 = new Message();
-			message1.setAccount_id(1000);
-			message1.setAmount(1000);
-			message1.setTransaction_time(new Date());
-			logger.info("发送消息 ----->>>>>  message = {}", gson.toJson(message1));
-			kafkaTemplate.send("transactions", gson.toJson(message1));
+			Message build = Message.builder().direction(i + "").build();
+			logger.info("发送消息 ----->>>>>  message = {}", gson.toJson(build));
+			kafkaTemplate.send("transactions", gson.toJson(build));
 
 
 

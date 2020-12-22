@@ -24,11 +24,13 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class Message {
-    private String id;
-    private long account_id;
-    private long amount;
-    private Date transaction_time;
-
+    //    private String id;
+//    private long account_id;
+//    private long amount;
+//    private Date transaction_time;
+    private String status;
+    private String direction;
+    private long event_ts;
 //    account_id  BIGINT,\n" +
 //            "    amount      BIGINT,\n" +
 //            "    transaction_time TIMESTAMP(3),\n" +
