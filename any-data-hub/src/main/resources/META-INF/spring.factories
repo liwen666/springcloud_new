@@ -1,3 +1,0 @@
-org.springframework.boot.env.EnvironmentPostProcessor=\
-  jrx.data.hub.domain.config.system.DefaultEnvironmentPostProcessor
-
