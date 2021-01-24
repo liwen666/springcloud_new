@@ -1,0 +1,9 @@
+server:
+  port: 9088
+  servlet:
+    context-path: /nacos-client
+
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
