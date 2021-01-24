@@ -43,7 +43,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 // @ConditionalOnSingleCandidate(DataSource.class)
 // @EnableConfigurationProperties(MybatisProperties.class)
 // @AutoConfigureAfter({ DataSourceAutoConfiguration.class, MybatisLanguageDriverAutoConfiguration.class })
-public class MybatisAutoConfigurationTest implements InitializingBean ,ApplicationRunner {
+public class MybatisAutoConfigurationTest implements InitializingBean, ApplicationRunner {
 
   private static final Logger logger = LoggerFactory.getLogger(MybatisAutoConfigurationTest.class);
 

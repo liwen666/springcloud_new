@@ -3,11 +3,14 @@ package jrx.anyest.table.jpa.dao;
 import jrx.anyest.table.TableApplicationStart;
 import jrx.anyest.table.config.TablePropertiesConfig;
 import jrx.anyest.table.jpa.entity.TableCodeRelation;
+import jrx.anyest.table.jpa.entity.TableConversionKey;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = TableApplicationStart.class)
@@ -17,6 +20,10 @@ public class TableCodeRelationRepositoryTest {
 
     @Autowired
     private TablePropertiesConfig tablePropertiesConfig;
+
+
+    @Autowired
+    private TableConversionKeyRepository tableConversionKeyRepository;
 
     @Test
     public void cond() {
@@ -85,7 +92,6 @@ public class TableCodeRelationRepositoryTest {
         if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
             tableCodeRelationRepository.save(tableCodeRelation);
         }
-
 
 
         tableCodeRelation.setId(null);
@@ -257,8 +263,6 @@ public class TableCodeRelationRepositoryTest {
         }
 
 
-
-
         tableCodeRelation.setId(null);
         tableCodeRelation.setPrimaryCodeKey("category_id");
         tableCodeRelation.setPrimaryTableChinaName("矩阵信息表");
@@ -287,10 +291,6 @@ public class TableCodeRelationRepositoryTest {
         }
 
 
-
-
-
-
         tableCodeRelation.setId(null);
         tableCodeRelation.setPrimaryCodeKey("resource_object_category_id");
         tableCodeRelation.setPrimaryTableChinaName("字段表");
@@ -303,9 +303,6 @@ public class TableCodeRelationRepositoryTest {
         if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
             tableCodeRelationRepository.save(tableCodeRelation);
         }
-
-
-
 
 
         /**
@@ -362,7 +359,6 @@ public class TableCodeRelationRepositoryTest {
         if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
             tableCodeRelationRepository.save(tableCodeRelation);
         }
-
 
 
         tableCodeRelation.setId(null);
@@ -556,6 +552,35 @@ public class TableCodeRelationRepositoryTest {
         }
 
 
+    }
+
+    @Test
+    public void name() {
+
+        /*---------------------------------------------------------------------------------/
+           对conversion_key做relation转换
+        /---------------------------------------------------------------------------------*/
+        List<TableConversionKey> conversionKeyList = tableConversionKeyRepository.findConverRelation();
+//        tableConversionKeyByTableCodeNameAndConversionKey = tableConversionKeyRepository.findTableConversionKeyByTableCodeNameAndConversionKey(tableConversionKey.getTableCodeName(), tableConversionKey.getConversionKey());
+
+        conversionKeyList.forEach(e->{
+            String conversionKey = e.getConversionKey();
+            String[] split = conversionKey.split("@");
+            String primaryCode=split[1];
+            String slaveTableNames=split[0];
+            TableCodeRelation tableCodeRelation = new TableCodeRelation();
+            tableCodeRelation.setPrimaryCodeKey(primaryCode);
+            tableCodeRelation.setPrimaryTableChinaName("级联");
+            tableCodeRelation.setPrimaryTableName("res_strategy_node");
+            tableCodeRelation.setSlaveTableChinaName("级联");
+            tableCodeRelation.setSlaveTableName(slaveTableNames);
+            tableCodeRelation.setSlaveCodeKey("resource_id");
+            tableCodeRelation.setFilterHandleBean("defaultTableDataHandler");
+            TableCodeRelation byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName = tableCodeRelationRepository.findByPrimaryCodeKeyAndPrimaryTableNameAndSlaveTableNameAndSlaveCodeKey(tableCodeRelation.getPrimaryCodeKey(), tableCodeRelation.getPrimaryTableName(), tableCodeRelation.getSlaveTableName(), tableCodeRelation.getSlaveCodeKey());
+            if (null == byPrimaryCodeKeyAndPrimaryTableNameAAndSlaveTableName) {
+                tableCodeRelationRepository.save(tableCodeRelation);
+            }
+        });
 
 
     }

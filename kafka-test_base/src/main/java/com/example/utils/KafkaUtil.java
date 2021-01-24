@@ -20,6 +20,7 @@ import java.util.concurrent.ExecutionException;
 public class KafkaUtil {
 //    public static final String broker_list = "192.168.137.111:9092";
     public static final String broker_list = "11.11.1.79:9092";
+//    public static final String broker_list = "10.0.22.80:9092";
 //    public static final String topic = "hello";  //kafka topic 需要和 flink 程序用同一个 topic
     public static final String topic = "generated.events";  //kafka topic 需要和 flink 程序用同一个 topic
 
