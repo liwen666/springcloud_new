@@ -22,7 +22,7 @@ public class UrlFeignClientInterceptor implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate requestTemplate) {
         Collection<String> requestVariables = requestTemplate.getRequestVariables();
-        System.out.println(JsonUtils.obj2StringPretty(requestVariables));
+        log.info(JsonUtils.obj2StringPretty(requestVariables));
         requestTemplate.uri("nacos-server"+requestTemplate.url());
         //从应用上下文中取出user信息，放入Feign的请求头中
     }

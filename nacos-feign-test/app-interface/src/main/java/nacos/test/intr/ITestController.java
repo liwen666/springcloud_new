@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * <p>
  * 描述
@@ -23,4 +25,8 @@ public interface ITestController {
 
     @GetMapping("/getName/{name}")
     String getName(@PathVariable String name);
+
+    @GetMapping("/jobName/{jobResourceId}")
+    Map<String, String> testJob(@PathVariable String jobResourceId);
+
 }

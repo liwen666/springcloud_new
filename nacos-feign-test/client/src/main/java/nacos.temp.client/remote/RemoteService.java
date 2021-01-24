@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * <p>
  * 描述
@@ -20,7 +22,8 @@ public class RemoteService {
     @GetMapping("/client")
     public void getName(){
         String kkk = iTestController.getName("kkk");
-        System.out.println(kkk);
+        Map<String, String> stringStringMap = iTestController.testJob("111");
+        System.out.println("-------------"+kkk);
     }
 
 }

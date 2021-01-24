@@ -5,3 +5,39 @@ server:
 
 
 
+
+
+###############  ribbon配置 ###############################################################
+#ribbon:
+#  restclient:
+#    enabled: true
+
+#feign:
+#  httpclient:
+#    connection-timeout: 50000
+#    max-connections: 500
+#    max-connections-per-route: 50
+#    enabled: true
+#  compression:
+#    request:
+#      enabled: true
+#      mime-types: text/xml,application/xml,application/json
+#    response:
+#      enabled: true
+
+
+#
+#feign:
+#  client:
+#    config:
+#      remote-service:           #服务名，填写default为所有服务
+#        connectTimeout: 10000
+#        readTimeout: 120000
+
+feign:
+  client:
+    config:
+      default:           #服务名，填写default为所有服务
+        connectTimeout: 1000
+        readTimeout: 12000
+
