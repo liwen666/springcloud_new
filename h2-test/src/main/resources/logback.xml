@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <Target>System.out</Target>
+        <encoder>
+            <pattern>%date [%level] [%thread] %logger{80} [%file : %line] %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>../logs/hq-portal.log</File>
+        <encoder>
+            <pattern>%date [%level] [%thread] %logger{80} [%file : %line] %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>../logs/hq-portal.log.%d{yyyy-MM-dd}</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="org.springframework" level="info"/> 
+     <logger name="com.netflix" level="debug"/> 
+     <logger name="org.apache" level="info"/> 
+     <logger name="tk.mybatis" level="info"/> 
+      <logger name="org.mybatis" level="info"/> 
+     <logger name="org.hibernate" level="info"/> 
+     <logger name="com.alibaba.nacos" level="error"/>
+
+    <root level="debug">
+        <appender-ref ref="Console"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
+

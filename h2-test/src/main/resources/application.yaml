@@ -1,0 +1,29 @@
+server:
+  port: 9088
+  servlet:
+    context-path: /any-data-hub
+
+
+####################################h2 缓存配置############################################
+
+data:
+  h2:
+    config:
+      server:
+        port: 8043
+        webPort: 8088
+        properties:
+          #私有内存模式，性能最优
+          #druid.url: jdbc:h2:mem:data-hub-cache;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
+          #tcp模式有持久化
+          #druid.url: jdbc:h2:tcp://127.0.0.1:8043/D:\work\any-data-hub-parent\any-data-hub\src\test\resources/data-hub-cache;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
+          #tcp模式内存模式
+          druid.url: jdbc:h2:tcp://127.0.0.1:${data.h2.config.server.port}/mem:data-hub-cache;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
+          #本地文件模式
+          #druid.url:  jdbc:h2:file:D:\work\any-data-hub-parent\any-data-hub\src\test\resources\cache
+          druid.username: root
+          druid.password: root
+          druid.maxActive: 100
+          druid.initialSize: 10
+          druid.minIdle: 5
+          druid.testWhileIdle: false

@@ -46,7 +46,11 @@ public class MyGrpcServer {
       System.out.println(request);
 
       String greeting = "Hello there, " + request.getName();
-
+      try {
+        Thread.sleep(20000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
       HelloResponse response = HelloResponse.newBuilder().setGreeting(greeting).build();
 
       responseObserver.onNext(response);

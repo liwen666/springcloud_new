@@ -1,0 +1,65 @@
+#初始化配置
+spring:
+  application:
+    name: h2-test
+  profiles:
+    active: local_lw
+
+
+jrx:
+  data:
+    hub:
+      server:
+        server-addr: ${spring.cloud.nacos.config.server-addr}
+        namespace: ${spring.cloud.nacos.config.namespace}
+        data-id: ${spring.application.name}-${spring.profiles.active}.yaml
+---
+
+spring:
+  profiles: dev
+  cloud:
+    nacos:
+      config:
+        enabled: true
+        server-addr: 192.168.60.220:8848
+        # 命名空间ID
+        namespace: temp
+        file-extension: yaml
+        group: DEFAULT_GROUP #默认组
+      #      #配置多个共享配置, 多个的时候用用逗号分隔
+      #      shared-dataids: application_dev
+      #      #配置可以刷新文件,需要配合@RefreshScope使用见上文.
+      #      refreshable-dataids: application_dev
+      #服务的发现
+      discovery:
+        server-addr: 192.168.60.220:8848
+        # 命名空间ID
+        namespace: temp
+        service: temp
+
+---
+
+spring:
+  profiles: local_lw
+  cloud:
+    nacos:
+      config:
+        enabled: true
+        server-addr: 11.11.1.79:8848
+        # 命名空间ID
+        namespace: temp
+        file-extension: yaml
+        group: DEFAULT_GROUP #默认组
+      #      #配置多个共享配置, 多个的时候用用逗号分隔
+      #      shared-dataids: application_dev
+      #      #配置可以刷新文件,需要配合@RefreshScope使用见上文.
+      #      refreshable-dataids: application_dev
+      #服务的发现
+      discovery:
+        server-addr: 11.11.1.79:8848
+        # 命名空间ID
+        namespace: temp
+        service: h2-tes
+        metadata:
+          current-version: V_2
+
