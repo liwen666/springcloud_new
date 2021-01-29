@@ -35,7 +35,8 @@ public class KafkaUtil {
             Message message1 = new Message();
             message1.setStatus("status");
             message1.setDirection("direres");
-            message1.setEvent_ts(new Date().getMinutes());
+//            message1.setEvent_ts(new Date().getMinutes());
+            message1.setEvent_ts(49);
             ProducerRecord record = new ProducerRecord<String, String>(topic, null, null, GsonUtil.toJson(message1));
             producer.send(record);
             System.out.println("发送数据: " + GsonUtil.toJson(message1));
