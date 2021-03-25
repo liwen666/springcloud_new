@@ -13,3 +13,7 @@ kafka  每个分组记录消息小消费便宜量    只有偏移量有变化，
 /home/jrxany/batch_node/kafka/kafka_2.12-2.1.1/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 5 --topic local_ddl
 /home/jrxany/batch_node/kafka/kafka_2.12-2.1.1/bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic test_kafka_partion
 /home/jrxany/batch_node/kafka/kafka_2.12-2.1.1/bin/kafka-topics.sh --alter --zookeeper localhost:2181 --topic test_kafka_partion --partitions 6
+
+
+
+重启maxwell  数据是否丢失

@@ -23,7 +23,14 @@ public class MavenUtilsTest {
         InvocationRequest request = new DefaultInvocationRequest();
 //        request.setPomFile(new File("D:\\work\\any-data-hub-parent\\any-data-hub-component\\code-compile\\pom.xml"));
         request.setPomFile(new File("D:\\workspace\\strategy-topology\\strategy\\pom.xml"));
-        request.setGoals( Arrays.asList( "clean","install" ) );
+        /*---------------------------------------------------------------------------------/
+       cmd.exe /X /C "D:\flink12.2\maven\apache-maven-3.6.3\bin\mvn.cmd -D maven.repo.local=D:\flink12.2\maven\m2 -s D:\flink12.2\maven\apache-maven-3.6.3\conf\settings.xml clean install"
+
+       cmd.exe /X /C "D:\flink12.2\maven\apache-maven-3.6.3\bin\mvn.cmd -D maven.repo.local=D:\flink12.2\maven\m2 -s D:\flink12.2\maven\apache-maven-3.6.3\conf\settings.xml depeloy"
+        validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy, pre-clean, clean, post-clean, pre-site, site, post-site, site-deploy. -
+        /---------------------------------------------------------------------------------*/
+//        request.setGoals( Arrays.asList( "clean","install" ) );
+        request.setGoals( Arrays.asList( "depeloy" ) );
         request.setUserSettingsFile(new File("D:\\flink12.2\\maven\\apache-maven-3.6.3\\conf\\settings.xml"));
         request.setLocalRepositoryDirectory(new File("D:\\flink12.2\\maven\\m2"));
         List<String> projects = request.getProjects();
@@ -57,5 +64,44 @@ public class MavenUtilsTest {
         while ((index=inputStream.read(cache))!=-1){
             fileOutputStream.write(cache,0,index);
         }
+    }
+
+    @Test
+    public void deployLocalFile() throws MavenInvocationException {
+        System.setProperty("maven.home","D:\\flink12.2\\maven\\apache-maven-3.6.3");
+        InvocationRequest request = new DefaultInvocationRequest();
+        request.setUserSettingsFile(new File("D:\\flink12.2\\maven\\apache-maven-3.6.3\\conf\\settings.xml"));
+        request.setPomFile(new File("D:\\workspace\\strategy-topology\\strategy\\pom.xml"));
+        /*---------------------------------------------------------------------------------/
+       cmd.exe /X /C "D:\flink12.2\maven\apache-maven-3.6.3\bin\mvn.cmd -D maven.repo.local=D:\flink12.2\maven\m2 -s D:\flink12.2\maven\apache-maven-3.6.3\conf\settings.xml clean install"
+
+       cmd.exe /X /C "D:\flink12.2\maven\apache-maven-3.6.3\bin\mvn.cmd -D maven.repo.local=D:\flink12.2\maven\m2 -s D:\flink12.2\maven\apache-maven-3.6.3\conf\settings.xml depeloy"
+        validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy, pre-clean, clean, post-clean, pre-site, site, post-site, site-deploy. -
+        /---------------------------------------------------------------------------------*/
+        request.setGoals( Arrays.asList( "clean","install" ) );
+//        指定依赖仓库  不配置默认用settint中的配置
+//        request.setLocalRepositoryDirectory(new File("D:\\flink12.2\\maven\\m2"));
+        Invoker invoker = new DefaultInvoker();
+        invoker.execute(request);
+        InvocationResult result = invoker.execute(request);
+    }
+
+    @Test
+    public void deployLocalFile2() throws MavenInvocationException {
+        System.setProperty("maven.home","D:\\flink12.2\\maven\\apache-maven-3.6.3");
+        InvocationRequest request = new DefaultInvocationRequest();
+        request.setUserSettingsFile(new File("D:\\flink12.2\\maven\\apache-maven-3.6.3\\conf\\settings.xml"));
+        /*---------------------------------------------------------------------------------/
+       cmd.exe /X /C "D:\flink12.2\maven\apache-maven-3.6.3\bin\mvn.cmd -D maven.repo.local=D:\flink12.2\maven\m2 -s D:\flink12.2\maven\apache-maven-3.6.3\conf\settings.xml clean install"
+
+       cmd.exe /X /C "D:\flink12.2\maven\apache-maven-3.6.3\bin\mvn.cmd -D maven.repo.local=D:\flink12.2\maven\m2 -s D:\flink12.2\maven\apache-maven-3.6.3\conf\settings.xml depeloy"
+        validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy, pre-clean, clean, post-clean, pre-site, site, post-site, site-deploy. -
+        /---------------------------------------------------------------------------------*/
+        request.setGoals( Arrays.asList( "install:install-file -DgroupId=com.temp -DartifactId=spire.pdf -Dversion=17.3.0 -Dpackaging=jar -Dfile=D:\\workspace\\test_workspace\\lib\\Spire.Pdf.jar" ) );
+//        指定依赖仓库  不配置默认用settint中的配置
+//        request.setLocalRepositoryDirectory(new File("D:\\flink12.2\\maven\\m2"));
+        Invoker invoker = new DefaultInvoker();
+        invoker.execute(request);
+        InvocationResult result = invoker.execute(request);
     }
 }

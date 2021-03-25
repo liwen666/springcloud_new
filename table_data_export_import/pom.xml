@@ -184,9 +184,9 @@
             <resource>
                 <filtering>true</filtering>
                 <directory>src/main/resources</directory>
-                <!--<excludes>-->
-                    <!--<exclude>**</exclude>-->
-                <!--</excludes>-->
+                <excludes>
+                    <exclude>**</exclude>
+                </excludes>
             </resource>
         </resources>
         <plugins>

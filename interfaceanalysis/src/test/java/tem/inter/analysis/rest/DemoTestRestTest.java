@@ -3,6 +3,8 @@ package tem.inter.analysis.rest;
 
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.type.TypeReference;
+import groovy.lang.Tuple;
+import groovy.lang.Tuple2;
 import jrx.data.hub.core.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
@@ -92,6 +94,17 @@ public class DemoTestRestTest {
     public void classDate() {
         Class a = Date.class;
         Class b = LocalDateTime.class;
+
+    }
+
+    @Test
+    public void tuple() {
+        Tuple2<Integer,Object> param = new Tuple2<>(1,"ssss");
+        System.out.println(param.getFirst());
+        System.out.println(param.getSecond());
+        System.out.println(param.get(0));
+        System.out.println(param.get(1));
+        System.out.println(JsonUtils.obj2String(param));
 
     }
 }

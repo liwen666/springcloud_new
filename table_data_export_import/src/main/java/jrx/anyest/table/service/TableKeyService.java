@@ -26,7 +26,7 @@ public class TableKeyService {
              jdbcTemplate.execute("lock tables  hibernate_sequence  write ");
             Long integer = jdbcTemplate.queryForObject("select  " + tableParamConfig.getKeyColumn() + " from " + tableParamConfig.getTableDescribe() + " limit 1", Long.class);
             Long old = integer;
-            int update = jdbcTemplate.update("update " + tableParamConfig.getTableDescribe() + " set " + tableParamConfig.getKeyColumn() + "=" +integer + "   where " + tableParamConfig.getKeyColumn() + "=" + old);
+            int update = jdbcTemplate.update("update " + tableParamConfig.getTableDescribe() + " set " + tableParamConfig.getKeyColumn() + "=" + ++integer + "   where " + tableParamConfig.getKeyColumn() + "=" + old);
             if(update>0){
                 key=integer;
                 break;
