@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: job_server_test
+  cloud:
+    task:
+      initialize:
+        enable: false
+  batch:
+    job:
+      enabled: false
+    initializer:
+      enabled: false
+  output:
+    ansi:
+      enabled: always
+
+jrx:
+  batch:
+    job:
+      server:
+        server-addr: 11.11.1.79:8848
+        namespace: batch_node
+        batch_datasource: master_node
+
+og:
+  path: D:\workspace\webspace\data_flow\target
+logging:
+  config: classpath:log4j2.properties
+  level:
+    jrx.batch.dataflow: info
+
+
+
+
+
