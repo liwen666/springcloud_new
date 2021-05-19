@@ -1,0 +1,94 @@
+server:
+  port: 9099
+  servlet:
+    context-path: /demo
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    config:
+      enabled: false
+    nacos:
+      discovery:
+        metadata:
+          current-version: 1.4.0
+
+  #热部署生效
+  #spring.devtools.restart.enabled: false
+  #设置重启的目录
+  #spring.devtools.restart.additional-paths: src/main/java
+  #classpath目录下的WEB-INF文件夹内容修改不重启
+  #spring.devtools.restart.exclude: WEB-INF/**
+
+  datasource:
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://11.11.1.79:3306/any_data_hub?serverTimezone=Hongkong&useUnicode=true&useSSL=false&characterEncoding=utf8
+    hikari:
+      connection-timeout: 60000
+      max-lifetime: 60000
+      data-source-properties:
+        maintainTimeStats: false
+        prepStmtCacheSqlLimit: 2048
+        rewriteBatchedStatements: true
+        elideSetAutoCommits: true
+        cacheResultSetMetadata: true
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        useServerPrepStmts: true
+        useLocalSessionState: true
+        cacheServerConfiguration: true
+      validation-timeout: 3000
+      minimum-idle: 10
+      idle-timeout: 30000
+      maximum-pool-size: 200
+  servlet:
+    multipart:
+      max-request-size: 110MB
+      max-file-size: 100MB
+    main:
+      allow-bean-definition-overriding: true
+  boot:
+    admin:
+      context-path: /monitor
+      ui:
+        title: DataHub-服务监控
+        cache:
+          no-cache: true
+
+    properties:
+      JAR_HOME_DEFAULT: C:/Users/liwen/Desktop/jrx/taskjar/
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: jrx.batch.dataflow
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+  type-aliases-super-type: java.lang.Object
+  type-aliases-package: jrx.batch.dataflow.infrastructure.model
+  #  global-config:
+  #    db-config:
+  #      update-strategy: ignored
+  #  @TableField(value="lab_result_unit",strategy = FieldStrategy.IGNORED,el = "labResultUnit,jdbcType=VARCHAR")
+
+
+
+
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      region: mybase
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        #监控所有端点，其中health和status是必须监控的
+        exclude: configprops    #排除对配置信息的监控，每次浏览这个节点的时候，
+        #数据库的链接就一直释放不掉，最后导致超时，因为配置信息的监控也不重要，
+        #就不再监控这个节点，以下为可监控的endpoint。可以根据需要有选择的进行监控。

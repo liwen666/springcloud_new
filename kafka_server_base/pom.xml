@@ -91,6 +91,12 @@
             <artifactId>spring-data-commons</artifactId>
             <version>2.3.0.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>30.0-jre</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
     <build>
@@ -163,7 +169,37 @@
                     <!--</execution>-->
                 <!--</executions>-->
             <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-shade-plugin</artifactId>-->
+                <!--<version>2.4.3</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>shade</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<artifactSet>-->
+                                <!--<includes>-->
+                                    <!--<include>com.riveretech.est:common</include>-->
+                                    <!--<include>com.riveretech.est:job-runtime</include>-->
+                                <!--</includes>-->
+                            <!--</artifactSet>-->
+                            <!--<transformers>-->
+                                <!--<transformer-->
+                                        <!--implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
+                                    <!--<manifestEntries>-->
+                                        <!--<Main-Class></Main-Class>-->
+                                    <!--</manifestEntries>-->
+                                <!--</transformer>-->
+                            <!--</transformers>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
         </plugins>
+
     </build>
 
     <repositories>

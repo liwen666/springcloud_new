@@ -8,8 +8,11 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <p>
@@ -65,13 +68,13 @@ public class BlinkTaskletJobConfiguration {
     }
 
     @Bean
-    public BlinkTasklet firstTasklet() {
-        return new BlinkTasklet("customTaskletJob_firstTasklet", 50);
+    public BlinkTasklet firstTasklet(@Autowired ApplicationArguments arguments) {
+        return BlinkTasklet.builder().args(arguments.getSourceArgs()).size(50).name("first-blink").counter(new AtomicInteger(0)).build();
     }
 
     @Bean
-    public BlinkTasklet secondTasklet() {
-        return new BlinkTasklet("customTaskletJob_secondTasklet", 30);
+    public BlinkTasklet secondTasklet(@Autowired ApplicationArguments arguments) {
+        return BlinkTasklet.builder().args(arguments.getSourceArgs()).size(50).name("second-blink").counter(new AtomicInteger(0)).build();
     }
 
 

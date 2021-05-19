@@ -1,5 +1,6 @@
 package com.riveretech.flink.job;
 
+import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
@@ -11,27 +12,28 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <p>
- *  描述
+ * 描述
  * </p>
  *
  * @author lw
- * @since  2021/4/7 11:45
+ * @since 2021/4/7 11:45
  */
-
+@AllArgsConstructor
+@Setter
+@Getter
+@Builder
+@NoArgsConstructor
 public class BlinkTasklet implements Tasklet {
-    
+    private String[] args;
+
     private static final Logger logger = LoggerFactory.getLogger(BlinkTasklet.class);
 
     private String name;
 
     private int size;
 
-    private AtomicInteger counter = new AtomicInteger();
+    private AtomicInteger counter;
 
-    public BlinkTasklet(String name, int size){
-        this.name = name;
-        this.size = size;
-    }
 
     /**
      * 当RepeatStatus等于CONTINUABLE时，任务不会终止，在stepContext中会记录一次提交次数
@@ -46,7 +48,7 @@ public class BlinkTasklet implements Tasklet {
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
         int time = size;
-        while(time > 0){
+        while (time > 0) {
             Thread.sleep(20);
             counter.incrementAndGet();
             contribution.incrementReadCount();
@@ -57,8 +59,8 @@ public class BlinkTasklet implements Tasklet {
 //            int i = 1 / 0;
 //        }
         //当处理数量超过100的时候任务完成，否侧循环调用execute方法
-        logger.info("process counter: {},===  jobName:{}",counter,name);
-        if(counter.get() > 100){
+        logger.info("process counter: {},===  jobName:{}", counter, name);
+        if (counter.get() > 100) {
             return RepeatStatus.FINISHED;
         }
 
