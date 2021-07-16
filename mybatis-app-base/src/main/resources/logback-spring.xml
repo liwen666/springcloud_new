@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+说明：
+    1. 文件的命名和加载顺序有关
+       logback.xml早于application.yml加载，logback-spring.xml晚于application.yml加载
+       如果logback配置需要使用application.yml中的属性，需要命名为logback-spring.xml
+    2. logback使用application.yml中的属性
+       使用springProperty才可使用application.yml中的值 可以设置默认值
+    3. if标签依赖 org.codehaus.janino 包
+    4. 日志中输出行号，可能会带来性能问题
+
+-->
+<configuration scan="true" scanPeriod="60 seconds">
+    <!--&lt;!&ndash; service env &ndash;&gt;-->
+    <!--<springProperty name="env" scope="context" source="spring.profiles.active" defaultValue="prd"/>-->
+    <!--<springProperty name="logPath" scope="context" source="log.path" defaultValue="D:\workspace\springcloud_new\mybatis-app-base\log"/>-->
+    <!--&lt;!&ndash; 日志级别 &ndash;&gt; -->
+    <!--<springProperty name="logLevel" scope="context" source="log.level" defaultValue="debug"/>-->
+
+    <!--&lt;!&ndash; 应用名称 &ndash;&gt; -->
+    <!--<springProperty name="APP_NAME"  scope="context" source="spring.application.name" />-->
+    <!--&lt;!&ndash; 端口 &ndash;&gt; -->
+    <!--<springProperty name="ServerPort"  scope="context" source="server.port" />-->
+    <!--&lt;!&ndash; 保存最长日期 &ndash;&gt;-->
+    <!--<springProperty name="LOG_FILEMAXDAY" scope="context" source="logback.filemaxday" defaultValue="7"/>-->
+    <!--&lt;!&ndash; 日志最大 &ndash;&gt;-->
+    <!--<springProperty name="LOG_MAXFILESIZE" scope="context" source="logback.filesize" defaultValue="200MB"/> -->
+
+    <!--<conversionRule conversionWord="m" converterClass="com.jrx.anytxn.log.convert.DesensitizationMessageConverter"/>    -->
+    <!--<conversionRule conversionWord="ip" converterClass="com.jrx.anytxn.log.convert.LogIpConfig"/> -->
+
+
+    <!--<property name="LOG_FILE" value="${logPath}/any_schedule_center.log"/>-->
+
+
+    <!--<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
+        <!--&lt;!&ndash; encoder 默认配置为PatternLayoutEncoder &ndash;&gt;-->
+        <!--<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">-->
+            <!--<layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">-->
+                <!--<pattern>[${APP_NAME}] %ip ${ServerPort} %d{yyyy-MM-dd HH:mm:ss.SSS} %level ${PID} [%tid] [%thread] %logger{36} %m%n</pattern>-->
+            <!--</layout>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+
+    <!--&lt;!&ndash;%-5p(日志级别) | %d(日期) | bt-v1.0 | [%t(线程名称)-%T(线程号)] (%c{1.}(简化全类名):%L(行号))-->
+        <!--| %m(日志信息)%n(换行) &ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="PATTERN">%-5p | %d | bt-v1.0 | [%t-%T] (%c{1.}:%L) |-->
+        <!--%m%n</property> &ndash;&gt;-->
+    <!--&lt;!&ndash; 这一句至关重要如果没有，就无法输出sql语句 &ndash;&gt;-->
+    <!--<logger name="jrx.batch.scheduling" level="info" />-->
+    <!--<appender name="FILE"-->
+              <!--class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+
+        <!--<File>${LOG_FILE}</File>-->
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+            <!--<fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd_HH}.gz</fileNamePattern>-->
+        <!--</rollingPolicy>-->
+        <!--<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">-->
+            <!--<layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">-->
+                <!--<pattern>[${APP_NAME}] %ip ${ServerPort} %d{yyyy-MM-dd HH:mm:ss.SSS} %level ${PID} [%tid] [%thread] %logger{36} %m%n</pattern>-->
+            <!--</layout>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+
+    <!--&lt;!&ndash; 异步输出 &ndash;&gt;-->
+    <!--<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">-->
+        <!--&lt;!&ndash; 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 &ndash;&gt;-->
+        <!--<discardingThreshold>0</discardingThreshold>-->
+        <!--&lt;!&ndash; 更改默认的队列的深度,该值会影响性能.默认值为256 &ndash;&gt;-->
+        <!--<queueSize>512</queueSize>-->
+        <!--&lt;!&ndash; 添加附加的appender,最多只能添加一个 &ndash;&gt;-->
+        <!--<appender-ref ref="FILE"/>-->
+        <!--<IncludeCallerData>true</IncludeCallerData>-->
+    <!--</appender>-->
+
+    <!--<logger name="jrx.batch" level="info" />-->
+    <!--&lt;!&ndash; 如果是生产环境不向控制台输出日志数据 isDefined() isNull() p() or property() equals() contains &ndash;&gt;-->
+
+    <!--<if condition='p("env").equals("pro")'>-->
+        <!--<then>-->
+            <!--<root level="info">-->
+                <!--&lt;!&ndash; 输出到日志文件 &ndash;&gt;-->
+                <!--<appender-ref ref="ASYNC"/>-->
+            <!--</root>-->
+        <!--</then>-->
+        <!--<else>-->
+            <!--<root level="info">-->
+                <!--&lt;!&ndash; 输出到日志文件 &ndash;&gt;-->
+                <!--<appender-ref ref="ASYNC"/>-->
+                <!--&lt;!&ndash; 输出到控制台 &ndash;&gt;-->
+                <!--<appender-ref ref="STDOUT"/>-->
+            <!--</root>-->
+        <!--</else>-->
+    <!--</if>-->
+
+
+</configuration>
