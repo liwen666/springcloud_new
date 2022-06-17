@@ -39,7 +39,7 @@
         <spring.cloud.version>Finchley.RELEASE</spring.cloud.version>
 
         <logback-encoder.version>4.11</logback-encoder.version>
-        <fastjson.version>1.2.38</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <druid.version>1.1.4</druid.version>
 
         <springfox-swagger.version>2.8.0</springfox-swagger.version>
